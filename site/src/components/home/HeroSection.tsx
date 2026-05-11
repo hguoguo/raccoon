@@ -7,21 +7,21 @@ export default function HeroSection() {
         {/* Tag */}
         <div className="inline-flex items-center gap-[6px] bg-accent-soft border border-accent/18 text-accent text-[11px] sm:text-[12px] font-medium px-[12px] sm:px-[14px] py-1 rounded-[20px] mb-5 sm:mb-6 font-sans animate-fade-in-up">
           <span>🦝</span>
-          <span>Java面试全面指南 · v1.6.0</span>
+          <span>Raccoon 编程学习库 · v1.6.0</span>
         </div>
 
         {/* Title */}
         <h1 className="font-display font-bold text-[28px] sm:text-display-lg lg:text-display-xl text-ink mb-4 sm:mb-[18px] animate-fade-in-up leading-[1.2]" style={{ animationDelay: '0.1s' }}>
-          深入Java<br />
+          深入探索<br />
           <span className="relative inline-block">
-            探索底层原理
+            技术底层原理
             <span className="absolute left-0 bottom-1 w-full h-2 bg-accent/12 rounded-[2px] -z-[1]" />
           </span>
         </h1>
 
         {/* Description */}
         <p className="text-[14px] sm:text-base text-ink-muted leading-[1.8] sm:leading-[1.9] max-w-[560px] mb-6 sm:mb-8 font-body animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-          系统化整理 Java 技术栈核心知识点，覆盖从基础到高级的 16 个专题，帮助开发者深入理解底层原理、掌握源码分析、攻克面试难关。
+          系统化整理 Java、Python、AI 开发等技术栈核心知识点，覆盖从基础到高级的多个专题，帮助开发者深入理解底层原理、掌握源码分析、攻克面试难关。
         </p>
 
         {/* Actions */}

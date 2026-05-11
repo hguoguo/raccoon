@@ -2,14 +2,16 @@ import KnowledgeLayout from '../../components/knowledge/KnowledgeLayout'
 import Playground from '../../components/knowledge/Playground'
 import SideNote from '../../components/knowledge/SideNote'
 import ContextSwitcher from '../../components/knowledge/ContextSwitcher'
+import SmartTOC from '../../components/knowledge/SmartTOC'
 import Callout from '../../components/ui/Callout'
 import InterviewSection from '../../components/ui/InterviewSection'
 import DiagramBlock from '../../components/ui/DiagramBlock'
+import type { KnowledgeNode, TocItem } from '../../data/types'
 
-const meta = {
+const meta: KnowledgeNode = {
   id: 'llm-basics',
   title: '大模型基础概念',
-  level: 'Junior' as const,
+  level: 'Junior',
   tags: ['LLM', 'Token', 'Context Window', 'Temperature', 'Top P', 'Embedding'],
   difficulty: 2,
   category: '06-ai-fundamentals',
@@ -18,9 +20,27 @@ const meta = {
   readingTime: 40,
 }
 
+const tocItems: TocItem[] = [
+  { id: 'definition', text: '一句话定义', level: 2 },
+  { id: 'architecture', text: '核心架构', level: 2 },
+  { id: 'principles', text: '核心原理详解', level: 2 },
+  { id: 'llm', text: '1.1 LLM（大语言模型）', level: 3 },
+  { id: 'token', text: '1.2 Token（词元）', level: 3 },
+  { id: 'context-window', text: '1.3 Context Window（上下文窗口）', level: 3 },
+  { id: 'temperature', text: '1.4 Temperature（温度参数）', level: 3 },
+  { id: 'top-p', text: '1.5 Top P（核采样）', level: 3 },
+  { id: 'embedding', text: '1.6 Embedding（向量化）', level: 3 },
+  { id: 'misconceptions', text: '常见误区', level: 2 },
+  { id: 'interview', text: '面试真题', level: 2 },
+  { id: 'related', text: '知识关联', level: 2 },
+]
+
 export default function LLMBasics() {
   return (
-    <KnowledgeLayout meta={meta}>
+    <div className="flex max-w-[100vw] overflow-x-hidden">
+      {/* Main Article */}
+      <div className="flex-1 max-w-[820px] min-w-0 px-4 sm:px-6 lg:px-12 pb-20">
+        <KnowledgeLayout meta={meta}>
       {/* 一句话定义 */}
       <section className="mb-8">
         <h2 className="font-display font-bold text-[20px] sm:text-display-sm mt-10 sm:mt-12 mb-4 sm:mb-5 text-ink">
@@ -373,6 +393,13 @@ print(f"Semantic similarity (cat vs python): {similarity_1_3:.4f}")`}
           </div>
         </div>
       </section>
-    </KnowledgeLayout>
+        </KnowledgeLayout>
+      </div>
+
+      {/* Sidebar TOC */}
+      <aside className="hidden xl:block w-[240px] shrink-0 sticky top-24 self-start h-[calc(100vh-6rem)] overflow-y-auto pr-4">
+        <SmartTOC items={tocItems} />
+      </aside>
+    </div>
   )
 }

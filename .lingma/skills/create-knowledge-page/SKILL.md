@@ -48,13 +48,64 @@ description: |
 
 在 `site/src/pages/articles/<slug>.tsx` 创建新文件，模板见 `references/page-template.md`。
 
-关键规则：
+**关键规则（必须严格遵守）：**
 - 文件名使用 kebab-case：`concurrent-hashmap.tsx`、`array-list.tsx`
 - 组件名使用 PascalCase：`ConcurrentHashmap`、`ArrayListDeepDive`
 - `meta.id` 和 `meta.category` 必须与 `chapters.ts` 中的章节 ID 匹配
 - `meta.tags` 应包含主要类名/概念名
 - 所有章节必须有 `id` 属性，与 `tocItems` 一一对应
 - `<h2>` 用于主章节，`<h3>` 用于子章节
+
+**⚠️ 布局结构强制要求（极易出错，务必遵守）：**
+
+1. **必须导入 `SmartTOC` 组件**：
+   ```tsx
+   import SmartTOC from '../../components/knowledge/SmartTOC'
+   import type { KnowledgeNode, TocItem } from '../../data/types'
+   ```
+
+2. **必须定义 `tocItems` 数组**：
+   ```tsx
+   const tocItems: TocItem[] = [
+     { id: 'definition', text: '一句话定义', level: 2 },
+     // ... 所有 h2/h3 章节的 id 和标题
+   ]
+   ```
+
+3. **必须使用 flex 布局包裹整个页面**：
+   ```tsx
+   export default function XxxPage() {
+     return (
+       <div className="flex max-w-[100vw] overflow-x-hidden">
+         {/* 左侧主内容区 */}
+         <div className="flex-1 max-w-[820px] min-w-0 px-4 sm:px-6 lg:px-12 pb-20">
+           <KnowledgeLayout meta={meta}>
+             {/* 文章内容 */}
+           </KnowledgeLayout>
+         </div>
+         
+         {/* 右侧目录侧边栏（仅大屏显示）*/}
+         <aside className="hidden xl:block w-[240px] shrink-0 sticky top-24 self-start h-[calc(100vh-6rem)] overflow-y-auto pr-4">
+           <SmartTOC items={tocItems} />
+         </aside>
+       </div>
+     )
+   }
+   ```
+
+**❌ 禁止的错误做法：**
+```tsx
+// 错误！直接返回 KnowledgeLayout，没有 flex 布局和侧边栏
+export default function XxxPage() {
+  return (
+    <KnowledgeLayout meta={meta}>
+      {/* 内容 */}
+    </KnowledgeLayout>
+  )
+}
+```
+
+如果页面缺少上述布局结构，右侧章节目录将不会显示！
 
 ### 步骤 3：更新章节目录
 
@@ -130,6 +181,10 @@ description: |
 - [ ] 无页面内定义的子组件（所有组件独立文件）
 - [ ] 样式 className 与已有页面一致，无随意编造
 - [ ] 若创建了新组件，文件头部已有规范的 JSDoc 注释
+- [ ] **✅ 页面使用了 flex 布局包裹（`<div className="flex max-w-[100vw] overflow-x-hidden">`）**
+- [ ] **✅ 定义了 `tocItems` 数组并导入了 `SmartTOC` 组件**
+- [ ] **✅ 右侧有 `<aside>` 标签包裹的 `SmartTOC` 侧边栏**
+- [ ] **✅ 页面结构与 `python-basics.tsx` 等其他页面保持一致**
 
 ### 步骤 9：自动部署到远程服务器
 
@@ -151,6 +206,19 @@ description: |
    - 访问应用确认新页面可正常浏览
 
 ## 组件与风格规范
+
+### 布局结构参考
+
+在创建页面时，**必须**参考以下已验证的正确示例：
+- ✅ [python-basics.tsx](file:///Users/liujianhua/IdeaProjects/raccoon-edu/site/src/pages/articles/python-basics.tsx) - 完整的布局结构
+- ✅ [hashmap-deep-dive.tsx](file:///Users/liujianhua/IdeaProjects/raccoon-edu/site/src/pages/articles/hashmap-deep-dive.tsx) - 带侧边栏目录
+
+关键特征：
+1. 外层 `<div className="flex max-w-[100vw] overflow-x-hidden">`
+2. 左侧主内容区 `<div className="flex-1 max-w-[820px] min-w-0 px-4 sm:px-6 lg:px-12 pb-20">`
+3. 右侧侧边栏 `<aside className="hidden xl:block w-[240px] ...">`
+4. 导入并使用 `SmartTOC` 组件
+5. 定义 `tocItems` 数组
 
 ### 组件发现机制
 
@@ -201,3 +269,72 @@ description: |
 - 常见误区必须针对真实的高频误解
 - 对比表格必须使用准确的性能/数据特征
 - 页面必须自包含，不得出现 "TODO: 后续补充" 类注释
+
+## 常见错误及修复
+
+### 错误 1：右侧目录不显示
+
+**症状：** 页面正常渲染，但右侧没有章节目录。
+
+**原因：** 
+- 缺少 `SmartTOC` 组件导入
+- 未定义 `tocItems` 数组
+- 外层没有使用 flex 布局
+- 直接返回 `<KnowledgeLayout>` 而没有包裹在 flex 容器中
+
+**修复：**
+```tsx
+// ❌ 错误写法
+export default function XxxPage() {
+  return (
+    <KnowledgeLayout meta={meta}>
+      {/* 内容 */}
+    </KnowledgeLayout>
+  )
+}
+
+// ✅ 正确写法
+import SmartTOC from '../../components/knowledge/SmartTOC'
+import type { KnowledgeNode, TocItem } from '../../data/types'
+
+const tocItems: TocItem[] = [
+  { id: 'section1', text: '章节1', level: 2 },
+  // ...
+]
+
+export default function XxxPage() {
+  return (
+    <div className="flex max-w-[100vw] overflow-x-hidden">
+      <div className="flex-1 max-w-[820px] min-w-0 px-4 sm:px-6 lg:px-12 pb-20">
+        <KnowledgeLayout meta={meta}>
+          {/* 内容 */}
+        </KnowledgeLayout>
+      </div>
+      <aside className="hidden xl:block w-[240px] shrink-0 sticky top-24 self-start h-[calc(100vh-6rem)] overflow-y-auto pr-4">
+        <SmartTOC items={tocItems} />
+      </aside>
+    </div>
+  )
+}
+```
+
+### 错误 2：使用了未定义的组件
+
+**症状：** TypeScript 报错 "Cannot find module" 或 "Property does not exist"。
+
+**原因：** 导入了不存在的组件或拼写错误。
+
+**修复：** 扫描 `site/src/components/` 目录确认组件是否存在，检查导入路径是否正确。
+
+### 错误 3：tocItems 与章节 id 不匹配
+
+**症状：** 点击目录项无法跳转到对应章节。
+
+**原因：** `tocItems` 中的 `id` 与 `<section>` 或标题的 `id` 属性不一致。
+
+**修复：** 确保每个有目录项的章节都有对应的 `id` 属性：
+```tsx
+<section id="definition">  {/* id 必须与 tocItems 中的 id 一致 */}
+  <h2>一句话定义</h2>
+</section>
+```

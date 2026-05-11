@@ -2,14 +2,16 @@ import KnowledgeLayout from '../../components/knowledge/KnowledgeLayout'
 import Playground from '../../components/knowledge/Playground'
 import SideNote from '../../components/knowledge/SideNote'
 import ContextSwitcher from '../../components/knowledge/ContextSwitcher'
+import SmartTOC from '../../components/knowledge/SmartTOC'
 import Callout from '../../components/ui/Callout'
 import InterviewSection from '../../components/ui/InterviewSection'
 import DiagramBlock from '../../components/ui/DiagramBlock'
+import type { KnowledgeNode, TocItem } from '../../data/types'
 
-const meta = {
+const meta: KnowledgeNode = {
   id: 'function-calling',
   title: 'Function Calling',
-  level: 'Senior' as const,
+  level: 'Senior',
   tags: ['Function Calling', 'Tool Calling', 'JSON Schema', 'Tool Definition', 'Parameter Validation', 'Error Handling'],
   difficulty: 4,
   category: '06-ai-fundamentals',
@@ -18,9 +20,27 @@ const meta = {
   readingTime: 55,
 }
 
+const tocItems: TocItem[] = [
+  { id: 'definition', text: '一句话定义', level: 2 },
+  { id: 'workflow', text: 'Function Calling 工作流', level: 2 },
+  { id: 'core-tech', text: '核心技术详解', level: 2 },
+  { id: 'tool-calling', text: '4.1 Tool Calling（工具调用）', level: 3 },
+  { id: 'json-schema', text: '4.2 JSON Schema（工具描述）', level: 3 },
+  { id: 'tool-definition', text: '4.3 工具定义（Tool Definition）', level: 3 },
+  { id: 'param-validation', text: '4.4 参数校验（Parameter Validation）', level: 3 },
+  { id: 'tool-routing', text: '4.5 工具路由（Tool Routing）', level: 3 },
+  { id: 'error-handling', text: '4.6 工具异常处理（Error Handling）', level: 3 },
+  { id: 'misconceptions', text: '常见误区', level: 2 },
+  { id: 'interview', text: '面试真题', level: 2 },
+  { id: 'related', text: '知识关联', level: 2 },
+]
+
 export default function FunctionCalling() {
   return (
-    <KnowledgeLayout meta={meta}>
+    <div className="flex max-w-[100vw] overflow-x-hidden">
+      {/* Main Article */}
+      <div className="flex-1 max-w-[820px] min-w-0 px-4 sm:px-6 lg:px-12 pb-20">
+        <KnowledgeLayout meta={meta}>
       {/* 一句话定义 */}
       <section className="mb-8">
         <h2 className="font-display font-bold text-[20px] sm:text-display-sm mt-10 sm:mt-12 mb-4 sm:mb-5 text-ink">
@@ -536,6 +556,13 @@ else:
           </div>
         </div>
       </section>
-    </KnowledgeLayout>
+        </KnowledgeLayout>
+      </div>
+
+      {/* Sidebar TOC */}
+      <aside className="hidden xl:block w-[240px] shrink-0 sticky top-24 self-start h-[calc(100vh-6rem)] overflow-y-auto pr-4">
+        <SmartTOC items={tocItems} />
+      </aside>
+    </div>
   )
 }

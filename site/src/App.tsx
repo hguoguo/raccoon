@@ -16,6 +16,11 @@ import PromptEngineering from './pages/articles/prompt-engineering'
 import StructuredOutput from './pages/articles/structured-output'
 import FunctionCalling from './pages/articles/function-calling'
 import OpenAISDK from './pages/articles/openai-sdk'
+import LangChainBasics from './pages/articles/langchain-basics'
+import LangChainAdvanced from './pages/articles/langchain-advanced'
+import LangGraphCore from './pages/articles/langgraph-core'
+import AgentPatterns from './pages/articles/agent-patterns'
+import WorkflowDesign from './pages/articles/workflow-design'
 import SearchDialog from './components/ui/SearchDialog'
 import { useState, useCallback } from 'react'
 
@@ -55,15 +60,20 @@ export default function App() {
           <Route path="/docs/:chapterId" element={<ChapterPage />} />
           <Route path="/docs/01-python-basics/python-basics" element={<PythonBasics />} />
           <Route path="/docs/02-collections/hashmap" element={<HashmapDeepDive />} />
-          <Route path="/docs/03-python-advanced/pydantic" element={<PydanticDeepDive />} />
-          <Route path="/docs/03-python-advanced/python-async" element={<PythonAsyncProgramming />} />
-          <Route path="/docs/04-fastapi/fastapi" element={<FastAPIDeepDive />} />
-          <Route path="/docs/05-python-engineering/python-engineering" element={<PythonEngineering />} />
+          <Route path="/docs/01-python-basics/pydantic" element={<PydanticDeepDive />} />
+          <Route path="/docs/01-python-basics/python-async" element={<PythonAsyncProgramming />} />
+          <Route path="/docs/01-python-basics/fastapi" element={<FastAPIDeepDive />} />
+          <Route path="/docs/01-python-basics/python-engineering" element={<PythonEngineering />} />
           <Route path="/docs/06-ai-fundamentals/llm-basics" element={<LLMBasics />} />
           <Route path="/docs/06-ai-fundamentals/prompt-engineering" element={<PromptEngineering />} />
           <Route path="/docs/06-ai-fundamentals/structured-output" element={<StructuredOutput />} />
           <Route path="/docs/06-ai-fundamentals/function-calling" element={<FunctionCalling />} />
           <Route path="/docs/06-ai-fundamentals/openai-sdk" element={<OpenAISDK />} />
+          <Route path="/docs/07-langchain-framework/langchain-basics" element={<LangChainBasics />} />
+          <Route path="/docs/07-langchain-framework/langchain-advanced" element={<LangChainAdvanced />} />
+          <Route path="/docs/07-langchain-framework/langgraph-core" element={<LangGraphCore />} />
+          <Route path="/docs/07-langchain-framework/agent-patterns" element={<AgentPatterns />} />
+          <Route path="/docs/07-langchain-framework/workflow-design" element={<WorkflowDesign />} />
         </Routes>
         <Footer />
       </main>

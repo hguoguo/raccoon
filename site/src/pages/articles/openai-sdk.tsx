@@ -2,14 +2,16 @@ import KnowledgeLayout from '../../components/knowledge/KnowledgeLayout'
 import Playground from '../../components/knowledge/Playground'
 import SideNote from '../../components/knowledge/SideNote'
 import ContextSwitcher from '../../components/knowledge/ContextSwitcher'
+import SmartTOC from '../../components/knowledge/SmartTOC'
 import Callout from '../../components/ui/Callout'
 import InterviewSection from '../../components/ui/InterviewSection'
 import DiagramBlock from '../../components/ui/DiagramBlock'
+import type { KnowledgeNode, TocItem } from '../../data/types'
 
-const meta = {
+const meta: KnowledgeNode = {
   id: 'openai-sdk',
   title: 'OpenAI SDK',
-  level: 'Senior' as const,
+  level: 'Senior',
   tags: ['OpenAI', 'Chat API', 'Streaming', 'Function Calling', 'Embedding', 'Structured Output', 'Python SDK'],
   difficulty: 3,
   category: '06-ai-fundamentals',
@@ -18,9 +20,27 @@ const meta = {
   readingTime: 50,
 }
 
+const tocItems: TocItem[] = [
+  { id: 'definition', text: '一句话定义', level: 2 },
+  { id: 'sdk-modules', text: 'SDK 核心模块', level: 2 },
+  { id: 'core-api', text: '核心 API 详解', level: 2 },
+  { id: 'chat-api', text: '5.1 Chat API（对话接口）', level: 3 },
+  { id: 'responses-api', text: '5.2 Responses API（新响应 API）', level: 3 },
+  { id: 'streaming', text: '5.3 Streaming（流式响应）', level: 3 },
+  { id: 'function-calling', text: '5.4 Function Calling（函数调用）', level: 3 },
+  { id: 'embedding-api', text: '5.5 Embedding API（向量化接口）', level: 3 },
+  { id: 'structured-output', text: '5.6 Structured Output（结构化输出）', level: 3 },
+  { id: 'misconceptions', text: '常见误区', level: 2 },
+  { id: 'interview', text: '面试真题', level: 2 },
+  { id: 'related', text: '知识关联', level: 2 },
+]
+
 export default function OpenAISDK() {
   return (
-    <KnowledgeLayout meta={meta}>
+    <div className="flex max-w-[100vw] overflow-x-hidden">
+      {/* Main Article */}
+      <div className="flex-1 max-w-[820px] min-w-0 px-4 sm:px-6 lg:px-12 pb-20">
+        <KnowledgeLayout meta={meta}>
       {/* 一句话定义 */}
       <section className="mb-8">
         <h2 className="font-display font-bold text-[20px] sm:text-display-sm mt-10 sm:mt-12 mb-4 sm:mb-5 text-ink">
@@ -453,6 +473,13 @@ print(f"参与者: {', '.join(event.participants)}`}
           </div>
         </div>
       </section>
-    </KnowledgeLayout>
+        </KnowledgeLayout>
+      </div>
+
+      {/* Sidebar TOC */}
+      <aside className="hidden xl:block w-[240px] shrink-0 sticky top-24 self-start h-[calc(100vh-6rem)] overflow-y-auto pr-4">
+        <SmartTOC items={tocItems} />
+      </aside>
+    </div>
   )
 }

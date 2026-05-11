@@ -2,14 +2,16 @@ import KnowledgeLayout from '../../components/knowledge/KnowledgeLayout'
 import Playground from '../../components/knowledge/Playground'
 import SideNote from '../../components/knowledge/SideNote'
 import ContextSwitcher from '../../components/knowledge/ContextSwitcher'
+import SmartTOC from '../../components/knowledge/SmartTOC'
 import Callout from '../../components/ui/Callout'
 import InterviewSection from '../../components/ui/InterviewSection'
 import DiagramBlock from '../../components/ui/DiagramBlock'
+import type { KnowledgeNode, TocItem } from '../../data/types'
 
-const meta = {
+const meta: KnowledgeNode = {
   id: 'structured-output',
   title: '结构化输出',
-  level: 'Senior' as const,
+  level: 'Senior',
   tags: ['JSON', 'Schema', 'Pydantic', 'Output Parser', 'Validation', 'Structured Data'],
   difficulty: 3,
   category: '06-ai-fundamentals',
@@ -18,9 +20,26 @@ const meta = {
   readingTime: 50,
 }
 
+const tocItems: TocItem[] = [
+  { id: 'definition', text: '一句话定义', level: 2 },
+  { id: 'workflow', text: '结构化输出工作流', level: 2 },
+  { id: 'core-tech', text: '核心技术详解', level: 2 },
+  { id: 'json-output', text: '3.1 JSON 输出', level: 3 },
+  { id: 'schema-output', text: '3.2 Schema 输出（JSON Schema）', level: 3 },
+  { id: 'pydantic-output', text: '3.3 Pydantic 输出（重点）', level: 3 },
+  { id: 'output-parser', text: '3.4 Output Parser（输出解析器）', level: 3 },
+  { id: 'validation', text: '3.5 输出校验（Validation）', level: 3 },
+  { id: 'misconceptions', text: '常见误区', level: 2 },
+  { id: 'interview', text: '面试真题', level: 2 },
+  { id: 'related', text: '知识关联', level: 2 },
+]
+
 export default function StructuredOutput() {
   return (
-    <KnowledgeLayout meta={meta}>
+    <div className="flex max-w-[100vw] overflow-x-hidden">
+      {/* Main Article */}
+      <div className="flex-1 max-w-[820px] min-w-0 px-4 sm:px-6 lg:px-12 pb-20">
+        <KnowledgeLayout meta={meta}>
       {/* 一句话定义 */}
       <section className="mb-8">
         <h2 className="font-display font-bold text-[20px] sm:text-display-sm mt-10 sm:mt-12 mb-4 sm:mb-5 text-ink">
@@ -408,6 +427,13 @@ except ValueError as e:
           </div>
         </div>
       </section>
-    </KnowledgeLayout>
+        </KnowledgeLayout>
+      </div>
+
+      {/* Sidebar TOC */}
+      <aside className="hidden xl:block w-[240px] shrink-0 sticky top-24 self-start h-[calc(100vh-6rem)] overflow-y-auto pr-4">
+        <SmartTOC items={tocItems} />
+      </aside>
+    </div>
   )
 }

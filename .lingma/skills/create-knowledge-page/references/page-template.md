@@ -11,19 +11,21 @@
 
 ## 完整模板
 
+**⚠️ 重要：布局结构必须严格按照以下格式，否则右侧目录不会显示！**
+
 ```tsx
 import KnowledgeLayout from '../../components/knowledge/KnowledgeLayout'
 import Playground from '../../components/knowledge/Playground'
 import InteractiveFlow from '../../components/knowledge/InteractiveFlow'
 import SideNote from '../../components/knowledge/SideNote'
 import ContextSwitcher from '../../components/knowledge/ContextSwitcher'
-import SmartTOC from '../../components/knowledge/SmartTOC'
+import SmartTOC from '../../components/knowledge/SmartTOC'  // ⚠️ 必须导入
 // import XxxAnimator from '../../components/knowledge/XxxAnimator'  // 仅当需要自定义动画时
 import Callout from '../../components/ui/Callout'
 import DiagramBlock from '../../components/ui/DiagramBlock'
 import InterviewSection from '../../components/ui/InterviewSection'
 import ArticleNav from '../../components/article/ArticleNav'
-import type { KnowledgeNode, TocItem } from '../../data/types'
+import type { KnowledgeNode, TocItem } from '../../data/types'  // ⚠️ 必须导入类型
 
 const meta: KnowledgeNode = {
   id: '{{SLUG}}',
@@ -53,7 +55,9 @@ const tocItems: TocItem[] = [
 
 export default function {{PascalCaseName}}() {
   return (
+    {/* ⚠️ 外层必须是 flex 布局 */}
     <div className="flex max-w-[100vw] overflow-x-hidden">
+      {/* 左侧主内容区 */}
       <div className="flex-1 max-w-[820px] min-w-0 px-4 sm:px-6 lg:px-12 pb-20">
         <KnowledgeLayout meta={meta}>
 
@@ -163,7 +167,11 @@ export default function {{PascalCaseName}}() {
           <ArticleNav prevTitle="..." prevPath="/docs/..." nextTitle="..." nextPath="/docs/..." />
         </KnowledgeLayout>
       </div>
-      <SmartTOC items={tocItems} />
+      
+      {/* ⚠️ 右侧目录侧边栏（仅大屏 xl 以上显示）*/}
+      <aside className="hidden xl:block w-[240px] shrink-0 sticky top-24 self-start h-[calc(100vh-6rem)] overflow-y-auto pr-4">
+        <SmartTOC items={tocItems} />
+      </aside>
     </div>
   )
 }
