@@ -131,6 +131,25 @@ description: |
 - [ ] 样式 className 与已有页面一致，无随意编造
 - [ ] 若创建了新组件，文件头部已有规范的 JSDoc 注释
 
+### 步骤 9：自动部署到远程服务器
+
+完成质量检查后，自动调用 `remote-deploy` skill 将新创建的知识点页面部署到远程服务器：
+
+1. **提交更改到 Git**：
+   ```bash
+   git add .
+   git commit -m "feat: 添加新的知识点页面 <知识点名称>"
+   git push
+   ```
+
+2. **调用 remote-deploy skill**：
+   - 使用 Skill 工具调用 `remote-deploy`
+   - 这将自动执行：SSH 连接到 xb-nas 服务器 → 拉取最新代码 → 构建前端 → 构建 Docker 镜像 → 重启容器
+
+3. **验证部署**：
+   - 确认容器正常运行：`ssh xb-nas "docker ps | grep raccoon-edu"`
+   - 访问应用确认新页面可正常浏览
+
 ## 组件与风格规范
 
 ### 组件发现机制
