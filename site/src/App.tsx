@@ -6,6 +6,7 @@ import MobileNav from './components/layout/MobileNav'
 import HomePage from './pages/HomePage'
 import ChapterPage from './pages/ChapterPage'
 import HashmapDeepDive from './pages/articles/hashmap-deep-dive'
+import PythonBasics from './pages/articles/python-basics'
 import SearchDialog from './components/ui/SearchDialog'
 import { useState, useCallback } from 'react'
 
@@ -43,6 +44,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/docs/:chapterId" element={<ChapterPage />} />
+          <Route path="/docs/01-python-basics/python-basics" element={<PythonBasics />} />
           <Route path="/docs/02-collections/hashmap" element={<HashmapDeepDive />} />
         </Routes>
         <Footer />
