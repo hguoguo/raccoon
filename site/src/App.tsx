@@ -15,6 +15,7 @@ import LLMBasics from './pages/articles/llm-basics'
 import PromptEngineering from './pages/articles/prompt-engineering'
 import StructuredOutput from './pages/articles/structured-output'
 import FunctionCalling from './pages/articles/function-calling'
+import OpenAISDK from './pages/articles/openai-sdk'
 import SearchDialog from './components/ui/SearchDialog'
 import { useState, useCallback } from 'react'
 
@@ -62,6 +63,7 @@ export default function App() {
           <Route path="/docs/06-ai-fundamentals/prompt-engineering" element={<PromptEngineering />} />
           <Route path="/docs/06-ai-fundamentals/structured-output" element={<StructuredOutput />} />
           <Route path="/docs/06-ai-fundamentals/function-calling" element={<FunctionCalling />} />
+          <Route path="/docs/06-ai-fundamentals/openai-sdk" element={<OpenAISDK />} />
         </Routes>
         <Footer />
       </main>

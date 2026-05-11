@@ -83,9 +83,16 @@ echo ""
 ssh xb-nas << 'REMOTE_SCRIPT'
 set -e
 
+# 加载 nvm 环境
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
 echo "======================================"
 echo "  开始部署到服务器"
 echo "======================================"
+echo ""
+echo "Node.js 版本: $(node --version)"
+echo "npm 版本: $(npm --version)"
 echo ""
 
 DEPLOY_DIR="/vol1/1000/java"
