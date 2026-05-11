@@ -10,6 +10,7 @@ RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
+CYAN='\033[0;36m'
 NC='\033[0m' # No Color
 
 echo -e "${BLUE}========================================${NC}"
@@ -41,22 +42,28 @@ step "步骤 1: 检查 Git 状态"
 
 git status
 
-echo ""
-read -p "是否有未提交的更改？(y/n): " has_changes
+# 检查是否有改动
+CHANGED_FILES=$(git status --porcelain | wc -l | tr -d ' ')
 
-if [ "$has_changes" = "y" ] || [ "$has_changes" = "Y" ]; then
+if [ "$CHANGED_FILES" -eq 0 ]; then
     echo ""
-    read -p "输入提交信息: " commit_message
-    
-    if [ -z "$commit_message" ]; then
-        commit_message="Deploy: $(date '+%Y-%m-%d %H:%M:%S')"
-    fi
-    
-    git add .
-    git commit -m "$commit_message"
-    echo -e "${GREEN}✓ 代码已提交${NC}"
+    echo -e "${YELLOW}⚠ 没有检测到文件改动${NC}"
+    echo ""
 else
-    echo -e "${YELLOW}跳过提交（无更改或用户选择跳过）${NC}"
+    echo ""
+    echo -e "${GREEN}✓ 检测到 $CHANGED_FILES 个文件有改动${NC}"
+    echo ""
+    
+    # 自动生成提交信息
+    TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
+    COMMIT_MSG="chore: auto deploy ($TIMESTAMP)"
+    
+    echo -e "${CYAN}>>> 自动添加并提交文件${NC}"
+    git add .
+    git commit -m "$COMMIT_MSG"
+    echo -e "${GREEN}✓ 代码已提交${NC}"
+    echo "   提交信息: $COMMIT_MSG"
+    echo ""
 fi
 
 # 步骤 2: 推送到远程仓库
