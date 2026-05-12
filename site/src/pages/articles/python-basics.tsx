@@ -858,14 +858,12 @@ for num in numbers:
             </a>
           </div>
 
+          <ArticleNav {...getArticleNav(meta.category, meta.id)} />
         </KnowledgeLayout>
       </div>
 
       {/* TOC Sidebar */}
       <SmartTOC items={tocItems} />
-
-      {/* Article Navigation */}
-      <ArticleNav {...getArticleNav(meta.category, meta.id)} />
     </div>
   )
 }

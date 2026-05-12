@@ -658,6 +658,7 @@ print(result["output"])
             掌握进阶技巧后，建议深入学习 <strong>LangGraph</strong>，它提供了更强大的状态管理和工作流编排能力，是构建复杂 Agent 系统的首选框架。
           </Callout>
 
+          <ArticleNav {...getArticleNav(meta.category, meta.id)} />
         </KnowledgeLayout>
       </div>
 
@@ -665,9 +666,6 @@ print(result["output"])
       <aside className="hidden xl:block w-[240px] shrink-0 px-4 py-8 sticky top-0 h-screen overflow-y-auto">
         <SmartTOC items={tocItems} />
       </aside>
-
-      {/* Article Navigation */}
-      <ArticleNav {...getArticleNav(meta.category, meta.id)} />
     </div>
   )
 }

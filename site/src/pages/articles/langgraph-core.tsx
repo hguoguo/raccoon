@@ -612,14 +612,13 @@ print(result["status"])  # published 或 revised`}
             LangGraph 的学习曲线较陡，建议通过实际项目练习：① 从简单的线性工作流开始；② 逐步添加条件分支和循环；③ 实践 Checkpoint 和 Interrupt；④ 最后尝试多 Agent 协作场景。官方文档提供了丰富的示例代码。
           </Callout>
 
+          <ArticleNav {...getArticleNav(meta.category, meta.id)} />
         </KnowledgeLayout>
       </div>
 
       <aside className="hidden xl:block w-[240px] shrink-0 px-4 py-8 sticky top-0 h-screen overflow-y-auto">
         <SmartTOC items={tocItems} />
       </aside>
-
-      <ArticleNav {...getArticleNav(meta.category, meta.id)} />
     </div>
   )
 }

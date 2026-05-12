@@ -11,7 +11,7 @@
 
 ## 完整模板
 
-**⚠️ 重要：布局结构必须严格按照以下格式，否则右侧目录不会显示！**
+**⚠️ 重要：布局结构必须严格按照以下格式，否则右侧目录不会显示，且无法进行文章间导航！**
 
 ```tsx
 import KnowledgeLayout from '../../components/knowledge/KnowledgeLayout'
@@ -20,11 +20,12 @@ import InteractiveFlow from '../../components/knowledge/InteractiveFlow'
 import SideNote from '../../components/knowledge/SideNote'
 import ContextSwitcher from '../../components/knowledge/ContextSwitcher'
 import SmartTOC from '../../components/knowledge/SmartTOC'  // ⚠️ 必须导入
+import ArticleNav from '../../components/article/ArticleNav'  // ⚠️ 必须导入
+import { getArticleNav } from '../../data/chapters'  // ⚠️ 必须导入
 // import XxxAnimator from '../../components/knowledge/XxxAnimator'  // 仅当需要自定义动画时
 import Callout from '../../components/ui/Callout'
 import DiagramBlock from '../../components/ui/DiagramBlock'
 import InterviewSection from '../../components/ui/InterviewSection'
-import ArticleNav from '../../components/article/ArticleNav'
 import type { KnowledgeNode, TocItem } from '../../data/types'  // ⚠️ 必须导入类型
 
 const meta: KnowledgeNode = {
@@ -164,7 +165,8 @@ export default function {{PascalCaseName}}() {
             </div>
           </section>
 
-          <ArticleNav prevTitle="..." prevPath="/docs/..." nextTitle="..." nextPath="/docs/..." />
+          {/* ⚠️ 文章导航（上一篇/下一篇），必须添加在 KnowledgeLayout 内部 */}
+          <ArticleNav {...getArticleNav(meta.category, meta.id)} />
         </KnowledgeLayout>
       </div>
       

@@ -41,6 +41,7 @@ description: |
 然后**扫描组件库**，了解可用组件：
 - 读取 `site/src/components/knowledge/` 目录下所有 `.tsx` 文件的头部注释
 - 读取 `site/src/components/ui/` 目录下所有 `.tsx` 文件的头部注释
+- 读取 `site/src/components/article/` 目录下所有 `.tsx` 文件的头部注释
 - 组件文件头部注释格式为 JSDoc，包含组件用途、Props 接口、使用示例
 - 根据扫描结果决定页面中可使用哪些组件
 
@@ -58,9 +59,11 @@ description: |
 
 **⚠️ 布局结构强制要求（极易出错，务必遵守）：**
 
-1. **必须导入 `SmartTOC` 组件**：
+1. **必须导入以下组件和工具函数**：
    ```tsx
    import SmartTOC from '../../components/knowledge/SmartTOC'
+   import ArticleNav from '../../components/article/ArticleNav'
+   import { getArticleNav } from '../../data/chapters'
    import type { KnowledgeNode, TocItem } from '../../data/types'
    ```
 
@@ -72,7 +75,7 @@ description: |
    ]
    ```
 
-3. **必须使用 flex 布局包裹整个页面**：
+3. **必须使用 flex 布局包裹整个页面，并在末尾添加 ArticleNav**：
    ```tsx
    export default function XxxPage() {
      return (
@@ -88,6 +91,9 @@ description: |
          <aside className="hidden xl:block w-[240px] shrink-0 sticky top-24 self-start h-[calc(100vh-6rem)] overflow-y-auto pr-4">
            <SmartTOC items={tocItems} />
          </aside>
+
+         {/* 文章导航（上一篇/下一篇）*/}
+         <ArticleNav {...getArticleNav(meta.category, meta.id)} />
        </div>
      )
    }
@@ -95,17 +101,25 @@ description: |
 
 **❌ 禁止的错误做法：**
 ```tsx
-// 错误！直接返回 KnowledgeLayout，没有 flex 布局和侧边栏
+// 错误！缺少 ArticleNav 组件
 export default function XxxPage() {
   return (
-    <KnowledgeLayout meta={meta}>
-      {/* 内容 */}
-    </KnowledgeLayout>
+    <div className="flex max-w-[100vw] overflow-x-hidden">
+      <div className="flex-1 max-w-[820px] min-w-0 px-4 sm:px-6 lg:px-12 pb-20">
+        <KnowledgeLayout meta={meta}>
+          {/* 内容 */}
+        </KnowledgeLayout>
+      </div>
+      <aside className="hidden xl:block w-[240px] shrink-0 sticky top-24 self-start h-[calc(100vh-6rem)] overflow-y-auto pr-4">
+        <SmartTOC items={tocItems} />
+      </aside>
+      {/* ❌ 缺少 ArticleNav */}
+    </div>
   )
 }
 ```
 
-如果页面缺少上述布局结构，右侧章节目录将不会显示！
+如果页面缺少上述布局结构或 ArticleNav 组件，右侧章节目录将不会显示，且无法进行文章间导航！
 
 ### 步骤 3：更新章节目录
 
@@ -184,7 +198,9 @@ export default function XxxPage() {
 - [ ] **✅ 页面使用了 flex 布局包裹（`<div className="flex max-w-[100vw] overflow-x-hidden">`）**
 - [ ] **✅ 定义了 `tocItems` 数组并导入了 `SmartTOC` 组件**
 - [ ] **✅ 右侧有 `<aside>` 标签包裹的 `SmartTOC` 侧边栏**
-- [ ] **✅ 页面结构与 `python-basics.tsx` 等其他页面保持一致**
+- [ ] **✅ 导入了 `ArticleNav` 组件和 `getArticleNav` 函数**
+- [ ] **✅ 在页面末尾添加了 `<ArticleNav {...getArticleNav(meta.category, meta.id)} />`**
+- [ ] **✅ 页面结构与 `langgraph-core.tsx` 等其他页面保持一致**
 
 ### 步骤 9：自动部署到远程服务器
 
@@ -210,6 +226,7 @@ export default function XxxPage() {
 ### 布局结构参考
 
 在创建页面时，**必须**参考以下已验证的正确示例：
+- ✅ [langgraph-core.tsx](file:///Users/liujianhua/IdeaProjects/raccoon-edu/site/src/pages/articles/langgraph-core.tsx) - 完整的布局结构，包含 ArticleNav
 - ✅ [python-basics.tsx](file:///Users/liujianhua/IdeaProjects/raccoon-edu/site/src/pages/articles/python-basics.tsx) - 完整的布局结构
 - ✅ [hashmap-deep-dive.tsx](file:///Users/liujianhua/IdeaProjects/raccoon-edu/site/src/pages/articles/hashmap-deep-dive.tsx) - 带侧边栏目录
 
@@ -219,6 +236,8 @@ export default function XxxPage() {
 3. 右侧侧边栏 `<aside className="hidden xl:block w-[240px] ...">`
 4. 导入并使用 `SmartTOC` 组件
 5. 定义 `tocItems` 数组
+6. **导入 `ArticleNav` 和 `getArticleNav`**
+7. **在页面末尾添加 `<ArticleNav {...getArticleNav(meta.category, meta.id)} />`**
 
 ### 组件发现机制
 
@@ -272,29 +291,41 @@ export default function XxxPage() {
 
 ## 常见错误及修复
 
-### 错误 1：右侧目录不显示
+### 错误 1：右侧目录不显示或缺少文章导航
 
-**症状：** 页面正常渲染，但右侧没有章节目录。
+**症状：** 页面正常渲染，但右侧没有章节目录，或无法切换到上一篇/下一篇文章。
 
 **原因：** 
 - 缺少 `SmartTOC` 组件导入
 - 未定义 `tocItems` 数组
 - 外层没有使用 flex 布局
 - 直接返回 `<KnowledgeLayout>` 而没有包裹在 flex 容器中
+- **缺少 `ArticleNav` 组件或 `getArticleNav` 函数导入**
+- **未在页面末尾添加 `<ArticleNav {...getArticleNav(meta.category, meta.id)} />`**
 
 **修复：**
 ```tsx
-// ❌ 错误写法
+// ❌ 错误写法：缺少 ArticleNav
 export default function XxxPage() {
   return (
-    <KnowledgeLayout meta={meta}>
-      {/* 内容 */}
-    </KnowledgeLayout>
+    <div className="flex max-w-[100vw] overflow-x-hidden">
+      <div className="flex-1 max-w-[820px] min-w-0 px-4 sm:px-6 lg:px-12 pb-20">
+        <KnowledgeLayout meta={meta}>
+          {/* 内容 */}
+        </KnowledgeLayout>
+      </div>
+      <aside className="hidden xl:block w-[240px] shrink-0 sticky top-24 self-start h-[calc(100vh-6rem)] overflow-y-auto pr-4">
+        <SmartTOC items={tocItems} />
+      </aside>
+      {/* ❌ 缺少 ArticleNav */}
+    </div>
   )
 }
 
-// ✅ 正确写法
+// ✅ 正确写法：包含 ArticleNav
 import SmartTOC from '../../components/knowledge/SmartTOC'
+import ArticleNav from '../../components/article/ArticleNav'
+import { getArticleNav } from '../../data/chapters'
 import type { KnowledgeNode, TocItem } from '../../data/types'
 
 const tocItems: TocItem[] = [
@@ -313,6 +344,8 @@ export default function XxxPage() {
       <aside className="hidden xl:block w-[240px] shrink-0 sticky top-24 self-start h-[calc(100vh-6rem)] overflow-y-auto pr-4">
         <SmartTOC items={tocItems} />
       </aside>
+      {/* ✅ 必须添加 ArticleNav */}
+      <ArticleNav {...getArticleNav(meta.category, meta.id)} />
     </div>
   )
 }

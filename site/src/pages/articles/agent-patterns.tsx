@@ -580,14 +580,13 @@ result = agent_executor.invoke({
             从简单的 ReAct Agent 开始，逐步尝试更复杂的模式。建议使用 LangSmith 监控 Agent 执行过程，分析每个步骤的耗时和成功率，针对性优化薄弱环节。
           </Callout>
 
+          <ArticleNav {...getArticleNav(meta.category, meta.id)} />
         </KnowledgeLayout>
       </div>
 
       <aside className="hidden xl:block w-[240px] shrink-0 px-4 py-8 sticky top-0 h-screen overflow-y-auto">
         <SmartTOC items={tocItems} />
       </aside>
-
-      <ArticleNav {...getArticleNav(meta.category, meta.id)} />
     </div>
   )
 }

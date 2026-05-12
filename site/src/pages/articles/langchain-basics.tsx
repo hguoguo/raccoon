@@ -717,6 +717,7 @@ memory = ConversationBufferMemory(chat_memory=redis_history)`}
             </ol>
           </Callout>
 
+          <ArticleNav {...getArticleNav(meta.category, meta.id)} />
         </KnowledgeLayout>
       </div>
 
@@ -724,9 +725,6 @@ memory = ConversationBufferMemory(chat_memory=redis_history)`}
       <aside className="hidden xl:block w-[240px] shrink-0 px-4 py-8 sticky top-0 h-screen overflow-y-auto">
         <SmartTOC items={tocItems} />
       </aside>
-
-      {/* Article Navigation */}
-      <ArticleNav {...getArticleNav(meta.category, meta.id)} />
     </div>
   )
 }

@@ -640,14 +640,13 @@ asyncio.run(main())`}
             Workflow 设计是系统工程的核心技能。建议：① 从简单的 Pipeline 开始实践；② 逐步添加错误处理和重试；③ 学习 Airflow/Prefect 等成熟框架的设计思想；④ 在实际项目中应用 DAG 思维分解复杂任务。
           </Callout>
 
+          <ArticleNav {...getArticleNav(meta.category, meta.id)} />
         </KnowledgeLayout>
       </div>
 
       <aside className="hidden xl:block w-[240px] shrink-0 px-4 py-8 sticky top-0 h-screen overflow-y-auto">
         <SmartTOC items={tocItems} />
       </aside>
-
-      <ArticleNav {...getArticleNav(meta.category, meta.id)} />
     </div>
   )
 }
