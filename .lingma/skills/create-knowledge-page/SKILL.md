@@ -1,21 +1,23 @@
 ---
 name: create-knowledge-page
 description: |
-  This skill should be used when the user wants to create a new Java knowledge point page for the Raccoon-Java learning site.
-  Triggers include: "创建XX知识点", "新增XX文章", "写一篇关于XX的深度分析", "添加ArrayList知识点", or any request to generate a new knowledge article page.
+  This skill should be used when the user wants to create a new knowledge point page for the Raccoon-Edu learning site, OR when the user wants to review/audit an existing page against the creation spec.
+  Triggers include: "创建XX知识点", "新增XX文章", "写一篇关于XX的深度分析", "添加XX知识点", or any request to generate a new knowledge article page.
+  Also triggers for review: "检查XX页面", "检视XX文章", "审核XX知识点", "XX页面是否符合规范", or any request to audit an existing page.
   This skill ensures all pages follow the same content spec, component usage, and project structure conventions.
 ---
 
 # 创建知识点页面
 
-为 Raccoon-Java 学习站点生成完整、符合规范的知识点文章页面。
+为 Raccoon-Edu 学习站点生成完整、符合规范的知识点文章页面，或检视已有页面是否符合规范。
 
 ## 目标
 
 产出风格统一、结构一致、组件规范的文章页面，包含：
 1. 新的文章页面组件（TSX）
 2. 更新章节目录数据（`chapters.ts`）
-3. 更新路由注册（`App.tsx`）
+
+**无需手动更新路由或组件映射**——项目使用 `import.meta.glob` 自动发现 `articles/` 目录下的组件，使用动态路由 `<Route path="/docs/:chapterId/:slug">` 渲染。
 
 ## 内容规范
 
@@ -50,9 +52,10 @@ description: |
 在 `site/src/pages/articles/<slug>.tsx` 创建新文件，模板见 `references/page-template.md`。
 
 **关键规则（必须严格遵守）：**
-- 文件名使用 kebab-case：`concurrent-hashmap.tsx`、`array-list.tsx`
+- **文件名 = slug，使用 kebab-case**：`concurrent-hashmap.tsx`、`array-list.tsx`。文件名必须与 `chapters.ts` 中的 `slug` 完全一致，因为 `import.meta.glob` 根据文件名匹配组件
 - 组件名使用 PascalCase：`ConcurrentHashmap`、`ArrayListDeepDive`
-- `meta.id` 和 `meta.category` 必须与 `chapters.ts` 中的章节 ID 匹配
+- 组件签名必须为 `export default function Xxx({ meta }: { meta: KnowledgeNode })`，**meta 由路由层注入，不再在组件内部定义**
+- `meta.category` 必须与 `chapters.ts` 中的章节 ID 匹配
 - `meta.tags` 应包含主要类名/概念名
 - 所有章节必须有 `id` 属性，与 `tocItems` 一一对应
 - `<h2>` 用于主章节，`<h3>` 用于子章节
@@ -77,7 +80,7 @@ description: |
 
 3. **必须使用 flex 布局包裹整个页面，并在 KnowledgeLayout 内部末尾添加 ArticleNav**：
    ```tsx
-   export default function XxxPage() {
+   export default function XxxPage({ meta }: { meta: KnowledgeNode }) {
      return (
        <div className="flex max-w-[100vw] overflow-x-hidden">
          {/* 左侧主内容区 */}
@@ -102,7 +105,7 @@ description: |
 **❌ 禁止的错误做法：**
 ```tsx
 // 错误！ArticleNav 放在了 KnowledgeLayout 外部
-export default function XxxPage() {
+export default function XxxPage({ meta }: { meta: KnowledgeNode }) {
   return (
     <div className="flex max-w-[100vw] overflow-x-hidden">
       <div className="flex-1 max-w-[820px] min-w-0 px-4 sm:px-6 lg:px-12 pb-20">
@@ -128,22 +131,23 @@ export default function XxxPage() {
 - 章节已存在：在该章节的 `articles` 数组中添加 `ArticleMeta` 对象
 - 章节不存在：在 `chapters` 数组中添加新的 `Chapter` 对象
 
-`chapters.ts` 中的 `meta` 对象必须与文章页面中的 `meta` 完全一致。
+`chapters.ts` 中的 `meta` 对象是文章元数据的唯一来源，路由层会通过 `getArticleMeta()` 读取并注入组件。
 
-### 步骤 4：更新路由注册
+**无需手动更新 `App.tsx` 或组件映射**——项目使用以下机制自动关联：
+- `import.meta.glob('../pages/articles/*.tsx')` 自动发现组件
+- `getArticleComponent(slug)` 根据文件名 `<slug>.tsx` 查找组件
+- `App.tsx` 中动态路由 `<Route path="/docs/:chapterId/:slug" element={<ArticleRenderer />} />` 渲染
 
-编辑 `site/src/App.tsx`：
-- 添加页面组件的 import 语句
-- 添加 `<Route>` 元素：`<Route path="/docs/:chapterId/:slug" element={<ComponentName />} />`
+只要文件名与 `slug` 一致，新文章就会被自动识别。
 
-### 步骤 5：创建自定义动画组件（可选）
+### 步骤 4：创建自定义动画组件（可选）
 
 如果知识点涉及数据结构操作（列表、树、队列等），创建自定义动画组件：
 - 使用 `StepAnimator<TStep>` 作为框架，从 `../../components/knowledge/StepAnimator` 导入
 - 定义知识点专属的步骤类型和可视化渲染
 - 放置在 `site/src/components/knowledge/<TopicName>Animator.tsx`
 
-### 步骤 6：创建新通用组件（如需要）
+### 步骤 5：创建新通用组件（如需要）
 
 如果文章需要项目尚无的 UI 组件（如新的可视化类型、交互模式）：
 
@@ -163,12 +167,12 @@ export default function XxxPage() {
    ```
    后续创建页面时，Skill 会自动扫描此注释来发现和使用组件，无需手动更新 Skill 文件。
 
-### 步骤 7：验证
+### 步骤 6：验证
 
 - 在 `site/` 目录下运行 `npm run build` 确认无错误
 - 在浏览器中预览页面
 
-### 步骤 8：质量检查清单
+### 步骤 7：质量检查清单
 
 完成任务前，确认以下所有项：
 
@@ -184,11 +188,12 @@ export default function XxxPage() {
 - [ ] 概念解释正确
 - [ ] 代码逻辑正确
 - [ ] 性能结论有依据或标注为近似值
-- [ ] 信息不过时（与当前 JDK 版本一致）
+- [ ] 信息不过时（与当前主流版本一致）
 
 **项目集成：**
 - [ ] `chapters.ts` 已更新且 `meta` 匹配
-- [ ] `App.tsx` 路由已注册
+- [ ] 文件名与 `slug` 完全一致（`import.meta.glob` 据此匹配组件）
+- [ ] 组件签名为 `export default function Xxx({ meta }: { meta: KnowledgeNode })`
 - [ ] `npm run build` 通过
 
 **风格一致性：**
@@ -203,7 +208,7 @@ export default function XxxPage() {
 - [ ] **✅ 在页面末尾添加了 `<ArticleNav {...getArticleNav(meta.category, meta.id)} />`**
 - [ ] **✅ 页面结构与 `langgraph-core.tsx` 等其他页面保持一致**
 
-### 步骤 9：自动部署到远程服务器
+### 步骤 8：自动部署到远程服务器
 
 完成质量检查后，自动调用 `remote-deploy` skill 将新创建的知识点页面部署到远程服务器：
 
@@ -229,7 +234,7 @@ export default function XxxPage() {
 在创建页面时，**必须**参考以下已验证的正确示例：
 - ✅ [langgraph-core.tsx](file:///Users/liujianhua/IdeaProjects/raccoon-edu/site/src/pages/articles/langgraph-core.tsx) - 完整的布局结构，包含 ArticleNav
 - ✅ [python-basics.tsx](file:///Users/liujianhua/IdeaProjects/raccoon-edu/site/src/pages/articles/python-basics.tsx) - 完整的布局结构
-- ✅ [hashmap-deep-dive.tsx](file:///Users/liujianhua/IdeaProjects/raccoon-edu/site/src/pages/articles/hashmap-deep-dive.tsx) - 带侧边栏目录
+- ✅ [hashmap.tsx](file:///Users/liujianhua/IdeaProjects/raccoon-edu/site/src/pages/articles/hashmap.tsx) - 带侧边栏目录
 
 关键特征：
 1. 外层 `<div className="flex max-w-[100vw] overflow-x-hidden">`
@@ -284,11 +289,122 @@ export default function XxxPage() {
 ## 重要约束
 
 - **禁止**生成占位内容，每个章节必须有真实、充实的知识内容
-- 源码片段必须与指定 JDK 版本一致（默认 JDK 8+）
+- 源码片段必须与当前主流版本一致（如 Python 3.10+、JDK 8+，视具体技术栈而定）
 - 面试题必须是真实问题，答案必须准确
 - 常见误区必须针对真实的高频误解
 - 对比表格必须使用准确的性能/数据特征
 - 页面必须自包含，不得出现 "TODO: 后续补充" 类注释
+
+## 检视模式
+
+当用户要求检查、审核、检视已有知识点页面时，执行以下流程。
+
+### 检视步骤
+
+#### 1. 定位目标文件
+
+- 用户提供知识点名称或 slug → 定位到 `site/src/pages/articles/<slug>.tsx`
+- 若不确定 slug，扫描 `site/src/data/chapters.ts` 中的 `articles` 列表查找匹配项
+- 读取目标文件完整内容
+
+#### 2. 逐项检查
+
+读取目标文件后，按以下维度逐项检查并输出结果。
+
+**A. 组件签名与 meta 注入（严重性：🔴 阻断）**
+
+| 检查项 | 检查方法 | 通过条件 |
+|--------|----------|----------|
+| 组件签名 | 搜索 `export default function` | 签名为 `function Xxx({ meta }: { meta: KnowledgeNode })` |
+| meta 不在组件内定义 | 搜索 `const meta` | 组件内部不应有 `const meta: KnowledgeNode = {...}` |
+| 导入 `KnowledgeNode` 类型 | 搜索 `import.*KnowledgeNode` | 存在从 `../../data/types` 的导入 |
+
+**B. 布局结构完整性（严重性：🔴 阻断）**
+
+| 检查项 | 检查方法 | 通过条件 |
+|--------|----------|----------|
+| flex 外层容器 | 搜索 `className.*flex.*max-w-\[100vw\]` | 存在 `<div className="flex max-w-[100vw] overflow-x-hidden">` |
+| SmartTOC 导入 | 搜索 `import.*SmartTOC` | 存在 |
+| tocItems 定义 | 搜索 `const tocItems` | 存在 `TocItem[]` 类型数组 |
+| SmartTOC 侧边栏 | 搜索 `<SmartTOC` | 在 `<aside>` 标签内 |
+| aside 侧边栏 | 搜索 `<aside` | 存在且包含 `hidden xl:block` |
+| ArticleNav 导入 | 搜索 `import.*ArticleNav` | 存在 |
+| getArticleNav 导入 | 搜索 `import.*getArticleNav` | 从 `../../data/chapters` 导入 |
+| ArticleNav 位置 | 搜索 `<ArticleNav` | 在 `<KnowledgeLayout>` 内部且在最后（`</KnowledgeLayout>` 之前） |
+
+**C. tocItems 与章节 id 一致性（严重性：🟡 警告）**
+
+| 检查项 | 检查方法 | 通过条件 |
+|--------|----------|----------|
+| 每个 tocItem.id 有对应 DOM id | 对比 `tocItems` 中的 id 与文件中 `id="xxx"` / `<section id="xxx">` / `<h2 id="xxx">` | 全部匹配 |
+| 每个 DOM id 有对应 tocItem | 反向对比 | 全部匹配 |
+
+**D. 内容结构要素（严重性：🟡 警告）**
+
+12 项结构要素检查（详见 `references/content-spec.md`）：
+
+| 检查项 | 检查方法 | 最低要求 |
+|--------|----------|----------|
+| 一句话定义 | 搜索 `id="definition"` 或 `<blockquote` | 存在 |
+| 整体架构图 | 搜索 `<DiagramBlock` 或 `id="overview"` | 存在 |
+| 核心原理 | 搜索 `id="core"` 或核心原理相关 h2 | 存在 |
+| 源码分析 | 搜索 `<Playground` | 至少 1 个 |
+| 流程/状态转换 | 搜索 `<InteractiveFlow` 或流程相关章节 | 存在 |
+| 代码实验场 | 搜索 `<Playground` 中带 `description` | 至少 1 个交互式 |
+| 边注/扩展 | 搜索 `<SideNote` | 存在 |
+| 上下文切换 | 搜索 `<ContextSwitcher` | 存在 |
+| 常见误区 | 搜索 `id="misconceptions"` 或 `<Callout type="danger"` | 至少 3 条 |
+| 面试真题 | 搜索 `<InterviewSection` 或 `id="interview"` | 至少 5 题 |
+| 对比表格 | 搜索 `<table` 或 `id="comparison"` | 存在 |
+| 知识关联 | 搜索 `id="related"` 或前置/延伸知识卡片 | 存在 |
+
+**E. 项目集成（严重性：🔴 阻断）**
+
+| 检查项 | 检查方法 | 通过条件 |
+|--------|----------|----------|
+| 文件名与 slug 一致 | 对比文件名（去 `.tsx`）与 `chapters.ts` 中对应文章的 `slug` | 完全一致 |
+| chapters.ts 有对应元数据 | 在 `chapters.ts` 中搜索 slug | 存在且 `meta` 字段完整 |
+| meta 字段匹配 | 对比 `chapters.ts` 中的 meta 与组件中 `getArticleNav(meta.category, meta.id)` 使用值 | category 指向正确的章节 ID |
+
+**F. 代码规范（严重性：🟡 警告）**
+
+| 检查项 | 检查方法 | 通过条件 |
+|--------|----------|----------|
+| 无内联子组件定义 | 搜索 `function [A-Z]` 在组件体内 | 页面文件内不应定义非导出组件 |
+| 使用已有封装组件 | 搜索 `<pre><code>` / 手写 tab 逻辑等 | 不存在手写替代 |
+| 无 TODO/占位内容 | 搜索 `TODO` / `FIXME` / `xxx` / `待补充` | 不存在 |
+| h2/h3 标题样式一致 | 检查 h2/h3 的 className | 与样式约定一致 |
+
+#### 3. 输出检视报告
+
+按以下格式输出检查结果：
+
+```
+## 📋 检视报告：<知识点名称>
+
+### 🔴 阻断问题（必须修复）
+- [ ] 问题描述 → 修复建议
+
+### 🟡 警告问题（建议修复）
+- [ ] 问题描述 → 修复建议
+
+### ✅ 通过项（共 N 项）
+- ✅ 组件签名正确：`export default function Xxx({ meta }: { meta: KnowledgeNode })`
+- ✅ flex 布局完整
+- ...
+
+### 📊 合规评分
+- 阻断项：0/0 通过
+- 警告项：0/0 通过
+- 总体：🟢 合格 / 🟡 需改进 / 🔴 不合格
+```
+
+#### 4. 自动修复（可选）
+
+如果用户要求修复发现的问题，按以下优先级处理：
+1. 先修复 🔴 阻断问题
+2. 再修复 🟡 警告问题
+3. 修复后重新运行检视确认
 
 ## 常见错误及修复
 
@@ -307,7 +423,7 @@ export default function XxxPage() {
 **修复：**
 ```tsx
 // ❌ 错误写法：缺少 ArticleNav
-export default function XxxPage() {
+export default function XxxPage({ meta }: { meta: KnowledgeNode }) {
   return (
     <div className="flex max-w-[100vw] overflow-x-hidden">
       <div className="flex-1 max-w-[820px] min-w-0 px-4 sm:px-6 lg:px-12 pb-20">
@@ -334,7 +450,7 @@ const tocItems: TocItem[] = [
   // ...
 ]
 
-export default function XxxPage() {
+export default function XxxPage({ meta }: { meta: KnowledgeNode }) {
   return (
     <div className="flex max-w-[100vw] overflow-x-hidden">
       <div className="flex-1 max-w-[820px] min-w-0 px-4 sm:px-6 lg:px-12 pb-20">
@@ -372,4 +488,37 @@ export default function XxxPage() {
 <section id="definition">  {/* id 必须与 tocItems 中的 id 一致 */}
   <h2>一句话定义</h2>
 </section>
+```
+
+### 错误 4：文件名与 slug 不一致导致页面 404
+
+**症状：** 访问文章 URL 返回"文章未找到"，但 `chapters.ts` 中已有该文章的元数据。
+
+**原因：** `import.meta.glob` 根据文件名匹配组件。如果 `chapters.ts` 中 `slug` 为 `concurrent-hashmap`，但文件名为 `concurrenthashmap.tsx` 或 `concurrent-hash-map.tsx`，则 `getArticleComponent(slug)` 找不到对应组件。
+
+**修复：** 确保文件名与 slug 完全一致：
+```
+slug: 'concurrent-hashmap' → 文件: concurrent-hashmap.tsx ✅
+slug: 'concurrent-hashmap' → 文件: concurrentHashMap.tsx  ❌
+slug: 'concurrent-hashmap' → 文件: concurrent-hash-map.tsx ❌
+```
+
+### 错误 5：在组件内部定义 meta 而非从 props 接收
+
+**症状：** TypeScript 编译错误或页面渲染时 meta 数据与 `chapters.ts` 不一致。
+
+**原因：** 旧版模式在组件内部定义 `const meta: KnowledgeNode = {...}`，但当前架构中 meta 由路由层通过 `getArticleMeta()` 获取后注入组件 props。
+
+**修复：**
+```tsx
+// ❌ 旧写法：组件内部定义 meta
+export default function XxxPage() {
+  const meta: KnowledgeNode = { id: 'xxx', ... }
+  // ...
+}
+
+// ✅ 新写法：从 props 接收 meta
+export default function XxxPage({ meta }: { meta: KnowledgeNode }) {
+  // meta 已由路由层注入，直接使用
+}
 ```

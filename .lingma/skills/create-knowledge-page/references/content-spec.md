@@ -2,6 +2,8 @@
 
 ## 一、元信息（KnowledgeNode）
 
+元信息定义在 `chapters.ts` 中，通过路由层注入组件 props，**不在组件内部定义**。
+
 | 字段 | 说明 |
 |------|------|
 | `level` | Junior / Senior / Expert，读者自我定位 |
@@ -39,11 +41,11 @@
 组件：`Playground`
 
 ### 7. 边注/扩展
-不打断主线的补充：历史演进、不同 JDK 版本差异、延伸阅读。
+不打断主线的补充：历史演进、不同版本差异、延伸阅读。
 组件：`SideNote`
 
 ### 8. 上下文切换
-同一知识点在不同上下文下的表现（如 JDK7 vs JDK8、单线程 vs 并发）。
+同一知识点在不同上下文下的表现（如不同版本差异、单线程 vs 并发、简单模式 vs 进阶模式）。
 组件：`ContextSwitcher`
 
 ### 9. 常见误区
@@ -67,6 +69,7 @@ prerequisites + relatedPatterns 形成知识图谱导航。
 ```tsx
 {/* 1. 一句话定义 */}
 <blockquote>HashMap 是基于哈希表的键值对存储结构，JDK8 后采用 数组+链表+红黑树 实现。</blockquote>
+{/* 或其他示例：LangGraph 是基于图论的有状态工作流编排框架 */}
 
 {/* 2. 整体架构（DiagramBlock） */}
 <DiagramBlock title="数据结构全景图">...</DiagramBlock>
@@ -86,7 +89,7 @@ prerequisites + relatedPatterns 形成知识图谱导航。
 <Playground code={...} language="java" description="修改初始容量观察阈值变化" />
 
 {/* 7. 边注/扩展（SideNote） */}
-<SideNote label="JDK 版本差异">...</SideNote>
+<SideNote label="版本差异">...</SideNote>
 
 {/* 8. 上下文对比（ContextSwitcher） */}
 <ContextSwitcher simpleContent={...} hardcoreContent={...} />

@@ -5,9 +5,28 @@
 ## 文件位置
 `site/src/pages/articles/<slug>.tsx`
 
+**⚠️ 文件名必须与 slug 完全一致**，因为 `import.meta.glob` 根据文件名匹配组件。
+例如：`slug: 'concurrent-hashmap'` → 文件名 `concurrent-hashmap.tsx`
+
 ## 命名规范
 - 文件名：kebab-case，如 `concurrent-hashmap.tsx`、`array-list.tsx`
 - 组件名：PascalCase，如 `ConcurrentHashmap`、`ArrayListDeepDive`
+
+## 核心架构说明
+
+**meta 不再在组件内部定义**——由路由层（`App.tsx` 中的 `ArticleRenderer`）通过 `getArticleMeta()` 获取后注入组件 props。
+
+组件签名必须为：
+```tsx
+export default function XxxPage({ meta }: { meta: KnowledgeNode })
+```
+
+**无需手动更新 `App.tsx` 或组件映射**：
+- `import.meta.glob('../pages/articles/*.tsx')` 自动发现组件
+- `getArticleComponent(slug)` 根据文件名 `<slug>.tsx` 查找组件
+- 动态路由 `<Route path="/docs/:chapterId/:slug" element={<ArticleRenderer />} />` 自动渲染
+
+创建新文章只需：1) 在 `articles/` 下新建 TSX 文件 2) 在 `chapters.ts` 中添加元数据
 
 ## 完整模板
 
@@ -28,17 +47,7 @@ import DiagramBlock from '../../components/ui/DiagramBlock'
 import InterviewSection from '../../components/ui/InterviewSection'
 import type { KnowledgeNode, TocItem } from '../../data/types'  // ⚠️ 必须导入类型
 
-const meta: KnowledgeNode = {
-  id: '{{SLUG}}',
-  title: '{{TITLE}}',
-  level: 'Senior',
-  tags: ['{{TAG1}}', '{{TAG2}}'],
-  difficulty: 3,
-  category: '{{CHAPTER_ID}}',
-  prerequisites: ['{{PREREQ}}'],
-  relatedPatterns: ['{{RELATED}}'],
-  readingTime: 30,
-}
+// ⚠️ 不再在组件内部定义 meta，meta 由路由层通过 props 注入
 
 const tocItems: TocItem[] = [
   { id: 'definition', text: '一句话定义', level: 2 },
@@ -54,7 +63,8 @@ const tocItems: TocItem[] = [
   { id: 'related', text: '七、知识关联', level: 2 },
 ]
 
-export default function {{PascalCaseName}}() {
+// ⚠️ 组件签名：接收 meta 作为 props
+export default function {{PascalCaseName}}({ meta }: { meta: KnowledgeNode }) {
   return (
     {/* ⚠️ 外层必须是 flex 布局 */}
     <div className="flex max-w-[100vw] overflow-x-hidden">
@@ -181,7 +191,7 @@ export default function {{PascalCaseName}}() {
 
 ## 需要更新的其他文件
 
-### 1. chapters.ts
+### chapters.ts（唯一需要手动更新的文件）
 路径：`site/src/data/chapters.ts`
 
 在对应章节的 `articles` 数组中添加：
@@ -189,7 +199,17 @@ export default function {{PascalCaseName}}() {
 {
   slug: '{{SLUG}}',
   title: '{{TITLE}}',
-  meta: { ...与页面中 meta 一致... }
+  meta: {
+    id: '{{SLUG}}',
+    title: '{{TITLE}}',
+    level: 'Senior',
+    tags: ['{{TAG1}}', '{{TAG2}}'],
+    difficulty: 3,
+    category: '{{CHAPTER_ID}}',
+    prerequisites: ['{{PREREQ}}'],
+    relatedPatterns: ['{{RELATED}}'],
+    readingTime: 30,
+  }
 }
 ```
 
@@ -206,15 +226,9 @@ export default function {{PascalCaseName}}() {
 }
 ```
 
-### 2. App.tsx
-路径：`site/src/App.tsx`
+### 无需更新的文件
 
-添加导入：
-```ts
-import {{PascalCaseName}} from './pages/articles/{{slug}}'
-```
+以下文件**不需要**手动修改，项目会自动处理：
 
-添加路由（在 `<Routes>` 内）：
-```tsx
-<Route path="/docs/{{chapterId}}/{{slug}}" element={<{{PascalCaseName}} />} />
-```
+- **`App.tsx`** — 使用动态路由 `<Route path="/docs/:chapterId/:slug" element={<ArticleRenderer />} />`，自动匹配所有文章
+- **`chapters.ts` 中的组件映射** — 使用 `import.meta.glob` 自动发现 `articles/` 目录下的组件，无需手动注册
