@@ -33,7 +33,7 @@ export default function LLMBasics({ meta }: { meta: KnowledgeNode }) {
         <KnowledgeLayout meta={meta}>
       {/* 一句话定义 */}
       <section className="mb-8">
-        <h2 className="font-display font-bold text-[20px] sm:text-display-sm mt-10 sm:mt-12 mb-4 sm:mb-5 text-ink">
+        <h2 id="definition" className="font-display font-bold text-[20px] sm:text-display-md tracking-tight mt-6 sm:mt-10 mb-3 sm:mb-4 pb-[10px] border-b border-border-light text-ink">
           一句话定义
         </h2>
         <p className="text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4">
@@ -43,7 +43,7 @@ export default function LLMBasics({ meta }: { meta: KnowledgeNode }) {
 
       {/* 架构图 */}
       <section className="mb-8">
-        <h2 className="font-display font-bold text-[20px] sm:text-display-sm mt-10 sm:mt-12 mb-4 sm:mb-5 text-ink">
+        <h2 id="architecture" className="font-display font-bold text-[20px] sm:text-display-md tracking-tight mt-8 sm:mt-12 mb-3 sm:mb-4 pb-[10px] border-b border-border-light text-ink">
           核心架构
         </h2>
         <DiagramBlock title="Transformer 架构概览">
@@ -58,7 +58,7 @@ export default function LLMBasics({ meta }: { meta: KnowledgeNode }) {
 
       {/* 核心原理 */}
       <section className="mb-8">
-        <h2 className="font-display font-bold text-[20px] sm:text-display-sm mt-10 sm:mt-12 mb-4 sm:mb-5 text-ink">
+        <h2 id="principles" className="font-display font-bold text-[20px] sm:text-display-md tracking-tight mt-8 sm:mt-12 mb-3 sm:mb-4 pb-[10px] border-b border-border-light text-ink">
           核心原理详解
         </h2>
 
@@ -319,7 +319,7 @@ print(f"Semantic similarity (cat vs python): {similarity_1_3:.4f}")`}
 
       {/* 常见误区 */}
       <section className="mb-8">
-        <h2 className="font-display font-bold text-[20px] sm:text-display-sm mt-10 sm:mt-12 mb-4 sm:mb-5 text-ink">
+        <h2 id="misconceptions" className="font-display font-bold text-[20px] sm:text-display-md tracking-tight mt-8 sm:mt-12 mb-3 sm:mb-4 pb-[10px] border-b border-border-light text-ink">
           常见误区
         </h2>
         <Callout type="danger" title="误区 1：Token 就是单词">
@@ -340,7 +340,7 @@ print(f"Semantic similarity (cat vs python): {similarity_1_3:.4f}")`}
       </section>
 
       {/* 面试真题 */}
-      <section className="mb-8">
+      <section id="interview" className="mb-8">
         <InterviewSection
           questions={[
             {
@@ -369,7 +369,7 @@ print(f"Semantic similarity (cat vs python): {similarity_1_3:.4f}")`}
 
       {/* 知识关联 */}
       <section className="mb-8">
-        <h2 className="font-display font-bold text-[20px] sm:text-display-sm mt-10 sm:mt-12 mb-4 sm:mb-5 text-ink">
+        <h2 id="related" className="font-display font-bold text-[20px] sm:text-display-md tracking-tight mt-8 sm:mt-12 mb-3 sm:mb-4 pb-[10px] border-b border-border-light text-ink">
           知识关联
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

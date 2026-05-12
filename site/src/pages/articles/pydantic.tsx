@@ -659,7 +659,9 @@ except ValidationError as e:
       </div>
 
       {/* TOC Sidebar */}
-      <SmartTOC items={tocItems} />
+      <aside className="hidden xl:block w-[240px] shrink-0 sticky top-24 self-start h-[calc(100vh-6rem)] overflow-y-auto pr-4">
+        <SmartTOC items={tocItems} />
+      </aside>
     </div>
   )
 }
