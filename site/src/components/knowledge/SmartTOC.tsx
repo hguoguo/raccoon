@@ -10,7 +10,7 @@
  * @props
  * - items: TocItem[] — 目录项列表，每项含 id, text, level(2=h2, 3=h3)
  */
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import type { TocItem } from '../../data/types'
 import { List } from 'lucide-react'
 
@@ -21,6 +21,7 @@ interface SmartTOCProps {
 export default function SmartTOC({ items }: SmartTOCProps) {
   const [activeId, setActiveId] = useState<string>('')
   const [mobileOpen, setMobileOpen] = useState(false)
+  const scrollYRef = useRef(0)
 
   useEffect(() => {
     const headings = items
@@ -43,16 +44,24 @@ export default function SmartTOC({ items }: SmartTOCProps) {
   }, [items])
 
   const scrollTo = (id: string) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+    const targetEl = document.getElementById(id)
+    // Close mobile sheet first (removes body-lock), then scroll after layout settles
     setMobileOpen(false)
+    if (targetEl) {
+      setTimeout(() => {
+        targetEl.scrollIntoView({ behavior: 'smooth' })
+      }, 350)
+    }
   }
 
-  // Lock body scroll when mobile TOC is open
+  // Lock body scroll when mobile TOC is open (save/restore scroll position)
   useEffect(() => {
     if (mobileOpen) {
+      scrollYRef.current = window.scrollY
       document.body.classList.add('body-lock')
     } else {
       document.body.classList.remove('body-lock')
+      window.scrollTo(0, scrollYRef.current)
     }
     return () => document.body.classList.remove('body-lock')
   }, [mobileOpen])
@@ -90,7 +99,7 @@ export default function SmartTOC({ items }: SmartTOCProps) {
         {tocContent}
       </aside>
 
-      {/* Mobile TOC — floating button + bottom sheet */}
+      {/* Mobile TOC — floating button + right drawer */}
       {/* Floating Button */}
       <button
         onClick={() => setMobileOpen(true)}
@@ -108,16 +117,16 @@ export default function SmartTOC({ items }: SmartTOCProps) {
         />
       )}
 
-      {/* Bottom Sheet */}
+      {/* Right Drawer */}
       <div className={`
-        fixed bottom-0 left-0 right-0 bg-parchment-light border-t border-border rounded-t-[20px]
-        z-[200] max-h-[60vh] overflow-y-auto
-        shadow-[0_-8px_32px_rgba(44,36,22,0.15)]
+        fixed top-0 right-0 bottom-0 w-[260px] bg-parchment-light border-l border-border
+        z-[200] overflow-y-auto
+        shadow-[-8px_0_32px_rgba(44,36,22,0.15)]
         transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]
-        ${mobileOpen ? 'translate-y-0' : 'translate-y-full'}
+        ${mobileOpen ? 'translate-x-0' : 'translate-x-full'}
         xl:hidden
       `}>
-        <div className="flex items-center justify-between px-5 pt-[18px] pb-3 border-b border-border-light sticky top-0 bg-parchment-light rounded-t-[20px] z-[1]">
+        <div className="flex items-center justify-between px-5 pt-[18px] pb-3 border-b border-border-light sticky top-0 bg-parchment-light z-[1]">
           <h3 className="font-display font-bold text-base text-ink">📑 文章目录</h3>
           <button
             onClick={() => setMobileOpen(false)}

@@ -753,9 +753,9 @@ print("Error occurred!")`}
       </div>
 
       {/* TOC Sidebar */}
-      <aside className="hidden xl:block w-[240px] shrink-0 sticky top-24 self-start h-[calc(100vh-6rem)] overflow-y-auto pr-4">
+      {/* TOC — rendered by SmartTOC itself (desktop right sidebar + mobile floating button) */}
         <SmartTOC items={tocItems} />
-      </aside>
+
     </div>
   )
 }

@@ -29,17 +29,17 @@ export default function MobileNav() {
         />
       )}
 
-      {/* Bottom Sheet */}
+      {/* Left Drawer */}
       <div className={`
-        fixed bottom-0 left-0 right-0 bg-parchment-light border-t border-border rounded-t-[20px]
-        z-[200] max-h-[70vh] overflow-y-auto
-        shadow-[0_-8px_32px_rgba(44,36,22,0.15)]
+        fixed top-0 left-0 bottom-0 w-[280px] bg-parchment-light border-r border-border
+        z-[200] overflow-y-auto
+        shadow-[8px_0_32px_rgba(44,36,22,0.15)]
         transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]
-        ${open ? 'translate-y-0' : 'translate-y-full'}
+        ${open ? 'translate-x-0' : '-translate-x-full'}
         lg:hidden
       `}>
         {/* Header */}
-        <div className="flex items-center justify-between px-5 pt-[18px] pb-3 border-b border-border-light sticky top-0 bg-parchment-light rounded-t-[20px] z-[1]">
+        <div className="flex items-center justify-between px-5 pt-[18px] pb-3 border-b border-border-light sticky top-0 bg-parchment-light z-[1]">
           <h3 className="font-display font-bold text-base text-ink">📚 全部章节</h3>
           <button
             onClick={() => setOpen(false)}

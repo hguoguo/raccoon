@@ -67,7 +67,7 @@ export default function OpenAISDK({ meta }: { meta: KnowledgeNode }) {
           核心 API 详解
         </h2>
 
-        <h3 className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
+        <h3 id="chat-api" className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
           5.1 Chat API（对话接口）
         </h3>
         <p className="text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4">
@@ -110,7 +110,7 @@ print(f"Tokens used: {response.usage.total_tokens}")`}
           </ul>
         </Callout>
 
-        <h3 className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
+        <h3 id="responses-api" className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
           5.2 Responses API（新响应 API）
         </h3>
         <p className="text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4">
@@ -155,7 +155,7 @@ if response.output[0].type == "function_call":
           Responses API：更现代的接口设计，原生支持工具和搜索，但目前仍在演进中。建议新项目可以试用，但生产环境仍推荐 Chat API。
         </SideNote>
 
-        <h3 className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
+        <h3 id="streaming" className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
           5.3 Streaming（流式响应）
         </h3>
         <p className="text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4">
@@ -226,7 +226,7 @@ asyncio.run(stream_response())`}
           </ul>
         </Callout>
 
-        <h3 className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
+        <h3 id="function-calling" className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
           5.4 Function Calling（函数调用）
         </h3>
         <p className="text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4">
@@ -299,7 +299,7 @@ if response.choices[0].finish_reason == "tool_calls":
           description="完整的 Function Calling 流程"
         />
 
-        <h3 className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
+        <h3 id="embedding-api" className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
           5.5 Embedding API（向量化接口）
         </h3>
         <p className="text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4">
@@ -352,7 +352,7 @@ print(f"Python 和 Java 的相似度: {similarity:.4f}")  # 应该较高`}
           </ul>
         </Callout>
 
-        <h3 className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
+        <h3 id="structured-output" className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
           5.6 Structured Output（结构化输出）
         </h3>
         <p className="text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4">
@@ -469,9 +469,9 @@ print(f"参与者: {', '.join(event.participants)}`}
       </div>
 
       {/* Sidebar TOC */}
-      <aside className="hidden xl:block w-[240px] shrink-0 sticky top-24 self-start h-[calc(100vh-6rem)] overflow-y-auto pr-4">
+      {/* TOC — rendered by SmartTOC itself (desktop right sidebar + mobile floating button) */}
         <SmartTOC items={tocItems} />
-      </aside>
+
     </div>
   )
 }

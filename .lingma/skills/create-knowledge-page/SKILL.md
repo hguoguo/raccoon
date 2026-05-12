@@ -58,7 +58,8 @@ description: |
 - `meta.category` 必须与 `chapters.ts` 中的章节 ID 匹配
 - `meta.tags` 应包含主要类名/概念名
 - 所有章节必须有 `id` 属性，与 `tocItems` 一一对应
-- `<h2>` 用于主章节，`<h3>` 用于子章节
+- **`<h2>` 和 `<h3>` 都必须有 `id` 属性**，用于 SmartTOC 的锚点跳转
+- 如果 `tocItems` 中有 `level: 3` 的条目，对应的 `<h3>` 必须添加 `id` 属性，否则点击目录无法跳转
 
 **⚠️ 布局结构强制要求（极易出错，务必遵守）：**
 
@@ -93,14 +94,17 @@ description: |
            </KnowledgeLayout>
          </div>
          
-         {/* 右侧目录侧边栏（仅大屏显示）*/}
-         <aside className="hidden xl:block w-[240px] shrink-0 sticky top-24 self-start h-[calc(100vh-6rem)] overflow-y-auto pr-4">
-           <SmartTOC items={tocItems} />
-         </aside>
+         {/* ⚠️ SmartTOC 直接渲染，不要用 <aside> 包裹！组件自行管理桌面端右侧栏和移动端右侧抽屉 */}
+         <SmartTOC items={tocItems} />
        </div>
      )
    }
    ```
+
+**⚠️ SmartTOC 渲染规则（极易出错）：**
+- **❌ 禁止用 `<aside className="hidden xl:block ...">` 包裹 SmartTOC** — 这会导致移动端的悬浮按钮和侧边抽屉被一起隐藏
+- **✅ 直接渲染 `<SmartTOC items={tocItems} />`** — 组件内部已处理桌面端（`xl:block` 右侧栏）和移动端（悬浮按钮 + 右侧抽屉）的显隐
+- 移动端效果：SmartTOC 显示绿色悬浮按钮，点击后从右侧滑入抽屉；MobileNav（📚 橙色按钮）从左侧滑入
 
 **❌ 禁止的错误做法：**
 ```tsx
@@ -113,6 +117,7 @@ export default function XxxPage({ meta }: { meta: KnowledgeNode }) {
           {/* 内容 */}
         </KnowledgeLayout>
       </div>
+      {/* ❌ 禁止用 aside 包裹 SmartTOC！这会隐藏移动端目录按钮 */}
       <aside className="hidden xl:block w-[240px] shrink-0 sticky top-24 self-start h-[calc(100vh-6rem)] overflow-y-auto pr-4">
         <SmartTOC items={tocItems} />
       </aside>
@@ -124,6 +129,7 @@ export default function XxxPage({ meta }: { meta: KnowledgeNode }) {
 ```
 
 如果页面缺少上述布局结构或 ArticleNav 位置不正确，右侧章节目录将不会显示，且无法进行文章间导航！
+如果 SmartTOC 被 `<aside hidden xl:block>` 包裹，移动端的目录悬浮按钮将不会显示！
 
 ### 步骤 3：更新章节目录
 
@@ -203,7 +209,8 @@ export default function XxxPage({ meta }: { meta: KnowledgeNode }) {
 - [ ] 若创建了新组件，文件头部已有规范的 JSDoc 注释
 - [ ] **✅ 页面使用了 flex 布局包裹（`<div className="flex max-w-[100vw] overflow-x-hidden">`）**
 - [ ] **✅ 定义了 `tocItems` 数组并导入了 `SmartTOC` 组件**
-- [ ] **✅ 右侧有 `<aside>` 标签包裹的 `SmartTOC` 侧边栏**
+- [ ] **✅ `<SmartTOC items={tocItems} />` 直接渲染，不被 `<aside hidden xl:block>` 包裹**
+- [ ] **✅ 所有 `<h2>` 和 `<h3>` 都有 `id` 属性，与 `tocItems` 中的 id 一一对应**
 - [ ] **✅ 导入了 `ArticleNav` 组件和 `getArticleNav` 函数**
 - [ ] **✅ 在页面末尾添加了 `<ArticleNav {...getArticleNav(meta.category, meta.id)} />`**
 - [ ] **✅ 页面结构与 `langgraph-core.tsx` 等其他页面保持一致**
@@ -239,11 +246,12 @@ export default function XxxPage({ meta }: { meta: KnowledgeNode }) {
 关键特征：
 1. 外层 `<div className="flex max-w-[100vw] overflow-x-hidden">`
 2. 左侧主内容区 `<div className="flex-1 max-w-[820px] min-w-0 px-4 sm:px-6 lg:px-12 pb-20">`
-3. 右侧侧边栏 `<aside className="hidden xl:block w-[240px] ...">`
+3. `<SmartTOC items={tocItems} />` 直接渲染（**不用 aside 包裹**）
 4. 导入并使用 `SmartTOC` 组件
 5. 定义 `tocItems` 数组
-6. **导入 `ArticleNav` 和 `getArticleNav`**
-7. **在页面末尾添加 `<ArticleNav {...getArticleNav(meta.category, meta.id)} />`**
+6. 所有 h2/h3 都有 `id` 属性，与 tocItems 一一对应
+7. **导入 `ArticleNav` 和 `getArticleNav`**
+8. **在页面末尾添加 `<ArticleNav {...getArticleNav(meta.category, meta.id)} />`**
 
 ### 组件发现机制
 
@@ -326,8 +334,8 @@ export default function XxxPage({ meta }: { meta: KnowledgeNode }) {
 | flex 外层容器 | 搜索 `className.*flex.*max-w-\[100vw\]` | 存在 `<div className="flex max-w-[100vw] overflow-x-hidden">` |
 | SmartTOC 导入 | 搜索 `import.*SmartTOC` | 存在 |
 | tocItems 定义 | 搜索 `const tocItems` | 存在 `TocItem[]` 类型数组 |
-| SmartTOC 侧边栏 | 搜索 `<SmartTOC` | 在 `<aside>` 标签内 |
-| aside 侧边栏 | 搜索 `<aside` | 存在且包含 `hidden xl:block` |
+| SmartTOC 侧边栏 | 搜索 `<SmartTOC` | 存在且**不被** `<aside hidden xl:block>` 包裹 |
+| aside 侧边栏 | 搜索 `<aside` | **不应存在**包裹 SmartTOC 的 aside（旧版模板有，新版已移除） |
 | ArticleNav 导入 | 搜索 `import.*ArticleNav` | 存在 |
 | getArticleNav 导入 | 搜索 `import.*getArticleNav` | 从 `../../data/chapters` 导入 |
 | ArticleNav 位置 | 搜索 `<ArticleNav` | 在 `<KnowledgeLayout>` 内部且在最后（`</KnowledgeLayout>` 之前） |
@@ -336,8 +344,9 @@ export default function XxxPage({ meta }: { meta: KnowledgeNode }) {
 
 | 检查项 | 检查方法 | 通过条件 |
 |--------|----------|----------|
-| 每个 tocItem.id 有对应 DOM id | 对比 `tocItems` 中的 id 与文件中 `id="xxx"` / `<section id="xxx">` / `<h2 id="xxx">` | 全部匹配 |
+| 每个 tocItem.id 有对应 DOM id | 对比 `tocItems` 中的 id 与文件中 `id="xxx"` / `<h2 id="xxx">` / `<h3 id="xxx">` | 全部匹配（**包括 level 3 的 h3**） |
 | 每个 DOM id 有对应 tocItem | 反向对比 | 全部匹配 |
+| h3 有 id 属性 | 搜索 `<h3` 且不含 `id=` | **不应存在无 id 的 h3**（否则移动端点击目录无法跳转） |
 
 **D. 内容结构要素（严重性：🟡 警告）**
 
@@ -410,19 +419,20 @@ export default function XxxPage({ meta }: { meta: KnowledgeNode }) {
 
 ### 错误 1：右侧目录不显示或缺少文章导航
 
-**症状：** 页面正常渲染，但右侧没有章节目录，或无法切换到上一篇/下一篇文章。
+**症状：** 页面正常渲染，但右侧没有章节目录，或无法切换到上一篇/下一篇文章，或移动端缺少目录悬浮按钮。
 
-**原因：** 
+**原因：**
 - 缺少 `SmartTOC` 组件导入
 - 未定义 `tocItems` 数组
 - 外层没有使用 flex 布局
 - 直接返回 `<KnowledgeLayout>` 而没有包裹在 flex 容器中
+- **用 `<aside className="hidden xl:block">` 包裹了 SmartTOC**（这会隐藏移动端的目录按钮）
 - **缺少 `ArticleNav` 组件或 `getArticleNav` 函数导入**
 - **未在页面末尾添加 `<ArticleNav {...getArticleNav(meta.category, meta.id)} />`**
 
 **修复：**
 ```tsx
-// ❌ 错误写法：缺少 ArticleNav
+// ❌ 错误写法：缺少 ArticleNav，且 SmartTOC 被 aside 包裹（移动端目录按钮会消失）
 export default function XxxPage({ meta }: { meta: KnowledgeNode }) {
   return (
     <div className="flex max-w-[100vw] overflow-x-hidden">
@@ -431,6 +441,7 @@ export default function XxxPage({ meta }: { meta: KnowledgeNode }) {
           {/* 内容 */}
         </KnowledgeLayout>
       </div>
+      {/* ❌ 禁止！hidden xl:block 会把移动端悬浮按钮一起隐藏 */}
       <aside className="hidden xl:block w-[240px] shrink-0 sticky top-24 self-start h-[calc(100vh-6rem)] overflow-y-auto pr-4">
         <SmartTOC items={tocItems} />
       </aside>
@@ -439,7 +450,7 @@ export default function XxxPage({ meta }: { meta: KnowledgeNode }) {
   )
 }
 
-// ✅ 正确写法：ArticleNav 在 KnowledgeLayout 内部
+// ✅ 正确写法：ArticleNav 在 KnowledgeLayout 内部，SmartTOC 直接渲染
 import SmartTOC from '../../components/knowledge/SmartTOC'
 import ArticleNav from '../../components/article/ArticleNav'
 import { getArticleNav } from '../../data/chapters'
@@ -447,6 +458,7 @@ import type { KnowledgeNode, TocItem } from '../../data/types'
 
 const tocItems: TocItem[] = [
   { id: 'section1', text: '章节1', level: 2 },
+  { id: 'subsection1', text: '子章节1', level: 3 },
   // ...
 ]
 
@@ -456,14 +468,13 @@ export default function XxxPage({ meta }: { meta: KnowledgeNode }) {
       <div className="flex-1 max-w-[820px] min-w-0 px-4 sm:px-6 lg:px-12 pb-20">
         <KnowledgeLayout meta={meta}>
           {/* 内容 */}
-          
+
           {/* ✅ ArticleNav 必须在 KnowledgeLayout 内部的最后 */}
           <ArticleNav {...getArticleNav(meta.category, meta.id)} />
         </KnowledgeLayout>
       </div>
-      <aside className="hidden xl:block w-[240px] shrink-0 sticky top-24 self-start h-[calc(100vh-6rem)] overflow-y-auto pr-4">
-        <SmartTOC items={tocItems} />
-      </aside>
+      {/* ✅ SmartTOC 直接渲染，不用 aside 包裹 */}
+      <SmartTOC items={tocItems} />
     </div>
   )
 }
@@ -477,17 +488,23 @@ export default function XxxPage({ meta }: { meta: KnowledgeNode }) {
 
 **修复：** 扫描 `site/src/components/` 目录确认组件是否存在，检查导入路径是否正确。
 
-### 错误 3：tocItems 与章节 id 不匹配
+### 错误 3：tocItems 与章节 id 不匹配（h3 缺少 id）
 
-**症状：** 点击目录项无法跳转到对应章节。
+**症状：** 点击目录项无法跳转到对应章节，尤其是 h3 级别的子章节。
 
-**原因：** `tocItems` 中的 `id` 与 `<section>` 或标题的 `id` 属性不一致。
+**原因：** `tocItems` 中的 `id` 与 `<h2>`/`<h3>` 的 `id` 属性不一致，或 `<h3>` 缺少 `id` 属性。
 
-**修复：** 确保每个有目录项的章节都有对应的 `id` 属性：
+**修复：** 确保每个有目录项的章节都有对应的 `id` 属性，**h3 也必须有 id**：
 ```tsx
-<section id="definition">  {/* id 必须与 tocItems 中的 id 一致 */}
-  <h2>一句话定义</h2>
-</section>
+// ❌ 错误：h3 缺少 id，点击目录无法跳转
+<h3 className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
+  1.1 子章节标题
+</h3>
+
+// ✅ 正确：h3 必须有 id，与 tocItems 中的 id 一致
+<h3 id="subsection1" className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
+  1.1 子章节标题
+</h3>
 ```
 
 ### 错误 4：文件名与 slug 不一致导致页面 404

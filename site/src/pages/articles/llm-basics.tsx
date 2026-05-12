@@ -62,7 +62,7 @@ export default function LLMBasics({ meta }: { meta: KnowledgeNode }) {
           核心原理详解
         </h2>
 
-        <h3 className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
+        <h3 id="llm" className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
           1.1 LLM（大语言模型）
         </h3>
         <p className="text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4">
@@ -102,7 +102,7 @@ for token_id, prob in zip(top_5_tokens.indices[0], top_5_tokens.values[0]):
           description="LLM 推理过程：输入文本 → 获取 logits → 概率分布 → 采样输出"
         />
 
-        <h3 className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
+        <h3 id="token" className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
           1.2 Token（词元）
         </h3>
         <p className="text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4">
@@ -138,7 +138,7 @@ for text in texts:
           </ul>
         </Callout>
 
-        <h3 className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
+        <h3 id="context-window" className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
           1.3 Context Window（上下文窗口）
         </h3>
         <p className="text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4">
@@ -178,7 +178,7 @@ for text in texts:
           </table>
         </div>
 
-        <h3 className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
+        <h3 id="temperature" className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
           1.4 Temperature（温度参数）
         </h3>
         <p className="text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4">
@@ -230,7 +230,7 @@ print(softmax_with_temperature(logits, 5.0))`}
           }
         />
 
-        <h3 className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
+        <h3 id="top-p" className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
           1.5 Top P（核采样）
         </h3>
         <p className="text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4">
@@ -274,7 +274,7 @@ print("Top P=0.9 selected index:", top_p_sampling(probs, 0.9))`}
           </p>
         </Callout>
 
-        <h3 className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
+        <h3 id="embedding" className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
           1.6 Embedding（向量化）
         </h3>
         <p className="text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4">
@@ -389,9 +389,9 @@ print(f"Semantic similarity (cat vs python): {similarity_1_3:.4f}")`}
       </div>
 
       {/* Sidebar TOC */}
-      <aside className="hidden xl:block w-[240px] shrink-0 sticky top-24 self-start h-[calc(100vh-6rem)] overflow-y-auto pr-4">
+      {/* TOC — rendered by SmartTOC itself (desktop right sidebar + mobile floating button) */}
         <SmartTOC items={tocItems} />
-      </aside>
+
     </div>
   )
 }

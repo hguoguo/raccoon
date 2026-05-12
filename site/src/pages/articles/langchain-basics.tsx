@@ -13,11 +13,17 @@ const tocItems: TocItem[] = [
   { id: 'definition', text: '一句话定义', level: 2 },
   { id: 'architecture', text: '一、架构概览', level: 2 },
   { id: 'prompt-template', text: '二、PromptTemplate', level: 2 },
+  { id: 'fewshot-examples', text: '高级特性：Few-shot 示例', level: 3 },
   { id: 'chat-model', text: '三、ChatModel', level: 2 },
+  { id: 'multi-model', text: '多模型切换', level: 3 },
   { id: 'runnable', text: '四、Runnable 接口', level: 2 },
+  { id: 'runnable-composition', text: 'Runnable 组合模式', level: 3 },
   { id: 'output-parser', text: '五、OutputParser', level: 2 },
+  { id: 'custom-parser', text: '自定义解析器', level: 3 },
   { id: 'tool', text: '六、Tool 工具', level: 2 },
+  { id: 'built-in-tools', text: '内置工具集', level: 3 },
   { id: 'memory', text: '七、Memory 记忆', level: 2 },
+  { id: 'persistent-memory', text: '持久化记忆', level: 3 },
   { id: 'misconceptions', text: '八、常见误区', level: 2 },
   { id: 'interview', text: '九、面试真题', level: 2 },
   { id: 'related', text: '十、知识关联', level: 2 },
@@ -120,7 +126,7 @@ messages = chat_prompt.format_messages(role="技术", question="解释闭包")`}
             </ul>
           </Callout>
 
-          <h3 className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">高级特性：Few-shot 示例</h3>
+          <h3 id="fewshot-examples" className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">高级特性：Few-shot 示例</h3>
           <p className="text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4">
             通过 <code className="font-mono text-[13px] bg-parchment-deep px-1.5 py-0.5 rounded-[3px]">FewShotPromptTemplate</code> 注入示例，提升模型理解能力：
           </p>
@@ -208,7 +214,7 @@ for chunk in model.stream([
             </ul>
           </Callout>
 
-          <h3 className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">多模型切换</h3>
+          <h3 id="multi-model" className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">多模型切换</h3>
           <p className="text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4">
             LangChain 支持无缝切换不同提供商的模型，代码结构保持一致：
           </p>
@@ -299,7 +305,7 @@ print(chain.invoke("hello"))  # HELLO WORLD`}
             LangChain 重载了 <code className="font-mono text-[13px] bg-parchment-deep px-1.5 py-0.5 rounded-[3px]">|</code> 运算符，使组件组合像 Unix 管道一样直观：<code className="font-mono text-[13px] bg-parchment-deep px-1.5 py-0.5 rounded-[3px]">prompt | model | parser</code>。
           </Callout>
 
-          <h3 className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">Runnable 组合模式</h3>
+          <h3 id="runnable-composition" className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">Runnable 组合模式</h3>
           
           <Playground
             code={`from langchain_core.runnables import RunnableParallel, RunnableSequence
@@ -387,7 +393,7 @@ print(type(result))    # <class '__main__.BookReview'>`}
             LLM 可能输出不符合格式的文本，导致解析异常。建议使用 <code className="font-mono text-[13px] bg-parchment-deep px-1.5 py-0.5 rounded-[3px]">with_retry()</code> 或 <code className="font-mono text-[13px] bg-parchment-deep px-1.5 py-0.5 rounded-[3px]">RetryWithErrorOutputParser</code> 自动重试。
           </Callout>
 
-          <h3 className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">自定义解析器</h3>
+          <h3 id="custom-parser" className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">自定义解析器</h3>
           
           <Playground
             code={`from langchain_core.output_parsers import BaseOutputParser
@@ -463,7 +469,7 @@ print(wiki_tool.args_schema.schema())`}
             每个 Tool 必须包含三个要素：<strong>name</strong>（唯一标识）、<strong>description</strong>（告诉 LLM 何时使用该工具）、<strong>args_schema</strong>（参数类型定义，用于验证）。
           </Callout>
 
-          <h3 className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">内置工具集</h3>
+          <h3 id="built-in-tools" className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">内置工具集</h3>
           
           <Playground
             code={`# LangChain 提供的常用工具
@@ -566,7 +572,7 @@ window_chain = ConversationChain(llm=model, memory=window_memory)`}
             Buffer Memory 会累积所有历史消息，可能导致超出 Context Window 限制或产生高额费用。长对话场景推荐使用 <strong>Summary Memory</strong> 或 <strong>Vector Memory</strong>。
           </Callout>
 
-          <h3 className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">持久化记忆</h3>
+          <h3 id="persistent-memory" className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">持久化记忆</h3>
           
           <Playground
             code={`from langchain.memory import ConversationBufferMemory
@@ -710,9 +716,9 @@ memory = ConversationBufferMemory(chat_memory=redis_history)`}
       </div>
 
       {/* Sidebar TOC */}
-      <aside className="hidden xl:block w-[240px] shrink-0 sticky top-24 self-start h-[calc(100vh-6rem)] overflow-y-auto pr-4">
+      {/* TOC — rendered by SmartTOC itself (desktop right sidebar + mobile floating button) */}
         <SmartTOC items={tocItems} />
-      </aside>
+
     </div>
   )
 }

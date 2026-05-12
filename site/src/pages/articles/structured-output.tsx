@@ -63,7 +63,7 @@ export default function StructuredOutput({ meta }: { meta: KnowledgeNode }) {
           核心技术详解
         </h2>
 
-        <h3 className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
+        <h3 id="json-output" className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
           3.1 JSON 输出
         </h3>
         <p className="text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4">
@@ -106,7 +106,7 @@ print(json.dumps(result, indent=2, ensure_ascii=False))`}
           </p>
         </Callout>
 
-        <h3 className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
+        <h3 id="schema-output" className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
           3.2 Schema 输出（JSON Schema）
         </h3>
         <p className="text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4">
@@ -153,7 +153,7 @@ prompt = f"""从简历中提取候选人信息，严格遵循以下 JSON Schema�
           <code className="font-mono text-[13px] bg-parchment-deep px-1.5 py-0.5 rounded-[3px]">jsonschema.validate(data, schema)</code>
         </SideNote>
 
-        <h3 className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
+        <h3 id="pydantic-output" className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
           3.3 Pydantic 输出（重点）
         </h3>
         <p className="text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4">
@@ -210,7 +210,7 @@ print(f"优点: {', '.join(review.pros)}`}
           </ul>
         </Callout>
 
-        <h3 className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
+        <h3 id="output-parser" className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
           3.4 Output Parser（输出解析器）
         </h3>
         <p className="text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4">
@@ -284,7 +284,7 @@ profile = parse_with_retry(raw_llm_output)`}
           }
         />
 
-        <h3 className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
+        <h3 id="validation" className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
           3.5 输出校验（Validation）
         </h3>
         <p className="text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4">
@@ -423,9 +423,9 @@ except ValueError as e:
       </div>
 
       {/* Sidebar TOC */}
-      <aside className="hidden xl:block w-[240px] shrink-0 sticky top-24 self-start h-[calc(100vh-6rem)] overflow-y-auto pr-4">
+      {/* TOC — rendered by SmartTOC itself (desktop right sidebar + mobile floating button) */}
         <SmartTOC items={tocItems} />
-      </aside>
+
     </div>
   )
 }

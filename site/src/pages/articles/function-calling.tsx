@@ -67,7 +67,7 @@ export default function FunctionCalling({ meta }: { meta: KnowledgeNode }) {
           核心技术详解
         </h2>
 
-        <h3 className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
+        <h3 id="tool-calling" className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
           4.1 Tool Calling（工具调用）
         </h3>
         <p className="text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4">
@@ -115,7 +115,7 @@ if response.choices[0].finish_reason == "tool_calls":
           description="基础的 Tool Calling 流程"
         />
 
-        <h3 className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
+        <h3 id="json-schema" className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
           4.2 JSON Schema（工具描述）
         </h3>
         <p className="text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4">
@@ -173,7 +173,7 @@ weather_tool_schema = {
           </ul>
         </Callout>
 
-        <h3 className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
+        <h3 id="tool-definition" className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
           4.3 工具定义（Tool Definition）
         </h3>
         <p className="text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4">
@@ -230,7 +230,7 @@ print(json.dumps(tools, indent=2, ensure_ascii=False))`}
           description="封装工具定义类"
         />
 
-        <h3 className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
+        <h3 id="param-validation" className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
           4.4 参数校验（Parameter Validation）
         </h3>
         <p className="text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4">
@@ -331,7 +331,7 @@ except Exception as e:
           }
         />
 
-        <h3 className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
+        <h3 id="tool-routing" className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
           4.5 工具路由（Tool Routing）
         </h3>
         <p className="text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4">
@@ -395,7 +395,7 @@ tools = registry.get_all_tools()`}
           </div>
         </DiagramBlock>
 
-        <h3 className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
+        <h3 id="error-handling" className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
           4.6 工具异常处理（Error Handling）
         </h3>
         <p className="text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4">
@@ -552,9 +552,9 @@ else:
       </div>
 
       {/* Sidebar TOC */}
-      <aside className="hidden xl:block w-[240px] shrink-0 sticky top-24 self-start h-[calc(100vh-6rem)] overflow-y-auto pr-4">
+      {/* TOC — rendered by SmartTOC itself (desktop right sidebar + mobile floating button) */}
         <SmartTOC items={tocItems} />
-      </aside>
+
     </div>
   )
 }

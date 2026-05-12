@@ -56,3 +56,16 @@ Desktop.ini
 
 # Misc
 .nyc_output/
+
+# Android build artifacts
+site/android/build/
+site/android/app/build/
+site/android/capacitor-cordova-android-plugins/build/
+site/android/.gradle/
+site/android/local.properties
+site/android/**/*.apk
+site/android/**/*.aab
+site/android/**/*.dex
+site/android/app/src/main/assets/public/
+site/android/app/src/main/assets/capacitor.config.json
+site/android/app/src/main/assets/capacitor.plugins.json

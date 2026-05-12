@@ -32,6 +32,12 @@ export default function XxxPage({ meta }: { meta: KnowledgeNode })
 
 **⚠️ 重要：布局结构必须严格按照以下格式，否则右侧目录不会显示，且无法进行文章间导航！**
 
+**⚠️ SmartTOC 规则：**
+- **直接渲染 `<SmartTOC items={tocItems} />`，不要用 `<aside hidden xl:block>` 包裹**
+- 用 aside 包裹会导致移动端目录悬浮按钮和侧边抽屉被一起隐藏
+- SmartTOC 内部已处理：桌面端显示右侧栏（`xl:block`），移动端显示悬浮按钮 + 右侧抽屉
+- 所有 `<h2>` 和 `<h3>` 都必须有 `id` 属性，与 `tocItems` 中的 id 一一对应
+
 ```tsx
 import KnowledgeLayout from '../../components/knowledge/KnowledgeLayout'
 import Playground from '../../components/knowledge/Playground'
@@ -180,10 +186,8 @@ export default function {{PascalCaseName}}({ meta }: { meta: KnowledgeNode }) {
         </KnowledgeLayout>
       </div>
       
-      {/* ⚠️ 右侧目录侧边栏（仅大屏 xl 以上显示）*/}
-      <aside className="hidden xl:block w-[240px] shrink-0 sticky top-24 self-start h-[calc(100vh-6rem)] overflow-y-auto pr-4">
-        <SmartTOC items={tocItems} />
-      </aside>
+      {/* ⚠️ SmartTOC 直接渲染，不要用 <aside> 包裹！组件自行管理桌面端右侧栏和移动端右侧抽屉 */}
+      <SmartTOC items={tocItems} />
     </div>
   )
 }

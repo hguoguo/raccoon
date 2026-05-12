@@ -12,11 +12,16 @@ import type { KnowledgeNode, TocItem } from '../../data/types'
 const tocItems: TocItem[] = [
   { id: 'definition', text: '一句话定义', level: 2 },
   { id: 'lcel', text: '一、LCEL 表达式语言', level: 2 },
+  { id: 'debug-intermediate', text: '中间结果调试', level: 3 },
   { id: 'runnable-parallel', text: '二、RunnableParallel', level: 2 },
+  { id: 'rag-parallel', text: 'RAG 中的并行检索', level: 3 },
   { id: 'runnable-lambda', text: '三、RunnableLambda', level: 2 },
   { id: 'runnable-branch', text: '四、RunnableBranch', level: 2 },
+  { id: 'conditional-routing', text: '条件路由示例', level: 3 },
   { id: 'dynamic-prompt', text: '五、动态 Prompt', level: 2 },
+  { id: 'fewshot-dynamic', text: 'Few-shot 动态选择', level: 3 },
   { id: 'tool-binding', text: '六、Tool Binding', level: 2 },
+  { id: 'tool-execution', text: '工具执行流程', level: 3 },
   { id: 'misconceptions', text: '七、常见误区', level: 2 },
   { id: 'interview', text: '八、面试真题', level: 2 },
   { id: 'related', text: '九、知识关联', level: 2 },
@@ -115,7 +120,7 @@ result = chain.invoke({"role": "技术", "question": "解释装饰器"})
             </ul>
           </Callout>
 
-          <h3 className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">中间结果调试</h3>
+          <h3 id="debug-intermediate" className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">中间结果调试</h3>
           
           <Playground
             code={`from langchain_core.runnables import RunnablePassthrough
@@ -194,7 +199,7 @@ print(result["sentiment"].content)
             虽然 RunnableParallel 会并发执行，但需注意 API 提供商的速率限制（Rate Limit）。可使用 <code className="font-mono text-[12px] bg-parchment-warm text-accent-deep px-[5px] py-[2px] rounded-[3px]">AsyncioSemaphore</code> 控制并发数，或配置重试策略。
           </Callout>
 
-          <h3 className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">RAG 中的并行检索</h3>
+          <h3 id="rag-parallel" className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">RAG 中的并行检索</h3>
           
           <Playground
             code={`# RAG 场景：从多个数据源并行检索
@@ -274,7 +279,7 @@ async_chain = RunnableLambda(async_transform)`}
             RunnableLambda 适合轻量级转换逻辑。如果函数复杂度较高，建议定义为独立函数后再包装，便于单元测试和维护。
           </Callout>
 
-          <h3 className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">条件路由示例</h3>
+          <h3 id="conditional-routing" className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">条件路由示例</h3>
           
           <Playground
             code={`from langchain_core.runnables import RunnableLambda
@@ -414,7 +419,7 @@ def build_rag_prompt(question: str, contexts: list[Document]):
             结合用户行为数据（点击、停留时间、反馈评分），使用机器学习模型预测用户偏好，动态调整 Prompt 的语气、长度和内容结构。
           </SideNote>
 
-          <h3 className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">Few-shot 动态选择</h3>
+          <h3 id="fewshot-dynamic" className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">Few-shot 动态选择</h3>
           
           <Playground
             code={`from langchain.prompts import FewShotPromptTemplate, PromptTemplate
@@ -514,7 +519,7 @@ if response.tool_calls:
             </ul>
           </Callout>
 
-          <h3 className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">工具执行流程</h3>
+          <h3 id="tool-execution" className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">工具执行流程</h3>
           
           <Playground
             code={`from langchain.agents import create_tool_calling_agent, AgentExecutor
@@ -651,9 +656,9 @@ print(result["output"])
       </div>
 
       {/* Sidebar TOC */}
-      <aside className="hidden xl:block w-[240px] shrink-0 sticky top-24 self-start h-[calc(100vh-6rem)] overflow-y-auto pr-4">
+      {/* TOC — rendered by SmartTOC itself (desktop right sidebar + mobile floating button) */}
         <SmartTOC items={tocItems} />
-      </aside>
+
     </div>
   )
 }
