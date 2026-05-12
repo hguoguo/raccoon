@@ -26,12 +26,10 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
     `}>
       {/* Brand */}
       <Link to="/" onClick={onClose} className="flex items-center gap-3 px-[22px] py-6 border-b border-border">
-        <div className="w-10 h-10 bg-gradient-to-br from-accent to-accent-deep rounded-paper-md flex items-center justify-center text-xl shadow-paper-sm">
-          🦝
-        </div>
+        <img src="/logo.png" alt="Raccoon Logo" className="w-10 h-10 rounded-paper-md" />
         <div className="flex flex-col">
-          <span className="font-display font-bold text-[17px] tracking-tight text-ink">RaccoonJava</span>
-          <span className="text-[11px] text-ink-faded font-sans tracking-wide">Java面试指南</span>
+          <span className="font-display font-bold text-[17px] tracking-tight text-ink">Raccoon</span>
+          <span className="text-[11px] text-ink-faded font-sans tracking-wide">编程学习库</span>
         </div>
       </Link>
 
