@@ -1,4 +1,15 @@
-import type { Chapter } from './types';
+import React from 'react'
+import type { Chapter, KnowledgeNode } from './types';
+
+// 通过 Vite import.meta.glob 自动发现所有文章组件，无需手动维护映射
+const articleModules = import.meta.glob<{ default: React.ComponentType<{ meta: KnowledgeNode }> }>(
+  '../pages/articles/*.tsx'
+);
+
+export function getArticleComponent(slug: string) {
+  const importFn = articleModules[`../pages/articles/${slug}.tsx`];
+  return importFn ? React.lazy(importFn) : undefined;
+}
 
 export const chapters: Chapter[] = [
   {
@@ -95,4 +106,15 @@ export function getArticleNav(chapterId: string, slug: string): ArticleNavItem {
     nextTitle: next?.title,
     nextPath: next ? getArticlePath(next.chapterId, next.slug) : undefined,
   };
+}
+
+/**
+ * 根据章节ID和文章slug获取文章元数据
+ */
+export function getArticleMeta(chapterId: string, slug: string) {
+  const chapter = chapters.find(c => c.id === chapterId);
+  if (!chapter) return undefined;
+  
+  const article = chapter.articles.find(a => a.slug === slug);
+  return article?.meta;
 }

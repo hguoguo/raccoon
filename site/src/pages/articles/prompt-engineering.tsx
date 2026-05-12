@@ -10,18 +10,6 @@ import ArticleNav from '../../components/article/ArticleNav'
 import { getArticleNav } from '../../data/chapters'
 import type { KnowledgeNode, TocItem } from '../../data/types'
 
-const meta: KnowledgeNode = {
-  id: 'prompt-engineering',
-  title: 'Prompt 工程',
-  level: 'Junior',
-  tags: ['Prompt', 'System Prompt', 'Few-shot', 'Chain of Thought', 'ReAct', 'Prompt Template'],
-  difficulty: 2,
-  category: '06-ai-fundamentals',
-  prerequisites: ['llm-basics'],
-  relatedPatterns: ['structured-output', 'llm-basics'],
-  readingTime: 45,
-}
-
 const tocItems: TocItem[] = [
   { id: 'definition', text: '一句话定义', level: 2 },
   { id: 'prompt-structure', text: 'Prompt 结构全景', level: 2 },
@@ -39,7 +27,7 @@ const tocItems: TocItem[] = [
   { id: 'related', text: '知识关联', level: 2 },
 ]
 
-export default function PromptEngineering() {
+export default function PromptEngineering({ meta }: { meta: KnowledgeNode }) {
   return (
     <div className="flex max-w-[100vw] overflow-x-hidden">
       {/* Main Article */}

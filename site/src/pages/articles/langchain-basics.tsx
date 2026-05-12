@@ -9,18 +9,6 @@ import ArticleNav from '../../components/article/ArticleNav'
 import { getArticleNav } from '../../data/chapters'
 import type { KnowledgeNode, TocItem } from '../../data/types'
 
-const meta: KnowledgeNode = {
-  id: 'langchain-basics',
-  title: 'LangChain 基础核心',
-  level: 'Senior',
-  tags: ['LangChain', 'PromptTemplate', 'ChatModel', 'Runnable', 'OutputParser', 'Tool', 'Memory'],
-  difficulty: 3,
-  category: '07-langchain-framework',
-  prerequisites: ['llm-basics', 'prompt-engineering', 'python-async'],
-  relatedPatterns: ['langchain-advanced', 'langgraph-core', 'agent-patterns'],
-  readingTime: 50,
-}
-
 const tocItems: TocItem[] = [
   { id: 'definition', text: '一句话定义', level: 2 },
   { id: 'architecture', text: '一、架构概览', level: 2 },
@@ -35,7 +23,7 @@ const tocItems: TocItem[] = [
   { id: 'related', text: '十、知识关联', level: 2 },
 ]
 
-export default function LangChainBasics() {
+export default function LangChainBasics({ meta }: { meta: KnowledgeNode }) {
   return (
     <div className="flex max-w-[100vw] overflow-x-hidden">
       {/* Main Article */}

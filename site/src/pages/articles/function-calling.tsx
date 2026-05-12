@@ -10,18 +10,6 @@ import ArticleNav from '../../components/article/ArticleNav'
 import { getArticleNav } from '../../data/chapters'
 import type { KnowledgeNode, TocItem } from '../../data/types'
 
-const meta: KnowledgeNode = {
-  id: 'function-calling',
-  title: 'Function Calling',
-  level: 'Senior',
-  tags: ['Function Calling', 'Tool Calling', 'JSON Schema', 'Tool Definition', 'Parameter Validation', 'Error Handling'],
-  difficulty: 4,
-  category: '06-ai-fundamentals',
-  prerequisites: ['llm-basics', 'prompt-engineering', 'structured-output'],
-  relatedPatterns: ['structured-output', 'react-agent'],
-  readingTime: 55,
-}
-
 const tocItems: TocItem[] = [
   { id: 'definition', text: '一句话定义', level: 2 },
   { id: 'workflow', text: 'Function Calling 工作流', level: 2 },
@@ -37,7 +25,7 @@ const tocItems: TocItem[] = [
   { id: 'related', text: '知识关联', level: 2 },
 ]
 
-export default function FunctionCalling() {
+export default function FunctionCalling({ meta }: { meta: KnowledgeNode }) {
   return (
     <div className="flex max-w-[100vw] overflow-x-hidden">
       {/* Main Article */}

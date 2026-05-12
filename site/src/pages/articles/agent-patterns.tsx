@@ -9,18 +9,6 @@ import ArticleNav from '../../components/article/ArticleNav'
 import { getArticleNav } from '../../data/chapters'
 import type { KnowledgeNode, TocItem } from '../../data/types'
 
-const meta: KnowledgeNode = {
-  id: 'agent-patterns',
-  title: 'Agent 设计模式',
-  level: 'Senior',
-  tags: ['Agent', 'ReAct', 'Planner', 'Executor', 'Router', 'Reflection', 'Tool Agent'],
-  difficulty: 4,
-  category: '07-langchain-framework',
-  prerequisites: ['langchain-basics', 'langgraph-core'],
-  relatedPatterns: ['workflow-design', 'function-calling'],
-  readingTime: 55,
-}
-
 const tocItems: TocItem[] = [
   { id: 'definition', text: '一句话定义', level: 2 },
   { id: 'react', text: '一、ReAct Agent', level: 2 },
@@ -34,7 +22,7 @@ const tocItems: TocItem[] = [
   { id: 'related', text: '九、知识关联', level: 2 },
 ]
 
-export default function AgentPatterns() {
+export default function AgentPatterns({ meta }: { meta: KnowledgeNode }) {
   return (
     <div className="flex max-w-[100vw] overflow-x-hidden">
       <div className="flex-1 max-w-[820px] min-w-0 px-4 sm:px-6 lg:px-12 pb-20">

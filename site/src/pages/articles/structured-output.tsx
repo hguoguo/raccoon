@@ -10,18 +10,6 @@ import ArticleNav from '../../components/article/ArticleNav'
 import { getArticleNav } from '../../data/chapters'
 import type { KnowledgeNode, TocItem } from '../../data/types'
 
-const meta: KnowledgeNode = {
-  id: 'structured-output',
-  title: '结构化输出',
-  level: 'Senior',
-  tags: ['JSON', 'Schema', 'Pydantic', 'Output Parser', 'Validation', 'Structured Data'],
-  difficulty: 3,
-  category: '06-ai-fundamentals',
-  prerequisites: ['llm-basics', 'prompt-engineering'],
-  relatedPatterns: ['pydantic', 'fastapi'],
-  readingTime: 50,
-}
-
 const tocItems: TocItem[] = [
   { id: 'definition', text: '一句话定义', level: 2 },
   { id: 'workflow', text: '结构化输出工作流', level: 2 },
@@ -36,7 +24,7 @@ const tocItems: TocItem[] = [
   { id: 'related', text: '知识关联', level: 2 },
 ]
 
-export default function StructuredOutput() {
+export default function StructuredOutput({ meta }: { meta: KnowledgeNode }) {
   return (
     <div className="flex max-w-[100vw] overflow-x-hidden">
       {/* Main Article */}

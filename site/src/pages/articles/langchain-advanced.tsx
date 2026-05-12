@@ -9,18 +9,6 @@ import ArticleNav from '../../components/article/ArticleNav'
 import { getArticleNav } from '../../data/chapters'
 import type { KnowledgeNode, TocItem } from '../../data/types'
 
-const meta: KnowledgeNode = {
-  id: 'langchain-advanced',
-  title: 'LangChain 进阶技巧',
-  level: 'Senior',
-  tags: ['LangChain', 'LCEL', 'RunnableParallel', 'RunnableLambda', 'RunnableBranch', '动态Prompt', 'Tool Binding'],
-  difficulty: 4,
-  category: '07-langchain-framework',
-  prerequisites: ['langchain-basics'],
-  relatedPatterns: ['langgraph-core', 'agent-patterns', 'workflow-design'],
-  readingTime: 55,
-}
-
 const tocItems: TocItem[] = [
   { id: 'definition', text: '一句话定义', level: 2 },
   { id: 'lcel', text: '一、LCEL 表达式语言', level: 2 },
@@ -34,7 +22,7 @@ const tocItems: TocItem[] = [
   { id: 'related', text: '九、知识关联', level: 2 },
 ]
 
-export default function LangChainAdvanced() {
+export default function LangChainAdvanced({ meta }: { meta: KnowledgeNode }) {
   return (
     <div className="flex max-w-[100vw] overflow-x-hidden">
       {/* Main Article */}

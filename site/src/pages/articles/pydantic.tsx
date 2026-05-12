@@ -8,18 +8,6 @@ import ArticleNav from '../../components/article/ArticleNav'
 import { getArticleNav } from '../../data/chapters'
 import type { KnowledgeNode, TocItem } from '../../data/types'
 
-const meta: KnowledgeNode = {
-  id: 'pydantic',
-  title: 'Pydantic 数据验证',
-  level: 'Senior',
-  tags: ['Pydantic', 'BaseModel', '数据验证', 'JSON Schema', '序列化'],
-  difficulty: 3,
-  category: '01-python-basics',
-  prerequisites: ['python-basics', 'python-typing'],
-  relatedPatterns: ['fastapi', 'data-validation'],
-  readingTime: 40,
-}
-
 const tocItems: TocItem[] = [
   { id: 'definition', text: '一句话定义', level: 2 },
   { id: 'basemodel', text: '一、BaseModel 核心概念', level: 2 },
@@ -33,7 +21,7 @@ const tocItems: TocItem[] = [
   { id: 'related', text: '九、知识关联', level: 2 },
 ]
 
-export default function PydanticDeepDive() {
+export default function PydanticDeepDive({ meta }: { meta: KnowledgeNode }) {
   return (
     <div className="flex max-w-[100vw] overflow-x-hidden">
       {/* Main Article */}

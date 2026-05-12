@@ -9,18 +9,6 @@ import ArticleNav from '../../components/article/ArticleNav'
 import { getArticleNav } from '../../data/chapters'
 import type { KnowledgeNode, TocItem } from '../../data/types'
 
-const meta: KnowledgeNode = {
-  id: 'langgraph-core',
-  title: 'LangGraph 核心架构',
-  level: 'Senior',
-  tags: ['LangGraph', 'StateGraph', 'Node', 'Edge', 'Conditional Edge', 'Checkpoint', 'Interrupt', 'Human-in-the-loop'],
-  difficulty: 4,
-  category: '07-langchain-framework',
-  prerequisites: ['langchain-basics', 'langchain-advanced'],
-  relatedPatterns: ['agent-patterns', 'workflow-design'],
-  readingTime: 60,
-}
-
 const tocItems: TocItem[] = [
   { id: 'definition', text: '一句话定义', level: 2 },
   { id: 'stategraph', text: '一、StateGraph 基础', level: 2 },
@@ -37,7 +25,7 @@ const tocItems: TocItem[] = [
   { id: 'related', text: '十二、知识关联', level: 2 },
 ]
 
-export default function LangGraphCore() {
+export default function LangGraphCore({ meta }: { meta: KnowledgeNode }) {
   return (
     <div className="flex max-w-[100vw] overflow-x-hidden">
       <div className="flex-1 max-w-[820px] min-w-0 px-4 sm:px-6 lg:px-12 pb-20">

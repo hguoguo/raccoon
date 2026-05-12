@@ -1,28 +1,35 @@
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, useParams } from 'react-router-dom'
+import { Suspense } from 'react'
 import Sidebar from './components/layout/Sidebar'
 import Topbar from './components/layout/Topbar'
 import Footer from './components/layout/Footer'
 import MobileNav from './components/layout/MobileNav'
 import HomePage from './pages/HomePage'
 import ChapterPage from './pages/ChapterPage'
-import HashmapDeepDive from './pages/articles/hashmap-deep-dive'
-import PythonBasics from './pages/articles/python-basics'
-import PydanticDeepDive from './pages/articles/pydantic'
-import PythonAsyncProgramming from './pages/articles/python-async'
-import FastAPIDeepDive from './pages/articles/fastapi'
-import PythonEngineering from './pages/articles/python-engineering'
-import LLMBasics from './pages/articles/llm-basics'
-import PromptEngineering from './pages/articles/prompt-engineering'
-import StructuredOutput from './pages/articles/structured-output'
-import FunctionCalling from './pages/articles/function-calling'
-import OpenAISDK from './pages/articles/openai-sdk'
-import LangChainBasics from './pages/articles/langchain-basics'
-import LangChainAdvanced from './pages/articles/langchain-advanced'
-import LangGraphCore from './pages/articles/langgraph-core'
-import AgentPatterns from './pages/articles/agent-patterns'
-import WorkflowDesign from './pages/articles/workflow-design'
 import SearchDialog from './components/ui/SearchDialog'
+import { getArticleMeta, getArticleComponent } from './data/chapters'
 import { useState, useCallback } from 'react'
+
+function ArticleRenderer() {
+  const { chapterId, slug } = useParams<{ chapterId: string; slug: string }>()
+  const meta = chapterId && slug ? getArticleMeta(chapterId, slug) : undefined
+  const Component = slug ? getArticleComponent(slug) : undefined
+
+  if (!meta || !Component) {
+    return (
+      <div className="px-5 sm:px-6 lg:px-11 py-16 sm:py-20 text-center">
+        <h1 className="font-display font-bold text-[24px] sm:text-display-lg text-ink mb-4">文章未找到</h1>
+        <p className="text-ink-muted font-sans text-[14px] sm:text-base">请检查URL是否正确</p>
+      </div>
+    )
+  }
+
+  return (
+    <Suspense fallback={<div className="px-5 sm:px-6 lg:px-11 py-16 text-center text-ink-muted">加载中...</div>}>
+      <Component meta={meta} />
+    </Suspense>
+  )
+}
 
 export default function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -58,22 +65,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/docs/:chapterId" element={<ChapterPage />} />
-          <Route path="/docs/01-python-basics/python-basics" element={<PythonBasics />} />
-          <Route path="/docs/02-collections/hashmap" element={<HashmapDeepDive />} />
-          <Route path="/docs/01-python-basics/pydantic" element={<PydanticDeepDive />} />
-          <Route path="/docs/01-python-basics/python-async" element={<PythonAsyncProgramming />} />
-          <Route path="/docs/01-python-basics/fastapi" element={<FastAPIDeepDive />} />
-          <Route path="/docs/01-python-basics/python-engineering" element={<PythonEngineering />} />
-          <Route path="/docs/06-ai-fundamentals/llm-basics" element={<LLMBasics />} />
-          <Route path="/docs/06-ai-fundamentals/prompt-engineering" element={<PromptEngineering />} />
-          <Route path="/docs/06-ai-fundamentals/structured-output" element={<StructuredOutput />} />
-          <Route path="/docs/06-ai-fundamentals/function-calling" element={<FunctionCalling />} />
-          <Route path="/docs/06-ai-fundamentals/openai-sdk" element={<OpenAISDK />} />
-          <Route path="/docs/07-langchain-framework/langchain-basics" element={<LangChainBasics />} />
-          <Route path="/docs/07-langchain-framework/langchain-advanced" element={<LangChainAdvanced />} />
-          <Route path="/docs/07-langchain-framework/langgraph-core" element={<LangGraphCore />} />
-          <Route path="/docs/07-langchain-framework/agent-patterns" element={<AgentPatterns />} />
-          <Route path="/docs/07-langchain-framework/workflow-design" element={<WorkflowDesign />} />
+          <Route path="/docs/:chapterId/:slug" element={<ArticleRenderer />} />
         </Routes>
         <Footer />
       </main>

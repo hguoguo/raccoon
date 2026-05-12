@@ -12,18 +12,6 @@ import ArticleNav from '../../components/article/ArticleNav'
 import { getArticleNav } from '../../data/chapters'
 import type { KnowledgeNode, TocItem } from '../../data/types'
 
-const meta: KnowledgeNode = {
-  id: 'hashmap',
-  title: 'HashMap深度剖析',
-  level: 'Senior',
-  tags: ['HashMap', '红黑树', '扩容机制', '哈希冲突', 'JDK8'],
-  difficulty: 4,
-  category: '02-collections',
-  prerequisites: ['map-framework'],
-  relatedPatterns: ['concurrent-hashmap'],
-  readingTime: 40,
-}
-
 const tocItems: TocItem[] = [
   { id: 'definition', text: '一句话定义', level: 2 },
   { id: 'overview', text: '一、整体架构概述', level: 2 },
@@ -41,7 +29,7 @@ const tocItems: TocItem[] = [
   { id: 'related', text: '九、知识关联', level: 2 },
 ]
 
-export default function HashmapDeepDive() {
+export default function HashmapDeepDive({ meta }: { meta: KnowledgeNode }) {
   return (
     <div className="flex max-w-[100vw] overflow-x-hidden">
       {/* Main Article */}

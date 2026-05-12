@@ -9,18 +9,6 @@ import ArticleNav from '../../components/article/ArticleNav'
 import { getArticleNav } from '../../data/chapters'
 import type { KnowledgeNode, TocItem } from '../../data/types'
 
-const meta: KnowledgeNode = {
-  id: 'python-basics',
-  title: 'Python基础语法',
-  level: 'Junior',
-  tags: ['Python', '基础语法', '变量', '数据类型', '函数', '类'],
-  difficulty: 1,
-  category: '01-python-basics',
-  prerequisites: [],
-  relatedPatterns: ['python-oop', 'python-modules'],
-  readingTime: 45,
-}
-
 const tocItems: TocItem[] = [
   { id: 'definition', text: '一句话定义', level: 2 },
   { id: 'variables', text: '一、变量与赋值', level: 2 },
@@ -41,7 +29,7 @@ const tocItems: TocItem[] = [
   { id: 'related', text: '十六、知识关联', level: 2 },
 ]
 
-export default function PythonBasics() {
+export default function PythonBasics({ meta }: { meta: KnowledgeNode }) {
   return (
     <div className="flex max-w-[100vw] overflow-x-hidden">
       {/* Main Article */}

@@ -10,18 +10,6 @@ import ArticleNav from '../../components/article/ArticleNav'
 import { getArticleNav } from '../../data/chapters'
 import type { KnowledgeNode, TocItem } from '../../data/types'
 
-const meta: KnowledgeNode = {
-  id: 'openai-sdk',
-  title: 'OpenAI SDK',
-  level: 'Senior',
-  tags: ['OpenAI', 'Chat API', 'Streaming', 'Function Calling', 'Embedding', 'Structured Output', 'Python SDK'],
-  difficulty: 3,
-  category: '06-ai-fundamentals',
-  prerequisites: ['llm-basics', 'prompt-engineering', 'structured-output'],
-  relatedPatterns: ['function-calling', 'fastapi'],
-  readingTime: 50,
-}
-
 const tocItems: TocItem[] = [
   { id: 'definition', text: '一句话定义', level: 2 },
   { id: 'sdk-modules', text: 'SDK 核心模块', level: 2 },
@@ -37,7 +25,7 @@ const tocItems: TocItem[] = [
   { id: 'related', text: '知识关联', level: 2 },
 ]
 
-export default function OpenAISDK() {
+export default function OpenAISDK({ meta }: { meta: KnowledgeNode }) {
   return (
     <div className="flex max-w-[100vw] overflow-x-hidden">
       {/* Main Article */}

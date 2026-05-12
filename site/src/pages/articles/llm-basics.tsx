@@ -10,18 +10,6 @@ import ArticleNav from '../../components/article/ArticleNav'
 import { getArticleNav } from '../../data/chapters'
 import type { KnowledgeNode, TocItem } from '../../data/types'
 
-const meta: KnowledgeNode = {
-  id: 'llm-basics',
-  title: '大模型基础概念',
-  level: 'Junior',
-  tags: ['LLM', 'Token', 'Context Window', 'Temperature', 'Top P', 'Embedding'],
-  difficulty: 2,
-  category: '06-ai-fundamentals',
-  prerequisites: [],
-  relatedPatterns: ['prompt-engineering', 'structured-output'],
-  readingTime: 40,
-}
-
 const tocItems: TocItem[] = [
   { id: 'definition', text: '一句话定义', level: 2 },
   { id: 'architecture', text: '核心架构', level: 2 },
@@ -37,7 +25,7 @@ const tocItems: TocItem[] = [
   { id: 'related', text: '知识关联', level: 2 },
 ]
 
-export default function LLMBasics() {
+export default function LLMBasics({ meta }: { meta: KnowledgeNode }) {
   return (
     <div className="flex max-w-[100vw] overflow-x-hidden">
       {/* Main Article */}

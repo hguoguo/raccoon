@@ -10,18 +10,6 @@ import ArticleNav from '../../components/article/ArticleNav'
 import { getArticleNav } from '../../data/chapters'
 import type { KnowledgeNode, TocItem } from '../../data/types'
 
-const meta: KnowledgeNode = {
-  id: 'python-engineering',
-  title: 'Python 工程化实践',
-  level: 'Senior',
-  tags: ['pip', 'uv', '虚拟环境', '日志', 'dotenv', 'yaml', 'pytest', '工程化'],
-  difficulty: 3,
-  category: '05-python-engineering',
-  prerequisites: ['python-basics', 'python-modules'],
-  relatedPatterns: ['fastapi', 'project-structure', 'ci-cd'],
-  readingTime: 50,
-}
-
 const tocItems: TocItem[] = [
   { id: 'definition', text: '一句话定义', level: 2 },
   { id: 'pip', text: '一、pip 包管理', level: 2 },
@@ -36,7 +24,7 @@ const tocItems: TocItem[] = [
   { id: 'related', text: '十、知识关联', level: 2 },
 ]
 
-export default function PythonEngineering() {
+export default function PythonEngineering({ meta }: { meta: KnowledgeNode }) {
   return (
     <div className="flex max-w-[100vw] overflow-x-hidden">
       {/* Main Article */}

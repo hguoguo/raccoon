@@ -9,18 +9,6 @@ import ArticleNav from '../../components/article/ArticleNav'
 import { getArticleNav } from '../../data/chapters'
 import type { KnowledgeNode, TocItem } from '../../data/types'
 
-const meta: KnowledgeNode = {
-  id: 'workflow-design',
-  title: 'Workflow 设计模式',
-  level: 'Senior',
-  tags: ['Workflow', 'DAG', 'Pipeline', 'Orchestration', 'Error Handling', 'Retry', 'Fallback'],
-  difficulty: 4,
-  category: '07-langchain-framework',
-  prerequisites: ['langgraph-core', 'agent-patterns'],
-  relatedPatterns: ['langchain-advanced', 'python-async'],
-  readingTime: 50,
-}
-
 const tocItems: TocItem[] = [
   { id: 'definition', text: '一句话定义', level: 2 },
   { id: 'dag', text: '一、DAG 工作流', level: 2 },
@@ -34,7 +22,7 @@ const tocItems: TocItem[] = [
   { id: 'related', text: '九、知识关联', level: 2 },
 ]
 
-export default function WorkflowDesign() {
+export default function WorkflowDesign({ meta }: { meta: KnowledgeNode }) {
   return (
     <div className="flex max-w-[100vw] overflow-x-hidden">
       <div className="flex-1 max-w-[820px] min-w-0 px-4 sm:px-6 lg:px-12 pb-20">

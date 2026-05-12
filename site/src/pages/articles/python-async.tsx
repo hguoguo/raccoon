@@ -8,18 +8,6 @@ import ArticleNav from '../../components/article/ArticleNav'
 import { getArticleNav } from '../../data/chapters'
 import type { KnowledgeNode, TocItem } from '../../data/types'
 
-const meta: KnowledgeNode = {
-  id: 'python-async',
-  title: 'Python 异步编程',
-  level: 'Senior',
-  tags: ['async', 'await', 'asyncio', '协程', '并发', 'aiohttp', 'httpx'],
-  difficulty: 4,
-  category: '03-python-advanced',
-  prerequisites: ['python-basics', 'python-functions'],
-  relatedPatterns: ['fastapi', 'concurrent-programming'],
-  readingTime: 50,
-}
-
 const tocItems: TocItem[] = [
   { id: 'definition', text: '一句话定义', level: 2 },
   { id: 'async-await', text: '一、async/await 基础', level: 2 },
@@ -33,7 +21,7 @@ const tocItems: TocItem[] = [
   { id: 'related', text: '九、知识关联', level: 2 },
 ]
 
-export default function PythonAsyncProgramming() {
+export default function PythonAsyncProgramming({ meta }: { meta: KnowledgeNode }) {
   return (
     <div className="flex max-w-[100vw] overflow-x-hidden">
       {/* Main Article */}

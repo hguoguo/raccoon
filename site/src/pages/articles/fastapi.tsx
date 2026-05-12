@@ -8,18 +8,6 @@ import ArticleNav from '../../components/article/ArticleNav'
 import { getArticleNav } from '../../data/chapters'
 import type { KnowledgeNode, TocItem } from '../../data/types'
 
-const meta: KnowledgeNode = {
-  id: 'fastapi',
-  title: 'FastAPI 框架深度解析',
-  level: 'Senior',
-  tags: ['FastAPI', '路由', '请求参数', '响应', '文件上传', '中间件', 'OpenAPI', 'Streaming', 'SSE', 'WebSocket'],
-  difficulty: 4,
-  category: '04-fastapi',
-  prerequisites: ['python-async', 'pydantic'],
-  relatedPatterns: ['uvicorn', 'starlette', 'sqlmodel'],
-  readingTime: 55,
-}
-
 const tocItems: TocItem[] = [
   { id: 'definition', text: '一句话定义', level: 2 },
   { id: 'routing', text: '一、路由系统', level: 2 },
@@ -36,7 +24,7 @@ const tocItems: TocItem[] = [
   { id: 'related', text: '十二、知识关联', level: 2 },
 ]
 
-export default function FastAPIDeepDive() {
+export default function FastAPIDeepDive({ meta }: { meta: KnowledgeNode }) {
   return (
     <div className="flex max-w-[100vw] overflow-x-hidden">
       {/* Main Article */}
