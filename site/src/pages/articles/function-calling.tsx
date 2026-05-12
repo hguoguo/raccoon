@@ -6,6 +6,7 @@ import SmartTOC from '../../components/knowledge/SmartTOC'
 import Callout from '../../components/ui/Callout'
 import InterviewSection from '../../components/ui/InterviewSection'
 import DiagramBlock from '../../components/ui/DiagramBlock'
+import ArticleNav from '../../components/article/ArticleNav'
 import type { KnowledgeNode, TocItem } from '../../data/types'
 
 const meta: KnowledgeNode = {
@@ -563,6 +564,13 @@ else:
       <aside className="hidden xl:block w-[240px] shrink-0 sticky top-24 self-start h-[calc(100vh-6rem)] overflow-y-auto pr-4">
         <SmartTOC items={tocItems} />
       </aside>
+
+      <ArticleNav 
+        prevTitle="结构化输出"
+        prevPath="/docs/06-ai-fundamentals/structured-output"
+        nextTitle="OpenAI SDK"
+        nextPath="/docs/06-ai-fundamentals/openai-sdk"
+      />
     </div>
   )
 }

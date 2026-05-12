@@ -6,6 +6,7 @@ import SmartTOC from '../../components/knowledge/SmartTOC'
 import Callout from '../../components/ui/Callout'
 import InterviewSection from '../../components/ui/InterviewSection'
 import DiagramBlock from '../../components/ui/DiagramBlock'
+import ArticleNav from '../../components/article/ArticleNav'
 import type { KnowledgeNode, TocItem } from '../../data/types'
 
 const meta: KnowledgeNode = {
@@ -400,6 +401,13 @@ print(f"Semantic similarity (cat vs python): {similarity_1_3:.4f}")`}
       <aside className="hidden xl:block w-[240px] shrink-0 sticky top-24 self-start h-[calc(100vh-6rem)] overflow-y-auto pr-4">
         <SmartTOC items={tocItems} />
       </aside>
+
+      <ArticleNav 
+        prevTitle=""
+        prevPath=""
+        nextTitle="Prompt 工程"
+        nextPath="/docs/06-ai-fundamentals/prompt-engineering"
+      />
     </div>
   )
 }
