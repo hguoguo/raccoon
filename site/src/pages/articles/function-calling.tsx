@@ -557,13 +557,6 @@ else:
           </div>
         </div>
       </section>
-        </KnowledgeLayout>
-      </div>
-
-      {/* Sidebar TOC */}
-      <aside className="hidden xl:block w-[240px] shrink-0 sticky top-24 self-start h-[calc(100vh-6rem)] overflow-y-auto pr-4">
-        <SmartTOC items={tocItems} />
-      </aside>
 
       <ArticleNav 
         prevTitle="结构化输出"
@@ -571,6 +564,13 @@ else:
         nextTitle="OpenAI SDK"
         nextPath="/docs/06-ai-fundamentals/openai-sdk"
       />
+        </KnowledgeLayout>
+      </div>
+
+      {/* Sidebar TOC */}
+      <aside className="hidden xl:block w-[240px] shrink-0 sticky top-24 self-start h-[calc(100vh-6rem)] overflow-y-auto pr-4">
+        <SmartTOC items={tocItems} />
+      </aside>
     </div>
   )
 }

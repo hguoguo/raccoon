@@ -474,13 +474,6 @@ print(f"参与者: {', '.join(event.participants)}`}
           </div>
         </div>
       </section>
-        </KnowledgeLayout>
-      </div>
-
-      {/* Sidebar TOC */}
-      <aside className="hidden xl:block w-[240px] shrink-0 sticky top-24 self-start h-[calc(100vh-6rem)] overflow-y-auto pr-4">
-        <SmartTOC items={tocItems} />
-      </aside>
 
       <ArticleNav 
         prevTitle="Function Calling"
@@ -488,6 +481,13 @@ print(f"参与者: {', '.join(event.participants)}`}
         nextTitle="LangChain 基础核心"
         nextPath="/docs/07-langchain-framework/langchain-basics"
       />
+        </KnowledgeLayout>
+      </div>
+
+      {/* Sidebar TOC */}
+      <aside className="hidden xl:block w-[240px] shrink-0 sticky top-24 self-start h-[calc(100vh-6rem)] overflow-y-auto pr-4">
+        <SmartTOC items={tocItems} />
+      </aside>
     </div>
   )
 }

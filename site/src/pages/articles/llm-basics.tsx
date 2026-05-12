@@ -394,13 +394,6 @@ print(f"Semantic similarity (cat vs python): {similarity_1_3:.4f}")`}
           </div>
         </div>
       </section>
-        </KnowledgeLayout>
-      </div>
-
-      {/* Sidebar TOC */}
-      <aside className="hidden xl:block w-[240px] shrink-0 sticky top-24 self-start h-[calc(100vh-6rem)] overflow-y-auto pr-4">
-        <SmartTOC items={tocItems} />
-      </aside>
 
       <ArticleNav 
         prevTitle=""
@@ -408,6 +401,13 @@ print(f"Semantic similarity (cat vs python): {similarity_1_3:.4f}")`}
         nextTitle="Prompt 工程"
         nextPath="/docs/06-ai-fundamentals/prompt-engineering"
       />
+        </KnowledgeLayout>
+      </div>
+
+      {/* Sidebar TOC */}
+      <aside className="hidden xl:block w-[240px] shrink-0 sticky top-24 self-start h-[calc(100vh-6rem)] overflow-y-auto pr-4">
+        <SmartTOC items={tocItems} />
+      </aside>
     </div>
   )
 }

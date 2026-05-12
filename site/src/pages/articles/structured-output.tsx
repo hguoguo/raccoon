@@ -428,13 +428,6 @@ except ValueError as e:
           </div>
         </div>
       </section>
-        </KnowledgeLayout>
-      </div>
-
-      {/* Sidebar TOC */}
-      <aside className="hidden xl:block w-[240px] shrink-0 sticky top-24 self-start h-[calc(100vh-6rem)] overflow-y-auto pr-4">
-        <SmartTOC items={tocItems} />
-      </aside>
 
       <ArticleNav 
         prevTitle="Prompt 工程"
@@ -442,6 +435,13 @@ except ValueError as e:
         nextTitle="Function Calling"
         nextPath="/docs/06-ai-fundamentals/function-calling"
       />
+        </KnowledgeLayout>
+      </div>
+
+      {/* Sidebar TOC */}
+      <aside className="hidden xl:block w-[240px] shrink-0 sticky top-24 self-start h-[calc(100vh-6rem)] overflow-y-auto pr-4">
+        <SmartTOC items={tocItems} />
+      </aside>
     </div>
   )
 }
