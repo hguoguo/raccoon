@@ -2,8 +2,14 @@ import { chapters, getTotalArticles } from '../../data/chapters'
 
 export default function HeroSection() {
   return (
-    <section className="px-4 sm:px-6 lg:px-11 pt-12 sm:pt-16 lg:pt-20 pb-10 sm:pb-14 lg:pb-[60px] relative max-w-[100vw] overflow-x-hidden">
-      <div className="max-w-[780px] min-w-0">
+    <section className="px-4 sm:px-6 lg:px-11 pt-8 sm:pt-10 lg:pt-12 pb-8 sm:pb-10 lg:pb-12 relative max-w-[100vw] overflow-x-hidden">
+      <div className="rounded-[32px] overflow-hidden bg-gradient-to-r from-[#fff5e7] to-[#f5ede2] border border-[#eadbc8] p-10 relative">
+        {/* Background decoration */}
+        <div className="absolute right-10 top-8 opacity-10 text-[180px] font-black select-none text-[#2f241d]">
+          AI
+        </div>
+        
+        <div className="relative z-10 max-w-[780px] min-w-0">
         {/* Tag */}
         <div className="inline-flex items-center gap-[6px] bg-accent-soft border border-accent/18 text-accent text-[11px] sm:text-[12px] font-medium px-[12px] sm:px-[14px] py-1 rounded-[20px] mb-5 sm:mb-6 font-sans animate-fade-in-up">
           <span>🦝</span>
@@ -45,7 +51,8 @@ export default function HeroSection() {
         {/* Divider */}
         <div className="w-[60px] h-[2px] bg-accent mt-6 sm:mt-8 rounded-[1px] opacity-50" />
       </div>
-    </section>
+    </div>
+  </section>
   )
 }
 

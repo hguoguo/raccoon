@@ -122,7 +122,7 @@ export default function SmartTOC({ items }: SmartTOCProps) {
         fixed top-0 right-0 bottom-0 w-[260px] bg-parchment-light border-l border-border
         z-[200] overflow-y-auto
         shadow-[-8px_0_32px_rgba(44,36,22,0.15)]
-        transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]
+        transition-transform duration-300 ease-in-out
         ${mobileOpen ? 'translate-x-0' : 'translate-x-full'}
         xl:hidden
       `}>

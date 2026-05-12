@@ -18,18 +18,20 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
   return (
     <aside className={`
       fixed top-0 left-0 bottom-0 z-[100]
-      w-[260px] bg-parchment-warm border-r border-border
+      w-[280px] bg-[#f2ebdf] border-r border-border
       flex flex-col
       transition-transform duration-300 ease-in-out
       ${open ? 'translate-x-0' : '-translate-x-full'}
       lg:translate-x-0
     `}>
       {/* Brand */}
-      <Link to="/" onClick={onClose} className="flex items-center gap-3 px-[22px] py-6 border-b border-border">
-        <img src="/logo.png" alt="Raccoon Logo" className="w-10 h-10 rounded-paper-md" />
+      <Link to="/" onClick={onClose} className="flex items-center gap-3 px-6 py-6 border-b border-border">
+        <div className="w-10 h-10 rounded-2xl bg-[#e8dcc8] flex items-center justify-center shadow-sm">
+          <img src="/logo.png" alt="Raccoon Logo" className="w-7 h-7 object-contain" />
+        </div>
         <div className="flex flex-col">
           <span className="font-display font-bold text-[17px] tracking-tight text-ink">Raccoon</span>
-          <span className="text-[11px] text-ink-faded font-sans tracking-wide">编程学习库</span>
+          <span className="text-[11px] text-ink-faded font-sans tracking-wide">Java AI 技术学习平台</span>
         </div>
       </Link>
 
@@ -41,8 +43,8 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
         <Link
           to="/"
           onClick={onClose}
-          className={`flex items-center gap-[10px] px-[14px] py-[7px] rounded-paper-sm font-sans text-[13px] transition-all duration-150 relative ${
-            location.pathname === '/' ? 'bg-accent-soft text-accent font-medium' : 'text-ink-muted hover:bg-accent-glow hover:text-ink-light'
+          className={`flex items-center gap-[10px] px-[14px] py-[7px] rounded-2xl font-sans text-[13px] transition-all duration-150 relative ${
+            location.pathname === '/' ? 'bg-[#eadcc8] border border-[#e2cfb7] text-ink font-medium' : 'text-ink-muted hover:bg-white hover:text-ink-light'
           }`}
         >
           {location.pathname === '/' && (
@@ -90,8 +92,8 @@ function NavGroup({ chapter, expanded, onToggle, currentPath, onNavigate }: {
     <div className="mb-[1px]">
       <button
         onClick={onToggle}
-        className={`flex items-center gap-2 px-3 py-[6px] rounded-paper-sm font-sans text-[13px] w-full transition-all duration-150 ${
-          isActive ? 'bg-accent-glow text-ink-light' : 'text-ink-muted hover:bg-accent-glow hover:text-ink-light'
+        className={`flex items-center gap-2 px-4 py-[6px] rounded-2xl font-sans text-[13px] w-full transition-all duration-150 ${
+          isActive ? 'bg-[#eadcc8] border border-[#e2cfb7] text-ink-light' : 'text-ink-muted hover:bg-white hover:text-ink-light'
         }`}
       >
         <span className="text-[14px] w-5 text-center shrink-0">{chapter.icon}</span>
@@ -114,8 +116,8 @@ function NavGroup({ chapter, expanded, onToggle, currentPath, onNavigate }: {
                 key={article.slug}
                 to={artPath}
                 onClick={onNavigate}
-                className={`block pl-[44px] pr-3 py-[5px] text-[12px] font-sans rounded-paper-sm transition-all duration-150 truncate ${
-                  isArtActive ? 'text-accent font-medium bg-accent-soft' : 'text-ink-faded hover:bg-accent-glow hover:text-ink-muted'
+                className={`block pl-[44px] pr-3 py-[5px] text-[12px] font-sans rounded-2xl transition-all duration-150 truncate ${
+                  isArtActive ? 'text-accent font-medium bg-[#eadcc8] border border-[#e2cfb7]' : 'text-ink-faded hover:bg-white hover:text-ink-muted'
                 }`}
               >
                 {article.title}

@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Raccoon 学习平台</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: #f6f1e8;
+      color: #2f241d;
+    }
+
+    .glass {
+      background: rgba(255,255,255,0.72);
+      backdrop-filter: blur(10px);
+    }
+
+    .card-hover {
+      transition: all 0.25s ease;
+    }
+
+    .card-hover:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    }
+
+    .sidebar-scroll::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .sidebar-scroll::-webkit-scrollbar-thumb {
+      background: rgba(0,0,0,0.15);
+      border-radius: 999px;
+    }
+  </style>
+</head>
+<body>
+  <div class="flex h-screen overflow-hidden">
+
+    <!-- Sidebar -->
+    <aside class="w-[280px] border-r border-[#e5d8c7] bg-[#f2ebdf] flex flex-col">
+
+      <div class="px-6 py-6 border-b border-[#e5d8c7]">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-2xl bg-[#b86b1f] text-white flex items-center justify-center font-bold text-lg shadow">
+            🦝
+          </div>
+          <div>
+            <div class="font-bold text-lg">Raccoon</div>
+            <div class="text-xs text-[#8b7b6d] mt-0.5">Java AI 技术学习平台</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex-1 overflow-y-auto sidebar-scroll px-3 py-6">
+
+        <div>
+          <div class="text-xs uppercase tracking-wider text-[#9b8a79] px-3 mb-3">
+            知识体系
+          </div>
+
+          <div class="space-y-2">
+
+            <div class="flex items-center justify-between px-4 py-3 rounded-2xl bg-[#eadcc8] border border-[#e2cfb7]">
+              <div class="flex items-center gap-3">
+                <div>🌐</div>
+                <div>
+                  <div class="font-medium text-sm">前端开发</div>
+                  <div class="text-xs text-[#8b7b6d] mt-1">HTML / React / 工程化</div>
+                </div>
+              </div>
+              <div class="text-[#8b7b6d]">→</div>
+            </div>
+
+            <div class="flex items-center justify-between px-4 py-3 rounded-2xl bg-white border border-[#e8ddcf] shadow-sm">
+              <div class="flex items-center gap-3">
+                <div>🐍</div>
+                <div>
+                  <div class="font-medium text-sm">Python 开发</div>
+                  <div class="text-xs text-[#8b7b6d] mt-1">FastAPI / 异步 / 数据处理</div>
+                </div>
+              </div>
+              <div class="text-[#8b7b6d]">→</div>
+            </div>
+
+            <div class="flex items-center justify-between px-4 py-3 rounded-2xl hover:bg-white transition cursor-pointer">
+              <div class="flex items-center gap-3">
+                <div>☕</div>
+                <div>
+                  <div class="font-medium text-sm">Java 架构</div>
+                  <div class="text-xs text-[#8b7b6d] mt-1">JVM / Spring / 微服务</div>
+                </div>
+              </div>
+              <div class="text-[#8b7b6d]">→</div>
+            </div>
+
+            <div class="flex items-center justify-between px-4 py-3 rounded-2xl hover:bg-white transition cursor-pointer">
+              <div class="flex items-center gap-3">
+                <div>🤖</div>
+                <div>
+                  <div class="font-medium text-sm">AI 应用开发</div>
+                  <div class="text-xs text-[#8b7b6d] mt-1">LangChain / Agent / RAG</div>
+                </div>
+              </div>
+              <div class="text-red-500 text-xs font-bold">HOT</div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main -->
+    <main class="flex-1 overflow-y-auto">
+
+      <!-- Topbar -->
+      <div class="sticky top-0 z-20 bg-[#f6f1e8]/90 backdrop-blur border-b border-[#eadfce] px-8 py-5">
+        <div class="flex items-center justify-between gap-6">
+
+          <div class="flex-1 max-w-2xl relative">
+            <input
+              type="text"
+              placeholder="搜索知识点、面试题、AI 技术、源码分析..."
+              class="w-full rounded-2xl border border-[#e4d5c3] bg-white px-5 py-3 pl-12 outline-none focus:ring-2 focus:ring-[#c98a4a]"
+            />
+
+            <div class="absolute left-4 top-3.5 text-[#9b8a79]">
+              🔍
+            </div>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <button class="w-11 h-11 rounded-2xl border border-[#e4d5c3] bg-white">
+              🌙
+            </button>
+            <button class="w-11 h-11 rounded-2xl border border-[#e4d5c3] bg-white">
+              ⚙️
+            </button>
+            <div class="w-11 h-11 rounded-2xl bg-[#2f241d] text-white flex items-center justify-center font-bold">
+              华
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="px-8 py-8 space-y-8">
+
+        <!-- Hero -->
+        <section class="rounded-[32px] overflow-hidden bg-gradient-to-r from-[#fff5e7] to-[#f5ede2] border border-[#eadbc8] p-10 relative">
+
+          <div class="absolute right-10 top-8 opacity-10 text-[180px] font-black select-none">
+            AI
+          </div>
+
+          <div class="relative z-10 max-w-3xl">
+            <div class="inline-flex items-center gap-2 rounded-full bg-[#f3dfc7] text-[#a45c15] px-4 py-2 text-sm font-semibold mb-5">
+              🧠 面向程序员的系统化技术学习平台
+            </div>
+
+            <h1 class="text-5xl font-black leading-tight mb-5">
+              构建属于程序员的
+              <span class="text-[#b86b1f]">系统化技术知识体系</span>
+            </h1>
+
+            <p class="text-[#6b5b4d] text-lg leading-8 max-w-2xl">
+              聚合前端、Python、Java、AI 应用开发等核心技术内容，从基础原理到工程实践，打造清晰、高效、可持续成长的学习路径。
+            </p>
+
+            <div class="mt-8 flex items-center gap-4">
+              <button class="rounded-2xl bg-[#b86b1f] text-white px-7 py-4 font-semibold shadow hover:opacity-90 transition">
+                开始学习 →
+              </button>
+
+              <button class="rounded-2xl border border-[#dbc6af] bg-white px-7 py-4 font-semibold hover:bg-[#f9f4ec] transition">
+                查看学习路线
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Stats -->
+        <section class="grid grid-cols-4 gap-5">
+
+          <div class="glass rounded-3xl border border-[#eadfce] p-6 card-hover">
+            <div class="text-[#9b8a79] text-sm">知识模块</div>
+            <div class="text-4xl font-black mt-3">90+</div>
+          </div>
+
+          <div class="glass rounded-3xl border border-[#eadfce] p-6 card-hover">
+            <div class="text-[#9b8a79] text-sm">技术文档</div>
+            <div class="text-4xl font-black mt-3">340+</div>
+          </div>
+
+          <div class="glass rounded-3xl border border-[#eadfce] p-6 card-hover">
+            <div class="text-[#9b8a79] text-sm">学习时长</div>
+            <div class="text-4xl font-black mt-3">196h</div>
+          </div>
+
+          <div class="glass rounded-3xl border border-[#eadfce] p-6 card-hover">
+            <div class="text-[#9b8a79] text-sm">代码案例</div>
+            <div class="text-4xl font-black mt-3">77.5K</div>
+          </div>
+
+        </section>
+
+        <!-- Roadmaps -->
+        <section>
+          <div class="flex items-center justify-between mb-5">
+            <div>
+              <h2 class="text-2xl font-black">学习路线图</h2>
+              <p class="text-[#8b7b6d] mt-1">四大技术方向的系统化成长路径</p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-6">
+
+            <div class="bg-white border border-[#eadfce] rounded-[32px] p-7 card-hover">
+              <div class="flex items-start justify-between">
+                <div class="w-14 h-14 rounded-2xl bg-[#eef6ff] flex items-center justify-center text-2xl">
+                  🌐
+                </div>
+              </div>
+
+              <h3 class="text-2xl font-bold mt-6">前端开发</h3>
+
+              <p class="text-[#6b5b4d] leading-7 mt-4">
+                从 Web 基础到 React 工程化，系统掌握现代前端开发能力。
+              </p>
+            </div>
+
+            <div class="bg-white border border-[#eadfce] rounded-[32px] p-7 card-hover">
+              <div class="flex items-start justify-between">
+                <div class="w-14 h-14 rounded-2xl bg-[#eff8ef] flex items-center justify-center text-2xl">
+                  🐍
+                </div>
+              </div>
+
+              <h3 class="text-2xl font-bold mt-6">Python 开发</h3>
+
+              <p class="text-[#6b5b4d] leading-7 mt-4">
+                覆盖 Python 后端、异步编程、数据处理与 AI 开发基础能力。
+              </p>
+            </div>
+
+            <div class="bg-white border border-[#eadfce] rounded-[32px] p-7 card-hover">
+              <div class="flex items-start justify-between">
+                <div class="w-14 h-14 rounded-2xl bg-[#fff4e9] flex items-center justify-center text-2xl">
+                  ☕
+                </div>
+              </div>
+
+              <h3 class="text-2xl font-bold mt-6">Java 架构</h3>
+
+              <p class="text-[#6b5b4d] leading-7 mt-4">
+                深入理解 JVM、并发、Spring 与分布式系统架构设计。
+              </p>
+            </div>
+
+            <div class="bg-white border border-[#eadfce] rounded-[32px] p-7 card-hover">
+              <div class="flex items-start justify-between">
+                <div class="w-14 h-14 rounded-2xl bg-[#f4f1ff] flex items-center justify-center text-2xl">
+                  🤖
+                </div>
+              </div>
+
+              <h3 class="text-2xl font-bold mt-6">AI 应用开发</h3>
+
+              <p class="text-[#6b5b4d] leading-7 mt-4">
+                学习 Prompt、RAG、Agent、LangGraph 与 AI 工作流开发。
+              </p>
+            </div>
+
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+</body>
+</html>

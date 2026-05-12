@@ -39,7 +39,7 @@ export default function ChapterPage() {
       {/* Chapter Header */}
       <div className="mb-8 sm:mb-10">
         <div className="flex items-center gap-3 mb-3 sm:mb-4">
-          <span className={`text-2xl sm:text-3xl w-11 h-11 sm:w-14 sm:h-14 rounded-paper-lg flex items-center justify-center ${colors.bg}`}>
+          <span className={`text-2xl sm:text-3xl w-14 h-14 rounded-2xl flex items-center justify-center ${colors.bg}`}>
             {chapter.icon}
           </span>
           <div>
@@ -64,14 +64,14 @@ export default function ChapterPage() {
       </div>
 
       {/* Article List */}
-      <div className="grid gap-2.5 sm:gap-3">
+      <div className="grid gap-4 sm:gap-5">
         {chapter.articles.map((article, i) => (
           <Link
             key={article.slug}
             to={`/docs/${chapter.id}/${article.slug}`}
-            className="group flex items-center gap-3 sm:gap-4 p-3.5 sm:p-4 lg:p-5 bg-parchment-light border border-border rounded-paper-md hover:bg-paper-aged hover:border-border-dark hover:shadow-paper-md transition-all duration-200"
+            className="group flex items-center gap-4 sm:gap-5 p-5 sm:p-6 bg-white border border-[#eadfce] rounded-[32px] hover:shadow-paper-md transition-all duration-200 card-hover"
           >
-            <span className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center font-display font-bold text-xs sm:text-sm shrink-0 ${
+            <span className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center font-display font-bold text-sm sm:text-base shrink-0 ${
               i < 3 ? colors.bg + ' ' + colors.text : 'bg-parchment-deep text-ink-faded'
             }`}>
               {i + 1}

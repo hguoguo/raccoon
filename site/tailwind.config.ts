@@ -76,7 +76,7 @@ const config: Config = {
         'paper-lg': '12px',
       },
       width: {
-        'sidebar': '260px',
+        'sidebar': '280px',
         'toc': '220px',
       },
       keyframes: {

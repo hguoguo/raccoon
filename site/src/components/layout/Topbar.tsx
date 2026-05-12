@@ -31,7 +31,7 @@ export default function Topbar({ onMenuToggle, onSearchOpen }: TopbarProps) {
         onClick={onSearchOpen}
         className="flex-1 max-w-[460px] relative cursor-pointer text-left"
       >
-        <div className="w-full bg-parchment-light border border-border rounded-paper-md py-2 px-3 sm:px-4 pl-9 sm:pl-10 text-[12px] sm:text-[13px] font-sans text-ink-ghost flex items-center gap-2 hover:border-border-dark transition-colors">
+        <div className="w-full border border-[#e4d5c3] bg-white rounded-2xl py-3 px-3 sm:px-4 pl-9 sm:pl-10 text-[12px] sm:text-[13px] font-sans text-ink-ghost flex items-center gap-2 hover:border-[#d4c5a9] transition-colors">
           <Search size={14} className="absolute left-3 sm:left-3.5 text-ink-ghost" />
           <span className="truncate">搜索知识点、面试题...</span>
           <span className="ml-auto font-mono text-[10px] text-ink-ghost bg-parchment-deep px-1.5 py-0.5 rounded-[3px] hidden sm:inline">
@@ -41,13 +41,16 @@ export default function Topbar({ onMenuToggle, onSearchOpen }: TopbarProps) {
       </button>
 
       {/* Actions */}
-      <div className="flex items-center gap-1.5 ml-auto shrink-0">
-        <button className="w-[34px] h-[34px] rounded-paper-sm border border-border bg-parchment-light text-ink-faded items-center justify-center hover:bg-parchment-deep hover:text-ink-muted transition-colors hidden sm:flex" title="GitHub">
+      <div className="flex items-center gap-3 ml-auto shrink-0">
+        <button className="w-11 h-11 rounded-2xl border border-[#e4d5c3] bg-white flex items-center justify-center hover:bg-parchment-deep hover:text-ink-muted transition-colors hidden sm:flex" title="GitHub">
           <GitHubIcon />
         </button>
-        <button className="w-[34px] h-[34px] rounded-paper-sm border border-border bg-parchment-light text-ink-faded flex items-center justify-center hover:bg-parchment-deep hover:text-ink-muted transition-colors" title="切换暗色">
+        <button className="w-11 h-11 rounded-2xl border border-[#e4d5c3] bg-white flex items-center justify-center hover:bg-parchment-deep hover:text-ink-muted transition-colors" title="切换暗色">
           <Moon size={14} />
         </button>
+        <div className="w-11 h-11 rounded-2xl bg-[#2f241d] text-white flex items-center justify-center font-bold text-sm">
+          华
+        </div>
       </div>
     </header>
   )

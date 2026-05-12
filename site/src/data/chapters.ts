@@ -13,6 +13,17 @@ export function getArticleComponent(slug: string) {
 
 export const chapters: Chapter[] = [
   {
+    id: '01-java-core',
+    title: 'Java 核心基础',
+    icon: '☕',
+    description: '从语法基础到面向对象思想，打牢 Java 编程根基',
+    difficulty: 2,
+    color: 'orange',
+    articles: [
+      { slug: 'java-basics', title: 'Java基础（必须打牢）', meta: { id: 'java-basics', title: 'Java基础（必须打牢）', level: 'Expert', tags: ['Java', '基础语法', '面向对象', '封装', '继承', '多态', '接口', '抽象类', 'String', 'BigDecimal'], difficulty: 3, category: '01-java-core', prerequisites: [], relatedPatterns: ['java-collections', 'java-concurrency'], readingTime: 60 } },
+    ],
+  },
+  {
     id: '01-python-basics',
     title: 'Python 基础',
     icon: '🐍',

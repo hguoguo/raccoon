@@ -15,7 +15,7 @@ export default function MobileNav() {
       {/* Floating Button */}
       <button
         onClick={() => setOpen(true)}
-        className="fixed bottom-6 right-5 w-12 h-12 rounded-full bg-accent text-white shadow-[0_4px_16px_rgba(181,101,29,0.35)] text-xl flex items-center justify-center z-[90] hover:scale-105 active:scale-95 transition-transform lg:hidden"
+        className="fixed bottom-6 right-5 w-12 h-12 rounded-2xl bg-accent text-white shadow-[0_4px_16px_rgba(181,101,29,0.35)] text-xl flex items-center justify-center z-[90] hover:scale-105 active:scale-95 transition-transform lg:hidden"
         aria-label="大纲导航"
       >
         📚
@@ -31,15 +31,15 @@ export default function MobileNav() {
 
       {/* Left Drawer */}
       <div className={`
-        fixed top-0 left-0 bottom-0 w-[280px] bg-parchment-light border-r border-border
+        fixed top-0 left-0 bottom-0 w-[280px] bg-[#f2ebdf] border-r border-border
         z-[200] overflow-y-auto
         shadow-[8px_0_32px_rgba(44,36,22,0.15)]
-        transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]
+        transition-transform duration-300 ease-in-out
         ${open ? 'translate-x-0' : '-translate-x-full'}
         lg:hidden
       `}>
         {/* Header */}
-        <div className="flex items-center justify-between px-5 pt-[18px] pb-3 border-b border-border-light sticky top-0 bg-parchment-light z-[1]">
+        <div className="flex items-center justify-between px-6 py-6 border-b border-border sticky top-0 bg-[#f2ebdf] z-[1]">
           <h3 className="font-display font-bold text-base text-ink">📚 全部章节</h3>
           <button
             onClick={() => setOpen(false)}
@@ -55,7 +55,7 @@ export default function MobileNav() {
             <div key={chapter.id} className="mb-[2px]">
               <button
                 onClick={() => toggleExpand(chapter.id)}
-                className="flex items-center gap-2 px-[14px] py-[10px] text-[13px] font-semibold font-sans text-ink w-full rounded-paper-md hover:bg-parchment-warm transition-colors"
+                className="flex items-center gap-2 px-4 py-[10px] text-[13px] font-semibold font-sans text-ink w-full rounded-2xl hover:bg-white transition-colors"
               >
                 <span className="text-[14px] shrink-0">{chapter.icon}</span>
                 <span className="flex-1 truncate text-left">{chapter.title}</span>
@@ -73,7 +73,7 @@ export default function MobileNav() {
                       key={article.slug}
                       to={`/docs/${chapter.id}/${article.slug}`}
                       onClick={() => setOpen(false)}
-                      className="block text-[13px] font-sans text-ink-muted py-[7px] px-[10px] rounded-paper-sm hover:bg-accent-glow hover:text-ink-light transition-colors"
+                      className="block text-[13px] font-sans text-ink-muted py-[7px] px-[10px] rounded-2xl hover:bg-white hover:text-ink-light transition-colors"
                     >
                       {article.title}
                     </Link>

@@ -26,12 +26,12 @@ export default function RecentUpdates() {
       </div>
 
       {/* Updates */}
-      <div className="flex flex-col gap-[1px]">
+      <div className="flex flex-col gap-3">
         {updates.map((u, i) => {
           const cfg = typeConfig[u.type]
           return (
-            <div key={i} className="flex items-center gap-2 sm:gap-[14px] py-2.5 sm:py-3 px-3 sm:px-4 rounded-paper-md hover:bg-parchment-light transition-colors cursor-pointer">
-              <span className={`font-mono text-[8px] sm:text-[9px] font-bold px-1.5 sm:px-2 py-[2px] sm:py-[3px] rounded-[3px] uppercase tracking-[0.06em] shrink-0 ${cfg.bg} ${cfg.color}`}>
+            <div key={i} className="flex items-center gap-3 sm:gap-4 p-4 sm:p-5 bg-white border border-[#eadfce] rounded-[32px] hover:shadow-paper-md transition-all cursor-pointer card-hover">
+              <span className={`font-mono text-[9px] sm:text-[10px] font-bold px-2 py-[3px] rounded-[4px] uppercase tracking-[0.1em] shrink-0 ${cfg.bg} ${cfg.color}`}>
                 {cfg.label}
               </span>
               <span className="flex-1 text-[12px] sm:text-[13px] text-ink-muted font-sans line-clamp-2" dangerouslySetInnerHTML={{ __html: u.text }} />

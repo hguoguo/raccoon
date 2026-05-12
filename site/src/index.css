@@ -72,6 +72,22 @@ a {
   text-decoration: none;
 }
 
+/* ========== Glass Morphism ========== */
+.glass {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(10px);
+}
+
+/* ========== Card Hover Effect ========== */
+.card-hover {
+  transition: all 0.25s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
 /* ========== Custom Scrollbar ========== */
 ::-webkit-scrollbar {
   width: 7px;
