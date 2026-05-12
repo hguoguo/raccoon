@@ -71,3 +71,28 @@ export function getTotalArticles(): number {
 export function getArticlePath(chapterId: string, slug: string): string {
   return `/docs/${chapterId}/${slug}`;
 }
+
+export interface ArticleNavItem {
+  prevTitle?: string;
+  prevPath?: string;
+  nextTitle?: string;
+  nextPath?: string;
+}
+
+export function getArticleNav(chapterId: string, slug: string): ArticleNavItem {
+  const flatList = chapters.flatMap(ch =>
+    ch.articles.map(a => ({ chapterId: ch.id, slug: a.slug, title: a.title }))
+  );
+  const index = flatList.findIndex(a => a.chapterId === chapterId && a.slug === slug);
+  if (index === -1) return {};
+
+  const prev = index > 0 ? flatList[index - 1] : undefined;
+  const next = index < flatList.length - 1 ? flatList[index + 1] : undefined;
+
+  return {
+    prevTitle: prev?.title,
+    prevPath: prev ? getArticlePath(prev.chapterId, prev.slug) : undefined,
+    nextTitle: next?.title,
+    nextPath: next ? getArticlePath(next.chapterId, next.slug) : undefined,
+  };
+}

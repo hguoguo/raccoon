@@ -6,6 +6,7 @@ import Callout from '../../components/ui/Callout'
 import DiagramBlock from '../../components/ui/DiagramBlock'
 import InterviewSection from '../../components/ui/InterviewSection'
 import ArticleNav from '../../components/article/ArticleNav'
+import { getArticleNav } from '../../data/chapters'
 import type { KnowledgeNode, TocItem } from '../../data/types'
 
 const meta: KnowledgeNode = {
@@ -725,12 +726,7 @@ memory = ConversationBufferMemory(chat_memory=redis_history)`}
       </aside>
 
       {/* Article Navigation */}
-      <ArticleNav 
-        prevTitle="OpenAI SDK"
-        prevPath="/docs/06-ai-fundamentals/openai-sdk"
-        nextTitle="LangChain 进阶"
-        nextPath="/docs/07-langchain-framework/langchain-advanced"
-      />
+      <ArticleNav {...getArticleNav(meta.category, meta.id)} />
     </div>
   )
 }

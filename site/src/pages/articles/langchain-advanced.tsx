@@ -6,6 +6,7 @@ import Callout from '../../components/ui/Callout'
 import DiagramBlock from '../../components/ui/DiagramBlock'
 import InterviewSection from '../../components/ui/InterviewSection'
 import ArticleNav from '../../components/article/ArticleNav'
+import { getArticleNav } from '../../data/chapters'
 import type { KnowledgeNode, TocItem } from '../../data/types'
 
 const meta: KnowledgeNode = {
@@ -666,12 +667,7 @@ print(result["output"])
       </aside>
 
       {/* Article Navigation */}
-      <ArticleNav 
-        prevTitle="LangChain 基础核心"
-        prevPath="/docs/07-langchain-framework/langchain-basics"
-        nextTitle="LangGraph 核心"
-        nextPath="/docs/07-langchain-framework/langgraph-core"
-      />
+      <ArticleNav {...getArticleNav(meta.category, meta.id)} />
     </div>
   )
 }

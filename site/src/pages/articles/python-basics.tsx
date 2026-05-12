@@ -6,6 +6,7 @@ import Callout from '../../components/ui/Callout'
 import DiagramBlock from '../../components/ui/DiagramBlock'
 import InterviewSection from '../../components/ui/InterviewSection'
 import ArticleNav from '../../components/article/ArticleNav'
+import { getArticleNav } from '../../data/chapters'
 import type { KnowledgeNode, TocItem } from '../../data/types'
 
 const meta: KnowledgeNode = {
@@ -864,12 +865,7 @@ for num in numbers:
       <SmartTOC items={tocItems} />
 
       {/* Article Navigation */}
-      <ArticleNav
-        prevTitle=""
-        prevPath=""
-        nextTitle=""
-        nextPath=""
-      />
+      <ArticleNav {...getArticleNav(meta.category, meta.id)} />
     </div>
   )
 }

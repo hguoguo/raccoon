@@ -6,6 +6,7 @@ import Callout from '../../components/ui/Callout'
 import DiagramBlock from '../../components/ui/DiagramBlock'
 import InterviewSection from '../../components/ui/InterviewSection'
 import ArticleNav from '../../components/article/ArticleNav'
+import { getArticleNav } from '../../data/chapters'
 import type { KnowledgeNode, TocItem } from '../../data/types'
 
 const meta: KnowledgeNode = {
@@ -618,12 +619,7 @@ print(result["status"])  # published 或 revised`}
         <SmartTOC items={tocItems} />
       </aside>
 
-      <ArticleNav 
-        prevTitle="LangChain 进阶技巧"
-        prevPath="/docs/07-langchain-framework/langchain-advanced"
-        nextTitle="Agent 设计模式"
-        nextPath="/docs/07-langchain-framework/agent-patterns"
-      />
+      <ArticleNav {...getArticleNav(meta.category, meta.id)} />
     </div>
   )
 }

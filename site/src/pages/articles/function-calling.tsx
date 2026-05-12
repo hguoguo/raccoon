@@ -7,6 +7,7 @@ import Callout from '../../components/ui/Callout'
 import InterviewSection from '../../components/ui/InterviewSection'
 import DiagramBlock from '../../components/ui/DiagramBlock'
 import ArticleNav from '../../components/article/ArticleNav'
+import { getArticleNav } from '../../data/chapters'
 import type { KnowledgeNode, TocItem } from '../../data/types'
 
 const meta: KnowledgeNode = {
@@ -558,12 +559,7 @@ else:
         </div>
       </section>
 
-      <ArticleNav 
-        prevTitle="结构化输出"
-        prevPath="/docs/06-ai-fundamentals/structured-output"
-        nextTitle="OpenAI SDK"
-        nextPath="/docs/06-ai-fundamentals/openai-sdk"
-      />
+      <ArticleNav {...getArticleNav(meta.category, meta.id)} />
         </KnowledgeLayout>
       </div>
 

@@ -7,6 +7,7 @@ import Callout from '../../components/ui/Callout'
 import InterviewSection from '../../components/ui/InterviewSection'
 import DiagramBlock from '../../components/ui/DiagramBlock'
 import ArticleNav from '../../components/article/ArticleNav'
+import { getArticleNav } from '../../data/chapters'
 import type { KnowledgeNode, TocItem } from '../../data/types'
 
 const meta: KnowledgeNode = {
@@ -475,12 +476,7 @@ print(f"参与者: {', '.join(event.participants)}`}
         </div>
       </section>
 
-      <ArticleNav 
-        prevTitle="Function Calling"
-        prevPath="/docs/06-ai-fundamentals/function-calling"
-        nextTitle="LangChain 基础核心"
-        nextPath="/docs/07-langchain-framework/langchain-basics"
-      />
+      <ArticleNav {...getArticleNav(meta.category, meta.id)} />
         </KnowledgeLayout>
       </div>
 

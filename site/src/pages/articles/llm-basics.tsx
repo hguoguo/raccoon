@@ -7,6 +7,7 @@ import Callout from '../../components/ui/Callout'
 import InterviewSection from '../../components/ui/InterviewSection'
 import DiagramBlock from '../../components/ui/DiagramBlock'
 import ArticleNav from '../../components/article/ArticleNav'
+import { getArticleNav } from '../../data/chapters'
 import type { KnowledgeNode, TocItem } from '../../data/types'
 
 const meta: KnowledgeNode = {
@@ -395,12 +396,7 @@ print(f"Semantic similarity (cat vs python): {similarity_1_3:.4f}")`}
         </div>
       </section>
 
-      <ArticleNav 
-        prevTitle=""
-        prevPath=""
-        nextTitle="Prompt 工程"
-        nextPath="/docs/06-ai-fundamentals/prompt-engineering"
-      />
+      <ArticleNav {...getArticleNav(meta.category, meta.id)} />
         </KnowledgeLayout>
       </div>
 

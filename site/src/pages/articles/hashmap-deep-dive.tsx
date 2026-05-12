@@ -9,6 +9,7 @@ import Callout from '../../components/ui/Callout'
 import DiagramBlock from '../../components/ui/DiagramBlock'
 import InterviewSection from '../../components/ui/InterviewSection'
 import ArticleNav from '../../components/article/ArticleNav'
+import { getArticleNav } from '../../data/chapters'
 import type { KnowledgeNode, TocItem } from '../../data/types'
 
 const meta: KnowledgeNode = {
@@ -557,12 +558,7 @@ final Node<K,V> getNode(int hash, Object key) {
           </div>
 
           {/* Article Navigation */}
-          <ArticleNav
-            prevTitle="Collection接口体系"
-            prevPath="/docs/02-collections/collection-framework"
-            nextTitle="ConcurrentHashMap源码分析"
-            nextPath="/docs/02-collections/concurrent-hashmap"
-          />
+          <ArticleNav {...getArticleNav(meta.category, meta.id)} />
         </KnowledgeLayout>
       </div>
 

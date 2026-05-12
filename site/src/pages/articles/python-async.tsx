@@ -5,6 +5,7 @@ import SmartTOC from '../../components/knowledge/SmartTOC'
 import Callout from '../../components/ui/Callout'
 import InterviewSection from '../../components/ui/InterviewSection'
 import ArticleNav from '../../components/article/ArticleNav'
+import { getArticleNav } from '../../data/chapters'
 import type { KnowledgeNode, TocItem } from '../../data/types'
 
 const meta: KnowledgeNode = {
@@ -575,12 +576,7 @@ if __name__ == "__main__":
       <SmartTOC items={tocItems} />
 
       {/* Article Navigation */}
-      <ArticleNav
-        prevTitle=""
-        prevPath=""
-        nextTitle=""
-        nextPath=""
-      />
+      <ArticleNav {...getArticleNav(meta.category, meta.id)} />
     </div>
   )
 }
