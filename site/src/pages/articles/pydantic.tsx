@@ -14,7 +14,7 @@ const meta: KnowledgeNode = {
   level: 'Senior',
   tags: ['Pydantic', 'BaseModel', '数据验证', 'JSON Schema', '序列化'],
   difficulty: 3,
-  category: '03-python-advanced',
+  category: '01-python-basics',
   prerequisites: ['python-basics', 'python-typing'],
   relatedPatterns: ['fastapi', 'data-validation'],
   readingTime: 40,

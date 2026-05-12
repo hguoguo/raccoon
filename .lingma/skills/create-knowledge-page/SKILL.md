@@ -75,7 +75,7 @@ description: |
    ]
    ```
 
-3. **必须使用 flex 布局包裹整个页面，并在末尾添加 ArticleNav**：
+3. **必须使用 flex 布局包裹整个页面，并在 KnowledgeLayout 内部末尾添加 ArticleNav**：
    ```tsx
    export default function XxxPage() {
      return (
@@ -84,6 +84,9 @@ description: |
          <div className="flex-1 max-w-[820px] min-w-0 px-4 sm:px-6 lg:px-12 pb-20">
            <KnowledgeLayout meta={meta}>
              {/* 文章内容 */}
+             
+             {/* ⚠️ ArticleNav 必须在 KnowledgeLayout 内部的最后 */}
+             <ArticleNav {...getArticleNav(meta.category, meta.id)} />
            </KnowledgeLayout>
          </div>
          
@@ -91,9 +94,6 @@ description: |
          <aside className="hidden xl:block w-[240px] shrink-0 sticky top-24 self-start h-[calc(100vh-6rem)] overflow-y-auto pr-4">
            <SmartTOC items={tocItems} />
          </aside>
-
-         {/* 文章导航（上一篇/下一篇）*/}
-         <ArticleNav {...getArticleNav(meta.category, meta.id)} />
        </div>
      )
    }
@@ -101,7 +101,7 @@ description: |
 
 **❌ 禁止的错误做法：**
 ```tsx
-// 错误！缺少 ArticleNav 组件
+// 错误！ArticleNav 放在了 KnowledgeLayout 外部
 export default function XxxPage() {
   return (
     <div className="flex max-w-[100vw] overflow-x-hidden">
@@ -113,13 +113,14 @@ export default function XxxPage() {
       <aside className="hidden xl:block w-[240px] shrink-0 sticky top-24 self-start h-[calc(100vh-6rem)] overflow-y-auto pr-4">
         <SmartTOC items={tocItems} />
       </aside>
-      {/* ❌ 缺少 ArticleNav */}
+      {/* ❌ ArticleNav 不应该在这里 */}
+      <ArticleNav {...getArticleNav(meta.category, meta.id)} />
     </div>
   )
 }
 ```
 
-如果页面缺少上述布局结构或 ArticleNav 组件，右侧章节目录将不会显示，且无法进行文章间导航！
+如果页面缺少上述布局结构或 ArticleNav 位置不正确，右侧章节目录将不会显示，且无法进行文章间导航！
 
 ### 步骤 3：更新章节目录
 
@@ -322,7 +323,7 @@ export default function XxxPage() {
   )
 }
 
-// ✅ 正确写法：包含 ArticleNav
+// ✅ 正确写法：ArticleNav 在 KnowledgeLayout 内部
 import SmartTOC from '../../components/knowledge/SmartTOC'
 import ArticleNav from '../../components/article/ArticleNav'
 import { getArticleNav } from '../../data/chapters'
@@ -339,13 +340,14 @@ export default function XxxPage() {
       <div className="flex-1 max-w-[820px] min-w-0 px-4 sm:px-6 lg:px-12 pb-20">
         <KnowledgeLayout meta={meta}>
           {/* 内容 */}
+          
+          {/* ✅ ArticleNav 必须在 KnowledgeLayout 内部的最后 */}
+          <ArticleNav {...getArticleNav(meta.category, meta.id)} />
         </KnowledgeLayout>
       </div>
       <aside className="hidden xl:block w-[240px] shrink-0 sticky top-24 self-start h-[calc(100vh-6rem)] overflow-y-auto pr-4">
         <SmartTOC items={tocItems} />
       </aside>
-      {/* ✅ 必须添加 ArticleNav */}
-      <ArticleNav {...getArticleNav(meta.category, meta.id)} />
     </div>
   )
 }
