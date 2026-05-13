@@ -30,9 +30,9 @@
 - [x] Redis缓存实战（JD要求🔥）(`redis-cache`) ✅ 已创建并部署
 
 ### 4. 微服务架构 (08-microservices)
-- [ ] Spring Cloud核心组件 (`spring-cloud-core`)
-- [ ] API网关设计 (`api-gateway`)
-- [ ] 分布式事务 (`distributed-transaction`)
+- [x] Spring Cloud核心组件 (`spring-cloud-core`) ✅ 已创建并部署
+- [x] API网关设计 (`api-gateway`) ✅ 已创建并部署
+- [x] 分布式事务 (`distributed-transaction`) ✅ 已创建并部署
 - [ ] 配置中心 (`configuration-management`)
 - [ ] 服务限流降级 (`service-resilience`)
 - [ ] 分布式链路追踪 (`distributed-tracing`)
