@@ -17,9 +17,9 @@ export default function LearningPathSection() {
   , 0) || 0
 
   return (
-    <section className="px-4 sm:px-6 lg:px-11 py-7 sm:py-9 max-w-[100vw] overflow-x-hidden">
+    <section className="px-4 sm:px-6 lg:px-11 py-5 sm:py-6 max-w-[100vw] overflow-x-hidden">
       {/* Header */}
-      <div className="flex items-baseline justify-between mb-5 sm:mb-6 pb-3 border-b border-border-light">
+      <div className="flex items-baseline justify-between mb-4 sm:mb-5 pb-3 border-b border-border-light">
         <div>
           <h2 className="font-display font-bold text-display-sm tracking-tight text-ink">
             <span className="mr-2 text-lg">🎯</span>选择你的学习目标
@@ -29,7 +29,7 @@ export default function LearningPathSection() {
       </div>
 
       {/* Goal Tabs */}
-      <div className="flex gap-3 mb-6 overflow-x-auto pb-1">
+      <div className="flex gap-3 mb-4 overflow-x-auto pb-1">
         {learningGoals.map(goal => (
           <button
             key={goal.id}
@@ -48,7 +48,7 @@ export default function LearningPathSection() {
 
       {/* Goal Description */}
       {selectedGoal && (
-        <p className="text-ink-muted font-sans text-[14px] mb-6">{selectedGoal.description}</p>
+        <p className="text-ink-muted font-sans text-[14px] mb-4">{selectedGoal.description}</p>
       )}
 
       {/* Stages */}
@@ -58,7 +58,7 @@ export default function LearningPathSection() {
 
       {/* Summary */}
       {selectedGoal && (
-        <div className="mt-6 pt-5 border-t border-border-light">
+        <div className="mt-4 pt-4 border-t border-border-light">
           <div className="flex items-center gap-6 text-[13px] font-sans text-ink-muted">
             <span>📊 <strong className="text-ink">{totalNodes}</strong> 个专题</span>
             <span>⏱ 预计 <strong className="text-ink">{totalHours}</strong> 小时</span>
@@ -72,7 +72,7 @@ export default function LearningPathSection() {
 
 function StageBlock({ stage, stageIndex }: { stage: LearningStage; stageIndex: number }) {
   return (
-    <div className="mb-6 last:mb-0">
+    <div className="mb-4 last:mb-0">
       {/* Stage Header */}
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">

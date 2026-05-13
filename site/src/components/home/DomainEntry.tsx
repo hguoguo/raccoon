@@ -17,9 +17,9 @@ const domainAccentColors: Record<string, string> = {
 
 export default function DomainEntry() {
   return (
-    <section className="px-4 sm:px-6 lg:px-11 py-7 sm:py-9 max-w-[100vw] overflow-x-hidden">
+    <section className="px-4 sm:px-6 lg:px-11 py-5 sm:py-6 max-w-[100vw] overflow-x-hidden">
       {/* Header */}
-      <div className="flex items-baseline justify-between mb-5 sm:mb-6 pb-3 border-b border-border-light">
+      <div className="flex items-baseline justify-between mb-4 sm:mb-5 pb-3 border-b border-border-light">
         <div>
           <h2 className="font-display font-bold text-display-sm tracking-tight text-ink">
             <span className="mr-2 text-lg">📚</span>按领域探索
