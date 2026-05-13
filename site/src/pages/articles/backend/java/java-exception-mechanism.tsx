@@ -1,13 +1,13 @@
-import type { KnowledgeNode, TocItem } from '../../data/types'
-import SmartTOC from '../../components/knowledge/SmartTOC'
-import ArticleNav from '../../components/article/ArticleNav'
-import { getArticleNav } from '../../data/chapters'
-import KnowledgeLayout from '../../components/knowledge/KnowledgeLayout'
-import Playground from '../../components/knowledge/Playground'
-import SideNote from '../../components/knowledge/SideNote'
-import Callout from '../../components/ui/Callout'
-import InterviewSection from '../../components/ui/InterviewSection'
-import DiagramBlock from '../../components/ui/DiagramBlock'
+import type { KnowledgeNode, TocItem } from '../../../data/types'
+import SmartTOC from '../../../components/knowledge/SmartTOC'
+import ArticleNav from '../../../components/article/ArticleNav'
+import { getArticleNav } from '../../../data/chapters'
+import KnowledgeLayout from '../../../components/knowledge/KnowledgeLayout'
+import Playground from '../../../components/knowledge/Playground'
+import SideNote from '../../../components/knowledge/SideNote'
+import Callout from '../../../components/ui/Callout'
+import InterviewSection from '../../../components/ui/InterviewSection'
+import DiagramBlock from '../../../components/ui/DiagramBlock'
 
 const tocItems: TocItem[] = [
   { id: 'definition', text: '一句话定义', level: 2 },
