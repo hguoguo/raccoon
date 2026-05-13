@@ -408,10 +408,10 @@ sequenceDiagram
 @Component
 public class JwtTokenProvider {
     
-    @Value("${jwt.secret}")
+    @Value("\${jwt.secret}")
     private String secretKey;
     
-    @Value("${jwt.expiration}")
+    @Value("\${jwt.expiration}")
     private long validityInMilliseconds;
     
     // 生成 JWT Token
@@ -558,7 +558,7 @@ graph TD
             八、最佳实践
           </h2>
 
-          <Callout type="success" title="推荐做法">
+          <Callout type="tip" title="推荐做法">
             <strong>1. 密码加密</strong>：始终使用 BCryptPasswordEncoder，不要明文存储密码。<br/><br/>
             <strong>2. CSRF 防护</strong>：前后端分离项目可禁用 CSRF（使用 JWT），传统表单提交必须启用。<br/><br/>
             <strong>3. 最小权限原则</strong>：默认拒绝所有请求，显式开放需要的接口。<br/><br/>

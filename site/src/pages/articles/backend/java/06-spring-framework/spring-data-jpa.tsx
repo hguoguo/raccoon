@@ -358,7 +358,7 @@ graph TD
             七、最佳实践
           </h2>
 
-          <Callout type="success" title="推荐做法">
+          <Callout type="tip" title="推荐做法">
             <strong>1. 合理选择 Fetch 策略</strong>：多数场景使用 <code>FetchType.LAZY</code>，避免不必要的关联加载。<br/><br/>
             <strong>2. 使用 DTO 投影</strong>：查询部分字段时，使用接口投影或构造函数表达式，减少数据传输。<br/><br/>
             <strong>3. 分页查询</strong>：大数据量查询必须使用分页，避免 OOM。<br/><br/>
