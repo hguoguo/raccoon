@@ -17,6 +17,11 @@ export function getArticleComponent(slug: string) {
 // ===== 领域分组数据（唯一数据源） =====
 // 章节定义内联到 domains → subCategories.chapters 中
 // 下方 chapters 由 domains 派生导出，保证单一数据源
+// 
+// 四层结构：Domain(领域) → SubCategory(子类别) → Chapter(章节) → Article(文章/知识点)
+// 示例1：backend(后端开发) → java → 01-java-core(Java核心基础) → java-basics(Java基础语法)
+// 示例2：infra(基础设施) → oltp(OLTP关系型数据库) → sql-optimization(SQL优化与索引) → sql-optimization(SQL优化与索引)
+// 示例3：infra(基础设施) → nosql(NoSQL数据库) → redis(Redis) → redis-cache(Redis缓存实战)
 
 export const domains: Domain[] = [
   {
@@ -143,7 +148,6 @@ export const domains: Domain[] = [
               { slug: 'hibernate', title: 'Hibernate ORM框架', meta: { id: 'hibernate', title: 'Hibernate ORM框架', level: 'Expert', tags: ['Session', 'HQL', '缓存', '延迟加载', '事务管理', '一级缓存', '二级缓存'], difficulty: 5, category: '07-database', prerequisites: ['jdbc'], relatedPatterns: ['jpa', 'spring-data-jpa'], readingTime: 60 } },
               { slug: 'mybatis', title: 'MyBatis SQL映射', meta: { id: 'mybatis', title: 'MyBatis SQL映射', level: 'Senior', tags: ['SqlSessionFactory', 'Mapper', '动态SQL', '插件机制', '缓存机制'], difficulty: 4, category: '07-database', prerequisites: ['jdbc'], relatedPatterns: ['mybatis-plus', 'spring-mybatis'], readingTime: 50 } },
               { slug: 'mybatis-plus', title: 'MyBatis-Plus增强工具', meta: { id: 'mybatis-plus', title: 'MyBatis-Plus增强工具', level: 'Senior', tags: ['MyBatis-Plus', 'BaseMapper', 'Service层', '条件构造器', '代码生成器', '分页插件', '逻辑删除', '乐观锁'], difficulty: 3, category: '07-database', prerequisites: ['mybatis'], relatedPatterns: ['mybatis', 'spring-boot'], readingTime: 45 } },
-              { slug: 'sql-optimization', title: 'SQL优化与索引（重点🔥）', meta: { id: 'sql-optimization', title: 'SQL优化与索引（重点🔥）', level: 'Expert', tags: ['索引', 'B+树', '执行计划', 'EXPLAIN', '慢查询', '覆盖索引', '联合索引', '索引失效', 'SQL调优'], difficulty: 5, category: '07-database', prerequisites: ['jdbc'], relatedPatterns: ['connection-pool', 'jvm-tuning'], readingTime: 60 } },
             ],
           },
           {
@@ -308,6 +312,68 @@ export const domains: Domain[] = [
               { slug: 'multi-agent-systems', title: '多智能体系统', meta: { id: 'multi-agent-systems', title: '多智能体系统', level: 'Expert', tags: ['Multi-Agent', 'Agent Collaboration', 'Task Decomposition', 'Coordination', 'Communication Protocol'], difficulty: 5, category: '08-ai-applications', prerequisites: ['agent-architecture'], relatedPatterns: ['distributed-systems', 'workflow-design'], readingTime: 65 } },
             ],
           },
+          {
+            id: '09-ai-engineering',
+            title: 'AI工程化进阶',
+            icon: '⚙️',
+            description: '模型微调、AI Coding、灰度发布、监控告警等工程化实践',
+            difficulty: 5,
+            color: 'rose',
+            articles: [
+              { slug: 'model-finetuning', title: '模型微调与训练', meta: { id: 'model-finetuning', title: '模型微调与训练', level: 'Expert', tags: ['Fine-tuning', 'LoRA', 'QLoRA', 'PEFT', '指令微调', 'RLHF', 'DPO', '训练数据'], difficulty: 5, category: '09-ai-engineering', prerequisites: ['llm-basics', 'python-async'], relatedPatterns: ['llm-quantization-deployment', 'pytorch'], readingTime: 70 } },
+              { slug: 'ai-coding-workflow', title: 'AI Coding实践与工作流', meta: { id: 'ai-coding-workflow', title: 'AI Coding实践与工作流', level: 'Senior', tags: ['AI Coding', 'Cursor', 'Copilot', '代码生成', '代码审查', '自动化测试', '工作流'], difficulty: 4, category: '09-ai-engineering', prerequisites: ['python-async'], relatedPatterns: ['cursor-ai-editor', 'github-copilot', 'claude-code'], readingTime: 55 } },
+              { slug: 'canary-deployment', title: '金丝雀灰度发布策略', meta: { id: 'canary-deployment', title: '金丝雀灰度发布策略', level: 'Expert', tags: ['Canary', '灰度发布', 'A/B测试', '流量分割', '回滚策略', 'Kubernetes', 'Istio'], difficulty: 5, category: '09-ai-engineering', prerequisites: ['cicd'], relatedPatterns: ['microservices', 'observability-monitoring'], readingTime: 60 } },
+              { slug: 'observability-monitoring', title: '全链路监控告警体系', meta: { id: 'observability-monitoring', title: '全链路监控告警体系', level: 'Expert', tags: ['Prometheus', 'Grafana', 'AlertManager', '日志聚合', '指标监控', '链路追踪', '可观测性'], difficulty: 5, category: '09-ai-engineering', prerequisites: ['distributed-tracing'], relatedPatterns: ['logging', 'performance-tuning'], readingTime: 65 } },
+            ],
+          },
+          {
+            id: '10-llm-advanced',
+            title: 'LLM高级应用',
+            icon: '🔥',
+            description: 'LlamaIndex、多智能体、量化部署、文档处理等高级应用场景',
+            difficulty: 5,
+            color: 'indigo',
+            articles: [
+              { slug: 'llamaindex-framework', title: 'LlamaIndex框架深度解析', meta: { id: 'llamaindex-framework', title: 'LlamaIndex框架深度解析', level: 'Senior', tags: ['LlamaIndex', 'Data Connector', 'Index', 'Query Engine', 'Retriever', 'Node Parser'], difficulty: 4, category: '10-llm-advanced', prerequisites: ['langchain-basics', 'rag-introduction'], relatedPatterns: ['vector-database', 'document-processing'], readingTime: 60 } },
+              { slug: 'multi-agent-collaboration', title: 'Multi-Agent多智能体协作架构', meta: { id: 'multi-agent-collaboration', title: 'Multi-Agent多智能体协作架构', level: 'Expert', tags: ['Multi-Agent', '协作架构', '任务分解', '智能体通信', '协调机制', '分布式决策'], difficulty: 5, category: '10-llm-advanced', prerequisites: ['multi-agent-systems', 'agent-architecture'], relatedPatterns: ['autogen-framework', 'crewai-framework'], readingTime: 65 } },
+              { slug: 'api-plugin-development', title: 'API插件开发与设计模式', meta: { id: 'api-plugin-development', title: 'API插件开发与设计模式', level: 'Senior', tags: ['API插件', 'Plugin', 'OpenAPI', '函数调用', '设计模式', '接口规范'], difficulty: 4, category: '10-llm-advanced', prerequisites: ['function-calling', 'restful-api'], relatedPatterns: ['tool-integration', 'api-design'], readingTime: 50 } },
+              { slug: 'llm-quantization-deployment', title: '大模型轻量化部署与量化推理', meta: { id: 'llm-quantization-deployment', title: '大模型轻量化部署与量化推理', level: 'Expert', tags: ['量化', 'INT8', 'INT4', 'GGUF', 'AWQ', 'vLLM', 'TensorRT', '推理优化'], difficulty: 5, category: '10-llm-advanced', prerequisites: ['llm-basics'], relatedPatterns: ['model-finetuning', 'performance-tuning'], readingTime: 70 } },
+              { slug: 'document-structure-extraction', title: '文档结构化处理与布局分析', meta: { id: 'document-structure-extraction', title: '文档结构化处理与布局分析', level: 'Senior', tags: ['文档解析', '布局分析', '表格提取', '版面识别', 'Unstructured', 'LayoutLM'], difficulty: 4, category: '10-llm-advanced', prerequisites: ['document-processing'], relatedPatterns: ['ocr-ai-integration', 'content-extraction'], readingTime: 55 } },
+              { slug: 'ocr-ai-integration', title: 'OCR+AI智能文档识别', meta: { id: 'ocr-ai-integration', title: 'OCR+AI智能文档识别', level: 'Senior', tags: ['OCR', 'PaddleOCR', 'Tesseract', '文本识别', '图像预处理', '后处理'], difficulty: 4, category: '10-llm-advanced', prerequisites: ['document-processing'], relatedPatterns: ['document-structure-extraction', 'content-extraction'], readingTime: 50 } },
+              { slug: 'semantic-search-optimization', title: '语义检索优化策略', meta: { id: 'semantic-search-optimization', title: '语义检索优化策略', level: 'Expert', tags: ['语义检索', '混合搜索', '重排序', '查询扩展', 'BM25', '向量检索'], difficulty: 5, category: '10-llm-advanced', prerequisites: ['retrieval-optimization', 'embedding-models'], relatedPatterns: ['vector-database', 'rag-introduction'], readingTime: 60 } },
+              { slug: 'content-extraction', title: '内容抽取与信息提取', meta: { id: 'content-extraction', title: '内容抽取与信息提取', level: 'Senior', tags: ['信息抽取', 'NER', '关系抽取', '事件抽取', '知识图谱', 'IE'], difficulty: 4, category: '10-llm-advanced', prerequisites: ['structured-output'], relatedPatterns: ['document-structure-extraction', 'knowledge-graph'], readingTime: 50 } },
+              { slug: 'dify-platform', title: 'Dify低代码AI应用平台', meta: { id: 'dify-platform', title: 'Dify低代码AI应用平台', level: 'Senior', tags: ['Dify', '低代码', '可视化编排', '工作流', '应用部署', 'LLMOps'], difficulty: 3, category: '10-llm-advanced', prerequisites: ['langchain-basics'], relatedPatterns: ['workflow-design', 'agent-patterns'], readingTime: 45 } },
+              { slug: 'mcp-protocol', title: 'MCP协议与上下文管理', meta: { id: 'mcp-protocol', title: 'MCP协议与上下文管理', level: 'Expert', tags: ['MCP', 'Model Context Protocol', '上下文管理', '资源访问', '工具协议', '标准化'], difficulty: 5, category: '10-llm-advanced', prerequisites: ['agent-architecture'], relatedPatterns: ['mcp-server-development', 'tool-integration'], readingTime: 55 } },
+              { slug: 'mcp-server-development', title: 'MCP Server开发与集成', meta: { id: 'mcp-server-development', title: 'MCP Server开发与集成', level: 'Expert', tags: ['MCP Server', '服务器开发', '协议实现', 'SDK', '集成测试', '最佳实践'], difficulty: 5, category: '10-llm-advanced', prerequisites: ['mcp-protocol'], relatedPatterns: ['api-plugin-development', 'tool-integration'], readingTime: 60 } },
+              { slug: 'multimodal-agent', title: '多模态Agent架构设计', meta: { id: 'multimodal-agent', title: '多模态Agent架构设计', level: 'Expert', tags: ['多模态', '视觉理解', '语音交互', '图像处理', 'GPT-4V', 'CLIP'], difficulty: 5, category: '10-llm-advanced', prerequisites: ['agent-architecture'], relatedPatterns: ['ocr-ai-integration', 'multi-agent-systems'], readingTime: 65 } },
+            ],
+          },
+          {
+            id: '11-ai-agent-frameworks',
+            title: 'AI多智能体框架扩展',
+            icon: '🤖',
+            description: 'AutoGen、CrewAI、NL2SQL等多智能体框架与应用',
+            difficulty: 5,
+            color: 'purple',
+            articles: [
+              { slug: 'autogen-framework', title: 'AutoGen多智能体框架', meta: { id: 'autogen-framework', title: 'AutoGen多智能体框架', level: 'Expert', tags: ['AutoGen', 'Microsoft', 'ConversableAgent', 'GroupChat', '多轮对话', '协作模式'], difficulty: 5, category: '11-ai-agent-frameworks', prerequisites: ['multi-agent-systems', 'agent-patterns'], relatedPatterns: ['crewai-framework', 'langgraph-core'], readingTime: 65 } },
+              { slug: 'crewai-framework', title: 'CrewAI协作框架', meta: { id: 'crewai-framework', title: 'CrewAI协作框架', level: 'Senior', tags: ['CrewAI', 'Role-playing', 'Task', 'Process', 'Sequential', 'Hierarchical'], difficulty: 4, category: '11-ai-agent-frameworks', prerequisites: ['agent-patterns'], relatedPatterns: ['autogen-framework', 'workflow-design'], readingTime: 55 } },
+              { slug: 'nl2sql', title: 'NL2SQL自然语言转SQL', meta: { id: 'nl2sql', title: 'NL2SQL自然语言转SQL', level: 'Senior', tags: ['NL2SQL', 'Text-to-SQL', 'Schema Linking', 'SQL生成', '数据库查询', '语义解析'], difficulty: 4, category: '11-ai-agent-frameworks', prerequisites: ['structured-output', 'sql-optimization'], relatedPatterns: ['rag-introduction', 'function-calling'], readingTime: 50 } },
+            ],
+          },
+          {
+            id: '12-ai-coding-tools',
+            title: 'AI Coding工具与实践',
+            icon: '💻',
+            description: 'Cursor、GitHub Copilot、Claude Code等AI编程工具实战',
+            difficulty: 3,
+            color: 'teal',
+            articles: [
+              { slug: 'cursor-ai-editor', title: 'Cursor AI代码编辑器', meta: { id: 'cursor-ai-editor', title: 'Cursor AI代码编辑器', level: 'Junior', tags: ['Cursor', 'AI编辑器', '代码补全', '代码生成', 'Chat', 'Composer', '快捷键'], difficulty: 2, category: '12-ai-coding-tools', prerequisites: [], relatedPatterns: ['github-copilot', 'ai-coding-workflow'], readingTime: 40 } },
+              { slug: 'github-copilot', title: 'GitHub Copilot编程助手', meta: { id: 'github-copilot', title: 'GitHub Copilot编程助手', level: 'Junior', tags: ['GitHub Copilot', '代码建议', '自动补全', 'IDE集成', 'VSCode', 'JetBrains'], difficulty: 2, category: '12-ai-coding-tools', prerequisites: [], relatedPatterns: ['cursor-ai-editor', 'ai-coding-workflow'], readingTime: 35 } },
+              { slug: 'claude-code', title: 'Claude Code智能编程', meta: { id: 'claude-code', title: 'Claude Code智能编程', level: 'Senior', tags: ['Claude Code', 'Anthropic', '代码理解', '重构建议', 'Bug修复', '代码解释'], difficulty: 3, category: '12-ai-coding-tools', prerequisites: [], relatedPatterns: ['cursor-ai-editor', 'github-copilot'], readingTime: 45 } },
+            ],
+          },
         ],
       },
     ],
@@ -326,11 +392,31 @@ export const domains: Domain[] = [
     color: 'rose',
     subCategories: [
       {
-        id: 'database',
-        title: '数据库',
-        icon: '🗄️',
+        id: 'oltp',
+        title: 'OLTP关系型数据库',
+        icon: '🗃️',
         domainId: 'infra',
-        description: '关系型数据库、NoSQL、缓存系统等数据存储技术',
+        description: 'MySQL、PostgreSQL等关系型数据库的优化与最佳实践',
+        chapters: [
+          {
+            id: 'sql-optimization',
+            title: 'SQL优化与索引',
+            icon: '⚡',
+            description: 'SQL性能调优、索引设计与查询优化',
+            difficulty: 5,
+            color: 'blue',
+            articles: [
+              { slug: 'sql-optimization', title: 'SQL优化与索引（重点🔥）', meta: { id: 'sql-optimization', title: 'SQL优化与索引（重点🔥）', level: 'Expert', tags: ['索引', 'B+树', '执行计划', 'EXPLAIN', '慢查询', '覆盖索引', '联合索引', '索引失效', 'SQL调优'], difficulty: 5, category: 'sql-optimization', prerequisites: [], relatedPatterns: ['connection-pool', 'jvm-tuning'], readingTime: 60 } },
+            ],
+          },
+        ],
+      },
+      {
+        id: 'nosql',
+        title: 'NoSQL数据库',
+        icon: '📦',
+        domainId: 'infra',
+        description: 'Redis、MongoDB等非关系型数据库',
         chapters: [
           {
             id: 'redis',
@@ -341,6 +427,33 @@ export const domains: Domain[] = [
             color: 'rose',
             articles: [
               { slug: 'redis-cache', title: 'Redis缓存实战（JD要求🔥）', meta: { id: 'redis-cache', title: 'Redis缓存实战（JD要求🔥）', level: 'Expert', tags: ['Redis', '缓存策略', '数据结构', '持久化', '集群', '哨兵', '穿透', '雪崩', '击穿', '分布式锁'], difficulty: 5, category: 'redis', prerequisites: [], relatedPatterns: ['spring-data-jpa', 'distributed-transaction'], readingTime: 65 } },
+            ],
+          },
+        ],
+      },
+      {
+        id: 'bigdata',
+        title: '大数据生态',
+        icon: '📊',
+        domainId: 'infra',
+        description: 'Flink、Spark、Hadoop等大数据处理框架与生态系统',
+        chapters: [
+          {
+            id: '13-bigdata-ecosystem',
+            title: '大数据生态',
+            icon: '📊',
+            description: 'Flink实时计算、Spark分布式计算、Hadoop生态系统等',
+            difficulty: 5,
+            color: 'blue',
+            articles: [
+              { slug: 'flink-streaming', title: 'Flink实时计算框架', meta: { id: 'flink-streaming', title: 'Flink实时计算框架', level: 'Expert', tags: ['Flink', '流处理', 'DataStream API', 'Checkpoint', '状态管理', '窗口', 'Watermark'], difficulty: 5, category: '13-bigdata-ecosystem', prerequisites: ['java-basics', 'multi-threading-basics'], relatedPatterns: ['spark-computing', 'kafka'], readingTime: 70 } },
+              { slug: 'spark-computing', title: 'Spark分布式计算', meta: { id: 'spark-computing', title: 'Spark分布式计算', level: 'Expert', tags: ['Spark', 'RDD', 'DataFrame', 'Spark SQL', 'MLlib', 'GraphX', '分布式计算'], difficulty: 5, category: '13-bigdata-ecosystem', prerequisites: ['java-basics', 'python-basics'], relatedPatterns: ['flink-streaming', 'hadoop-ecosystem'], readingTime: 65 } },
+              { slug: 'hadoop-ecosystem', title: 'Hadoop生态系统', meta: { id: 'hadoop-ecosystem', title: 'Hadoop生态系统', level: 'Senior', tags: ['Hadoop', 'MapReduce', 'YARN', 'HDFS', '生态圈', '大数据平台'], difficulty: 4, category: '13-bigdata-ecosystem', prerequisites: ['java-basics'], relatedPatterns: ['hdfs', 'hive-data-warehouse'], readingTime: 60 } },
+              { slug: 'hive-data-warehouse', title: 'Hive数据仓库', meta: { id: 'hive-data-warehouse', title: 'Hive数据仓库', level: 'Senior', tags: ['Hive', 'HQL', '数据仓库', '分区表', '分桶表', 'UDF', '优化'], difficulty: 4, category: '13-bigdata-ecosystem', prerequisites: ['sql-optimization'], relatedPatterns: ['hadoop-ecosystem', 'elasticsearch'], readingTime: 55 } },
+              { slug: 'elasticsearch', title: 'Elasticsearch搜索引擎', meta: { id: 'elasticsearch', title: 'Elasticsearch搜索引擎', level: 'Senior', tags: ['Elasticsearch', '全文检索', '倒排索引', 'Lucene', '聚合查询', 'ELK'], difficulty: 4, category: '13-bigdata-ecosystem', prerequisites: [], relatedPatterns: ['vector-database', 'semantic-search-optimization'], readingTime: 60 } },
+              { slug: 'hdfs', title: 'HDFS分布式文件系统', meta: { id: 'hdfs', title: 'HDFS分布式文件系统', level: 'Senior', tags: ['HDFS', 'NameNode', 'DataNode', '副本机制', '块存储', '高可用'], difficulty: 4, category: '13-bigdata-ecosystem', prerequisites: ['hadoop-ecosystem'], relatedPatterns: ['distributed-systems', 'storage'], readingTime: 50 } },
+              { slug: 'realtime-data-warehouse', title: '实时数仓架构设计', meta: { id: 'realtime-data-warehouse', title: '实时数仓架构设计', level: 'Expert', tags: ['实时数仓', 'Lambda架构', 'Kappa架构', '流批一体', '数据湖', 'Iceberg'], difficulty: 5, category: '13-bigdata-ecosystem', prerequisites: ['flink-streaming', 'hive-data-warehouse'], relatedPatterns: ['stream-batch-unified', 'data-lake'], readingTime: 70 } },
+              { slug: 'stream-batch-unified', title: '流批一体处理', meta: { id: 'stream-batch-unified', title: '流批一体处理', level: 'Expert', tags: ['流批一体', '统一API', 'Flink SQL', '数据一致性', 'Exactly-Once'], difficulty: 5, category: '13-bigdata-ecosystem', prerequisites: ['flink-streaming', 'spark-computing'], relatedPatterns: ['realtime-data-warehouse', 'data-pipeline'], readingTime: 65 } },
             ],
           },
         ],
@@ -452,10 +565,19 @@ export const learningGoals: LearningGoal[] = [
       },
       {
         title: 'AI 赋能',
-        estimatedHours: 40,
+        estimatedHours: 60,
         nodes: [
           { chapterId: '06-ai-theory', title: '理论基础', icon: '📚', readingTime: 230, difficulty: 2 },
           { chapterId: '07-ai-frameworks', title: '开发框架', icon: '⛓️', readingTime: 270, difficulty: 4 },
+          { chapterId: '08-ai-applications', title: '应用实践', icon: '🚀', readingTime: 510, difficulty: 4 },
+        ],
+      },
+      {
+        title: 'AI 工程化',
+        estimatedHours: 40,
+        nodes: [
+          { chapterId: '09-ai-engineering', title: 'AI工程化进阶', icon: '⚙️', readingTime: 250, difficulty: 5 },
+          { chapterId: '12-ai-coding-tools', title: 'AI Coding工具', icon: '💻', readingTime: 120, difficulty: 3 },
         ],
       },
     ],
@@ -479,6 +601,68 @@ export const learningGoals: LearningGoal[] = [
         nodes: [
           { chapterId: '06-ai-theory', title: '理论基础', icon: '📚', readingTime: 230, difficulty: 2 },
           { chapterId: '07-ai-frameworks', title: '开发框架', icon: '⛓️', readingTime: 270, difficulty: 4 },
+        ],
+      },
+      {
+        title: 'AI 应用',
+        estimatedHours: 60,
+        nodes: [
+          { chapterId: '08-ai-applications', title: '应用实践', icon: '🚀', readingTime: 510, difficulty: 4 },
+          { chapterId: '10-llm-advanced', title: 'LLM高级应用', icon: '🔥', readingTime: 680, difficulty: 5 },
+        ],
+      },
+      {
+        title: '多智能体与工具',
+        estimatedHours: 40,
+        nodes: [
+          { chapterId: '11-ai-agent-frameworks', title: 'AI多智能体框架', icon: '🤖', readingTime: 170, difficulty: 5 },
+          { chapterId: '12-ai-coding-tools', title: 'AI Coding工具', icon: '💻', readingTime: 120, difficulty: 3 },
+        ],
+      },
+      {
+        title: 'AI 工程化',
+        estimatedHours: 30,
+        nodes: [
+          { chapterId: '09-ai-engineering', title: 'AI工程化进阶', icon: '⚙️', readingTime: 250, difficulty: 5 },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'bigdata-engineer',
+    title: '大数据工程师',
+    icon: '📊',
+    description: '掌握大数据生态系统，具备实时计算与离线分析能力',
+    stages: [
+      {
+        title: '编程基础',
+        estimatedHours: 40,
+        nodes: [
+          { chapterId: '01-java-core', title: 'Java 基础', icon: '☕', readingTime: 465, difficulty: 2 },
+          { chapterId: '01-python-basics', title: 'Python 基础', icon: '🐍', readingTime: 240, difficulty: 2 },
+        ],
+      },
+      {
+        title: '数据库基础',
+        estimatedHours: 30,
+        nodes: [
+          { chapterId: 'sql-optimization', title: 'SQL优化', icon: '⚡', readingTime: 60, difficulty: 5 },
+          { chapterId: 'redis', title: 'Redis', icon: '⚡', readingTime: 65, difficulty: 4 },
+        ],
+      },
+      {
+        title: '大数据生态',
+        estimatedHours: 80,
+        nodes: [
+          { chapterId: '13-bigdata-ecosystem', title: '大数据生态', icon: '📊', readingTime: 505, difficulty: 5 },
+        ],
+      },
+      {
+        title: '分布式系统',
+        estimatedHours: 40,
+        nodes: [
+          { chapterId: '08-microservices', title: '微服务架构', icon: '🌐', readingTime: 295, difficulty: 5 },
+          { chapterId: 'message-queue', title: '消息队列', icon: '📨', readingTime: 65, difficulty: 5 },
         ],
       },
     ],
