@@ -14,8 +14,13 @@ description: |
 ## 目标
 
 产出风格统一、结构一致、组件规范的文章页面，包含：
-1. 新的文章页面组件（TSX）
-2. 更新章节目录数据（`chapters.ts`）
+1. 更新章节目录数据（`chapters.ts`）— **步骤 2**
+2. 新的文章页面组件（TSX）— **步骤 3**
+
+**⚠️ 重要工作流程变更：先写元数据，再创建页面！**
+- **步骤 2**：先在 `chapters.ts` 中定义完整的 meta 数据（slug、title、level、tags 等）
+- **步骤 3**：根据 `chapters.ts` 中的 `slug` 创建对应的页面文件 `<slug>.tsx`
+- 这样可以确保文件名与 slug 的一致性，避免后续匹配问题
 
 **无需手动更新路由或组件映射**——项目使用 `import.meta.glob` 自动发现 `articles/` 目录下的组件，使用动态路由 `<Route path="/docs/:chapterId/:slug">` 渲染。
 
@@ -47,9 +52,9 @@ description: |
 - 组件文件头部注释格式为 JSDoc，包含组件用途、Props 接口、使用示例
 - 根据扫描结果决定页面中可使用哪些组件
 
-### 步骤 2：更新章节目录（先写元数据）
+### 步骤 2：更新章节目录（⚠️ 先写元数据）
 
-**⚠️ 重要：必须先更新 chapters.ts，再创建页面文件！**
+**🔴 阻断性要求：必须先完成此步骤，才能创建页面文件！**
 
 编辑 `site/src/data/chapters.ts`：
 - 章节已存在：在该章节的 `articles` 数组中添加 `ArticleMeta` 对象
@@ -90,11 +95,11 @@ description: |
 
 只要文件名与 `slug` 一致，新文章就会被自动识别。
 
-### 步骤 3：创建文章页面
+### 步骤 3：创建文章页面（基于 chapters.ts 中的元数据）
 
 在 `site/src/pages/articles/<slug>.tsx` 创建新文件，模板见 `references/page-template.md`。
 
-**⚠️ 重要：此时 chapters.ts 中已有该文章的 meta 数据，直接使用即可！**
+**✅ 此时 chapters.ts 中已有该文章的完整 meta 数据，直接使用即可！**
 
 **关键规则（必须严格遵守）：**
 - **文件名 = chapters.ts 中的 slug**：必须完全一致，因为 `import.meta.glob` 根据文件名匹配组件
@@ -568,3 +573,14 @@ export default function XxxPage({ meta }: { meta: KnowledgeNode }) {
   // meta 已由路由层注入，直接使用
 }
 ```
+
+### 错误 6：未先在 chapters.ts 中写入元数据就创建页面
+
+**症状：** 创建页面后发现文件名与 slug 不一致，或 meta 字段缺失/不匹配。
+
+**原因：** 先创建了页面文件，后更新 chapters.ts，导致两者不一致。
+
+**修复：** **严格遵循工作流程：步骤 2（更新 chapters.ts）→ 步骤 3（创建页面）**
+1. 先在 `chapters.ts` 中定义完整的 meta 数据（包括 slug、title、level、tags 等）
+2. 根据 `chapters.ts` 中的 `slug` 创建对应的页面文件 `<slug>.tsx`
+3. 确保文件名与 slug 完全一致

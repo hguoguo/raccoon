@@ -43,6 +43,17 @@ export const chapters: Chapter[] = [
     ],
   },
   {
+    id: '12-multithreading',
+    title: '多线程基础',
+    icon: '🧵',
+    description: '线程创建、生命周期管理、线程安全等并发编程基础知识',
+    difficulty: 3,
+    color: 'indigo',
+    articles: [
+      { slug: 'multi-threading-basics', title: '多线程基础（线程创建/生命周期/线程安全）', meta: { id: 'multi-threading-basics', title: '多线程基础（线程创建/生命周期/线程安全）', level: 'Expert', tags: ['Thread', 'Runnable', 'Callable', '线程状态', '线程安全', '原子性', '可见性', '有序性', 'volatile', 'synchronized'], difficulty: 3, category: '12-multithreading', prerequisites: ['java-basics'], relatedPatterns: ['concurrent-programming', 'thread-pool'], readingTime: 55 } },
+    ],
+  },
+  {
     id: '01-python-basics',
     title: 'Python 基础',
     icon: '🐍',
