@@ -47,16 +47,61 @@ description: |
 - 组件文件头部注释格式为 JSDoc，包含组件用途、Props 接口、使用示例
 - 根据扫描结果决定页面中可使用哪些组件
 
-### 步骤 2：创建文章页面
+### 步骤 2：更新章节目录（先写元数据）
+
+**⚠️ 重要：必须先更新 chapters.ts，再创建页面文件！**
+
+编辑 `site/src/data/chapters.ts`：
+- 章节已存在：在该章节的 `articles` 数组中添加 `ArticleMeta` 对象
+- 章节不存在：在 `chapters` 数组中添加新的 `Chapter` 对象
+
+**必须包含完整的 meta 信息：**
+```typescript
+{
+  slug: 'concurrent-hashmap',  // kebab-case，将作为文件名
+  title: 'ConcurrentHashMap 深度解析',
+  meta: {
+    id: 'concurrent-hashmap',   // 与 slug 一致
+    title: 'ConcurrentHashMap 深度解析',
+    level: 'Expert',            // Junior | Senior | Expert
+    tags: ['ConcurrentHashMap', '线程安全', '分段锁', 'CAS'],
+    difficulty: 5,              // 1-5
+    category: '02-collections', // 必须与章节 ID 匹配
+    prerequisites: ['hashmap-deep-dive'],
+    relatedPatterns: ['collection-framework'],
+    readingTime: 60
+  }
+}
+```
+
+**关键规则：**
+- **slug 使用 kebab-case**：`concurrent-hashmap`、`array-list-deep-dive`
+- **slug 将作为文件名**：`concurrent-hashmap.tsx`，必须完全一致
+- **meta.id 与 slug 一致**：路由层通过 `getArticleMeta(category, id)` 查找
+- **meta.category 指向正确的章节 ID**：用于文章间导航
+- **tags 应包含主要类名/概念名**：便于搜索和分类
+
+`chapters.ts` 中的 `meta` 对象是文章元数据的唯一来源，路由层会通过 `getArticleMeta()` 读取并注入组件。
+
+**无需手动更新 `App.tsx` 或组件映射**——项目使用以下机制自动关联：
+- `import.meta.glob('../pages/articles/*.tsx')` 自动发现组件
+- `getArticleComponent(slug)` 根据文件名 `<slug>.tsx` 查找组件
+- `App.tsx` 中动态路由 `<Route path="/docs/:chapterId/:slug" element={<ArticleRenderer />} />` 渲染
+
+只要文件名与 `slug` 一致，新文章就会被自动识别。
+
+### 步骤 3：创建文章页面
 
 在 `site/src/pages/articles/<slug>.tsx` 创建新文件，模板见 `references/page-template.md`。
 
+**⚠️ 重要：此时 chapters.ts 中已有该文章的 meta 数据，直接使用即可！**
+
 **关键规则（必须严格遵守）：**
-- **文件名 = slug，使用 kebab-case**：`concurrent-hashmap.tsx`、`array-list.tsx`。文件名必须与 `chapters.ts` 中的 `slug` 完全一致，因为 `import.meta.glob` 根据文件名匹配组件
+- **文件名 = chapters.ts 中的 slug**：必须完全一致，因为 `import.meta.glob` 根据文件名匹配组件
 - 组件名使用 PascalCase：`ConcurrentHashmap`、`ArrayListDeepDive`
 - 组件签名必须为 `export default function Xxx({ meta }: { meta: KnowledgeNode })`，**meta 由路由层注入，不再在组件内部定义**
-- `meta.category` 必须与 `chapters.ts` 中的章节 ID 匹配
-- `meta.tags` 应包含主要类名/概念名
+- `meta.category` 已在 chapters.ts 中定义，直接使用
+- `meta.tags` 已在 chapters.ts 中定义，可用于页面展示
 - 所有章节必须有 `id` 属性，与 `tocItems` 一一对应
 - **`<h2>` 和 `<h3>` 都必须有 `id` 属性**，用于 SmartTOC 的锚点跳转
 - 如果 `tocItems` 中有 `level: 3` 的条目，对应的 `<h3>` 必须添加 `id` 属性，否则点击目录无法跳转
@@ -128,24 +173,6 @@ export default function XxxPage({ meta }: { meta: KnowledgeNode }) {
 }
 ```
 
-如果页面缺少上述布局结构或 ArticleNav 位置不正确，右侧章节目录将不会显示，且无法进行文章间导航！
-如果 SmartTOC 被 `<aside hidden xl:block>` 包裹，移动端的目录悬浮按钮将不会显示！
-
-### 步骤 3：更新章节目录
-
-编辑 `site/src/data/chapters.ts`：
-- 章节已存在：在该章节的 `articles` 数组中添加 `ArticleMeta` 对象
-- 章节不存在：在 `chapters` 数组中添加新的 `Chapter` 对象
-
-`chapters.ts` 中的 `meta` 对象是文章元数据的唯一来源，路由层会通过 `getArticleMeta()` 读取并注入组件。
-
-**无需手动更新 `App.tsx` 或组件映射**——项目使用以下机制自动关联：
-- `import.meta.glob('../pages/articles/*.tsx')` 自动发现组件
-- `getArticleComponent(slug)` 根据文件名 `<slug>.tsx` 查找组件
-- `App.tsx` 中动态路由 `<Route path="/docs/:chapterId/:slug" element={<ArticleRenderer />} />` 渲染
-
-只要文件名与 `slug` 一致，新文章就会被自动识别。
-
 ### 步骤 4：创建自定义动画组件（可选）
 
 如果知识点涉及数据结构操作（列表、树、队列等），创建自定义动画组件：
@@ -197,9 +224,10 @@ export default function XxxPage({ meta }: { meta: KnowledgeNode }) {
 - [ ] 信息不过时（与当前主流版本一致）
 
 **项目集成：**
-- [ ] `chapters.ts` 已更新且 `meta` 匹配
-- [ ] 文件名与 `slug` 完全一致（`import.meta.glob` 据此匹配组件）
+- [ ] **✅ `chapters.ts` 中已有完整的 meta 数据**（步骤 2 已完成）
+- [ ] 文件名与 `chapters.ts` 中的 `slug` 完全一致（`import.meta.glob` 据此匹配组件）
 - [ ] 组件签名为 `export default function Xxx({ meta }: { meta: KnowledgeNode })`
+- [ ] `meta.category` 指向正确的章节 ID（已在 chapters.ts 中定义）
 - [ ] `npm run build` 通过
 
 **风格一致性：**
@@ -312,6 +340,7 @@ export default function XxxPage({ meta }: { meta: KnowledgeNode }) {
 #### 1. 定位目标文件
 
 - 用户提供知识点名称或 slug → 定位到 `site/src/pages/articles/<slug>.tsx`
+- **首先检查 `site/src/data/chapters.ts`**：确认该文章的 meta 数据已存在且完整
 - 若不确定 slug，扫描 `site/src/data/chapters.ts` 中的 `articles` 列表查找匹配项
 - 读取目标文件完整内容
 
@@ -371,8 +400,8 @@ export default function XxxPage({ meta }: { meta: KnowledgeNode }) {
 
 | 检查项 | 检查方法 | 通过条件 |
 |--------|----------|----------|
+| **chapters.ts 中已有完整元数据** | 在 `chapters.ts` 中搜索 slug | **必须存在且 `meta` 字段完整**（步骤 2 应先完成） |
 | 文件名与 slug 一致 | 对比文件名（去 `.tsx`）与 `chapters.ts` 中对应文章的 `slug` | 完全一致 |
-| chapters.ts 有对应元数据 | 在 `chapters.ts` 中搜索 slug | 存在且 `meta` 字段完整 |
 | meta 字段匹配 | 对比 `chapters.ts` 中的 meta 与组件中 `getArticleNav(meta.category, meta.id)` 使用值 | category 指向正确的章节 ID |
 
 **F. 代码规范（严重性：🟡 警告）**

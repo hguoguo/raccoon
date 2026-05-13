@@ -24,6 +24,7 @@ export const chapters: Chapter[] = [
     articles: [
       { slug: 'java-basics', title: 'Java基础（必须打牢）', meta: { id: 'java-basics', title: 'Java基础（必须打牢）', level: 'Expert', tags: ['Java', '基础语法', '面向对象', '封装', '继承', '多态', '接口', '抽象类', 'String', 'BigDecimal'], difficulty: 3, category: '01-java-core', prerequisites: [], relatedPatterns: ['java-collections', 'java-concurrency'], readingTime: 60 } },
       { slug: 'generic-enum', title: '泛型与枚举', meta: { id: 'generic-enum', title: '泛型与枚举', level: 'Senior', tags: ['泛型', 'Generic', '枚举', 'Enum', '类型擦除', '通配符', 'PECS', 'EnumSet', 'EnumMap'], difficulty: 3, category: '01-java-core', prerequisites: ['java-basics'], relatedPatterns: ['collection-framework'], readingTime: 50 } },
+      { slug: 'java-exception-mechanism', title: '异常机制', meta: { id: 'java-exception-mechanism', title: '异常机制', level: 'Junior', tags: ['Exception', 'Throwable', 'try-catch-finally', 'throw', 'throws', '自定义异常', '检查型异常', '非检查型异常', '异常链'], difficulty: 2, category: '01-java-core', prerequisites: ['java-basics'], relatedPatterns: ['io-stream', 'concurrency'], readingTime: 45 } },
     ],
   },
   {
