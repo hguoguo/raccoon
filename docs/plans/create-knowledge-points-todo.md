@@ -21,9 +21,9 @@
 - [x] Spring事件机制 (`spring-event`) ✅ 已创建并部署
 
 ### 3. 数据库访问技术 (07-database)
-- [ ] JDBC底层原理 (`jdbc`)
-- [ ] 数据库连接池 (`connection-pool`)
-- [ ] Hibernate ORM框架 (`hibernate`)
+- [x] JDBC底层原理 (`jdbc`) ✅ 已创建并部署
+- [x] 数据库连接池 (`connection-pool`) ✅ 已创建并部署
+- [x] Hibernate ORM框架 (`hibernate`) ✅ 已创建并部署
 - [x] MyBatis SQL映射 (`mybatis`) ✅ 已创建并部署
 - [x] MyBatis-Plus增强工具 (`mybatis-plus`) ✅ 已创建并部署
 - [x] SQL优化与索引（重点🔥）(`sql-optimization`) ✅ 已创建并部署
