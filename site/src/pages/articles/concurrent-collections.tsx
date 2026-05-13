@@ -103,7 +103,7 @@ export default function ConcurrentCollections({ meta }: { meta: KnowledgeNode })
             </svg>
           </DiagramBlock>
 
-          <SideNote type="info" title="为什么需要并发集合？">
+          <SideNote label="为什么需要并发集合？">
             <p className="text-sm text-ink-muted">
               传统同步方式（如 Collections.synchronizedMap）对整个集合加锁，所有线程串行访问，并发度低。并发集合通过更精细的锁策略或无锁算法，允许多个线程同时操作不同部分的数据，显著提升吞吐量。
             </p>
@@ -126,8 +126,9 @@ export default function ConcurrentCollections({ meta }: { meta: KnowledgeNode })
           </p>
 
           <Playground 
-            title="JDK 7 ConcurrentHashMap 结构"
             language="java"
+            filename="ConcurrentHashMap.java (JDK 7)"
+            description="JDK 7 ConcurrentHashMap 结构"
             code={`// JDK 7 内部结构示意
 public class ConcurrentHashMap<K, V> {
     // 分段数组，默认 16 个 Segment
@@ -206,8 +207,9 @@ public class ConcurrentHashMap<K, V> {
           </DiagramBlock>
 
           <Playground 
-            title="JDK 8 核心字段"
             language="java"
+            filename="ConcurrentHashMap.java (JDK 8)"
+            description="JDK 8 核心字段"
             code={`public class ConcurrentHashMap<K, V> {
     // 存储数据的数组
     transient volatile Node<K,V>[] table;
@@ -228,7 +230,7 @@ public class ConcurrentHashMap<K, V> {
 }`}
           />
 
-          <SideNote type="success" title="JDK 8 的优势">
+          <SideNote label="JDK 8 的优势">
             <p className="text-sm text-ink-muted">
               • 并发度更高：理论上支持 N 个线程并发访问 N 个不同的桶<br/>
               • 内存占用更少：无需额外的 Segment 对象<br/>
@@ -247,37 +249,37 @@ public class ConcurrentHashMap<K, V> {
               {
                 label: "计算哈希",
                 description: "通过 spread() 方法计算 key 的哈希值，减少冲突",
-                highlight: "hash = spread(key.hashCode())"
+                icon: "🔢"
               },
               {
                 label: "初始化检查",
                 description: "如果 table 为空，调用 initTable() 初始化",
-                highlight: "if (tab == null || (n = tab.length) == 0)"
+                icon: "✅"
               },
               {
                 label: "CAS 插入空桶",
                 description: "如果桶为空，使用 CAS 直接插入新节点",
-                highlight: "casTabAt(tab, i, null, new Node(...))"
+                icon: "⚡"
               },
               {
                 label: "处理扩容",
                 description: "如果遇到 forwarding 节点，协助扩容",
-                highlight: "if (fh == MOVED) helpTransfer(tab, f)"
+                icon: "🔄"
               },
               {
                 label: "锁定头节点",
                 description: "对链表头或树根节点加 synchronized 锁",
-                highlight: "synchronized(f) { ... }"
+                icon: "🔒"
               },
               {
                 label: "遍历插入",
                 description: "遍历链表或红黑树，找到插入位置",
-                highlight: "for (Node<K,V> e = f; ; ++binCount)"
+                icon: "🔍"
               },
               {
                 label: "树化判断",
                 description: "链表长度 >= 8 时转换为红黑树",
-                highlight: "if (binCount >= TREEIFY_THRESHOLD) treeifyBin()"
+                icon: "🌳"
               }
             ]}
           />
@@ -757,7 +759,7 @@ poll(time, unit)      // 超时返回 null`
           <Callout type="success" title="ConcurrentHashMap 初始化容量">
             <p className="text-sm text-ink-muted">
               <strong>问题：</strong>频繁扩容会影响性能。<br/>
-              <strong>优化：</strong>预估数据量，初始化时指定合适容量：<code className="font-mono text-xs bg-parchment-warm px-1 rounded">new ConcurrentHashMap<>(expectedSize / 0.75f + 1)</code>
+              <strong>优化：</strong>预估数据量，初始化时指定合适容量：<code className="font-mono text-xs bg-parchment-warm px-1 rounded">{`new ConcurrentHashMap<>(expectedSize / 0.75f + 1)`}</code>
             </p>
           </Callout>
 

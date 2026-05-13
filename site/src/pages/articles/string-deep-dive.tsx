@@ -351,7 +351,7 @@ System.out.println("StringBuffer: " + (end - start) + "ms"); // ~15ms`}
           />
 
           <Callout type="tip" title="编译器优化">
-            对于少量的字符串拼接（如 <code className="font-mono text-[12px] sm:text-[13px] bg-parchment-warm text-accent-deep px-[5px] sm:px-[7px] py-[2px] rounded-[3px] border border-border-light">String s = "Hello" + " " + "World"</code>），Javac 编译器会自动优化为 StringBuilder 操作。但对于循环中的拼接（如 <code className="font-mono text-[12px] sm:text-[13px] bg-parchment-warm text-accent-deep px-[5px] sm:px-[7px] py-[2px] rounded-[3px] border border-border-light">for(...) { s += i; }</code>），编译器无法优化，必须手动使用 StringBuilder。
+            对于少量的字符串拼接，Javac 编译器会自动优化为 StringBuilder 操作。但对于循环中的拼接，编译器无法优化，必须手动使用 StringBuilder。
           </Callout>
 
           <h2 id="common-operations" className="font-display font-bold text-[20px] sm:text-display-md tracking-tight mt-8 sm:mt-12 mb-3 sm:mb-4 pb-[10px] border-b border-border-light text-ink">
@@ -388,7 +388,7 @@ String[] parts = s4.split("\\."); // 注意转义
             七、常见误区
           </h2>
 
-          <Callout type="danger" title="误区一：String s = new String("Hello") 创建了几个对象？">
+          <Callout type="danger" title='误区一：String s = new String("Hello") 创建了几个对象？'>
             <span className="font-semibold text-ink-light">你以为的：</span>1 个对象<br/>
             <span className="font-semibold text-accent">实际：</span><strong>2 个对象</strong>（如果常量池中没有 "Hello"）。第一个对象是常量池中的 "Hello"（编译期创建），第二个对象是堆中的 new String("Hello")（运行期创建）。如果常量池中已有 "Hello"，则只创建 1 个堆对象。
           </Callout>
