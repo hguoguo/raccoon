@@ -14,33 +14,39 @@ import type { KnowledgeNode, TocItem } from '../../data/types'
 
 const tocItems: TocItem[] = [
   { id: 'definition', text: '一句话定义', level: 2 },
-  { id: 'overview', text: '一、HashMap 整体架构', level: 2 },
+  { id: 'overview', text: '一、整体架构概述', level: 2 },
   { id: 'structure', text: '二、底层数据结构演进', level: 2 },
   { id: 'jdk7-vs-jdk8', text: '2.1 JDK 7 vs JDK 8', level: 3 },
+  { id: 'bucket-structure', text: '2.2 核心字段与节点结构', level: 3 },
   { id: 'hash-calculation', text: '三、哈希计算与索引定位', level: 2 },
   { id: 'disturb-function', text: '3.1 扰动函数详解', level: 3 },
   { id: 'index-calculation', text: '3.2 索引计算优化', level: 3 },
   { id: 'put-mechanism', text: '四、put 操作深度解析', level: 2 },
-  { id: 'collision-handling', text: '4.1 哈希冲突处理', level: 3 },
-  { id: 'treeify-threshold', text: '4.2 链表转红黑树', level: 3 },
-  { id: 'resize-mechanism', text: '五、扩容机制深度剖析', level: 2 },
-  { id: 'resize-trigger', text: '5.1 扩容触发条件', level: 3 },
-  { id: 'high-low-split', text: '5.2 高低位分流算法', level: 3 },
-  { id: 'thread-safety', text: '六、线程安全问题', level: 2 },
-  { id: 'jdk7-dead-loop', text: '6.1 JDK 7 死循环问题', level: 3 },
-  { id: 'jdk8-data-loss', text: '6.2 JDK 8 数据覆盖问题', level: 3 },
-  { id: 'performance', text: '七、性能优化技巧', level: 2 },
-  { id: 'misconceptions', text: '八、常见误区', level: 2 },
-  { id: 'interview', text: '九、面试真题', level: 2 },
-  { id: 'related', text: '十、知识关联', level: 2 },
+  { id: 'put-flow', text: '4.1 put 完整流程', level: 3 },
+  { id: 'collision-handling', text: '4.2 哈希冲突处理', level: 3 },
+  { id: 'treeify-threshold', text: '4.3 链表转红黑树', level: 3 },
+  { id: 'get-mechanism', text: '五、get 操作流程', level: 2 },
+  { id: 'animation', text: '六、操作动画演示', level: 2 },
+  { id: 'resize-mechanism', text: '七、扩容机制深度剖析', level: 2 },
+  { id: 'resize-trigger', text: '7.1 扩容触发条件', level: 3 },
+  { id: 'high-low-split', text: '7.2 高低位分流算法', level: 3 },
+  { id: 'thread-safety', text: '八、线程安全问题', level: 2 },
+  { id: 'jdk7-dead-loop', text: '8.1 JDK 7 死循环问题', level: 3 },
+  { id: 'jdk8-data-loss', text: '8.2 JDK 8 数据覆盖问题', level: 3 },
+  { id: 'comparison', text: '九、Map 实现对比', level: 2 },
+  { id: 'performance', text: '十、性能优化技巧', level: 2 },
+  { id: 'misconceptions', text: '十一、常见误区', level: 2 },
+  { id: 'interview', text: '十二、面试真题', level: 2 },
+  { id: 'related', text: '十三、知识关联', level: 2 },
 ]
 
-export default function HashmapInternals({ meta }: { meta: KnowledgeNode }) {
+export default function HashmapDeepDive({ meta }: { meta: KnowledgeNode }) {
   return (
     <div className="flex max-w-[100vw] overflow-x-hidden">
       <div className="flex-1 max-w-[820px] min-w-0 px-4 sm:px-6 lg:px-12 pb-20">
         <KnowledgeLayout meta={meta}>
 
+          {/* ========== 一句话定义 ========== */}
           <h2 id="definition" className="font-display font-bold text-[20px] sm:text-display-md tracking-tight mt-6 sm:mt-10 mb-3 sm:mb-4 pb-[10px] border-b border-border-light text-ink">
             一句话定义
           </h2>
@@ -52,8 +58,9 @@ export default function HashmapInternals({ meta }: { meta: KnowledgeNode }) {
             </p>
           </blockquote>
 
+          {/* ========== 一、整体架构概述 ========== */}
           <h2 id="overview" className="font-display font-bold text-[20px] sm:text-display-md tracking-tight mt-8 sm:mt-12 mb-3 sm:mb-4 pb-[10px] border-b border-border-light text-ink">
-            一、HashMap 整体架构
+            一、整体架构概述
           </h2>
           <p className="text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4">
             HashMap 是 Java 集合框架中最常用的数据结构之一。它通过哈希函数将 key 映射到数组下标，在理想情况下实现常数时间的增删查操作。当哈希冲突导致链表过长时，JDK 8 会将其转换为红黑树以保证最坏情况下的性能。
@@ -107,6 +114,7 @@ export default function HashmapInternals({ meta }: { meta: KnowledgeNode }) {
             它不保证元素的迭代顺序，且顺序可能随时间变化。
           </Callout>
 
+          {/* ========== 二、底层数据结构演进 ========== */}
           <h2 id="structure" className="font-display font-bold text-[20px] sm:text-display-md tracking-tight mt-8 sm:mt-12 mb-3 sm:mb-4 pb-[10px] border-b border-border-light text-ink">
             二、底层数据结构演进
           </h2>
@@ -137,6 +145,10 @@ export default function HashmapInternals({ meta }: { meta: KnowledgeNode }) {
             </table>
           </div>
 
+          <h3 id="bucket-structure" className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
+            2.2 核心字段与节点结构
+          </h3>
+
           <Playground language="java" filename="HashMap.java" description="HashMap 核心字段" highlights={[1, 3, 5, 8]}
             code={`public class HashMap<K,V> extends AbstractMap<K,V> implements Map<K,V>, Cloneable, Serializable {
     // 桶数组（JDK 8 引入 transient 避免序列化整个数组）
@@ -164,11 +176,36 @@ export default function HashmapInternals({ meta }: { meta: KnowledgeNode }) {
 }`}
           />
 
+          <Playground language="java" filename="HashMap.java" description="Node 和 TreeNode 结构" highlights={[3, 8, 13]}
+            code={`// Node 结构（链表节点）
+static class Node<K,V> implements Map.Entry<K,V> {
+    final int hash;
+    final K key;
+    V value;
+    Node<K,V> next;
+}
+
+// TreeNode 结构（红黑树节点，继承自 Node）
+static final class TreeNode<K,V> extends LinkedHashMap.Entry<K,V> {
+    TreeNode<K,V> parent;   // 父节点
+    TreeNode<K,V> left;     // 左子节点
+    TreeNode<K,V> right;    // 右子节点
+    TreeNode<K,V> prev;     // 前驱节点（用于删除）
+    boolean red;            // 颜色标记
+}`}
+          />
+
+          <SideNote label="空间开销">
+            TreeNode 占用空间是普通 Node 的约 2 倍（多了 parent/left/right/red 四个字段），
+            这是为什么不会轻易转为红黑树的原因之一——空间换时间需要权衡。
+          </SideNote>
+
           <SideNote label="为什么选择 0.75 作为默认负载因子？">
             根据泊松分布模型，负载因子 0.75 时，链表长度达到 8 的概率仅为 0.00000006，属于极端情况。
             这个值在时间和空间之间取得了平衡：太大则哈希冲突多，查询性能下降；太小则浪费空间，频繁扩容。
           </SideNote>
 
+          {/* ========== 三、哈希计算与索引定位 ========== */}
           <h2 id="hash-calculation" className="font-display font-bold text-[20px] sm:text-display-md tracking-tight mt-8 sm:mt-12 mb-3 sm:mb-4 pb-[10px] border-b border-border-light text-ink">
             三、哈希计算与索引定位
           </h2>
@@ -221,9 +258,14 @@ export default function HashmapInternals({ meta }: { meta: KnowledgeNode }) {
             只有当 n 是 2 的幂次方时，<code className="font-mono text-[12px] sm:text-[13px] bg-parchment-warm text-accent-deep px-[5px] sm:px-[7px] py-[2px] rounded-[3px] border border-border-light">(n - 1)</code> 的二进制才全是 1（如 15 = 1111），与 hash 做 &amp; 运算才能等价于取模。如果 n 不是 2 的幂，会导致某些位置永远无法被映射到，浪费空间。
           </Callout>
 
+          {/* ========== 四、put 操作深度解析 ========== */}
           <h2 id="put-mechanism" className="font-display font-bold text-[20px] sm:text-display-md tracking-tight mt-8 sm:mt-12 mb-3 sm:mb-4 pb-[10px] border-b border-border-light text-ink">
             四、put 操作深度解析
           </h2>
+
+          <h3 id="put-flow" className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
+            4.1 put 完整流程
+          </h3>
 
           <InteractiveFlow title="HashMap put 完整流程" steps={[
             { label: '计算 hash', description: '调用 hash(key)，对 hashCode 进行扰动处理', icon: '🔢' },
@@ -237,7 +279,7 @@ export default function HashmapInternals({ meta }: { meta: KnowledgeNode }) {
           ]} />
 
           <h3 id="collision-handling" className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
-            4.1 哈希冲突处理
+            4.2 哈希冲突处理
           </h3>
           <p className="text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4">
             当多个 key 映射到同一个桶时，发生哈希冲突。JDK 8 采用<strong className="text-ink-light font-semibold">链地址法</strong>解决冲突：将冲突的元素组织成链表或红黑树。
@@ -301,7 +343,7 @@ export default function HashmapInternals({ meta }: { meta: KnowledgeNode }) {
           />
 
           <h3 id="treeify-threshold" className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
-            4.2 链表转红黑树
+            4.3 链表转红黑树
           </h3>
           <p className="text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4">
             当链表长度超过 <code className="font-mono text-[12px] sm:text-[13px] bg-parchment-warm text-accent-deep px-[5px] sm:px-[7px] py-[2px] rounded-[3px] border border-border-light">TREEIFY_THRESHOLD(8)</code> 且数组长度达到 <code className="font-mono text-[12px] sm:text-[13px] bg-parchment-warm text-accent-deep px-[5px] sm:px-[7px] py-[2px] rounded-[3px] border border-border-light">MIN_TREEIFY_CAPACITY(64)</code> 时，链表会转换为红黑树，将最坏情况下的查询时间复杂度从 O(n) 优化到 O(log n)。
@@ -318,15 +360,74 @@ export default function HashmapInternals({ meta }: { meta: KnowledgeNode }) {
             根据泊松分布，链表长度达到 8 的概率仅为 0.00000006，属于极端情况。同时，红黑树节点（TreeNode）占用空间是普通 Node 的 2 倍，8 是一个在时间和空间之间的平衡点。退化阈值设为 6（而非 8）是为了避免频繁在链表和红黑树之间切换（中间有 7 的缓冲区），减少树化/退化的性能开销。
           </SideNote>
 
+          {/* ========== 五、get 操作流程 ========== */}
+          <h2 id="get-mechanism" className="font-display font-bold text-[20px] sm:text-display-md tracking-tight mt-8 sm:mt-12 mb-3 sm:mb-4 pb-[10px] border-b border-border-light text-ink">
+            五、get 操作流程
+          </h2>
+
+          <InteractiveFlow
+            title="HashMap get 操作流程"
+            steps={[
+              { label: '计算hash', description: '与 put 相同，调用 hash(key) 计算扰动后的 hash 值', icon: '🔢' },
+              { label: '定位桶', description: '通过 (n-1) & hash 找到桶位置，如果桶为空返回 null', icon: '📍' },
+              { label: '首节点检查', description: '先检查桶的第一个节点是否匹配（快速路径，命中率高）', icon: '🎯' },
+              { label: '遍历查找', description: '首节点不匹配则遍历：链表用 next 引用，红黑树用左/右子树查找', icon: '🔍' },
+              { label: '返回结果', description: '找到匹配 key 的节点返回 value，否则返回 null', icon: '📤' },
+            ]}
+          />
+
+          <Playground
+            language="Java"
+            filename="HashMap.java"
+            description="get 方法源码"
+            highlights={[3, 5, 8]}
+            code={`public V get(Object key) {
+    Node<K,V> e;
+    return (e = getNode(hash(key), key)) == null ? null : e.value;
+}
+
+final Node<K,V> getNode(int hash, Object key) {
+    Node<K,V>[] tab; Node<K,V> first, e; int n; K k;
+    // 1. 桶不为空 且 首节点存在
+    if ((tab = table) != null && (n = tab.length) > 0 &&
+        (first = tab[(n - 1) & hash]) != null) {
+        // 2. 快速路径：首节点即目标
+        if (first.hash == hash && ((k = first.key) == key || key.equals(k)))
+            return first;
+        // 3. 遍历：链表 or 红黑树
+        if ((e = first.next) != null) {
+            if (first instanceof TreeNode)
+                return ((TreeNode<K,V>)first).getTreeNode(hash, key);
+            do {
+                if (e.hash == hash && ((k = e.key) == key || key.equals(k)))
+                    return e;
+            } while ((e = e.next) != null);
+        }
+    }
+    return null;
+}`}
+          />
+
+          {/* ========== 六、操作动画演示 ========== */}
+          <h2 id="animation" className="font-display font-bold text-[20px] sm:text-display-md tracking-tight mt-8 sm:mt-12 mb-3 sm:mb-4 pb-[10px] border-b border-border-light text-ink">
+            六、操作动画演示
+          </h2>
+          <p className="text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4">
+            通过交互式动画直观理解 put / get / resize 的执行过程。点击步骤按钮逐步观看，或点击播放自动演示。
+          </p>
+
+          <HashMapAnimator />
+
+          {/* ========== 七、扩容机制深度剖析 ========== */}
           <h2 id="resize-mechanism" className="font-display font-bold text-[20px] sm:text-display-md tracking-tight mt-8 sm:mt-12 mb-3 sm:mb-4 pb-[10px] border-b border-border-light text-ink">
-            五、扩容机制深度剖析
+            七、扩容机制深度剖析
           </h2>
           <p className="text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4">
             当 <code className="font-mono text-[12px] sm:text-[13px] bg-parchment-warm text-accent-deep px-[5px] sm:px-[7px] py-[2px] rounded-[3px] border border-border-light">size &gt; threshold</code>（即 size &gt; capacity × loadFactor）时，HashMap 会触发扩容。扩容的核心策略是<strong className="text-ink-light font-semibold">容量翻倍</strong>，并重新分配所有元素。
           </p>
 
           <h3 id="resize-trigger" className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
-            5.1 扩容触发条件
+            7.1 扩容触发条件
           </h3>
           <p className="text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4">
             HashMap 在以下两种情况下会触发扩容：
@@ -349,7 +450,7 @@ export default function HashmapInternals({ meta }: { meta: KnowledgeNode }) {
           </div>
 
           <h3 id="high-low-split" className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
-            5.2 高低位分流算法
+            7.2 高低位分流算法
           </h3>
           <p className="text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4">
             JDK 8 在扩容时不需要重新计算 hash，元素的新位置要么是原索引，要么是原索引 + 旧容量。只需判断 <code className="font-mono text-[12px] sm:text-[13px] bg-parchment-warm text-accent-deep px-[5px] sm:px-[7px] py-[2px] rounded-[3px] border border-border-light">(hash &amp; oldCap) == 0</code> 即可。这种<strong className="text-ink-light font-semibold">高低位分流</strong>方式避免了全量 rehash，效率更高。
@@ -409,15 +510,16 @@ export default function HashmapInternals({ meta }: { meta: KnowledgeNode }) {
             扩容后容量翻倍，新容量的二进制比旧容量多一位。例如 oldCap=16 (10000)，newCap=32 (100000)。对于任意 hash 值，<code className="font-mono text-[12px] sm:text-[13px] bg-parchment-warm text-accent-deep px-[5px] sm:px-[7px] py-[2px] rounded-[3px] border border-border-light">(hash &amp; oldCap)</code> 的结果只有两种：0 或 oldCap。如果为 0，说明新增的那一位是 0，元素留在原位置；如果为 oldCap，说明新增位是 1，元素移到原位置 + oldCap。
           </Callout>
 
+          {/* ========== 八、线程安全问题 ========== */}
           <h2 id="thread-safety" className="font-display font-bold text-[20px] sm:text-display-md tracking-tight mt-8 sm:mt-12 mb-3 sm:mb-4 pb-[10px] border-b border-border-light text-ink">
-            六、线程安全问题
+            八、线程安全问题
           </h2>
           <p className="text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4">
             HashMap 是非线程安全的，在多线程环境下会出现严重问题。JDK 7 和 JDK 8 的问题表现不同：
           </p>
 
           <h3 id="jdk7-dead-loop" className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
-            6.1 JDK 7 死循环问题
+            8.1 JDK 7 死循环问题
           </h3>
           <p className="text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4">
             JDK 7 采用<strong className="text-ink-light font-semibold">头插法</strong>插入链表，多线程并发扩容时可能导致链表成环，后续 get 操作进入死循环，CPU 飙升到 100%。
@@ -428,7 +530,7 @@ export default function HashmapInternals({ meta }: { meta: KnowledgeNode }) {
           </Callout>
 
           <h3 id="jdk8-data-loss" className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
-            6.2 JDK 8 数据覆盖问题
+            8.2 JDK 8 数据覆盖问题
           </h3>
           <p className="text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4">
             JDK 8 改为<strong className="text-ink-light font-semibold">尾插法</strong>，避免了死循环问题，但仍存在数据覆盖风险：两个线程同时判断桶位置为 null，后写入的会覆盖先写入的值，导致数据丢失。
@@ -453,8 +555,80 @@ if ((p = tab[i]) == null)
             多线程环境下应使用 <code className="font-mono text-[12px] sm:text-[13px] bg-parchment-warm text-accent-deep px-[5px] sm:px-[7px] py-[2px] rounded-[3px] border border-border-light">ConcurrentHashMap</code> 替代 HashMap。ConcurrentHashMap JDK 8 采用 CAS + synchronized 细粒度锁，既保证了线程安全，又保持了高并发性能。
           </Callout>
 
+          {/* ========== 九、Map 实现对比 ========== */}
+          <h2 id="comparison" className="font-display font-bold text-[20px] sm:text-display-md tracking-tight mt-8 sm:mt-12 mb-3 sm:mb-4 pb-[10px] border-b border-border-light text-ink">
+            九、Map 实现对比
+          </h2>
+          <p className="text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4">
+            Java 集合框架提供了多种 Map 实现，各有侧重。以下是核心差异对比：
+          </p>
+
+          <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0 my-5">
+            <table className="w-full text-[12px] sm:text-[13px] border-collapse font-sans min-w-[520px]">
+              <thead>
+                <tr className="border-b-2 border-border">
+                  <th className="text-left py-2.5 px-3 text-ink font-semibold">特性</th>
+                  <th className="text-left py-2.5 px-3 text-accent font-semibold">HashMap</th>
+                  <th className="text-left py-2.5 px-3 text-teal font-semibold">TreeMap</th>
+                  <th className="text-left py-2.5 px-3 text-rose font-semibold">LinkedHashMap</th>
+                  <th className="text-left py-2.5 px-3 text-indigo font-semibold">ConcurrentHashMap</th>
+                </tr>
+              </thead>
+              <tbody className="text-ink-muted">
+                <tr className="border-b border-border-light">
+                  <td className="py-2.5 px-3 font-medium text-ink">底层数据结构</td>
+                  <td className="py-2.5 px-3">数组+链表+红黑树</td>
+                  <td className="py-2.5 px-3">红黑树</td>
+                  <td className="py-2.5 px-3">数组+链表+红黑树+双向链表</td>
+                  <td className="py-2.5 px-3">数组+链表+红黑树</td>
+                </tr>
+                <tr className="border-b border-border-light">
+                  <td className="py-2.5 px-3 font-medium text-ink">是否有序</td>
+                  <td className="py-2.5 px-3">❌ 无序</td>
+                  <td className="py-2.5 px-3">✅ 按 key 自然排序</td>
+                  <td className="py-2.5 px-3">✅ 插入/访问顺序</td>
+                  <td className="py-2.5 px-3">❌ 无序</td>
+                </tr>
+                <tr className="border-b border-border-light">
+                  <td className="py-2.5 px-3 font-medium text-ink">null 键</td>
+                  <td className="py-2.5 px-3">✅ 允许</td>
+                  <td className="py-2.5 px-3">❌ 不允许</td>
+                  <td className="py-2.5 px-3">✅ 允许</td>
+                  <td className="py-2.5 px-3">❌ 不允许</td>
+                </tr>
+                <tr className="border-b border-border-light">
+                  <td className="py-2.5 px-3 font-medium text-ink">线程安全</td>
+                  <td className="py-2.5 px-3">❌ 否</td>
+                  <td className="py-2.5 px-3">❌ 否</td>
+                  <td className="py-2.5 px-3">❌ 否</td>
+                  <td className="py-2.5 px-3">✅ 是（分段锁/CAS）</td>
+                </tr>
+                <tr className="border-b border-border-light">
+                  <td className="py-2.5 px-3 font-medium text-ink">时间复杂度</td>
+                  <td className="py-2.5 px-3">O(1) 平均</td>
+                  <td className="py-2.5 px-3">O(log n)</td>
+                  <td className="py-2.5 px-3">O(1) 平均</td>
+                  <td className="py-2.5 px-3">O(1) 平均</td>
+                </tr>
+                <tr>
+                  <td className="py-2.5 px-3 font-medium text-ink">适用场景</td>
+                  <td className="py-2.5 px-3">通用键值存储</td>
+                  <td className="py-2.5 px-3">范围查询/排序遍历</td>
+                  <td className="py-2.5 px-3">需要迭代顺序</td>
+                  <td className="py-2.5 px-3">高并发读写</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <Callout type="tip" title="选型建议">
+            日常开发首选 HashMap；需要排序用 TreeMap；需要保持插入/访问顺序用 LinkedHashMap；
+            多线程场景用 ConcurrentHashMap。不要用 HashTable（已过时）或 Collections.synchronizedMap()（性能差）。
+          </Callout>
+
+          {/* ========== 十、性能优化技巧 ========== */}
           <h2 id="performance" className="font-display font-bold text-[20px] sm:text-display-md tracking-tight mt-8 sm:mt-12 mb-3 sm:mb-4 pb-[10px] border-b border-border-light text-ink">
-            七、性能优化技巧
+            十、性能优化技巧
           </h2>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 my-5">
@@ -478,8 +652,9 @@ if ((p = tab[i]) == null)
             </div>
           </div>
 
+          {/* ========== 十一、常见误区 ========== */}
           <h2 id="misconceptions" className="font-display font-bold text-[20px] sm:text-display-md tracking-tight mt-8 sm:mt-12 mb-3 sm:mb-4 pb-[10px] border-b border-border-light text-ink">
-            八、常见误区
+            十一、常见误区
           </h2>
 
           <Callout type="danger" title="误区一：链表长度达到 8 就转红黑树">
@@ -502,8 +677,15 @@ if ((p = tab[i]) == null)
             <span className="font-semibold text-accent">实际：</span>hashCode 相同只是 equals 相同的必要条件，而非充分条件。不同对象可能有相同 hashCode（哈希冲突），但 equals 返回 false。Java 规范规定：如果 equals 相等，hashCode 必须相同；但 hashCode 相同，equals 不一定相等。
           </Callout>
 
+          <Callout type="danger" title="误区五：容量一定是传入的初始值">
+            <span className="font-semibold text-ink-light">你以为的：</span>new HashMap{'<>'}(10) 容量就是 10<br />
+            <span className="font-semibold text-accent">实际：</span>HashMap 会将传入的容量向上取整为 2 的幂次方。new HashMap{'<>'}(10) 实际容量为 16，
+            new HashMap{'<>'}(17) 实际容量为 32。这是为了配合位运算计算索引。
+          </Callout>
+
+          {/* ========== 十二、面试真题 ========== */}
           <h2 id="interview" className="font-display font-bold text-[20px] sm:text-display-md tracking-tight mt-8 sm:mt-12 mb-3 sm:mb-4 pb-[10px] border-b border-border-light text-ink">
-            九、面试真题
+            十二、面试真题
           </h2>
 
           <InterviewSection questions={[
@@ -514,10 +696,12 @@ if ((p = tab[i]) == null)
             { question: 'HashMap 中 hash 方法的实现？为什么要用扰动函数？', answer: 'hash() 方法：(h = key.hashCode()) ^ (h >>> 16)。将高 16 位与低 16 位异或作为扰动。原因：数组长度较小时（如 16），只有低 4 位参与索引计算，高位特征被丢弃，冲突概率高。扰动后高位也参与计算，显著降低冲突率。当 n 较大时（如 1024），低 10 位已经足够分散，扰动效果减弱。' },
             { question: '为什么 HashMap 的容量必须是 2 的幂次方？', answer: '1）位运算替代取模：index = (n-1) & hash 等价于 hash % n，但位运算更快；2）n 为 2 的幂时，n-1 的二进制全是 1（如 15 = 1111），与 hash 做 & 运算能均匀分布；3）扩容时高低位分流依赖这个特性——(hash & oldCap) 只有两个结果（0 或 oldCap），元素要么留在原位，要么偏移 oldCap。如果 n 不是 2 的幂，会导致某些位置永远无法被映射到，浪费空间。' },
             { question: 'JDK 7 和 JDK 8 的 HashMap 有什么区别？', answer: '1）数据结构：JDK 7 是数组+链表，JDK 8 是数组+链表+红黑树；2）插入方式：JDK 7 头插法，JDK 8 尾插法；3）扩容死循环：JDK 7 存在，JDK 8 已修复；4）最坏时间复杂度：JDK 7 是 O(n)，JDK 8 是 O(log n)（树化后）；5）树化机制：JDK 8 引入，链表长度≥8 且数组长度≥64 时转为红黑树。' },
+            { question: 'HashMap 的 get 方法执行流程是什么？', answer: '1）计算 hash：调用 hash(key) 进行扰动处理；2）定位桶：通过 (n-1) & hash 找到桶位置；3）首节点检查：如果首节点 hash 和 key 匹配，直接返回（快速路径）；4）遍历查找：如果是红黑树，调用 getTreeNode；如果是链表，遍历 next 指针逐个比较；5）返回结果：找到返回 value，否则返回 null。' },
           ]} />
 
+          {/* ========== 十三、知识关联 ========== */}
           <h2 id="related" className="font-display font-bold text-[20px] sm:text-display-md tracking-tight mt-8 sm:mt-12 mb-3 sm:mb-4 pb-[10px] border-b border-border-light text-ink">
-            十、知识关联
+            十三、知识关联
           </h2>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 my-5">
