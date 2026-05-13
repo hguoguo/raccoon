@@ -23,39 +23,39 @@ export default function HeroSection() {
             {/* Tag */}
             <div className="inline-flex items-center gap-[6px] bg-accent-soft border border-accent/18 text-accent text-[11px] sm:text-[12px] font-medium px-[12px] sm:px-[14px] py-1 rounded-[20px] mb-5 sm:mb-6 font-sans animate-fade-in-up">
               <span>🦝</span>
-              <span>Raccoon 编程学习库 · v1.6.0</span>
+              <span>Raccoon · 程序员的底层认知库 · v1.6.0</span>
             </div>
 
             {/* Title */}
             <h1 className="font-display font-bold text-[28px] sm:text-display-lg lg:text-[44px] text-ink mb-4 sm:mb-[18px] animate-fade-in-up leading-[1.2]" style={{ animationDelay: '0.1s' }}>
-              深入探索<br />
+              像小浣熊一样<br />
               <span className="relative inline-block">
-                技术底层原理
+                掏透每一行代码
                 <span className="absolute left-0 bottom-1 w-full h-2.5 bg-accent/12 rounded-[2px] -z-[1]" />
               </span>
             </h1>
 
             {/* Description */}
             <p className="text-[14px] sm:text-base text-ink-muted leading-[1.8] sm:leading-[1.9] max-w-[520px] mb-6 sm:mb-8 font-body animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-              系统化整理 Java、Python、AI 开发等技术栈核心知识点，覆盖从基础到高级的多个专题，帮助开发者深入理解底层原理、掌握源码分析、攻克面试难关。
+              浣熊翻垃圾桶是找好吃的，我们翻源码是找好玩的——HashMap 的负载因子为什么偏偏是 0.75？JVM 看到你的代码时在想什么？Python 的 GIL 到底在保护谁？帮你把源码读薄、把原理讲透——毕竟，懂了才能装得更有底气 🤫
             </p>
 
             {/* Actions */}
             <div className="flex flex-col sm:flex-row gap-3 animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
               <a href="#chapters" className="inline-flex items-center justify-center gap-2 py-[11px] px-[26px] bg-accent text-white font-sans font-semibold text-sm rounded-paper-md hover:bg-accent-warm hover:-translate-y-[1px] hover:shadow-paper-md transition-all shadow-paper-sm">
-                开始学习 →
+                深入源码 →
               </a>
               <a href="#" className="inline-flex items-center justify-center gap-2 py-[11px] px-[26px] bg-parchment-light text-ink-muted font-sans font-medium text-sm rounded-paper-md border border-border hover:bg-parchment-deep hover:text-ink-light transition-all">
-                学习路线图
+                升级路线
               </a>
             </div>
 
             {/* Stats */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mt-8 sm:mt-10 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
-              <StatCard value="90+" accent="90" label="核心文档" />
-              <StatCard value="347+" accent="347" label="面试题目" />
-              <StatCard value="196+" accent="196" label="可视化图表" />
-              <StatCard value="77.5K" accent="77.5" label="行技术内容" />
+              <StatCard value="90+" accent="90" label="源码解析" />
+              <StatCard value="347+" accent="347" label="面试真题" />
+              <StatCard value="196+" accent="196" label="架构图解" />
+              <StatCard value="77.5K" accent="77.5" label="行硬核内容" />
             </div>
           </div>
 
@@ -72,7 +72,7 @@ export default function HeroSection() {
             {/* Central hub */}
             <div className="absolute z-20 flex items-center justify-center">
               <div className="w-16 h-16 xl:w-18 xl:h-18 rounded-full bg-gradient-to-br from-accent to-accent-warm shadow-paper-md flex items-center justify-center animate-[gentlePulse_3s_ease-in-out_infinite]">
-                <span className="text-2xl xl:text-[28px] select-none">🦝</span>
+                <img src="/logo.png" alt="Raccoon Logo" className="w-8 h-8 object-contain" />
               </div>
             </div>
 
