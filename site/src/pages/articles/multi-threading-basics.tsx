@@ -2,6 +2,7 @@ import KnowledgeLayout from '../../components/knowledge/KnowledgeLayout'
 import Playground from '../../components/knowledge/Playground'
 import SideNote from '../../components/knowledge/SideNote'
 import SmartTOC from '../../components/knowledge/SmartTOC'
+import ContextSwitcher from '../../components/knowledge/ContextSwitcher'
 import Callout from '../../components/ui/Callout'
 import DiagramBlock from '../../components/ui/DiagramBlock'
 import InterviewSection from '../../components/ui/InterviewSection'
@@ -302,6 +303,97 @@ public class Main {
           <Callout type="danger" title="经典面试题：多个线程共享数据">
             如果使用继承 Thread 的方式，每个 Thread 实例都有独立的成员变量，无法共享数据。而 Runnable 可以实现同一个实例被多个 Thread 共享，天然支持数据共享场景（如售票系统）。
           </Callout>
+
+          <ContextSwitcher
+            simpleContent={
+              <div className="space-y-3">
+                <p className="text-[14px] sm:text-[15px] leading-[1.8] text-ink-muted">
+                  <strong>场景化选择指南：</strong>
+                </p>
+                <ul className="list-disc list-inside space-y-2 text-[14px] sm:text-[15px] leading-[1.8] text-ink-muted ml-2">
+                  <li><strong className="text-accent">简单任务</strong> → 实现 Runnable，代码简洁且解耦</li>
+                  <li><strong className="text-accent">需要返回值</strong> → 使用 Callable + FutureTask</li>
+                  <li><strong className="text-accent">线程池场景</strong> → 必须用 Runnable 或 Callable（线程池不接受 Thread 子类）</li>
+                  <li><strong className="text-rose">快速原型</strong> → 可用 Thread（仅演示，生产环境不推荐）</li>
+                </ul>
+                <Playground
+                  code={`// ✅ 推荐：Runnable 方式
+Runnable task = () -> System.out.println("Hello from " + Thread.currentThread().getName());
+new Thread(task, "Worker-1").start();
+
+// ✅ 需要结果：Callable 方式
+Callable<Integer> calc = () -> 42;
+FutureTask<Integer> future = new FutureTask<>(calc);
+new Thread(future).start();
+Integer result = future.get(); // 阻塞获取结果
+
+// ❌ 不推荐：直接继承 Thread
+class MyThread extends Thread {
+    public void run() { /* ... */ }
+}
+new MyThread().start();`}
+                  language="java"
+                  highlights={[2, 6, 10]}
+                  filename="ScenarioExamples.java"
+                  description="不同场景的代码示例"
+                />
+              </div>
+            }
+            hardcoreContent={
+              <div className="space-y-3">
+                <p className="text-[14px] sm:text-[15px] leading-[1.8] text-ink-muted">
+                  <strong>底层原理深度解析：</strong>
+                </p>
+                <ol className="list-decimal list-inside space-y-3 text-[14px] sm:text-[15px] leading-[1.8] text-ink-muted ml-2">
+                  <li>
+                    <strong className="text-ink">Thread 的本质</strong>：Thread 是 JVM 对操作系统线程的抽象，调用 <code className="font-mono text-[12px]">start()</code> 会通过 JNI 调用操作系统的 <code className="font-mono text-[12px]">pthread_create</code>（Linux）或 <code className="font-mono text-[12px]">CreateThread</code>（Windows）创建原生线程。
+                  </li>
+                  <li>
+                    <strong className="text-ink">Runnable 的设计哲学</strong>：遵循<strong>命令模式</strong>（Command Pattern），将"任务逻辑"封装为对象，与"执行机制"（Thread）解耦。这使得同一任务可以被不同执行器复用（如 ThreadPoolExecutor、ForkJoinPool）。
+                  </li>
+                  <li>
+                    <strong className="text-ink">Callable 的实现机制</strong>：Callable 通过 <code className="font-mono text-[12px]">FutureTask</code> 包装，FutureTask 内部维护了状态机（NEW → COMPLETING → NORMAL/EXCEPTIONAL/CANCELLED），使用 <code className="font-mono text-[12px]">Unsafe.park/unpark</code> 实现阻塞等待，基于 <code className="font-mono text-[12px]">CAS</code> 保证状态转换的原子性。
+                  </li>
+                </ol>
+                <Playground
+                  code={`// FutureTask 核心源码简化版
+public class FutureTask<V> implements RunnableFuture<V> {
+    private volatile int state; // NEW=0, COMPLETING=1, NORMAL=2...
+    private Callable<V> callable;
+    private Object outcome; // 存储结果或异常
+    
+    public V get() throws InterruptedException, ExecutionException {
+        int s = state;
+        if (s <= COMPLETING) // 如果未完成，阻塞等待
+            s = awaitDone(false, 0L);
+        return report(s); // 返回结果或抛出异常
+    }
+    
+    public void run() {
+        if (state != NEW || !UNSAFE.compareAndSwapObject(...))
+            return;
+        try {
+            Callable<V> c = callable;
+            if (c != null && state == NEW) {
+                V result = c.call(); // 执行任务
+                set(result); // CAS 设置结果
+            }
+        } catch (Throwable ex) {
+            setException(ex); // CAS 设置异常
+        }
+    }
+}`}
+                  language="java"
+                  highlights={[2, 7, 15, 21, 24]}
+                  filename="FutureTask-Core.java"
+                  description="FutureTask 底层实现原理"
+                />
+                <Callout type="info" title="关键洞察">
+                  Callable 的价值不仅在于返回值，更在于它提供了<strong>异步任务的生命周期管理</strong>能力（取消、超时、异常传播），这是构建现代并发框架（如 CompletableFuture）的基础。Thread 和 Runnable 只是"启动即忘"的火射模型，缺乏对任务状态的精细控制。
+                </Callout>
+              </div>
+            }
+          />
 
           <h2 id="lifecycle" className="font-display font-bold text-[20px] sm:text-display-md tracking-tight mt-8 sm:mt-12 mb-3 sm:mb-4 pb-[10px] border-b border-border-light text-ink">
             三、线程生命周期
