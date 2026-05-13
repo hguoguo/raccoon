@@ -37,7 +37,160 @@ description: |
 
 ## 工作流程
 
-### 步骤 1：收集需求 + 扫描组件库
+### 步骤 0：智能检测元数据是否已存在（⚡ 新增）
+
+**在开始任何工作之前，首先检查 `chapters.ts` 中是否已有该知识点的元数据。**
+
+#### 检测方法：
+
+1. **从用户需求中提取知识点名称或 slug**
+   - 用户可能说：“创建 ConcurrentHashMap 页面” → 提取 “ConcurrentHashMap”
+   - 用户可能说：“生成 concurrent-hashmap 文章” → 提取 “concurrent-hashmap”
+   - 用户可能直接提供 slug：“添加 reflection 知识点” → 提取 “reflection”
+
+2. **扫描 `chapters.ts` 查找匹配项**
+   ```typescript
+   // 搜索策略（按优先级）：
+   // 1. 精确匹配 slug
+   const article = chapters.flatMap(c => c.articles).find(a => a.slug === extractedSlug)
+   
+   // 2. 模糊匹配 title（去除空格、转小写）
+   const article = chapters.flatMap(c => c.articles).find(a => 
+     a.title.toLowerCase().replace(/\s+/g, '-') === extractedSlug.toLowerCase()
+   )
+   
+   // 3. 关键词匹配（包含关系）
+   const article = chapters.flatMap(c => c.articles).find(a => 
+     a.title.toLowerCase().includes(keyword) || 
+     a.slug.toLowerCase().includes(keyword)
+   )
+   ```
+
+3. **判断结果分支**
+   - ✅ **找到完整 meta 数据** → 跳转到【快速模式：直接生成页面】
+   - ❌ **未找到或 meta 不完整** → 继续执行标准流程（步骤 1-8）
+
+#### 🚀 批量创建模式（⚡ 新增）
+
+如果用户请求“批量创建某章节的所有页面”或“生成所有缺失的页面”，执行以下流程：
+
+1. **识别目标章节**
+   - 用户可能说：“创建 02-collections 章节的所有页面”
+   - 用户可能说：“生成 Java 核心基础的所有文章”
+   - 从输入中提取 `chapterId` 或章节标题
+
+2. **扫描该章节下所有文章的 slug**
+   ```typescript
+   const targetChapter = chapters.find(c => c.id === chapterId)
+   const articles = targetChapter?.articles || []
+   ```
+
+3. **检测哪些页面文件缺失**
+   ```typescript
+   const missingPages = articles.filter(article => {
+     const filePath = `site/src/pages/articles/${article.slug}.tsx`
+     return !fileExists(filePath)
+   })
+   ```
+
+4. **展示待创建列表并确认**
+   ```
+   📋 检测到 02-collections 章节下有 6 篇文章，其中 3 篇页面文件缺失：
+   
+   ✅ 已存在:
+      - collection-framework.tsx
+      - list-deep-dive.tsx
+   
+   ⏳ 待创建:
+      - set-deep-dive.tsx (Set深度解析)
+      - map-framework.tsx (Map框架)
+      - hashmap-deep-dive.tsx (HashMap深度剖析)
+   
+   是否批量创建这 3 个页面？(Y/n)
+   ```
+
+5. **逐个创建页面**
+   - 对每个缺失的页面，执行【快速模式：直接生成页面】
+   - 每创建一个页面后，显示进度：`[1/3] 已完成 set-deep-dive.tsx`
+   - 全部完成后，汇总报告
+
+6. **批量部署**
+   - 所有页面创建完成后，统一执行步骤 8 自动部署
+
+**注意：**
+- 批量创建时，每个页面的内容质量不应降低
+- 如果某个页面的元数据不完整，跳过该页面并提示用户
+- 批量操作建议配合 `dispatching-parallel-agents` skill 提升效率（如同时创建多个页面）
+
+---
+
+#### 快速模式：直接生成页面
+
+如果检测到 `chapters.ts` 中已有完整的元数据：
+
+```typescript
+// 示例：chapters.ts 中已有
+{
+  slug: 'concurrent-hashmap',
+  title: 'ConcurrentHashMap 深度解析',
+  meta: {
+    id: 'concurrent-hashmap',
+    title: 'ConcurrentHashMap 深度解析',
+    level: 'Expert',
+    tags: ['ConcurrentHashMap', '线程安全', '分段锁', 'CAS'],
+    difficulty: 5,
+    category: '02-collections',
+    prerequisites: ['hashmap-deep-dive'],
+    relatedPatterns: ['collection-framework'],
+    readingTime: 60
+  }
+}
+```
+
+**则跳过步骤 1-2，直接进入步骤 3：**
+
+1. ✅ **确认元数据完整性**：
+   - 检查 `slug`、`title`、`level`、`tags`、`difficulty`、`category`、`prerequisites`、`relatedPatterns`、`readingTime` 是否都存在
+   - 如果缺少任何字段，提示用户并回退到标准流程
+
+2. ✅ **提取关键信息**：
+   ```typescript
+   const { slug, title, meta } = foundArticle
+   const chapterId = meta.category
+   const componentPath = `site/src/pages/articles/${slug}.tsx`
+   ```
+
+3. ✅ **验证文件是否存在**：
+   - 如果 `<slug>.tsx` 已存在 → 询问用户是否覆盖或检视现有页面
+   - 如果不存在 → 直接创建新页面文件
+
+4. ✅ **生成页面内容**：
+   - 使用 `meta.tags` 中的关键词作为内容创作的指引
+   - 使用 `meta.level` 和 `meta.difficulty` 决定内容深度
+   - 使用 `meta.prerequisites` 和 `meta.relatedPatterns` 构建知识关联部分
+   - 严格按照步骤 3 的布局规范创建页面
+
+5. ✅ **跳过部署确认**：
+   - 因为元数据已存在，说明这是规划好的知识点，直接执行步骤 8 自动部署
+
+**用户提示示例：**
+```
+✅ 检测到 chapters.ts 中已有 "ConcurrentHashMap" 的完整元数据：
+   - slug: concurrent-hashmap
+   - 章节: 02-collections (集合框架深度解析)
+   - 难度: Expert (⭐⭐⭐⭐⭐)
+   - 标签: ConcurrentHashMap, 线程安全, 分段锁, CAS
+
+📝 将直接创建页面文件: site/src/pages/articles/concurrent-hashmap.tsx
+
+是否继续？(Y/n)
+```
+
+---
+
+### 步骤 1：收集需求 + 扫描组件库（标准流程）
+
+**仅在步骤 0 未找到元数据时执行此步骤。**
 
 向用户确认（或从上下文推断）：
 - **知识点名称**（如 "ArrayList"）
@@ -56,7 +209,9 @@ description: |
 
 **🔴 阻断性要求：必须先完成此步骤，才能创建页面文件！**
 
-编辑 `site/src/data/chapters.ts`：
+**⚡ 如果步骤 0 已检测到元数据存在，则跳过此步骤，直接进入步骤 3。**
+
+否则，编辑 `site/src/data/chapters.ts`：
 - 章节已存在：在该章节的 `articles` 数组中添加 `ArticleMeta` 对象
 - 章节不存在：在 `chapters` 数组中添加新的 `Chapter` 对象
 
@@ -100,6 +255,8 @@ description: |
 在 `site/src/pages/articles/<slug>.tsx` 创建新文件，模板见 `references/page-template.md`。
 
 **✅ 此时 chapters.ts 中已有该文章的完整 meta 数据，直接使用即可！**
+
+**⚡ 无论通过步骤 0（快速模式）还是步骤 2（标准流程）获取元数据，此步骤的执行方式完全一致。**
 
 **关键规则（必须严格遵守）：**
 - **文件名 = chapters.ts 中的 slug**：必须完全一致，因为 `import.meta.glob` 根据文件名匹配组件
@@ -341,6 +498,33 @@ export default function XxxPage({ meta }: { meta: KnowledgeNode }) {
 当用户要求检查、审核、检视已有知识点页面时，执行以下流程。
 
 ### 检视步骤
+
+#### 0. 前置检测：元数据与文件一致性（⚡ 新增）
+
+**在开始检视之前，先检测是否存在“元数据已配置但页面文件缺失”的情况。**
+
+1. **扫描 `chapters.ts` 中所有文章的 slug**
+   ```typescript
+   const allArticles = chapters.flatMap(c => c.articles)
+   ```
+
+2. **检查对应页面文件是否存在**
+   ```typescript
+   for (const article of allArticles) {
+     const filePath = `site/src/pages/articles/${article.slug}.tsx`
+     if (!fileExists(filePath)) {
+       console.warn(`⚠️ 元数据已配置但页面文件缺失: ${article.slug}`)
+     }
+   }
+   ```
+
+3. **如果发现缺失文件**：
+   - 🔴 **阻断性提示**：“检测到 `chapters.ts` 中配置了 `<slug>` 的元数据，但页面文件 `<slug>.tsx` 不存在。”
+   - 💡 **建议操作**：“是否立即创建该页面？(Y/n)”
+   - 如果用户选择 Y → 跳转到【快速模式：直接生成页面】
+   - 如果用户选择 n → 继续标准检视流程
+
+---
 
 #### 1. 定位目标文件
 
@@ -584,3 +768,66 @@ export default function XxxPage({ meta }: { meta: KnowledgeNode }) {
 1. 先在 `chapters.ts` 中定义完整的 meta 数据（包括 slug、title、level、tags 等）
 2. 根据 `chapters.ts` 中的 `slug` 创建对应的页面文件 `<slug>.tsx`
 3. 确保文件名与 slug 完全一致
+
+## 使用示例
+
+### 场景 1：元数据已存在，直接生成页面
+
+**用户输入：**
+```
+创建 ConcurrentHashMap 知识点页面
+```
+
+**Skill 执行流程：**
+1. ✅ 步骤 0：检测到 `chapters.ts` 中已有 `concurrent-hashmap` 的完整元数据
+2. ⏭️ 跳过步骤 1-2
+3. ✅ 步骤 3：直接创建 `site/src/pages/articles/concurrent-hashmap.tsx`
+4. ✅ 步骤 4-7：生成内容、验证、质量检查
+5. ✅ 步骤 8：自动部署到远程服务器
+
+---
+
+### 场景 2：元数据不存在，标准流程
+
+**用户输入：**
+```
+添加一个新的知识点：Redis 缓存穿透
+```
+
+**Skill 执行流程：**
+1. ❌ 步骤 0：未在 `chapters.ts` 中找到 "redis-cache-penetration"
+2. ✅ 步骤 1：询问用户所属章节、难度等级等信息
+3. ✅ 步骤 2：在 `chapters.ts` 中添加新的 ArticleMeta
+4. ✅ 步骤 3：创建 `site/src/pages/articles/redis-cache-penetration.tsx`
+5. ✅ 步骤 4-8：后续流程同上
+
+---
+
+### 场景 3：批量创建某章节的所有页面
+
+**用户输入：**
+```
+批量创建 02-collections 章节的所有缺失页面
+```
+
+**Skill 执行流程：**
+1. ✅ 步骤 0（批量模式）：扫描 `02-collections` 章节下所有文章
+2. 🔍 检测哪些页面文件缺失
+3. 📋 展示待创建列表并确认
+4. 🔄 逐个创建缺失的页面（快速模式）
+5. ✅ 全部完成后统一部署
+
+---
+
+### 场景 4：检视已有页面
+
+**用户输入：**
+```
+检查 hashmap-deep-dive 页面是否符合规范
+```
+
+**Skill 执行流程：**
+1. ✅ 检视步骤 0：确认元数据和文件都存在
+2. ✅ 检视步骤 1-6：逐项检查组件签名、布局结构、内容完整性等
+3. 📊 输出检视报告，列出阻断问题和警告问题
+4. 💡 如用户要求，自动修复发现的问题

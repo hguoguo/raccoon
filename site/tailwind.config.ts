@@ -46,6 +46,14 @@ const config: Config = {
           DEFAULT: '#4a7a8c',
           soft: 'rgba(74, 122, 140, 0.10)',
         },
+        purple: {
+          DEFAULT: '#7c5cbf',
+          soft: 'rgba(124, 92, 191, 0.10)',
+        },
+        blue: {
+          DEFAULT: '#4a7cc7',
+          soft: 'rgba(74, 124, 199, 0.10)',
+        },
         border: {
           DEFAULT: '#d4c5a9',
           light: '#e2d8c4',

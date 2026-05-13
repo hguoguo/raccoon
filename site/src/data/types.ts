@@ -16,7 +16,7 @@ export interface Chapter {
   icon: string;
   description: string;
   difficulty: number;
-  color: 'orange' | 'teal' | 'rose' | 'indigo';
+  color: 'orange' | 'teal' | 'rose' | 'indigo' | 'purple' | 'blue';
   articles: ArticleMeta[];
 }
 

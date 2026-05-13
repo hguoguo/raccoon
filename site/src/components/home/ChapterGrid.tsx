@@ -6,6 +6,8 @@ const colorMap = {
   teal: 'bg-[#eff8ef]',
   rose: 'bg-[#fef2f2]',
   indigo: 'bg-[#f4f1ff]',
+  purple: 'bg-[#f3efff]',
+  blue: 'bg-[#eff6ff]',
 }
 
 export default function ChapterGrid() {

@@ -12,22 +12,22 @@ const floatingLabels = ['JVM', 'HashMap', 'Spring', 'LangChain', 'GIL', '红黑�
 
 export default function HeroSection() {
   return (
-    <section className="px-4 sm:px-6 lg:px-11 pt-4 sm:pt-6 lg:pt-8 pb-4 sm:pb-6 lg:pb-8 relative max-w-[100vw] overflow-x-hidden">
+    <section className="px-4 sm:px-6 lg:px-11 pt-2 sm:pt-3 lg:pt-4 pb-2 sm:pb-3 lg:pb-4 relative max-w-[100vw] overflow-x-hidden">
       <div className="rounded-[32px] overflow-hidden bg-gradient-to-br from-[#fff8ef] via-[#f7f2e8] to-[#f0e8d5] border border-[#eadbc8] relative">
         {/* Paper texture overlay */}
         <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 256 256\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noise\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noise)\'/%3E%3C/svg%3E")' }} />
 
         <div className="relative z-10 flex flex-col lg:flex-row items-stretch">
           {/* ===== Left Column: Copy ===== */}
-          <div className="flex-1 px-8 sm:px-10 lg:px-12 pt-8 sm:pt-9 pb-6 lg:pb-8 max-w-[680px]">
+          <div className="flex-1 px-8 sm:px-10 lg:px-12 pt-5 sm:pt-6 pb-4 lg:pb-5 max-w-[680px]">
             {/* Tag */}
-            <div className="inline-flex items-center gap-[6px] bg-accent-soft border border-accent/18 text-accent text-[11px] sm:text-[12px] font-medium px-[12px] sm:px-[14px] py-1 rounded-[20px] mb-3 sm:mb-4 font-sans animate-fade-in-up">
+            <div className="inline-flex items-center gap-[6px] bg-accent-soft border border-accent/18 text-accent text-[11px] sm:text-[12px] font-medium px-[12px] sm:px-[14px] py-1 rounded-[20px] mb-2 sm:mb-3 font-sans animate-fade-in-up">
               <span>🦝</span>
               <span>Raccoon · 程序员的底层认知库 · v1.6.0</span>
             </div>
 
             {/* Title */}
-            <h1 className="font-display font-bold text-[28px] sm:text-display-lg lg:text-[44px] text-ink mb-3 sm:mb-4 animate-fade-in-up leading-[1.2]" style={{ animationDelay: '0.1s' }}>
+            <h1 className="font-display font-bold text-[24px] sm:text-display-lg lg:text-[38px] text-ink mb-2 sm:mb-3 animate-fade-in-up leading-[1.2]" style={{ animationDelay: '0.1s' }}>
               像小浣熊一样<br />
               <span className="relative inline-block">
                 掏透每一行代码
@@ -36,37 +36,19 @@ export default function HeroSection() {
             </h1>
 
             {/* Description */}
-            <p className="text-[14px] sm:text-base text-ink-muted leading-[1.8] sm:leading-[1.9] max-w-[520px] mb-4 sm:mb-5 font-body animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+            <p className="text-[13px] sm:text-[14px] text-ink-muted leading-[1.7] sm:leading-[1.8] max-w-[520px] mb-3 sm:mb-4 font-body animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
               浣熊翻垃圾桶是找好吃的，我们翻源码是找好玩的——HashMap 的负载因子为什么偏偏是 0.75？JVM 看到你的代码时在想什么？Python 的 GIL 到底在保护谁？帮你把源码读薄、把原理讲透——毕竟，懂了才能装得更有底气 🤫
             </p>
-
-            {/* Actions */}
-            <div className="flex flex-col sm:flex-row gap-3 animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
-              <a href="#chapters" className="inline-flex items-center justify-center gap-2 py-[11px] px-[26px] bg-accent text-white font-sans font-semibold text-sm rounded-paper-md hover:bg-accent-warm hover:-translate-y-[1px] hover:shadow-paper-md transition-all shadow-paper-sm">
-                深入源码 →
-              </a>
-              <a href="#" className="inline-flex items-center justify-center gap-2 py-[11px] px-[26px] bg-parchment-light text-ink-muted font-sans font-medium text-sm rounded-paper-md border border-border hover:bg-parchment-deep hover:text-ink-light transition-all">
-                升级路线
-              </a>
-            </div>
-
-            {/* Stats */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3 mt-5 sm:mt-6 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
-              <StatCard value="90+" accent="90" label="源码解析" />
-              <StatCard value="347+" accent="347" label="面试真题" />
-              <StatCard value="196+" accent="196" label="架构图解" />
-              <StatCard value="77.5K" accent="77.5" label="行硬核内容" />
-            </div>
           </div>
 
           {/* ===== Right Column: Knowledge Constellation ===== */}
-          <div className="hidden lg:flex relative items-center justify-center w-[420px] xl:w-[480px] min-h-[420px] xl:min-h-[460px] animate-fade-in-up" style={{ animationDelay: '0.5s' }}>
+          <div className="hidden lg:flex relative items-center justify-center w-[340px] xl:w-[380px] min-h-[300px] xl:min-h-[320px] animate-fade-in-up" style={{ animationDelay: '0.5s' }}>
             {/* Orbit rings */}
             <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-[280px] h-[280px] xl:w-[320px] xl:h-[320px] rounded-full border border-dashed border-border/40" />
+              <div className="w-[220px] h-[220px] xl:w-[250px] xl:h-[250px] rounded-full border border-dashed border-border/40" />
             </div>
             <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-[180px] h-[180px] xl:w-[200px] xl:h-[200px] rounded-full border border-dashed border-border/25" />
+              <div className="w-[140px] h-[140px] xl:w-[160px] xl:h-[160px] rounded-full border border-dashed border-border/25" />
             </div>
 
             {/* Central hub */}
@@ -121,7 +103,7 @@ function OrbitalNode({ icon, label, color, bg, ring, index, total }: {
   icon: string; label: string; color: string; bg: string; ring: string; index: number; total: number
 }) {
   const angle = (index / total) * Math.PI * 2 - Math.PI / 2
-  const radius = 140
+  const radius = 110
   const x = Math.cos(angle) * radius
   const y = Math.sin(angle) * radius
 

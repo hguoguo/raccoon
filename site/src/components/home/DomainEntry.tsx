@@ -6,6 +6,8 @@ const domainColors: Record<string, string> = {
   teal: 'from-[#eff8ef] to-[#e8f4e8] border-[#d4e8d4]',
   indigo: 'from-[#f4f1ff] to-[#eeeaff] border-[#d8d4f0]',
   rose: 'from-[#fef2f2] to-[#fde8e8] border-[#efd4d4]',
+  purple: 'from-[#f3efff] to-[#ede8ff] border-[#d8d0f0]',
+  blue: 'from-[#eff6ff] to-[#e8f0ff] border-[#cdd8f0]',
 }
 
 const domainAccentColors: Record<string, string> = {
@@ -13,6 +15,8 @@ const domainAccentColors: Record<string, string> = {
   teal: 'text-[#4a9956]',
   indigo: 'text-[#6b5fc7]',
   rose: 'text-[#c75454]',
+  purple: 'text-[#7c5cbf]',
+  blue: 'text-[#4a7cc7]',
 }
 
 export default function DomainEntry() {

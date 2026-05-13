@@ -7,6 +7,8 @@ const colorMap = {
   teal: { bg: 'bg-teal-soft', text: 'text-teal' },
   rose: { bg: 'bg-rose-soft', text: 'text-rose' },
   indigo: { bg: 'bg-indigo-soft', text: 'text-indigo' },
+  purple: { bg: 'bg-purple-soft', text: 'text-purple' },
+  blue: { bg: 'bg-blue-soft', text: 'text-blue' },
 }
 
 export default function ChapterPage() {

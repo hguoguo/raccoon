@@ -18,8 +18,8 @@ function ArticleRenderer() {
   if (!meta || !Component) {
     return (
       <div className="px-5 sm:px-6 lg:px-11 py-16 sm:py-20 text-center">
-        <h1 className="font-display font-bold text-[24px] sm:text-display-lg text-ink mb-4">文章未找到</h1>
-        <p className="text-ink-muted font-sans text-[14px] sm:text-base">请检查URL是否正确</p>
+        <h1 className="font-display font-bold text-[24px] sm:text-display-lg text-ink mb-4">浣熊迷路啦～</h1>
+        <p className="text-ink-muted font-sans text-[14px] sm:text-base">小浣熊正在努力搬运知识，这篇文章即将上线，敬请期待～</p>
       </div>
     )
   }
