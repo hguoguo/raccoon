@@ -17,8 +17,8 @@
 - [ ] Spring Data JPA (`spring-data-jpa`)
 - [ ] Spring Security安全框架 (`spring-security`)
 - [ ] Spring MVC架构模式 (`spring-mvc`)
-- [ ] Spring事务管理（重点🔥）(`spring-transaction`)
-- [ ] Spring事件机制 (`spring-event`)
+- [x] Spring事务管理（重点🔥）(`spring-transaction`) ✅ 已创建并部署
+- [x] Spring事件机制 (`spring-event`) ✅ 已创建并部署
 
 ### 3. 数据库访问技术 (07-database)
 - [ ] JDBC底层原理 (`jdbc`)
