@@ -11,9 +11,9 @@
 - [x] Optional优雅处理空值 (`optional`) ✅ 已创建并部署
 
 ### 2. Spring框架全家桶 (06-spring-framework)
-- [ ] Spring核心IoC容器 (`spring-core`)
-- [ ] Spring AOP切面编程 (`spring-aop`)
-- [ ] Spring Boot自动化配置 (`spring-boot`)
+- [x] Spring核心IoC容器 (`spring-core`) ✅ 已创建并部署
+- [x] Spring AOP切面编程 (`spring-aop`) ✅ 已创建并部署
+- [x] Spring Boot自动化配置 (`spring-boot`) ✅ 已创建并部署
 - [ ] Spring Data JPA (`spring-data-jpa`)
 - [ ] Spring Security安全框架 (`spring-security`)
 - [ ] Spring MVC架构模式 (`spring-mvc`)
