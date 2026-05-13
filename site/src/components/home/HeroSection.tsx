@@ -1,68 +1,190 @@
-import { chapters, getTotalArticles } from '../../data/chapters'
+// Hero section for the homepage
+
+const domainNodes = [
+  { icon: '☕', label: 'Java', color: '#c8782a', bg: 'from-[#fff4e9] to-[#fff0de]', ring: 'rgba(200,120,42,0.20)' },
+  { icon: '📦', label: 'Collections', color: '#4a9956', bg: 'from-[#eff8ef] to-[#e8f4e8]', ring: 'rgba(74,153,86,0.20)' },
+  { icon: '🧵', label: '并发', color: '#6b5fc7', bg: 'from-[#f4f1ff] to-[#eeeaff]', ring: 'rgba(107,95,199,0.20)' },
+  { icon: '🐍', label: 'Python', color: '#c8782a', bg: 'from-[#fff4e9] to-[#fff0de]', ring: 'rgba(200,120,42,0.20)' },
+  { icon: '🤖', label: 'AI / LLM', color: '#6b5fc7', bg: 'from-[#f4f1ff] to-[#eeeaff]', ring: 'rgba(107,95,199,0.20)' },
+]
+
+const floatingLabels = ['JVM', 'HashMap', 'Spring', 'LangChain', 'GIL', '红黑树']
 
 export default function HeroSection() {
   return (
     <section className="px-4 sm:px-6 lg:px-11 pt-8 sm:pt-10 lg:pt-12 pb-8 sm:pb-10 lg:pb-12 relative max-w-[100vw] overflow-x-hidden">
-      <div className="rounded-[32px] overflow-hidden bg-gradient-to-r from-[#fff5e7] to-[#f5ede2] border border-[#eadbc8] p-10 relative">
-        {/* Background decoration */}
-        <div className="absolute right-10 top-8 opacity-10 text-[180px] font-black select-none text-[#2f241d]">
-          AI
+      <div className="rounded-[32px] overflow-hidden bg-gradient-to-br from-[#fff8ef] via-[#f7f2e8] to-[#f0e8d5] border border-[#eadbc8] relative">
+        {/* Paper texture overlay */}
+        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 256 256\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noise\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noise)\'/%3E%3C/svg%3E")' }} />
+
+        <div className="relative z-10 flex flex-col lg:flex-row items-stretch">
+          {/* ===== Left Column: Copy ===== */}
+          <div className="flex-1 px-8 sm:px-10 lg:px-12 pt-10 sm:pt-12 pb-8 lg:pb-12 max-w-[680px]">
+            {/* Tag */}
+            <div className="inline-flex items-center gap-[6px] bg-accent-soft border border-accent/18 text-accent text-[11px] sm:text-[12px] font-medium px-[12px] sm:px-[14px] py-1 rounded-[20px] mb-5 sm:mb-6 font-sans animate-fade-in-up">
+              <span>🦝</span>
+              <span>Raccoon 编程学习库 · v1.6.0</span>
+            </div>
+
+            {/* Title */}
+            <h1 className="font-display font-bold text-[28px] sm:text-display-lg lg:text-[44px] text-ink mb-4 sm:mb-[18px] animate-fade-in-up leading-[1.2]" style={{ animationDelay: '0.1s' }}>
+              深入探索<br />
+              <span className="relative inline-block">
+                技术底层原理
+                <span className="absolute left-0 bottom-1 w-full h-2.5 bg-accent/12 rounded-[2px] -z-[1]" />
+              </span>
+            </h1>
+
+            {/* Description */}
+            <p className="text-[14px] sm:text-base text-ink-muted leading-[1.8] sm:leading-[1.9] max-w-[520px] mb-6 sm:mb-8 font-body animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+              系统化整理 Java、Python、AI 开发等技术栈核心知识点，覆盖从基础到高级的多个专题，帮助开发者深入理解底层原理、掌握源码分析、攻克面试难关。
+            </p>
+
+            {/* Actions */}
+            <div className="flex flex-col sm:flex-row gap-3 animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
+              <a href="#chapters" className="inline-flex items-center justify-center gap-2 py-[11px] px-[26px] bg-accent text-white font-sans font-semibold text-sm rounded-paper-md hover:bg-accent-warm hover:-translate-y-[1px] hover:shadow-paper-md transition-all shadow-paper-sm">
+                开始学习 →
+              </a>
+              <a href="#" className="inline-flex items-center justify-center gap-2 py-[11px] px-[26px] bg-parchment-light text-ink-muted font-sans font-medium text-sm rounded-paper-md border border-border hover:bg-parchment-deep hover:text-ink-light transition-all">
+                学习路线图
+              </a>
+            </div>
+
+            {/* Stats */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mt-8 sm:mt-10 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
+              <StatCard value="90+" accent="90" label="核心文档" />
+              <StatCard value="347+" accent="347" label="面试题目" />
+              <StatCard value="196+" accent="196" label="可视化图表" />
+              <StatCard value="77.5K" accent="77.5" label="行技术内容" />
+            </div>
+          </div>
+
+          {/* ===== Right Column: Knowledge Constellation ===== */}
+          <div className="hidden lg:flex relative items-center justify-center w-[420px] xl:w-[480px] min-h-[420px] xl:min-h-[460px] animate-fade-in-up" style={{ animationDelay: '0.5s' }}>
+            {/* Orbit rings */}
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="w-[280px] h-[280px] xl:w-[320px] xl:h-[320px] rounded-full border border-dashed border-border/40" />
+            </div>
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="w-[180px] h-[180px] xl:w-[200px] xl:h-[200px] rounded-full border border-dashed border-border/25" />
+            </div>
+
+            {/* Central hub */}
+            <div className="absolute z-20 flex items-center justify-center">
+              <div className="w-16 h-16 xl:w-18 xl:h-18 rounded-full bg-gradient-to-br from-accent to-accent-warm shadow-paper-md flex items-center justify-center animate-[gentlePulse_3s_ease-in-out_infinite]">
+                <span className="text-2xl xl:text-[28px] select-none">🦝</span>
+              </div>
+            </div>
+
+            {/* Domain nodes */}
+            {domainNodes.map((node, i) => (
+              <OrbitalNode key={node.label} {...node} index={i} total={domainNodes.length} />
+            ))}
+
+            {/* Floating tech labels */}
+            {floatingLabels.map((label, i) => (
+              <FloatingLabel key={label} text={label} index={i} />
+            ))}
+          </div>
         </div>
-        
-        <div className="relative z-10 max-w-[780px] min-w-0">
-        {/* Tag */}
-        <div className="inline-flex items-center gap-[6px] bg-accent-soft border border-accent/18 text-accent text-[11px] sm:text-[12px] font-medium px-[12px] sm:px-[14px] py-1 rounded-[20px] mb-5 sm:mb-6 font-sans animate-fade-in-up">
-          <span>🦝</span>
-          <span>Raccoon 编程学习库 · v1.6.0</span>
-        </div>
 
-        {/* Title */}
-        <h1 className="font-display font-bold text-[28px] sm:text-display-lg lg:text-display-xl text-ink mb-4 sm:mb-[18px] animate-fade-in-up leading-[1.2]" style={{ animationDelay: '0.1s' }}>
-          深入探索<br />
-          <span className="relative inline-block">
-            技术底层原理
-            <span className="absolute left-0 bottom-1 w-full h-2 bg-accent/12 rounded-[2px] -z-[1]" />
-          </span>
-        </h1>
-
-        {/* Description */}
-        <p className="text-[14px] sm:text-base text-ink-muted leading-[1.8] sm:leading-[1.9] max-w-[560px] mb-6 sm:mb-8 font-body animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-          系统化整理 Java、Python、AI 开发等技术栈核心知识点，覆盖从基础到高级的多个专题，帮助开发者深入理解底层原理、掌握源码分析、攻克面试难关。
-        </p>
-
-        {/* Actions */}
-        <div className="flex flex-col sm:flex-row gap-3 animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
-          <a href="#chapters" className="inline-flex items-center justify-center gap-2 py-[11px] px-[26px] bg-accent text-white font-sans font-semibold text-sm rounded-paper-md hover:bg-accent-warm hover:-translate-y-[1px] hover:shadow-paper-md transition-all shadow-paper-sm">
-            开始学习 →
-          </a>
-          <a href="#" className="inline-flex items-center justify-center gap-2 py-[11px] px-[26px] bg-parchment-light text-ink-muted font-sans font-medium text-sm rounded-paper-md border border-border hover:bg-parchment-deep hover:text-ink-light transition-all">
-            学习路线图
-          </a>
-        </div>
-
-        {/* Stats */}
-        <div className="grid grid-cols-2 sm:flex sm:gap-11 gap-x-6 gap-y-4 mt-8 sm:mt-12 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
-          <Stat value="90+" accent="90" label="核心文档" />
-          <Stat value="347+" accent="347" label="面试题目" />
-          <Stat value="196+" accent="196" label="可视化图表" />
-          <Stat value="77.5K" accent="77.5" label="行技术内容" />
-        </div>
-
-        {/* Divider */}
-        <div className="w-[60px] h-[2px] bg-accent mt-6 sm:mt-8 rounded-[1px] opacity-50" />
+        {/* Bottom accent line */}
+        <div className="h-[2px] bg-gradient-to-r from-transparent via-accent/30 to-transparent" />
       </div>
-    </div>
-  </section>
+
+      {/* Inline keyframes */}
+      <style>{`
+        @keyframes gentleFloat {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-6px); }
+        }
+        @keyframes gentlePulse {
+          0%, 100% { transform: scale(1); box-shadow: 0 4px 12px rgba(44,36,22,0.08); }
+          50% { transform: scale(1.04); box-shadow: 0 6px 20px rgba(181,101,29,0.18); }
+        }
+        @keyframes orbitDrift {
+          0%, 100% { transform: translateY(0) scale(1); }
+          33% { transform: translateY(-4px) scale(1.02); }
+          66% { transform: translateY(2px) scale(0.98); }
+        }
+        @keyframes labelFloat {
+          0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.55; }
+          50% { transform: translateY(-8px) rotate(2deg); opacity: 0.8; }
+        }
+      `}</style>
+    </section>
   )
 }
 
-function Stat({ value, accent, label }: { value: string; accent: string; label: string }) {
+/* ===== Orbital Node ===== */
+function OrbitalNode({ icon, label, color, bg, ring, index, total }: {
+  icon: string; label: string; color: string; bg: string; ring: string; index: number; total: number
+}) {
+  const angle = (index / total) * Math.PI * 2 - Math.PI / 2
+  const radius = 140
+  const x = Math.cos(angle) * radius
+  const y = Math.sin(angle) * radius
+
   return (
-    <div className="flex flex-col">
-      <span className="font-display font-bold text-[24px] sm:text-[30px] text-ink tracking-tight">
+    <div
+      className="absolute z-10 flex flex-col items-center gap-1"
+      style={{
+        left: `calc(50% + ${x}px)`,
+        top: `calc(50% + ${y}px)`,
+        transform: 'translate(-50%, -50%)',
+        animation: `orbitDrift ${3 + index * 0.4}s ease-in-out infinite`,
+        animationDelay: `${index * 0.3}s`,
+      }}
+    >
+      {/* Node circle */}
+      <div
+        className={`w-12 h-12 rounded-full bg-gradient-to-br ${bg} border border-white/60 shadow-paper-sm flex items-center justify-center cursor-default transition-transform hover:scale-110`}
+        style={{ boxShadow: `0 0 0 3px ${ring}` }}
+      >
+        <span className="text-lg select-none">{icon}</span>
+      </div>
+      {/* Label */}
+      <span className="text-[10px] font-sans font-semibold tracking-wide whitespace-nowrap" style={{ color }}>
+        {label}
+      </span>
+    </div>
+  )
+}
+
+/* ===== Floating Tech Label ===== */
+function FloatingLabel({ text, index }: { text: string; index: number }) {
+  const positions = [
+    { left: '12%', top: '18%' },
+    { right: '14%', top: '22%' },
+    { left: '8%', bottom: '28%' },
+    { right: '10%', bottom: '22%' },
+    { left: '22%', bottom: '12%' },
+    { right: '18%', top: '55%' },
+  ]
+  const pos = positions[index % positions.length]
+
+  return (
+    <div
+      className="absolute font-mono text-[10px] text-ink-faded/60 select-none pointer-events-none"
+      style={{
+        ...pos,
+        animation: `labelFloat ${4 + index * 0.5}s ease-in-out infinite`,
+        animationDelay: `${index * 0.7}s`,
+      }}
+    >
+      {text}
+    </div>
+  )
+}
+
+/* ===== Stat Card ===== */
+function StatCard({ value, accent, label }: { value: string; accent: string; label: string }) {
+  return (
+    <div className="bg-white/50 border border-border/30 rounded-paper-md px-3 py-2.5 sm:px-4 sm:py-3 backdrop-blur-sm">
+      <span className="font-display font-bold text-[20px] sm:text-[24px] text-ink tracking-tight leading-none">
         <span className="text-accent">{accent}</span>{value.replace(accent, '')}
       </span>
-      <span className="text-[11px] sm:text-[12px] text-ink-faded mt-[2px] font-sans">{label}</span>
+      <span className="block text-[10px] sm:text-[11px] text-ink-faded mt-1 font-sans">{label}</span>
     </div>
   )
 }
