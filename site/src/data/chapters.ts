@@ -324,7 +324,28 @@ export const domains: Domain[] = [
     title: '基础设施',
     icon: '🏗️',
     color: 'rose',
-    subCategories: [],
+    subCategories: [
+      {
+        id: 'database',
+        title: '数据库',
+        icon: '🗄️',
+        domainId: 'infra',
+        description: '关系型数据库、NoSQL、缓存系统等数据存储技术',
+        chapters: [
+          {
+            id: 'redis',
+            title: 'Redis',
+            icon: '⚡',
+            description: '高性能内存数据库，支持缓存、消息队列、分布式锁等场景',
+            difficulty: 4,
+            color: 'rose',
+            articles: [
+              { slug: 'redis-cache', title: 'Redis缓存实战（JD要求🔥）', meta: { id: 'redis-cache', title: 'Redis缓存实战（JD要求🔥）', level: 'Expert', tags: ['Redis', '缓存策略', '数据结构', '持久化', '集群', '哨兵', '穿透', '雪崩', '击穿', '分布式锁'], difficulty: 5, category: 'redis', prerequisites: [], relatedPatterns: ['spring-data-jpa', 'distributed-transaction'], readingTime: 65 } },
+            ],
+          },
+        ],
+      },
+    ],
   },
 ];
 
