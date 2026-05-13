@@ -3,11 +3,14 @@ import type { Chapter, KnowledgeNode, Domain, SubCategory, LearningGoal } from '
 
 // 通过 Vite import.meta.glob 自动发现所有文章组件，无需手动维护映射
 const articleModules = import.meta.glob<{ default: React.ComponentType<{ meta: KnowledgeNode }> }>(
-  '../pages/articles/*.tsx'
+  '../pages/articles/**/*.tsx'
 );
 
 export function getArticleComponent(slug: string) {
-  const importFn = articleModules[`../pages/articles/${slug}.tsx`];
+  const modulePath = Object.keys(articleModules).find(path =>
+    path.endsWith(`/${slug}.tsx`)
+  );
+  const importFn = modulePath ? articleModules[modulePath] : undefined;
   return importFn ? React.lazy(importFn) : undefined;
 }
 
