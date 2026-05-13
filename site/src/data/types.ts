@@ -39,3 +39,46 @@ export interface SearchResult {
   path: string;
   chapterIcon?: string;
 }
+
+// ===== 新增：领域分类体系 =====
+
+export interface Domain {
+  id: string;
+  title: string;
+  icon: string;
+  color: string;
+  subCategories: SubCategory[];
+}
+
+export interface SubCategory {
+  id: string;
+  title: string;
+  icon: string;
+  domainId: string;
+  description: string;
+  chapters: Chapter[];
+}
+
+// ===== 新增：学习目标路线 =====
+
+export interface LearningGoal {
+  id: string;
+  title: string;
+  icon: string;
+  description: string;
+  stages: LearningStage[];
+}
+
+export interface LearningStage {
+  title: string;
+  estimatedHours: number;
+  nodes: LearningNode[];
+}
+
+export interface LearningNode {
+  chapterId: string;
+  title: string;
+  icon: string;
+  readingTime: number;
+  difficulty: number;
+}

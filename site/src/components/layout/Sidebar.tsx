@@ -1,6 +1,6 @@
-import { Link, useLocation } from 'react-router-dom'
-import { chapters, getChapterById } from '../../data/chapters'
-import { useState } from 'react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { domains, getSubCategoryById } from '../../data/chapters'
+import { useState, useEffect } from 'react'
 
 interface SidebarProps {
   open: boolean
@@ -9,10 +9,58 @@ interface SidebarProps {
 
 export default function Sidebar({ open, onClose }: SidebarProps) {
   const location = useLocation()
-  const [expandedId, setExpandedId] = useState<string | null>(null)
+  const navigate = useNavigate()
 
-  const toggleExpand = (id: string) => {
-    setExpandedId(prev => prev === id ? null : id)
+  // 从当前路由推断选中的领域和子类
+  const getCurrentDomainId = () => {
+    for (const domain of domains) {
+      for (const sub of domain.subCategories) {
+        for (const ch of sub.chapters) {
+          if (location.pathname.startsWith(`/docs/${ch.id}`)) {
+            return domain.id
+          }
+        }
+      }
+    }
+    return domains[0]?.id || ''
+  }
+
+  const getCurrentSubCategoryId = () => {
+    for (const domain of domains) {
+      for (const sub of domain.subCategories) {
+        for (const ch of sub.chapters) {
+          if (location.pathname.startsWith(`/docs/${ch.id}`)) {
+            return sub.id
+          }
+        }
+      }
+    }
+    const firstDomain = domains[0]
+    return firstDomain?.subCategories[0]?.id || ''
+  }
+
+  const [selectedDomainId, setSelectedDomainId] = useState(getCurrentDomainId)
+  const [selectedSubCategoryId, setSelectedSubCategoryId] = useState(getCurrentSubCategoryId)
+
+  // 路由变化时同步选中状态
+  useEffect(() => {
+    const domainId = getCurrentDomainId()
+    const subId = getCurrentSubCategoryId()
+    if (domainId !== selectedDomainId) setSelectedDomainId(domainId)
+    if (subId !== selectedSubCategoryId) setSelectedSubCategoryId(subId)
+  }, [location.pathname])
+
+  const selectedDomain = domains.find(d => d.id === selectedDomainId)
+  const selectedSubCategory = selectedDomain?.subCategories.find(sc => sc.id === selectedSubCategoryId)
+
+  // 领域切换时，自动选中第一个子类
+  const handleDomainChange = (domainId: string) => {
+    setSelectedDomainId(domainId)
+    const domain = domains.find(d => d.id === domainId)
+    const firstSub = domain?.subCategories[0]
+    if (firstSub) {
+      setSelectedSubCategoryId(firstSub.id)
+    }
   }
 
   return (
@@ -31,11 +79,43 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
         </div>
         <div className="flex flex-col">
           <span className="font-display font-bold text-[17px] tracking-tight text-ink">Raccoon</span>
-          <span className="text-[11px] text-ink-faded font-sans tracking-wide">Java AI 技术学习平台</span>
+          <span className="text-[11px] text-ink-faded font-sans tracking-wide">技术学习平台</span>
         </div>
       </Link>
 
-      {/* Navigation */}
+      {/* 2级联动下拉框 */}
+      <div className="px-4 pt-4 pb-2 space-y-2 border-b border-border">
+        {/* 领域下拉 */}
+        <select
+          value={selectedDomainId}
+          onChange={e => handleDomainChange(e.target.value)}
+          className="w-full px-3 py-2 rounded-xl bg-white border border-[#e2d5c3] text-[13px] font-sans text-ink cursor-pointer focus:outline-none focus:border-accent/40 transition-colors appearance-none"
+          style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238b7b6d' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 10px center' }}
+        >
+          {domains.map(domain => (
+            <option key={domain.id} value={domain.id}>
+              {domain.icon} {domain.title}
+            </option>
+          ))}
+        </select>
+
+        {/* 子类下拉 */}
+        <select
+          value={selectedSubCategoryId}
+          onChange={e => setSelectedSubCategoryId(e.target.value)}
+          className="w-full px-3 py-2 rounded-xl bg-white border border-[#e2d5c3] text-[13px] font-sans text-ink cursor-pointer focus:outline-none focus:border-accent/40 transition-colors appearance-none disabled:opacity-50 disabled:cursor-not-allowed"
+          disabled={!selectedDomain?.subCategories.length}
+          style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238b7b6d' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 10px center' }}
+        >
+          {selectedDomain?.subCategories.map(sub => (
+            <option key={sub.id} value={sub.id}>
+              {sub.icon} {sub.title}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      {/* 动态目录：Chapter → Article */}
       <nav className="flex-1 overflow-y-auto py-3 px-[10px]">
         <div className="text-[10px] font-semibold uppercase tracking-[0.14em] text-ink-ghost px-[14px] py-[18px] pb-1 font-sans">
           开始
@@ -54,44 +134,56 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
           <span className="flex-1">主页</span>
         </Link>
 
-        <div className="text-[10px] font-semibold uppercase tracking-[0.14em] text-ink-ghost px-[14px] pt-5 pb-1 font-sans">
-          知识体系
-        </div>
+        {selectedSubCategory && selectedSubCategory.chapters.length > 0 && (
+          <>
+            <div className="text-[10px] font-semibold uppercase tracking-[0.14em] text-ink-ghost px-[14px] pt-5 pb-1 font-sans">
+              {selectedSubCategory.icon} {selectedSubCategory.title}
+            </div>
+            {selectedSubCategory.chapters.map(chapter => (
+              <NavGroup
+                key={chapter.id}
+                chapter={chapter}
+                currentPath={location.pathname}
+                onNavigate={onClose}
+              />
+            ))}
+          </>
+        )}
 
-        {chapters.map(chapter => (
-          <NavGroup
-            key={chapter.id}
-            chapter={chapter}
-            expanded={expandedId === chapter.id}
-            onToggle={() => toggleExpand(chapter.id)}
-            currentPath={location.pathname}
-            onNavigate={onClose}
-          />
-        ))}
+        {selectedSubCategory && selectedSubCategory.chapters.length === 0 && (
+          <div className="px-[14px] py-8 text-center">
+            <span className="text-2xl block mb-2">🚀</span>
+            <span className="text-[12px] text-ink-faded font-sans">内容筹备中...</span>
+          </div>
+        )}
       </nav>
 
       {/* Footer */}
       <div className="px-[22px] py-[14px] border-t border-border text-[11px] text-ink-ghost text-center font-mono">
-        v1.6.0 · 2026-04-17
+        v1.7.0 · 2026
       </div>
     </aside>
   )
 }
 
-function NavGroup({ chapter, expanded, onToggle, currentPath, onNavigate }: {
-  chapter: typeof chapters[0]
-  expanded: boolean
-  onToggle: () => void
+function NavGroup({ chapter, currentPath, onNavigate }: {
+  chapter: { id: string; title: string; icon: string; articles: { slug: string; title: string }[] }
   currentPath: string
   onNavigate: () => void
 }) {
   const chPath = `/docs/${chapter.id}`
   const isActive = currentPath.startsWith(chPath)
+  const [expanded, setExpanded] = useState(isActive)
+
+  // 当路由匹配时自动展开
+  useEffect(() => {
+    if (isActive) setExpanded(true)
+  }, [isActive])
 
   return (
     <div className="mb-[1px]">
       <button
-        onClick={onToggle}
+        onClick={() => setExpanded(!expanded)}
         className={`flex items-center gap-2 px-4 py-[6px] rounded-2xl font-sans text-[13px] w-full transition-all duration-150 ${
           isActive ? 'bg-[#eadcc8] border border-[#e2cfb7] text-ink-light' : 'text-ink-muted hover:bg-white hover:text-ink-light'
         }`}

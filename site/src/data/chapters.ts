@@ -1,5 +1,5 @@
 import React from 'react'
-import type { Chapter, KnowledgeNode } from './types';
+import type { Chapter, KnowledgeNode, Domain, SubCategory, LearningGoal } from './types';
 
 // 通过 Vite import.meta.glob 自动发现所有文章组件，无需手动维护映射
 const articleModules = import.meta.glob<{ default: React.ComponentType<{ meta: KnowledgeNode }> }>(
@@ -11,6 +11,8 @@ export function getArticleComponent(slug: string) {
   return importFn ? React.lazy(importFn) : undefined;
 }
 
+// ===== 章节数据（保持原有结构） =====
+
 export const chapters: Chapter[] = [
   {
     id: '01-java-core',
@@ -21,21 +23,7 @@ export const chapters: Chapter[] = [
     color: 'orange',
     articles: [
       { slug: 'java-basics', title: 'Java基础（必须打牢）', meta: { id: 'java-basics', title: 'Java基础（必须打牢）', level: 'Expert', tags: ['Java', '基础语法', '面向对象', '封装', '继承', '多态', '接口', '抽象类', 'String', 'BigDecimal'], difficulty: 3, category: '01-java-core', prerequisites: [], relatedPatterns: ['java-collections', 'java-concurrency'], readingTime: 60 } },
-    ],
-  },
-  {
-    id: '01-python-basics',
-    title: 'Python 基础',
-    icon: '🐍',
-    description: '从基础语法到工程化实践，完整覆盖 AI/LLM 应用开发所需的 Python 技术栈',
-    difficulty: 2,
-    color: 'orange',
-    articles: [
-      { slug: 'python-basics', title: 'Python基础语法', meta: { id: 'python-basics', title: 'Python基础语法', level: 'Junior', tags: ['Python', '基础语法', '变量', '数据类型', '函数', '类'], difficulty: 1, category: '01-python-basics', prerequisites: [], relatedPatterns: ['python-oop', 'python-modules'], readingTime: 45 } },
-      { slug: 'pydantic', title: 'Pydantic 数据验证', meta: { id: 'pydantic', title: 'Pydantic 数据验证', level: 'Senior', tags: ['Pydantic', 'BaseModel', '数据验证', 'JSON Schema', '序列化'], difficulty: 3, category: '01-python-basics', prerequisites: ['python-basics', 'python-typing'], relatedPatterns: ['fastapi', 'data-validation'], readingTime: 40 } },
-      { slug: 'python-async', title: 'Python 异步编程', meta: { id: 'python-async', title: 'Python 异步编程', level: 'Senior', tags: ['async', 'await', 'asyncio', '协程', '并发', 'aiohttp', 'httpx'], difficulty: 4, category: '01-python-basics', prerequisites: ['python-basics', 'python-functions'], relatedPatterns: ['fastapi', 'concurrent-programming'], readingTime: 50 } },
-      { slug: 'fastapi', title: 'FastAPI 框架深度解析', meta: { id: 'fastapi', title: 'FastAPI 框架深度解析', level: 'Senior', tags: ['FastAPI', '路由', '请求参数', '响应', '文件上传', '中间件', 'OpenAPI', 'Streaming', 'SSE', 'WebSocket'], difficulty: 4, category: '01-python-basics', prerequisites: ['python-async', 'pydantic'], relatedPatterns: ['uvicorn', 'starlette', 'sqlmodel'], readingTime: 55 } },
-      { slug: 'python-engineering', title: 'Python 工程化实践', meta: { id: 'python-engineering', title: 'Python 工程化实践', level: 'Senior', tags: ['pip', 'uv', '虚拟环境', '日志', 'dotenv', 'yaml', 'pytest', '工程化'], difficulty: 3, category: '01-python-basics', prerequisites: ['python-basics', 'python-modules'], relatedPatterns: ['fastapi', 'project-structure', 'ci-cd'], readingTime: 50 } },
+      { slug: 'generic-enum', title: '泛型与枚举', meta: { id: 'generic-enum', title: '泛型与枚举', level: 'Senior', tags: ['泛型', 'Generic', '枚举', 'Enum', '类型擦除', '通配符', 'PECS', 'EnumSet', 'EnumMap'], difficulty: 3, category: '01-java-core', prerequisites: ['java-basics'], relatedPatterns: ['collection-framework'], readingTime: 50 } },
     ],
   },
   {
@@ -53,7 +41,21 @@ export const chapters: Chapter[] = [
       { slug: 'hashmap-deep-dive', title: 'HashMap深度剖析（重点🔥）', meta: { id: 'hashmap-deep-dive', title: 'HashMap深度剖析（重点🔥）', level: 'Expert', tags: ['HashMap', '扰动函数', '高低位分流', '扩容', '线程安全', '死循环', '红黑树', 'JDK7 vs JDK8'], difficulty: 5, category: '02-collections', prerequisites: ['map-framework'], relatedPatterns: ['concurrent-hashmap'], readingTime: 60 } },
     ],
   },
-
+  {
+    id: '01-python-basics',
+    title: 'Python 基础',
+    icon: '🐍',
+    description: '从基础语法到工程化实践，完整覆盖 AI/LLM 应用开发所需的 Python 技术栈',
+    difficulty: 2,
+    color: 'orange',
+    articles: [
+      { slug: 'python-basics', title: 'Python基础语法', meta: { id: 'python-basics', title: 'Python基础语法', level: 'Junior', tags: ['Python', '基础语法', '变量', '数据类型', '函数', '类'], difficulty: 1, category: '01-python-basics', prerequisites: [], relatedPatterns: ['python-oop', 'python-modules'], readingTime: 45 } },
+      { slug: 'pydantic', title: 'Pydantic 数据验证', meta: { id: 'pydantic', title: 'Pydantic 数据验证', level: 'Senior', tags: ['Pydantic', 'BaseModel', '数据验证', 'JSON Schema', '序列化'], difficulty: 3, category: '01-python-basics', prerequisites: ['python-basics', 'python-typing'], relatedPatterns: ['fastapi', 'data-validation'], readingTime: 40 } },
+      { slug: 'python-async', title: 'Python 异步编程', meta: { id: 'python-async', title: 'Python 异步编程', level: 'Senior', tags: ['async', 'await', 'asyncio', '协程', '并发', 'aiohttp', 'httpx'], difficulty: 4, category: '01-python-basics', prerequisites: ['python-basics', 'python-functions'], relatedPatterns: ['fastapi', 'concurrent-programming'], readingTime: 50 } },
+      { slug: 'fastapi', title: 'FastAPI 框架深度解析', meta: { id: 'fastapi', title: 'FastAPI 框架深度解析', level: 'Senior', tags: ['FastAPI', '路由', '请求参数', '响应', '文件上传', '中间件', 'OpenAPI', 'Streaming', 'SSE', 'WebSocket'], difficulty: 4, category: '01-python-basics', prerequisites: ['python-async', 'pydantic'], relatedPatterns: ['uvicorn', 'starlette', 'sqlmodel'], readingTime: 55 } },
+      { slug: 'python-engineering', title: 'Python 工程化实践', meta: { id: 'python-engineering', title: 'Python 工程化实践', level: 'Senior', tags: ['pip', 'uv', '虚拟环境', '日志', 'dotenv', 'yaml', 'pytest', '工程化'], difficulty: 3, category: '01-python-basics', prerequisites: ['python-basics', 'python-modules'], relatedPatterns: ['fastapi', 'project-structure', 'ci-cd'], readingTime: 50 } },
+    ],
+  },
   {
     id: '06-ai-fundamentals',
     title: 'AI 基础与大模型',
@@ -86,6 +88,167 @@ export const chapters: Chapter[] = [
   },
 ];
 
+// ===== 领域分组数据 =====
+
+export const domains: Domain[] = [
+  {
+    id: 'backend',
+    title: '后端开发',
+    icon: '⚙️',
+    color: 'orange',
+    subCategories: [
+      {
+        id: 'java',
+        title: 'Java',
+        icon: '☕',
+        domainId: 'backend',
+        description: '从语法基础到框架应用，打牢 Java 编程根基',
+        chapters: [
+          chapters.find(c => c.id === '01-java-core')!,
+          chapters.find(c => c.id === '02-collections')!,
+        ],
+      },
+      {
+        id: 'python',
+        title: 'Python',
+        icon: '🐍',
+        domainId: 'backend',
+        description: '从基础语法到工程化实践，完整覆盖 Python 技术栈',
+        chapters: [
+          chapters.find(c => c.id === '01-python-basics')!,
+        ],
+      },
+    ],
+  },
+  {
+    id: 'ai',
+    title: 'AI / 机器学习',
+    icon: '🤖',
+    color: 'indigo',
+    subCategories: [
+      {
+        id: 'ai-fundamentals',
+        title: 'AI 基础',
+        icon: '🧠',
+        domainId: 'ai',
+        description: 'LLM 基础概念、Prompt 工程、结构化输出等 AI 核心技术',
+        chapters: [
+          chapters.find(c => c.id === '06-ai-fundamentals')!,
+        ],
+      },
+      {
+        id: 'langchain',
+        title: 'LangChain',
+        icon: '⛓️',
+        domainId: 'ai',
+        description: 'LangChain + LangGraph 应用开发框架',
+        chapters: [
+          chapters.find(c => c.id === '07-langchain-framework')!,
+        ],
+      },
+    ],
+  },
+  {
+    id: 'frontend',
+    title: '前端开发',
+    icon: '🎨',
+    color: 'teal',
+    subCategories: [],
+  },
+  {
+    id: 'infra',
+    title: '基础设施',
+    icon: '🏗️',
+    color: 'rose',
+    subCategories: [],
+  },
+];
+
+// ===== 学习目标路线 =====
+
+export const learningGoals: LearningGoal[] = [
+  {
+    id: 'backend-engineer',
+    title: '后端工程师',
+    icon: '⚙️',
+    description: '掌握 Java 生态核心技术栈，成为合格的后端开发工程师',
+    stages: [
+      {
+        title: '语言基础',
+        estimatedHours: 40,
+        nodes: [
+          { chapterId: '01-java-core', title: 'Java 基础', icon: '☕', readingTime: 60, difficulty: 2 },
+          { chapterId: '02-collections', title: '集合框架', icon: '📦', readingTime: 250, difficulty: 3 },
+        ],
+      },
+      {
+        title: 'Python 全栈',
+        estimatedHours: 40,
+        nodes: [
+          { chapterId: '01-python-basics', title: 'Python 基础', icon: '🐍', readingTime: 240, difficulty: 2 },
+        ],
+      },
+      {
+        title: 'AI 应用开发',
+        estimatedHours: 40,
+        nodes: [
+          { chapterId: '06-ai-fundamentals', title: 'AI 基础与大模型', icon: '🤖', readingTime: 240, difficulty: 2 },
+          { chapterId: '07-langchain-framework', title: 'LangChain + LangGraph', icon: '⛓️', readingTime: 270, difficulty: 4 },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'fullstack-engineer',
+    title: '全栈工程师',
+    icon: '🔄',
+    description: '前后端通吃，独立完成全链路开发',
+    stages: [
+      {
+        title: '后端基础',
+        estimatedHours: 40,
+        nodes: [
+          { chapterId: '01-java-core', title: 'Java 基础', icon: '☕', readingTime: 60, difficulty: 2 },
+          { chapterId: '01-python-basics', title: 'Python 基础', icon: '🐍', readingTime: 240, difficulty: 2 },
+        ],
+      },
+      {
+        title: 'AI 赋能',
+        estimatedHours: 40,
+        nodes: [
+          { chapterId: '06-ai-fundamentals', title: 'AI 基础与大模型', icon: '🤖', readingTime: 240, difficulty: 2 },
+          { chapterId: '07-langchain-framework', title: 'LangChain + LangGraph', icon: '⛓️', readingTime: 270, difficulty: 4 },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'ai-engineer',
+    title: 'AI 工程师',
+    icon: '🤖',
+    description: '掌握 AI 应用开发全栈能力，从模型调用到 Agent 编排',
+    stages: [
+      {
+        title: 'Python 基础',
+        estimatedHours: 40,
+        nodes: [
+          { chapterId: '01-python-basics', title: 'Python 基础', icon: '🐍', readingTime: 240, difficulty: 2 },
+        ],
+      },
+      {
+        title: 'AI 核心',
+        estimatedHours: 50,
+        nodes: [
+          { chapterId: '06-ai-fundamentals', title: 'AI 基础与大模型', icon: '🤖', readingTime: 240, difficulty: 2 },
+          { chapterId: '07-langchain-framework', title: 'LangChain + LangGraph', icon: '⛓️', readingTime: 270, difficulty: 4 },
+        ],
+      },
+    ],
+  },
+];
+
+// ===== 查询函数 =====
+
 export function getChapterById(id: string): Chapter | undefined {
   return chapters.find(c => c.id === id);
 }
@@ -96,6 +259,28 @@ export function getTotalArticles(): number {
 
 export function getArticlePath(chapterId: string, slug: string): string {
   return `/docs/${chapterId}/${slug}`;
+}
+
+export function getDomainById(id: string): Domain | undefined {
+  return domains.find(d => d.id === id);
+}
+
+export function getSubCategoryById(id: string): SubCategory | undefined {
+  for (const domain of domains) {
+    const found = domain.subCategories.find(sc => sc.id === id);
+    if (found) return found;
+  }
+  return undefined;
+}
+
+export function getSubCategoryForChapter(chapterId: string): SubCategory | undefined {
+  for (const domain of domains) {
+    const found = domain.subCategories.find(sc =>
+      sc.chapters.some(ch => ch.id === chapterId)
+    );
+    if (found) return found;
+  }
+  return undefined;
 }
 
 export interface ArticleNavItem {
@@ -123,9 +308,6 @@ export function getArticleNav(chapterId: string, slug: string): ArticleNavItem {
   };
 }
 
-/**
- * 根据章节ID和文章slug获取文章元数据
- */
 export function getArticleMeta(chapterId: string, slug: string) {
   const chapter = chapters.find(c => c.id === chapterId);
   if (!chapter) return undefined;
