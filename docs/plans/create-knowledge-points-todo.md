@@ -6,9 +6,9 @@
 ## 待创建知识点列表
 
 ### 1. 函数式编程 (05-functional-programming)
-- [ ] Lambda表达式详解 (`lambda-expressions`)
-- [ ] Stream API深度解析 (`stream-api`)
-- [ ] Optional优雅处理空值 (`optional`)
+- [x] Lambda表达式详解 (`lambda-expressions`) ✅ 已创建并部署
+- [x] Stream API深度解析 (`stream-api`) ✅ 已创建并部署
+- [x] Optional优雅处理空值 (`optional`) ✅ 已创建并部署
 
 ### 2. Spring框架全家桶 (06-spring-framework)
 - [ ] Spring核心IoC容器 (`spring-core`)
