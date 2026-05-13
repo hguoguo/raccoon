@@ -293,8 +293,9 @@ public class ConcurrentHashMap<K, V> {
           </p>
 
           <Playground 
-            title="size() 实现策略"
             language="java"
+            filename="ConcurrentHashMap.java"
+            description="size() 实现策略"
             code={`public int size() {
     long n = sumCount();
     return ((n < 0L) ? 0 : (n > (long)Integer.MAX_VALUE) 
@@ -367,8 +368,9 @@ static final class CounterCell {
           </DiagramBlock>
 
           <Playground 
-            title="CopyOnWriteArrayList 核心代码"
             language="java"
+            filename="CopyOnWriteArrayList.java"
+            description="CopyOnWriteArrayList 核心代码"
             code={`public class CopyOnWriteArrayList<E> {
     // volatile 保证可见性
     private transient volatile Object[] array;
@@ -438,7 +440,7 @@ static final class CounterCell {
             </tbody>
           </table>
 
-          <Callout type="success" title="最佳实践">
+          <Callout type="tip" title="最佳实践">
             <p className="text-sm text-ink-muted">
               <strong>适用场景：</strong>监听器列表、配置信息缓存、白名单/黑名单等读远多于写的场景。<br/>
               <strong>不适用场景：</strong>频繁写入、大数据量（复制成本高）、要求实时一致性的场景。
@@ -462,8 +464,9 @@ static final class CounterCell {
           </p>
 
           <Playground 
-            title="ArrayBlockingQueue 核心实现"
             language="java"
+            filename="ArrayBlockingQueue.java"
+            description="ArrayBlockingQueue 核心实现"
             code={`public class ArrayBlockingQueue<E> {
     final Object[] items;
     final ReentrantLock lock;
@@ -514,7 +517,7 @@ static final class CounterCell {
             基于链表的阻塞队列，可选有界或无界（默认 Integer.MAX_VALUE）。使用<strong className="text-accent">两把锁</strong>（takeLock、putLock）分别保护入队和出队操作，实现更高的并发度。
           </p>
 
-          <SideNote type="info" title="两把锁的优势">
+          <SideNote label="两把锁的优势">
             <p className="text-sm text-ink-muted">
               ArrayBlockingQueue 只有一把锁，入队和出队不能并发。LinkedBlockingQueue 使用两把独立的锁，生产者和消费者可以同时操作，吞吐量更高。
             </p>
@@ -526,8 +529,9 @@ static final class CounterCell {
           </h3>
 
           <Playground 
-            title="使用 BlockingQueue 实现生产者-消费者"
             language="java"
+            filename="ProducerConsumerDemo.java"
+            description="使用 BlockingQueue 实现生产者-消费者"
             code={`import java.util.concurrent.*;
 
 public class ProducerConsumerDemo {
@@ -577,35 +581,18 @@ public class ProducerConsumerDemo {
           />
 
           <ContextSwitcher
-            title="BlockingQueue 四种操作方法对比"
-            tabs={[
-              {
-                label: "抛出异常",
-                content: `// 队列满/空时抛出异常
-add(e)      // 插入失败抛 IllegalStateException
-remove()    // 删除失败抛 NoSuchElementException
-element()   // 获取失败抛 NoSuchElementException`
-              },
-              {
-                label: "返回特殊值",
-                content: `// 队列满/空时返回特殊值
-offer(e)    // 插入失败返回 false
-poll()      // 删除失败返回 null
-peek()      // 获取失败返回 null`
-              },
-              {
-                label: "阻塞等待",
-                content: `// 队列满/空时阻塞线程
-put(e)      // 队列满时一直等待
-take()      // 队列空时一直等待`
-              },
-              {
-                label: "超时退出",
-                content: `// 队列满/空时等待指定时间
-offer(e, time, unit)  // 超时返回 false
-poll(time, unit)      // 超时返回 null`
-              }
-            ]}
+            simpleContent={
+              <div className="space-y-2 text-sm text-ink-muted">
+                <p><strong>抛出异常：</strong>add/remove/element，队列满/空时抛异常</p>
+                <p><strong>返回特殊值：</strong>offer/poll/peek，失败返回 false/null</p>
+              </div>
+            }
+            hardcoreContent={
+              <div className="space-y-2 text-sm text-ink-muted">
+                <p><strong>阻塞等待：</strong>put/take，队列满/空时一直阻塞</p>
+                <p><strong>超时退出：</strong>offer(e,time,unit)/poll(time,unit)，超时返回 false/null</p>
+              </div>
+            }
           />
 
           {/* ========== 五、ConcurrentLinkedQueue 无锁队列 ========== */}
@@ -622,8 +609,9 @@ poll(time, unit)      // 超时返回 null`
           </h3>
 
           <Playground 
-            title="ConcurrentLinkedQueue offer 操作"
             language="java"
+            filename="ConcurrentLinkedQueue.java"
+            description="ConcurrentLinkedQueue offer 操作"
             code={`public class ConcurrentLinkedQueue<E> {
     private transient volatile Node<E> head;
     private transient volatile Node<E> tail;
@@ -756,21 +744,21 @@ poll(time, unit)      // 超时返回 null`
             七、性能优化技巧
           </h2>
 
-          <Callout type="success" title="ConcurrentHashMap 初始化容量">
+          <Callout type="tip" title="ConcurrentHashMap 初始化容量">
             <p className="text-sm text-ink-muted">
               <strong>问题：</strong>频繁扩容会影响性能。<br/>
-              <strong>优化：</strong>预估数据量，初始化时指定合适容量：<code className="font-mono text-xs bg-parchment-warm px-1 rounded">{`new ConcurrentHashMap<>(expectedSize / 0.75f + 1)`}</code>
+              <strong>优化：</strong>预估数据量，初始化时指定合适容量：<code className="font-mono text-xs bg-parchment-warm px-1 rounded">{"new ConcurrentHashMap<>(expectedSize / 0.75f + 1)"}</code>
             </p>
           </Callout>
 
-          <Callout type="success" title="避免过度使用 CopyOnWriteArrayList">
+          <Callout type="tip" title="避免过度使用 CopyOnWriteArrayList">
             <p className="text-sm text-ink-muted">
               <strong>陷阱：</strong>大数据量的 CopyOnWriteArrayList 每次写入都复制整个数组，导致 GC 压力大。<br/>
               <strong>建议：</strong>数据量超过 1000 或写入频率较高时，考虑使用 ReadWriteLock + ArrayList。
             </p>
           </Callout>
 
-          <Callout type="success" title="选择合适的 BlockingQueue">
+          <Callout type="tip" title="选择合适的 BlockingQueue">
             <p className="text-sm text-ink-muted">
               • 需要<strong>有界</strong>防止内存溢出 → ArrayBlockingQueue<br/>
               • 追求<strong>高吞吐</strong> → LinkedBlockingQueue（双锁）<br/>
@@ -842,7 +830,6 @@ map.putIfAbsent(key, value);`}
           </h2>
 
           <InterviewSection
-            title="并发集合类高频面试题"
             questions={[
               {
                 question: "ConcurrentHashMap 在 JDK 7 和 JDK 8 中的实现有什么区别？",
