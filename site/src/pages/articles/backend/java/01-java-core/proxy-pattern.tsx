@@ -53,47 +53,29 @@ export default function ProxyPattern({ meta }: { meta: KnowledgeNode }) {
             </p>
 
             <DiagramBlock title="代理模式 UML 类图">
-              <svg className="w-full max-w-[500px] mx-auto block" viewBox="0 0 500 280">
-                {/* Subject 接口 */}
-                <rect x="180" y="20" width="140" height="50" rx="6" fill="#f5f0e8" stroke="#d4c5a9" strokeWidth="2"/>
-                <text x="250" y="35" fill="#6b5e4c" fontSize="11" fontWeight="bold" textAnchor="middle" fontFamily="sans-serif">&lt;&lt;interface&gt;&gt;</text>
-                <text x="250" y="52" fill="#6b5e4c" fontSize="12" fontWeight="bold" textAnchor="middle" fontFamily="sans-serif">Subject</text>
-                
-                {/* RealSubject 类 */}
-                <rect x="30" y="120" width="140" height="70" rx="6" fill="#f5f0e8" stroke="#d4c5a9" strokeWidth="2"/>
-                <text x="100" y="140" fill="#6b4a1e" fontSize="12" fontWeight="bold" textAnchor="middle" fontFamily="sans-serif">RealSubject</text>
-                <line x1="30" y1="150" x2="170" y2="150" stroke="#d4c5a9"/>
-                <text x="100" y="165" fill="#8b7355" fontSize="9" textAnchor="middle" fontFamily="monospace">+ request()</text>
-                <text x="100" y="180" fill="#8b7355" fontSize="9" textAnchor="middle" fontFamily="monospace">// 真实业务逻辑</text>
-                
-                {/* Proxy 类 */}
-                <rect x="330" y="120" width="140" height="70" rx="6" fill="rgba(181,101,29,0.15)" stroke="#b5651d" strokeWidth="2"/>
-                <text x="400" y="140" fill="#8b4c14" fontSize="12" fontWeight="bold" textAnchor="middle" fontFamily="sans-serif">Proxy</text>
-                <line x1="330" y1="150" x2="470" y2="150" stroke="#b5651d"/>
-                <text x="400" y="165" fill="#6b4a1e" fontSize="9" textAnchor="middle" fontFamily="monospace">- target: Subject</text>
-                <text x="400" y="180" fill="#6b4a1e" fontSize="9" textAnchor="middle" fontFamily="monospace">+ request()</text>
-                
-                {/* Client */}
-                <rect x="180" y="230" width="140" height="40" rx="6" fill="#f5f0e8" stroke="#d4c5a9" strokeWidth="2"/>
-                <text x="250" y="255" fill="#6b5e4c" fontSize="12" textAnchor="middle" fontFamily="sans-serif">Client</text>
-                
-                {/* 继承关系箭头 */}
-                <line x1="100" y1="120" x2="220" y2="70" stroke="#6b5e4c" strokeWidth="1.5" strokeDasharray="5,5"/>
-                <polygon points="220,70 213,75 217,82" fill="#6b5e4c"/>
-                
-                <line x1="400" y1="120" x2="280" y2="70" stroke="#6b5e4c" strokeWidth="1.5" strokeDasharray="5,5"/>
-                <polygon points="280,70 287,75 283,82" fill="#6b5e4c"/>
-                
-                {/* 组合关系箭头 */}
-                <line x1="400" y1="190" x2="170" y2="190" stroke="#8b4c14" strokeWidth="1.5"/>
-                <polygon points="170,190 180,185 180,195" fill="#8b4c14"/>
-                <text x="285" y="185" fill="#8b4c14" fontSize="9" textAnchor="middle">持有引用</text>
-                
-                {/* 依赖关系箭头 */}
-                <line x1="250" y1="230" x2="400" y2="190" stroke="#6b5e4c" strokeWidth="1.5"/>
-                <polygon points="400,190 390,192 393,198" fill="#6b5e4c"/>
-                <text x="340" y="215" fill="#6b5e4c" fontSize="9" textAnchor="middle">使用</text>
-              </svg>
+{`classDiagram
+    class Subject {
+        &lt;&lt;interface&gt;&gt;
+        +request()
+    }
+    class RealSubject {
+        +request() 真实业务逻辑
+    }
+    class Proxy {
+        -target: Subject
+        +request()
+    }
+    class Client
+
+    Subject <|.. RealSubject : 实现
+    Subject <|.. Proxy : 实现
+    Proxy --> RealSubject : 持有引用
+    Client --> Proxy : 使用
+
+    style Subject fill:#f5f0e8,stroke:#d4c5a9,color:#6b5e4c
+    style RealSubject fill:#f5f0e8,stroke:#d4c5a9,color:#6b4a1e
+    style Proxy fill:#f5f0e8,stroke:#b5651d,color:#8b4c14
+    style Client fill:#f5f0e8,stroke:#d4c5a9,color:#6b5e4c`}
             </DiagramBlock>
 
             <Callout type="info" title="代理模式的三大角色">
@@ -197,57 +179,17 @@ public class Client {
             </p>
 
             <DiagramBlock title="JDK 动态代理工作流程">
-              <svg className="w-full max-w-[550px] mx-auto block" viewBox="0 0 550 240">
-                {/* 步骤 1 */}
-                <rect x="20" y="20" width="120" height="50" rx="6" fill="rgba(181,101,29,0.15)" stroke="#b5651d" strokeWidth="2"/>
-                <text x="80" y="40" fill="#6b4a1e" fontSize="10" fontWeight="bold" textAnchor="middle">1. 定义接口</text>
-                <text x="80" y="55" fill="#8b7355" fontSize="8" textAnchor="middle" fontFamily="monospace">UserService</text>
-                
-                {/* 箭头 */}
-                <line x1="140" y1="45" x2="180" y2="45" stroke="#b5651d" strokeWidth="2"/>
-                <polygon points="180,45 172,40 172,50" fill="#b5651d"/>
-                
-                {/* 步骤 2 */}
-                <rect x="180" y="20" width="120" height="50" rx="6" fill="rgba(181,101,29,0.15)" stroke="#b5651d" strokeWidth="2"/>
-                <text x="240" y="40" fill="#6b4a1e" fontSize="10" fontWeight="bold" textAnchor="middle">2. 实现接口</text>
-                <text x="240" y="55" fill="#8b7355" fontSize="8" textAnchor="middle" fontFamily="monospace">UserServiceImpl</text>
-                
-                {/* 箭头 */}
-                <line x1="300" y1="45" x2="340" y2="45" stroke="#b5651d" strokeWidth="2"/>
-                <polygon points="340,45 332,40 332,50" fill="#b5651d"/>
-                
-                {/* 步骤 3 */}
-                <rect x="340" y="20" width="190" height="50" rx="6" fill="rgba(181,101,29,0.2)" stroke="#b5651d" strokeWidth="2"/>
-                <text x="435" y="35" fill="#6b4a1e" fontSize="10" fontWeight="bold" textAnchor="middle">3. 创建 InvocationHandler</text>
-                <text x="435" y="50" fill="#8b7355" fontSize="8" textAnchor="middle" fontFamily="monospace">(定义增强逻辑)</text>
-                
-                {/* 步骤 4 */}
-                <rect x="140" y="100" width="270" height="50" rx="6" fill="rgba(181,101,29,0.25)" stroke="#b5651d" strokeWidth="3"/>
-                <text x="275" y="115" fill="#6b4a1e" fontSize="11" fontWeight="bold" textAnchor="middle">4. Proxy.newProxyInstance()</text>
-                <text x="275" y="135" fill="#8b7355" fontSize="9" textAnchor="middle" fontFamily="monospace">动态生成 $Proxy0 类</text>
-                
-                {/* 箭头 */}
-                <line x1="275" y1="70" x2="275" y2="100" stroke="#b5651d" strokeWidth="2"/>
-                <polygon points="275,100 270,92 280,92" fill="#b5651d"/>
-                
-                {/* 步骤 5 */}
-                <rect x="140" y="180" width="270" height="50" rx="6" fill="#f5f0e8" stroke="#d4c5a9" strokeWidth="2"/>
-                <text x="275" y="195" fill="#6b5e4c" fontSize="11" fontWeight="bold" textAnchor="middle">5. 客户端调用代理方法</text>
-                <text x="275" y="215" fill="#8b7355" fontSize="9" textAnchor="middle" fontFamily="monospace">proxy.saveUser() → invoke()</text>
-                
-                {/* 箭头 */}
-                <line x1="275" y1="150" x2="275" y2="180" stroke="#6b5e4c" strokeWidth="2"/>
-                <polygon points="275,180 270,172 280,172" fill="#6b5e4c"/>
-                
-                {/* 侧边说明 */}
-                <rect x="430" y="100" width="110" height="130" rx="6" fill="rgba(95,122,104,0.1)" stroke="#5f7a68"/>
-                <text x="485" y="120" fill="#4a5f52" fontSize="9" fontWeight="bold" textAnchor="middle">关键点</text>
-                <text x="485" y="140" fill="#5f7a68" fontSize="8" textAnchor="middle">• 基于接口</text>
-                <text x="485" y="155" fill="#5f7a68" fontSize="8" textAnchor="middle">• 反射机制</text>
-                <text x="485" y="170" fill="#5f7a68" fontSize="8" textAnchor="middle">• 运行时生成</text>
-                <text x="485" y="185" fill="#5f7a68" fontSize="8" textAnchor="middle">• 字节码技术</text>
-                <text x="485" y="200" fill="#5f7a68" fontSize="8" textAnchor="middle">• 缓存复用</text>
-              </svg>
+{`graph TD
+    A["1. 定义接口\nUserService"] --> B["2. 实现接口\nUserServiceImpl"]
+    B --> C["3. 创建 InvocationHandler\n(定义增强逻辑)"]
+    C --> D["4. Proxy.newProxyInstance()\n动态生成 $Proxy0 类"]
+    D --> E["5. 客户端调用代理方法\nproxy.saveUser() → invoke()"]
+
+    style A fill:#f5f0e8,stroke:#b5651d,color:#6b4a1e
+    style B fill:#f5f0e8,stroke:#b5651d,color:#6b4a1e
+    style C fill:#ede4d1,stroke:#b5651d,color:#6b4a1e
+    style D fill:#ede4d1,stroke:#b5651d,color:#8b4c14,stroke-width:3px
+    style E fill:#f5f0e8,stroke:#d4c5a9,color:#6b5e4c`}
             </DiagramBlock>
 
             <h3 id="proxy-source" className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">

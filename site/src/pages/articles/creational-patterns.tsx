@@ -163,17 +163,34 @@ factory.logMessage("用户登录");  // [File] 用户登录`}
           />
 
           <DiagramBlock title="工厂方法 UML 图">
-            <pre className="font-mono text-[11px] sm:text-[12px] text-ink-muted leading-[1.6] whitespace-pre">{`
-   <<abstract>>           <<interface>>
-   LoggerFactory           Logger
-   +createLogger()         +log()
-        |                     ^
-        |                     |
-   +----+----+          +----+----+
-   |         |          |         |
-FileLogger  Database   FileLog  DatabaseLog
-Factory     Factory    ger      Logger
-`}</pre>
+            {`classDiagram
+              class LoggerFactory {
+                <<abstract>>
+                +createLogger()
+              }
+              class Logger {
+                <<interface>>
+                +log()
+              }
+              class FileLoggerFactory {
+                +createLogger()
+              }
+              class DatabaseFactory {
+                +createLogger()
+              }
+              class FileLogger {
+                +log()
+              }
+              class DatabaseLogger {
+                +log()
+              }
+              LoggerFactory <|-- FileLoggerFactory
+              LoggerFactory <|-- DatabaseFactory
+              Logger <|.. FileLogger
+              Logger <|.. DatabaseLogger
+              FileLoggerFactory ..> FileLogger
+              DatabaseFactory ..> DatabaseLogger
+            `}
           </DiagramBlock>
 
           <h2 id="abstract-factory" className="font-display font-bold text-[20px] sm:text-display-md tracking-tight mt-8 sm:mt-12 mb-3 sm:mb-4 pb-[10px] border-b border-border-light text-ink">

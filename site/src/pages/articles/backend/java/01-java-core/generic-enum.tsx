@@ -52,44 +52,32 @@ export default function GenericEnum({ meta }: { meta: KnowledgeNode }) {
           </p>
 
           <DiagramBlock title="泛型与枚举全景图">
-            <svg viewBox="0 0 500 320" className="w-full h-auto">
-              {/* 背景 */}
-              <rect x="0" y="0" width="500" height="320" fill="#f8f9fa" rx="8"/>
-              
-              {/* 泛型区域 */}
-              <rect x="20" y="20" width="220" height="280" fill="#e0f2fe" rx="8" stroke="#0ea5e9" strokeWidth="2"/>
-              <text x="130" y="50" textAnchor="middle" fontSize="16" fontWeight="bold" fill="#0369a1">泛型 Generics</text>
-              
-              {/* 泛型内容 */}
-              <rect x="35" y="70" width="190" height="40" fill="#bae6fd" rx="4"/>
-              <text x="130" y="95" textAnchor="middle" fontSize="13" fill="#0c4a6e">泛型类/接口</text>
-              
-              <rect x="35" y="120" width="190" height="40" fill="#bae6fd" rx="4"/>
-              <text x="130" y="145" textAnchor="middle" fontSize="13" fill="#0c4a6e">泛型方法</text>
-              
-              <rect x="35" y="170" width="190" height="40" fill="#bae6fd" rx="4"/>
-              <text x="130" y="195" textAnchor="middle" fontSize="13" fill="#0c4a6e">通配符 ? extends/super</text>
-              
-              <rect x="35" y="220" width="190" height="40" fill="#fdba74" rx="4"/>
-              <text x="130" y="245" textAnchor="middle" fontSize="13" fill="#9a3412">类型擦除（运行时）</text>
-              
-              {/* 枚举区域 */}
-              <rect x="260" y="20" width="220" height="280" fill="#fce7f3" rx="8" stroke="#ec4899" strokeWidth="2"/>
-              <text x="370" y="50" textAnchor="middle" fontSize="16" fontWeight="bold" fill="#be185d">枚举 Enum</text>
-              
-              {/* 枚举内容 */}
-              <rect x="275" y="70" width="190" height="40" fill="#fbcfe8" rx="4"/>
-              <text x="370" y="95" textAnchor="middle" fontSize="13" fill="#831843">常量定义</text>
-              
-              <rect x="275" y="120" width="190" height="40" fill="#fbcfe8" rx="4"/>
-              <text x="370" y="145" textAnchor="middle" fontSize="13" fill="#831843">构造器/字段/方法</text>
-              
-              <rect x="275" y="170" width="190" height="40" fill="#fbcfe8" rx="4"/>
-              <text x="370" y="195" textAnchor="middle" fontSize="13" fill="#831843">switch 支持</text>
-              
-              <rect x="275" y="220" width="190" height="40" fill="#a5f3fc" rx="4"/>
-              <text x="370" y="245" textAnchor="middle" fontSize="13" fill="#155e75">EnumSet/EnumMap</text>
-            </svg>
+            {`graph LR
+              subgraph Generics["泛型 Generics"]
+                direction TB
+                A["泛型类/接口"]
+                B["泛型方法"]
+                C["通配符 ? extends/super"]
+                D["类型擦除（运行时）"]
+              end
+              subgraph Enum["枚举 Enum"]
+                direction TB
+                E["常量定义"]
+                F["构造器/字段/方法"]
+                G["switch 支持"]
+                H["EnumSet/EnumMap"]
+              end
+              style Generics fill:#e0f2fe,stroke:#0ea5e9,stroke-width:2px
+              style Enum fill:#fce7f3,stroke:#ec4899,stroke-width:2px
+              style A fill:#bae6fd,stroke:none
+              style B fill:#bae6fd,stroke:none
+              style C fill:#bae6fd,stroke:none
+              style D fill:#fdba74,stroke:none
+              style E fill:#fbcfe8,stroke:none
+              style F fill:#fbcfe8,stroke:none
+              style G fill:#fbcfe8,stroke:none
+              style H fill:#a5f3fc,stroke:none
+            `}
           </DiagramBlock>
 
           <h2 id="generic-basics" className="font-display font-bold text-[20px] sm:text-display-md tracking-tight mt-8 sm:mt-12 mb-3 sm:mb-4 pb-[10px] border-b border-border-light text-ink">

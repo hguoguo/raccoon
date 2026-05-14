@@ -51,38 +51,13 @@ export default function Hibernate({ meta }: { meta: KnowledgeNode }) {
           </p>
 
           <DiagramBlock title="Hibernate架构图">
-            <pre className="font-mono text-[11px] sm:text-[12px] text-ink-muted leading-[1.6] whitespace-pre">{`
-┌─────────────────────────────────────┐
-│       Application Layer             │
-│  (Business Logic / Service)         │
-└──────────────┬──────────────────────┘
-               │ 使用 Session API
-┌──────────────▼──────────────────────┐
-│       Hibernate Core                │
-│                                     │
-│  ┌──────────┐  ┌────────────────┐  │
-│  │ Session  │  │ Transaction    │  │
-│  │ (Unit of │  │ Management     │  │
-│  │  Work)   │  │                │  │
-│  └────┬─────┘  └────────────────┘  │
-│       │                             │
-│  ┌────▼────────────────────────┐   │
-│  │ SessionFactory              │   │
-│  │ (Connection Pool + Config)  │   │
-│  └────┬────────────────────────┘   │
-└───────┼────────────────────────────┘
-        │ JDBC API
-┌───────▼────────────────────────────┐
-│       Database                      │
-│  (MySQL / PostgreSQL / Oracle)      │
-└────────────────────────────────────┘
-
-关键组件：
-• SessionFactory：重量级对象，应用级别单例
-• Session：轻量级对象，线程不安全，代表一次工作单元
-• Transaction：抽象事务接口，支持JDBC/JTA事务
-• Query：HQL/Criteria查询接口
-            `}</pre>
+            {`graph TD
+              APP["Application Layer<br/>Business Logic / Service"] --> |使用 Session API| HC["Hibernate Core"]
+              HC --> SESSION["Session<br/>Unit of Work"]
+              HC --> TXM["Transaction<br/>Management"]
+              SESSION --> SF["SessionFactory<br/>Connection Pool + Config"]
+              SF --> |JDBC API| DB["Database<br/>MySQL / PostgreSQL / Oracle"]
+            `}
           </DiagramBlock>
 
           <SideNote label="SessionFactory vs Session">
@@ -169,28 +144,13 @@ public class SessionExample {
           </p>
 
           <DiagramBlock title="实体状态转换图">
-            <pre className="font-mono text-[11px] sm:text-[12px] text-ink-muted leading-[1.6] whitespace-pre">{`
-                    save()/persist()
-Transient ──────────────────────────► Persistent
-(瞬时态)                               (持久态)
-  │                                      │  │
-  │           merge()                    │  │ flush()
-  └─────────────────────────────────────┘  │ to DB
-                                           │  │
-                    delete()                │  │
-Persistent ◄──────────────────────────────┘  │
-  │                                          │
-  │ evict() / close()                        │
-  ▼                                          ▼
-Detached                              Database
-(游离态)                               (数据库)
-
-状态说明：
-• Transient：new创建，未与Session关联，无数据库记录
-• Persistent：与Session关联，任何修改会在flush时同步到DB
-• Detached：曾与Session关联，但Session已关闭，修改不会同步
-• Removed：调用delete()后，等待从DB删除
-            `}</pre>
+            {`graph TD
+              TRANS["Transient 瞬时态<br/>new创建,未与Session关联"] --> |save/persist| PERS["Persistent 持久态<br/>与Session关联,修改自动同步DB"]
+              PERS --> |evict/close| DETACH["Detached 游离态<br/>Session已关闭,修改不同步"]
+              DETACH --> |merge| PERS
+              PERS --> |flush| DB["Database 数据库"]
+              PERS --> |delete| REMOVED["Removed 已删除"]
+            `}
           </DiagramBlock>
 
           <Playground

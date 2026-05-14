@@ -187,17 +187,33 @@ source.doSomething();
           />
 
           <DiagramBlock title="观察者模式 UML 图">
-            <pre className="font-mono text-[11px] sm:text-[12px] text-ink-muted leading-[1.6] whitespace-pre">{`
-   <<interface>>         <<interface>>
-   Subject               Observer
-   +attach()             +update()
-   +detach()
-   +notify()
-        |                     ^
-        |                +----+----+
-   EventSource           |         |
-                    EmailNotif  SmsNotif
-`}</pre>
+            {`classDiagram
+              class Subject {
+                <<interface>>
+                +attach()
+                +detach()
+                +notify()
+              }
+              class Observer {
+                <<interface>>
+                +update()
+              }
+              class EventSource {
+                +attach()
+                +detach()
+                +notify()
+              }
+              class EmailNotifier {
+                +update()
+              }
+              class SmsNotifier {
+                +update()
+              }
+              Subject <|.. EventSource
+              Observer <|.. EmailNotifier
+              Observer <|.. SmsNotifier
+              EventSource o-- Observer
+            `}
           </DiagramBlock>
 
           <h2 id="template-method" className="font-display font-bold text-[20px] sm:text-display-md tracking-tight mt-8 sm:mt-12 mb-3 sm:mb-4 pb-[10px] border-b border-border-light text-ink">

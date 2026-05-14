@@ -60,19 +60,14 @@ export default function LangChainBasics({ meta }: { meta: KnowledgeNode }) {
           </p>
 
           <DiagramBlock title="LangChain 核心架构">
-            <pre className="font-mono text-[11px] sm:text-[12px] text-ink-muted leading-[1.6] whitespace-pre">{`
-┌─────────────────────────────────────────────┐
-│           LangChain Application             │
-├──────────┬──────────┬──────────┬───────────┤
-│ Prompts  │ Models   │ Chains   │ Memory    │
-├──────────┼──────────┼──────────┼───────────┤
-│ Template │ Chat     │ Runnable │ Buffer    │
-│ Few-shot │ LLM      │ Parallel │ Summary   │
-│ Dynamic  │ Embedding│ Sequence │ Vector    │
-├──────────┴──────────┴──────────┴───────────┤
-│              Tools & Agents                │
-└─────────────────────────────────────────────┘
-            `}</pre>
+            {`graph TD
+              APP["LangChain Application"]
+              APP --> PROMPTS["Prompts<br/>Template / Few-shot / Dynamic"]
+              APP --> MODELS["Models<br/>Chat / LLM / Embedding"]
+              APP --> CHAINS["Chains<br/>Runnable / Parallel / Sequence"]
+              APP --> MEMORY["Memory<br/>Buffer / Summary / Vector"]
+              APP --> TOOLS["Tools & Agents"]
+            `}
           </DiagramBlock>
 
           <SideNote label="设计理念">
@@ -258,18 +253,15 @@ model = ChatOllama(model="llama3:8b")`}
           </p>
 
           <DiagramBlock title="Runnable 标准方法">
-            <pre className="font-mono text-[11px] sm:text-[12px] text-ink-muted leading-[1.6] whitespace-pre">{`
-┌──────────────────────────────────────┐
-│         Runnable Interface           │
-├──────────────────────────────────────┤
-│ invoke(input) → output               │
-│ batch(inputs) → outputs              │
-│ stream(input) → Iterator[output]     │
-│ ainvoke(input) → output (async)      │
-│ abatch(inputs) → outputs (async)     │
-│ astream(input) → AsyncIterator       │
-└──────────────────────────────────────┘
-            `}</pre>
+            {`graph TD
+              RI["Runnable Interface"]
+              RI --> M1["invoke(input) → output"]
+              RI --> M2["batch(inputs) → outputs"]
+              RI --> M3["stream(input) → Iterator"]
+              RI --> M4["ainvoke(input) → output async"]
+              RI --> M5["abatch(inputs) → outputs async"]
+              RI --> M6["astream(input) → AsyncIterator"]
+            `}
           </DiagramBlock>
 
           <Playground
@@ -515,17 +507,12 @@ class CalculatorTool(BaseTool):
           </p>
 
           <DiagramBlock title="Memory 类型对比">
-            <pre className="font-mono text-[11px] sm:text-[12px] text-ink-muted leading-[1.6] whitespace-pre">{`
-┌──────────────────────────────────────────┐
-│         Memory Types                     │
-├────────────┬──────────────┬─────────────┤
-│ Buffer     │ Summary      │ Vector      │
-├────────────┼──────────────┼─────────────┤
-│ 保存全部   │ 压缩摘要     │ 语义检索    │
-│ 历史记录   │ 节省 Token   │ 长程记忆    │
-│ 简单直接   │ 可能丢失细节 │ 需要 Embed  │
-└────────────┴──────────────┴─────────────┘
-            `}</pre>
+            {`graph TD
+              MT["Memory Types"]
+              MT --> BUF["Buffer<br/>保存全部历史记录<br/>简单直接"]
+              MT --> SUM["Summary<br/>压缩摘要节省Token<br/>可能丢失细节"]
+              MT --> VEC["Vector<br/>语义检索长程记忆<br/>需要Embed"]
+            `}
           </DiagramBlock>
 
           <Playground

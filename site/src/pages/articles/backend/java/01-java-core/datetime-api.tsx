@@ -93,38 +93,23 @@ export default function DatetimeApi({ meta }: { meta: KnowledgeNode }) {
           </p>
 
           <DiagramBlock title="java.time 核心类层次结构">
-            <svg className="w-full max-w-[600px] mx-auto block" viewBox="0 0 600 280">
-              <rect x="20" y="20" width="560" height="40" rx="6" fill="#f5f0e8" stroke="#d4c5a9" strokeWidth="2"/>
-              <text x="300" y="45" fill="#6b5e4c" fontSize="11" fontFamily="sans-serif" textAnchor="middle" fontWeight="bold">java.time 核心类</text>
-              
-              <rect x="20" y="80" width="130" height="50" rx="4" fill="rgba(181,101,29,0.15)" stroke="#b5651d"/>
-              <text x="85" y="100" fill="#8b4c14" fontSize="10" fontFamily="monospace" textAnchor="middle" fontWeight="bold">LocalDate</text>
-              <text x="85" y="118" fill="#8b4c14" fontSize="8" fontFamily="sans-serif" textAnchor="middle">日期（无时间）</text>
-              
-              <rect x="170" y="80" width="130" height="50" rx="4" fill="rgba(95,122,104,0.15)" stroke="#5f7a68"/>
-              <text x="235" y="100" fill="#3d5245" fontSize="10" fontFamily="monospace" textAnchor="middle" fontWeight="bold">LocalTime</text>
-              <text x="235" y="118" fill="#3d5245" fontSize="8" fontFamily="sans-serif" textAnchor="middle">时间（无日期）</text>
-              
-              <rect x="320" y="80" width="130" height="50" rx="4" fill="rgba(160,82,45,0.15)" stroke="#a0522d"/>
-              <text x="385" y="100" fill="#8a4a1a" fontSize="10" fontFamily="monospace" textAnchor="middle" fontWeight="bold">LocalDateTime</text>
-              <text x="385" y="118" fill="#8a4a1a" fontSize="8" fontFamily="sans-serif" textAnchor="middle">日期+时间</text>
-              
-              <rect x="470" y="80" width="110" height="50" rx="4" fill="rgba(106,90,205,0.15)" stroke="#6a5acd"/>
-              <text x="525" y="100" fill="#5a4a9d" fontSize="10" fontFamily="monospace" textAnchor="middle" fontWeight="bold">Instant</text>
-              <text x="525" y="118" fill="#5a4a9d" fontSize="8" fontFamily="sans-serif" textAnchor="middle">时间戳</text>
-              
-              <rect x="120" y="160" width="150" height="50" rx="4" fill="rgba(220,20,60,0.12)" stroke="#dc143c"/>
-              <text x="195" y="180" fill="#b01030" fontSize="10" fontFamily="monospace" textAnchor="middle" fontWeight="bold">ZonedDateTime</text>
-              <text x="195" y="198" fill="#b01030" fontSize="8" fontFamily="sans-serif" textAnchor="middle">带时区的日期时间</text>
-              
-              <rect x="330" y="160" width="140" height="50" rx="4" fill="rgba(0,128,128,0.12)" stroke="#008080"/>
-              <text x="400" y="180" fill="#006666" fontSize="10" fontFamily="monospace" textAnchor="middle" fontWeight="bold">Duration</text>
-              <text x="400" y="198" fill="#006666" fontSize="8" fontFamily="sans-serif" textAnchor="middle">时间段（秒/纳秒）</text>
-              
-              <rect x="220" y="230" width="160" height="40" rx="4" fill="rgba(255,140,0,0.12)" stroke="#ff8c00"/>
-              <text x="300" y="255" fill="#cc7000" fontSize="10" fontFamily="monospace" textAnchor="middle" fontWeight="bold">Period</text>
-              <text x="300" y="268" fill="#cc7000" fontSize="8" fontFamily="sans-serif" textAnchor="middle">时间段（年/月/日）</text>
-            </svg>
+            {`graph TD
+              CORE["java.time 核心类"] --> LD["LocalDate<br/>日期（无时间）"]
+              CORE --> LT["LocalTime<br/>时间（无日期）"]
+              CORE --> LDT["LocalDateTime<br/>日期+时间"]
+              CORE --> INST["Instant<br/>时间戳"]
+              CORE --> ZDT["ZonedDateTime<br/>带时区的日期时间"]
+              CORE --> DUR["Duration<br/>时间段（秒/纳秒）"]
+              CORE --> PER["Period<br/>时间段（年/月/日）"]
+              style CORE fill:#f5f0e8,stroke:#d4c5a9,stroke-width:2px
+              style LD fill:#b5651d25,stroke:#b5651d
+              style LT fill:#5f7a6825,stroke:#5f7a68
+              style LDT fill:#a0522d25,stroke:#a0522d
+              style INST fill:#6a5acd25,stroke:#6a5acd
+              style ZDT fill:#dc143c20,stroke:#dc143c
+              style DUR fill:#00808020,stroke:#008080
+              style PER fill:#ff8c0020,stroke:#ff8c00
+            `}
           </DiagramBlock>
 
           <h3 id="localdatetime" className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">

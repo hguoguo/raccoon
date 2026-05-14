@@ -67,46 +67,32 @@ export default function HashmapDeepDive({ meta }: { meta: KnowledgeNode }) {
           </p>
 
           <DiagramBlock title="HashMap 整体架构图">
-            <svg className="w-full max-w-[500px] mx-auto block" viewBox="0 0 500 220">
-              <rect x="20" y="10" width="460" height="30" rx="4" fill="#ede4d1" stroke="#d4c5a9"/>
-              <text x="40" y="30" fill="#6b5e4c" fontSize="10" fontFamily="monospace">table[] (capacity=16)</text>
-              
-              <rect x="20" y="50" width="60" height="30" rx="4" fill="#f5f0e8" stroke="#d4c5a9"/>
-              <text x="50" y="70" fill="#a99d8e" fontSize="9" fontFamily="monospace" textAnchor="middle">[0]</text>
-              
-              <rect x="80" y="50" width="60" height="30" rx="4" fill="rgba(181,101,29,0.15)" stroke="#b5651d"/>
-              <text x="110" y="70" fill="#8b4c14" fontSize="9" fontFamily="monospace" textAnchor="middle">[1]</text>
-              <line x1="110" y1="80" x2="110" y2="100" stroke="#b5651d" strokeWidth="1.5"/>
-              <rect x="80" y="100" width="60" height="25" rx="4" fill="rgba(181,101,29,0.15)" stroke="#b5651d"/>
-              <text x="110" y="117" fill="#8b4c14" fontSize="8" fontFamily="monospace" textAnchor="middle">Node1</text>
-              <line x1="110" y1="125" x2="110" y2="140" stroke="#b5651d" strokeWidth="1.5"/>
-              <rect x="80" y="140" width="60" height="25" rx="4" fill="rgba(181,101,29,0.15)" stroke="#b5651d"/>
-              <text x="110" y="157" fill="#8b4c14" fontSize="8" fontFamily="monospace" textAnchor="middle">Node2</text>
-              
-              <rect x="140" y="50" width="60" height="30" rx="4" fill="#f5f0e8" stroke="#d4c5a9"/>
-              <text x="170" y="70" fill="#a99d8e" fontSize="9" fontFamily="monospace" textAnchor="middle">[2]</text>
-              
-              <rect x="200" y="50" width="60" height="30" rx="4" fill="rgba(160,82,45,0.12)" stroke="#a0522d"/>
-              <text x="230" y="70" fill="#a0522d" fontSize="9" fontFamily="monospace" textAnchor="middle">[3]</text>
-              <circle cx="230" cy="100" r="12" fill="rgba(160,82,45,0.12)" stroke="#a0522d" strokeWidth="1.5"/>
-              <text x="230" y="104" fill="#a0522d" fontSize="8" fontFamily="monospace" textAnchor="middle">8</text>
-              <line x1="222" y1="110" x2="210" y2="125" stroke="#a0522d"/>
-              <line x1="238" y1="110" x2="250" y2="125" stroke="#a0522d"/>
-              <circle cx="200" cy="140" r="12" fill="rgba(95,122,104,0.15)" stroke="#5f7a68" strokeWidth="1.5"/>
-              <text x="200" y="144" fill="#5f7a68" fontSize="8" fontFamily="monospace" textAnchor="middle">4</text>
-              <circle cx="260" cy="140" r="12" fill="rgba(95,122,104,0.15)" stroke="#5f7a68" strokeWidth="1.5"/>
-              <text x="260" y="144" fill="#5f7a68" fontSize="8" fontFamily="monospace" textAnchor="middle">12</text>
-              <text x="230" y="170" fill="#a0522d" fontSize="8" fontFamily="monospace" textAnchor="middle">红黑树</text>
-              
-              <rect x="260" y="50" width="60" height="30" rx="4" fill="#f5f0e8" stroke="#d4c5a9"/>
-              <text x="290" y="70" fill="#a99d8e" fontSize="9" fontFamily="monospace" textAnchor="middle">[4]</text>
-              
-              <rect x="320" y="50" width="60" height="30" rx="4" fill="#f5f0e8" stroke="#d4c5a9"/>
-              <text x="350" y="70" fill="#a99d8e" fontSize="9" fontFamily="monospace" textAnchor="middle">[...]</text>
-              
-              <text x="20" y="200" fill="#8a7d6b" fontSize="9" fontFamily="monospace">橙色: 链表（长度 &lt; 8）</text>
-              <text x="250" y="200" fill="#8a7d6b" fontSize="9" fontFamily="monospace">棕色: 红黑树（长度 ≥ 8）</text>
-            </svg>
+            {`graph TD
+              TABLE["table[] capacity=16"]
+              TABLE --> B0["[0] 空"]
+              TABLE --> B1["[1] 链表"]
+              TABLE --> B2["[2] 空"]
+              TABLE --> B3["[3] 红黑树"]
+              TABLE --> B4["[4] 空"]
+              TABLE --> BN["[...] 空"]
+              B1 --> N1["Node1"]
+              N1 --> N2["Node2"]
+              B3 --> RBT["8"]
+              RBT --> R4["4"]
+              RBT --> R12["12"]
+              style TABLE fill:#ede4d1,stroke:#d4c5a9
+              style B0 fill:#f5f0e8,stroke:#d4c5a9
+              style B1 fill:#b5651d25,stroke:#b5651d
+              style B2 fill:#f5f0e8,stroke:#d4c5a9
+              style B3 fill:#a0522d20,stroke:#a0522d
+              style B4 fill:#f5f0e8,stroke:#d4c5a9
+              style BN fill:#f5f0e8,stroke:#d4c5a9
+              style N1 fill:#b5651d25,stroke:#b5651d
+              style N2 fill:#b5651d25,stroke:#b5651d
+              style RBT fill:#a0522d20,stroke:#a0522d
+              style R4 fill:#5f7a6825,stroke:#5f7a68
+              style R12 fill:#5f7a6825,stroke:#5f7a68
+            `}
           </DiagramBlock>
 
           <Callout type="tip" title="核心要点">

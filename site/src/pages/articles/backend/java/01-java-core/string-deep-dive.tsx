@@ -110,42 +110,31 @@ export default function StringDeepDive({ meta }: { meta: KnowledgeNode }) {
           </p>
 
           <DiagramBlock title="字符串常量池工作原理">
-            <svg className="w-full max-w-[600px] mx-auto block" viewBox="0 0 600 250">
-              {/* 堆内存 */}
-              <rect x="20" y="20" width="260" height="200" rx="6" fill="#f5f0e8" stroke="#d4c5a9" strokeWidth="2"/>
-              <text x="150" y="40" fill="#6b5e4c" fontSize="11" fontFamily="sans-serif" textAnchor="middle" fontWeight="bold">Heap Memory</text>
-              
-              {/* 字符串常量池 */}
-              <rect x="40" y="60" width="220" height="140" rx="4" fill="rgba(181,101,29,0.1)" stroke="#b5651d"/>
-              <text x="150" y="80" fill="#8b4c14" fontSize="10" fontFamily="sans-serif" textAnchor="middle" fontWeight="bold">String Pool</text>
-              
-              <rect x="60" y="95" width="180" height="30" rx="3" fill="rgba(181,101,29,0.15)" stroke="#b5651d"/>
-              <text x="150" y="115" fill="#8b4c14" fontSize="9" fontFamily="monospace" textAnchor="middle">"Hello" @0x001</text>
-              
-              <rect x="60" y="135" width="180" height="30" rx="3" fill="rgba(181,101,29,0.15)" stroke="#b5651d"/>
-              <text x="150" y="155" fill="#8b4c14" fontSize="9" fontFamily="monospace" textAnchor="middle">"World" @0x002</text>
-              
-              <rect x="60" y="175" width="180" height="30" rx="3" fill="rgba(181,101,29,0.15)" stroke="#b5651d"/>
-              <text x="150" y="195" fill="#8b4c14" fontSize="9" fontFamily="monospace" textAnchor="middle">"Java" @0x003</text>
-              
-              {/* 栈内存 */}
-              <rect x="320" y="20" width="260" height="200" rx="6" fill="#f0f5f3" stroke="#5f7a68" strokeWidth="2"/>
-              <text x="450" y="40" fill="#3d5245" fontSize="11" fontFamily="sans-serif" textAnchor="middle" fontWeight="bold">Stack Memory</text>
-              
-              <rect x="340" y="70" width="220" height="40" rx="3" fill="rgba(95,122,104,0.1)" stroke="#5f7a68"/>
-              <text x="450" y="90" fill="#3d5245" fontSize="9" fontFamily="monospace" textAnchor="middle">String s1 = "Hello"</text>
-              <line x1="450" y1="110" x2="150" y2="110" stroke="#5f7a68" strokeWidth="2" strokeDasharray="5,3"/>
-              <text x="300" y="105" fill="#5f7a68" fontSize="8" fontFamily="sans-serif">指向池</text>
-              
-              <rect x="340" y="125" width="220" height="40" rx="3" fill="rgba(95,122,104,0.1)" stroke="#5f7a68"/>
-              <text x="450" y="145" fill="#3d5245" fontSize="9" fontFamily="monospace" textAnchor="middle">String s2 = "Hello"</text>
-              <line x1="450" y1="165" x2="150" y2="110" stroke="#5f7a68" strokeWidth="2" strokeDasharray="5,3"/>
-              <text x="300" y="160" fill="#5f7a68" fontSize="8" fontFamily="sans-serif">指向同一对象</text>
-              
-              <rect x="340" y="180" width="220" height="30" rx="3" fill="rgba(160,82,45,0.1)" stroke="#a0522d"/>
-              <text x="450" y="200" fill="#8a4a1a" fontSize="9" fontFamily="monospace" textAnchor="middle">String s3 = new String("Hello")</text>
-              <text x="450" y="225" fill="#8a4a1a" fontSize="7" fontFamily="sans-serif" textAnchor="middle">堆中创建新对象，但值指向池</text>
-            </svg>
+{`graph TD
+    subgraph Heap["Heap Memory"]
+        subgraph Pool["String Pool"]
+            S1["\"Hello\" @0x001"]
+            S2["\"World\" @0x002"]
+            S3["\"Java\" @0x003"]
+        end
+    end
+
+    subgraph Stack["Stack Memory"]
+        V1["s1 = \"Hello\""]
+        V2["s2 = \"Hello\""]
+        V3["s3 = new String(\"Hello\")"]
+    end
+
+    V1 -.->|指向池| S1
+    V2 -.->|指向同一对象| S1
+    V3 -.->|堆中创建新对象| S1
+
+    style Heap fill:#f5f0e8,stroke:#d4c5a9,color:#6b5e4c
+    style Pool fill:#ede4d1,stroke:#b5651d,color:#8b4c14
+    style Stack fill:#f0f5f3,stroke:#5f7a68,color:#3d5245
+    style S1 fill:#ede4d1,stroke:#b5651d,color:#8b4c14
+    style S2 fill:#ede4d1,stroke:#b5651d,color:#8b4c14
+    style S3 fill:#ede4d1,stroke:#b5651d,color:#8b4c14`}
           </DiagramBlock>
 
           <Playground language="java" filename="StringPoolExample.java" description="字符串常量池示例" highlights={[3, 7, 11, 15]}

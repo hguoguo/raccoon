@@ -49,21 +49,18 @@ export default function ConnectionPool({ meta }: { meta: KnowledgeNode }) {
           </p>
 
           <DiagramBlock title="有无连接池的性能对比">
-            <pre className="font-mono text-[11px] sm:text-[12px] text-ink-muted leading-[1.6] whitespace-pre">{`
-❌ 无连接池（每次请求创建新连接）:
-请求1 → 创建连接(50ms) → 执行SQL(5ms) → 关闭连接(10ms) = 65ms
-请求2 → 创建连接(50ms) → 执行SQL(5ms) → 关闭连接(10ms) = 65ms
-请求3 → 创建连接(50ms) → 执行SQL(5ms) → 关闭连接(10ms) = 65ms
-总耗时: 195ms
-
-✅ 有连接池（复用已有连接）:
-请求1 → 获取连接(1ms) → 执行SQL(5ms) → 归还连接(0.1ms) = 6.1ms
-请求2 → 获取连接(1ms) → 执行SQL(5ms) → 归还连接(0.1ms) = 6.1ms
-请求3 → 获取连接(1ms) → 执行SQL(5ms) → 归还连接(0.1ms) = 6.1ms
-总耗时: 18.3ms
-
-性能提升: 195ms / 18.3ms ≈ 10.7倍
-            `}</pre>
+            {`graph LR
+              subgraph 无连接池
+                R1["请求1"] --> C1["创建连接50ms → SQL5ms → 关闭10ms = 65ms"]
+                R2["请求2"] --> C2["创建连接50ms → SQL5ms → 关闭10ms = 65ms"]
+                R3["请求3"] --> C3["创建连接50ms → SQL5ms → 关闭10ms = 65ms"]
+              end
+              subgraph 有连接池
+                R4["请求1"] --> C4["获取1ms → SQL5ms → 归还0.1ms = 6.1ms"]
+                R5["请求2"] --> C5["获取1ms → SQL5ms → 归还0.1ms = 6.1ms"]
+                R6["请求3"] --> C6["获取1ms → SQL5ms → 归还0.1ms = 6.1ms"]
+              end
+            `}
           </DiagramBlock>
 
           <SideNote label="连接创建的开销">

@@ -54,35 +54,15 @@ export default function Annotation({ meta }: { meta: KnowledgeNode }) {
           </p>
 
           <DiagramBlock title="注解的生命周期">
-            <svg className="w-full max-w-[500px] mx-auto block" viewBox="0 0 500 200">
-              <rect x="20" y="30" width="100" height="60" rx="6" fill="#ede4d1" stroke="#b5651d" strokeWidth="2"/>
-              <text x="70" y="55" fill="#6b5e4c" fontSize="10" fontFamily="monospace" textAnchor="middle">源码阶段</text>
-              <text x="70" y="70" fill="#8a7d6b" fontSize="8" fontFamily="monospace" textAnchor="middle">@Override</text>
-              
-              <line x1="120" y1="60" x2="160" y2="60" stroke="#a99d8e" strokeWidth="2"/>
-              <polygon points="160,55 170,60 160,65" fill="#a99d8e"/>
-              <text x="145" y="50" fill="#8a7d6b" fontSize="8" fontFamily="monospace" textAnchor="middle">SOURCE</text>
-              
-              <rect x="170" y="30" width="100" height="60" rx="6" fill="#f5f0e8" stroke="#b5651d" strokeWidth="2"/>
-              <text x="220" y="55" fill="#6b5e4c" fontSize="10" fontFamily="monospace" textAnchor="middle">编译阶段</text>
-              <text x="220" y="70" fill="#8a7d6b" fontSize="8" fontFamily="monospace" textAnchor="middle">.class文件</text>
-              
-              <line x1="270" y1="60" x2="310" y2="60" stroke="#a99d8e" strokeWidth="2"/>
-              <polygon points="310,55 320,60 310,65" fill="#a99d8e"/>
-              <text x="295" y="50" fill="#8a7d6b" fontSize="8" fontFamily="monospace" textAnchor="middle">CLASS</text>
-              
-              <rect x="320" y="30" width="100" height="60" rx="6" fill="rgba(181,101,29,0.15)" stroke="#b5651d" strokeWidth="2"/>
-              <text x="370" y="55" fill="#8b4c14" fontSize="10" fontFamily="monospace" textAnchor="middle">运行阶段</text>
-              <text x="370" y="70" fill="#8a7d6b" fontSize="8" fontFamily="monospace" textAnchor="middle">JVM内存</text>
-              
-              <line x1="370" y1="90" x2="370" y2="130" stroke="#b5651d" strokeWidth="2"/>
-              <polygon points="365,130 370,140 375,130" fill="#b5651d"/>
-              
-              <rect x="310" y="140" width="120" height="40" rx="4" fill="rgba(160,82,45,0.12)" stroke="#a0522d"/>
-              <text x="370" y="165" fill="#a0522d" fontSize="9" fontFamily="monospace" textAnchor="middle">反射读取注解</text>
-              
-              <text x="250" y="190" fill="#8a7d6b" fontSize="9" fontFamily="monospace" textAnchor="middle">RUNTIME级别的注解可在运行时通过反射访问</text>
-            </svg>
+{`graph LR
+    A["源码阶段\n@Override"] -->|SOURCE| B["编译阶段\n.class文件"]
+    B -->|CLASS| C["运行阶段\nJVM内存"]
+    C -->|RUNTIME| D["反射读取注解"]
+
+    style A fill:#ede4d1,stroke:#b5651d,color:#6b5e4c
+    style B fill:#f5f0e8,stroke:#b5651d,color:#6b5e4c
+    style C fill:#f5f0e8,stroke:#b5651d,color:#8b4c14
+    style D fill:#f5f0e8,stroke:#a0522d,color:#a0522d`}
           </DiagramBlock>
 
           <Callout type="tip" title="核心要点">

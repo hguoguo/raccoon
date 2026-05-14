@@ -77,19 +77,16 @@ export default function RedisCache({ meta }: { meta: KnowledgeNode }) {
               整体架构
             </h2>
             <DiagramBlock title="Redis 架构概览">
-              <pre className="text-xs text-left font-mono overflow-x-auto">
-{`Client → TCP连接 → Redis Server
-         ↓
-    [网络层 Event Loop]
-         ↓
-    [命令解析器]
-         ↓
-    [内存数据库 - 数据结构]
-         ↓
-    [持久化模块 RDB/AOF] → 磁盘存储
-         ↓
-    [复制模块 Master-Slave] → 从节点`}
-              </pre>
+              {`graph TD
+                CLIENT["Client"] --> TCP["TCP连接"]
+                TCP --> EL["网络层 Event Loop"]
+                EL --> CMD["命令解析器"]
+                CMD --> MEM["内存数据库 - 数据结构"]
+                MEM --> PERS["持久化模块 RDB/AOF"]
+                PERS --> DISK["磁盘存储"]
+                MEM --> REPL["复制模块 Master-Slave"]
+                REPL --> SLAVE["从节点"]
+              `}
             </DiagramBlock>
             <p className="text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4">
               Redis 采用单线程事件驱动模型，所有命令都在一个线程中串行执行，避免了多线程上下文切换和锁竞争带来的开销。其核心组件包括：
@@ -458,18 +455,13 @@ end
             </p>
 
             <DiagramBlock title="Sentinel 工作原理">
-              <pre className="text-xs text-left font-mono overflow-x-auto">
-{`Sentinel 集群 (3个节点)
-    ↓ 监控
-Redis 主从架构
-    Master ←→ Sentinel 1, 2, 3
-      ↓ 复制
-    Slave 1, Slave 2
-    
-故障转移流程:
-1. 主观下线 → 2. 客观下线 → 3. 选举 Leader
-4. 故障转移 → 5. 通知客户端`}
-              </pre>
+              {`graph TD
+                SENT["Sentinel 集群 3个节点"] --> |监控| MASTER["Redis Master"]
+                MASTER --> |复制| SLAVE1["Slave 1"]
+                MASTER --> |复制| SLAVE2["Slave 2"]
+                MASTER -.-> SENT
+                SENT --> |故障转移| FAILOVER["1.主观下线 → 2.客观下线 → 3.选举Leader → 4.故障转移 → 5.通知客户端"]
+              `}
             </DiagramBlock>
 
             <p className="text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4">

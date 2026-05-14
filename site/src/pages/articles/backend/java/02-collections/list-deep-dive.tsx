@@ -92,20 +92,17 @@ export default function ListDeepDive({ meta }: { meta: KnowledgeNode }) {
           </p>
 
           <DiagramBlock title="ArrayList 内存布局">
-            <svg className="w-full max-w-[500px] mx-auto block" viewBox="0 0 500 120">
-              <rect x="20" y="10" width="460" height="30" rx="4" fill="#ede4d1" stroke="#d4c5a9"/>
-              <text x="40" y="30" fill="#6b5e4c" fontSize="10" fontFamily="monospace">elementData[] (capacity=10)</text>
-              <rect x="20" y="50" width="80" height="30" rx="4" fill="rgba(181,101,29,0.15)" stroke="#b5651d"/>
-              <text x="60" y="70" fill="#8b4c14" fontSize="10" fontFamily="monospace" textAnchor="middle">[0] "A"</text>
-              <rect x="100" y="50" width="80" height="30" rx="4" fill="rgba(181,101,29,0.15)" stroke="#b5651d"/>
-              <text x="140" y="70" fill="#8b4c14" fontSize="10" fontFamily="monospace" textAnchor="middle">[1] "B"</text>
-              <rect x="180" y="50" width="80" height="30" rx="4" fill="rgba(181,101,29,0.15)" stroke="#b5651d"/>
-              <text x="220" y="70" fill="#8b4c14" fontSize="10" fontFamily="monospace" textAnchor="middle">[2] "C"</text>
-              <rect x="260" y="50" width="80" height="30" rx="4" fill="#f5f0e8" stroke="#d4c5a9" strokeDasharray="4,2"/>
-              <text x="300" y="70" fill="#a99d8e" fontSize="10" fontFamily="monospace" textAnchor="middle">[3] null</text>
-              <line x1="60" y1="80" x2="60" y2="100" stroke="#b5651d" strokeWidth="1.5"/>
-              <text x="60" y="115" fill="#8b4c14" fontSize="9" fontFamily="monospace" textAnchor="middle">size=3</text>
-            </svg>
+            {`graph LR
+              ARR["elementData[] capacity=10"] --> E0["[0] A"]
+              ARR --> E1["[1] B"]
+              ARR --> E2["[2] C"]
+              ARR --> E3["[3] null"]
+              style ARR fill:#ede4d1,stroke:#d4c5a9
+              style E0 fill:#b5651d25,stroke:#b5651d
+              style E1 fill:#b5651d25,stroke:#b5651d
+              style E2 fill:#b5651d25,stroke:#b5651d
+              style E3 fill:#f5f0e8,stroke:#d4c5a9,stroke-dasharray: 4 2
+            `}
           </DiagramBlock>
 
           <Playground language="java" filename="ArrayList.java" description="ArrayList 核心字段" highlights={[1, 3, 5]}
@@ -195,37 +192,17 @@ public E remove(int index) {
           </h3>
 
           <DiagramBlock title="LinkedList 双向链表结构">
-            <svg className="w-full max-w-[500px] mx-auto block" viewBox="0 0 500 140">
-              <circle cx="40" cy="70" r="15" fill="#f5f0e8" stroke="#a99d8e"/>
-              <text x="40" y="74" fill="#6b5e4c" fontSize="9" fontFamily="monospace" textAnchor="middle">first</text>
-              
-              <rect x="70" y="50" width="80" height="40" rx="4" fill="rgba(181,101,29,0.15)" stroke="#b5651d"/>
-              <text x="110" y="65" fill="#8b4c14" fontSize="9" fontFamily="monospace" textAnchor="middle">prev</text>
-              <text x="110" y="78" fill="#8b4c14" fontSize="9" fontFamily="monospace" textAnchor="middle">"A"</text>
-              <text x="110" y="91" fill="#8b4c14" fontSize="9" fontFamily="monospace" textAnchor="middle">next</text>
-              
-              <line x1="150" y1="70" x2="180" y2="70" stroke="#b5651d" strokeWidth="1.5"/>
-              <polygon points="180,65 180,75 190,70" fill="#b5651d"/>
-              
-              <rect x="190" y="50" width="80" height="40" rx="4" fill="rgba(181,101,29,0.15)" stroke="#b5651d"/>
-              <text x="230" y="65" fill="#8b4c14" fontSize="9" fontFamily="monospace" textAnchor="middle">prev</text>
-              <text x="230" y="78" fill="#8b4c14" fontSize="9" fontFamily="monospace" textAnchor="middle">"B"</text>
-              <text x="230" y="91" fill="#8b4c14" fontSize="9" fontFamily="monospace" textAnchor="middle">next</text>
-              
-              <line x1="270" y1="70" x2="300" y2="70" stroke="#b5651d" strokeWidth="1.5"/>
-              <polygon points="300,65 300,75 310,70" fill="#b5651d"/>
-              
-              <rect x="310" y="50" width="80" height="40" rx="4" fill="rgba(181,101,29,0.15)" stroke="#b5651d"/>
-              <text x="350" y="65" fill="#8b4c14" fontSize="9" fontFamily="monospace" textAnchor="middle">prev</text>
-              <text x="350" y="78" fill="#8b4c14" fontSize="9" fontFamily="monospace" textAnchor="middle">"C"</text>
-              <text x="350" y="91" fill="#8b4c14" fontSize="9" fontFamily="monospace" textAnchor="middle">next</text>
-              
-              <circle cx="420" cy="70" r="15" fill="#f5f0e8" stroke="#a99d8e"/>
-              <text x="420" y="74" fill="#6b5e4c" fontSize="9" fontFamily="monospace" textAnchor="middle">last</text>
-              
-              <line x1="55" y1="70" x2="70" y2="70" stroke="#a99d8e" strokeWidth="1.5"/>
-              <line x1="390" y1="70" x2="405" y2="70" stroke="#a99d8e" strokeWidth="1.5"/>
-            </svg>
+            {`graph LR
+              FIRST["first"] --> NODEA["A<br/>prev | next"]
+              NODEA --> NODEB["B<br/>prev | next"]
+              NODEB --> NODEC["C<br/>prev | next"]
+              NODEC --> LAST["last"]
+              style FIRST fill:#f5f0e8,stroke:#a99d8e
+              style LAST fill:#f5f0e8,stroke:#a99d8e
+              style NODEA fill:#b5651d25,stroke:#b5651d
+              style NODEB fill:#b5651d25,stroke:#b5651d
+              style NODEC fill:#b5651d25,stroke:#b5651d
+            `}
           </DiagramBlock>
 
           <Playground language="java" filename="LinkedList.java" description="Node 节点结构" highlights={[1, 3, 5]}

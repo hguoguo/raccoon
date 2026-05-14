@@ -64,69 +64,34 @@ export default function CollectionFramework({ meta }: { meta: KnowledgeNode }) {
 
           {/* Diagram - Collection 体系架构图 */}
           <DiagramBlock title="Java Collection Framework 体系架构图">
-            <svg className="w-full max-w-[500px] mx-auto block" viewBox="0 0 500 280">
-              {/* Collection 根接口 */}
-              <rect x="180" y="10" width="140" height="30" rx="4" fill="#b5651d" stroke="#8b4c14"/>
-              <text x="250" y="30" fill="white" fontSize="11" fontFamily="monospace" textAnchor="middle">«interface» Collection</text>
-              
-              {/* List */}
-              <line x1="250" y1="40" x2="120" y2="70" stroke="#d4c5a9" strokeWidth="1.5"/>
-              <rect x="60" y="70" width="120" height="28" rx="4" fill="#ede4d1" stroke="#b5651d"/>
-              <text x="120" y="88" fill="#8b4c14" fontSize="10" fontFamily="monospace" textAnchor="middle">«interface» List</text>
-              
-              {/* Set */}
-              <line x1="250" y1="40" x2="250" y2="70" stroke="#d4c5a9" strokeWidth="1.5"/>
-              <rect x="190" y="70" width="120" height="28" rx="4" fill="#ede4d1" stroke="#b5651d"/>
-              <text x="250" y="88" fill="#8b4c14" fontSize="10" fontFamily="monospace" textAnchor="middle">«interface» Set</text>
-              
-              {/* Queue */}
-              <line x1="250" y1="40" x2="380" y2="70" stroke="#d4c5a9" strokeWidth="1.5"/>
-              <rect x="320" y="70" width="120" height="28" rx="4" fill="#ede4d1" stroke="#b5651d"/>
-              <text x="380" y="88" fill="#8b4c14" fontSize="10" fontFamily="monospace" textAnchor="middle">«interface» Queue</text>
-              
-              {/* ArrayList */}
-              <line x1="120" y1="98" x2="80" y2="130" stroke="#d4c5a9" strokeWidth="1.5"/>
-              <rect x="20" y="130" width="120" height="26" rx="4" fill="#f5f0e8" stroke="#a99d8e"/>
-              <text x="80" y="147" fill="#6b5e4c" fontSize="9" fontFamily="monospace" textAnchor="middle">ArrayList</text>
-              
-              {/* LinkedList */}
-              <line x1="120" y1="98" x2="160" y2="130" stroke="#d4c5a9" strokeWidth="1.5"/>
-              <rect x="100" y="130" width="120" height="26" rx="4" fill="#f5f0e8" stroke="#a99d8e"/>
-              <text x="160" y="147" fill="#6b5e4c" fontSize="9" fontFamily="monospace" textAnchor="middle">LinkedList</text>
-              
-              {/* HashSet */}
-              <line x1="250" y1="98" x2="220" y2="130" stroke="#d4c5a9" strokeWidth="1.5"/>
-              <rect x="160" y="130" width="120" height="26" rx="4" fill="#f5f0e8" stroke="#a99d8e"/>
-              <text x="220" y="147" fill="#6b5e4c" fontSize="9" fontFamily="monospace" textAnchor="middle">HashSet</text>
-              
-              {/* TreeSet */}
-              <line x1="250" y1="98" x2="280" y2="130" stroke="#d4c5a9" strokeWidth="1.5"/>
-              <rect x="220" y="130" width="120" height="26" rx="4" fill="#f5f0e8" stroke="#a99d8e"/>
-              <text x="280" y="147" fill="#6b5e4c" fontSize="9" fontFamily="monospace" textAnchor="middle">TreeSet</text>
-              
-              {/* PriorityQueue */}
-              <line x1="380" y1="98" x2="380" y2="130" stroke="#d4c5a9" strokeWidth="1.5"/>
-              <rect x="320" y="130" width="120" height="26" rx="4" fill="#f5f0e8" stroke="#a99d8e"/>
-              <text x="380" y="147" fill="#6b5e4c" fontSize="9" fontFamily="monospace" textAnchor="middle">PriorityQueue</text>
-              
-              {/* Map (独立) */}
-              <rect x="180" y="180" width="140" height="30" rx="4" fill="#5f7a68" stroke="#4a5f52"/>
-              <text x="250" y="200" fill="white" fontSize="11" fontFamily="monospace" textAnchor="middle">«interface» Map</text>
-              
-              {/* HashMap */}
-              <line x1="250" y1="210" x2="200" y2="240" stroke="#d4c5a9" strokeWidth="1.5"/>
-              <rect x="140" y="240" width="120" height="26" rx="4" fill="#f5f0e8" stroke="#a99d8e"/>
-              <text x="200" y="257" fill="#6b5e4c" fontSize="9" fontFamily="monospace" textAnchor="middle">HashMap</text>
-              
-              {/* TreeMap */}
-              <line x1="250" y1="210" x2="300" y2="240" stroke="#d4c5a9" strokeWidth="1.5"/>
-              <rect x="240" y="240" width="120" height="26" rx="4" fill="#f5f0e8" stroke="#a99d8e"/>
-              <text x="300" y="257" fill="#6b5e4c" fontSize="9" fontFamily="monospace" textAnchor="middle">TreeMap</text>
-              
-              {/* 标注 */}
-              <text x="10" y="270" fill="#8a7d6b" fontSize="9" fontFamily="monospace">橙色: Collection 子接口</text>
-              <text x="250" y="270" fill="#8a7d6b" fontSize="9" fontFamily="monospace">绿色: Map (独立体系)</text>
-            </svg>
+{`graph TD
+    Collection["«interface» Collection"] --> List["«interface» List"]
+    Collection --> Set["«interface» Set"]
+    Collection --> Queue["«interface» Queue"]
+
+    List --> ArrayList
+    List --> LinkedList
+
+    Set --> HashSet
+    Set --> TreeSet
+
+    Queue --> PriorityQueue
+
+    Map["«interface» Map 🟢"] --> HashMap
+    Map --> TreeMap
+
+    style Collection fill:#b5651d,stroke:#8b4c14,color:#fff
+    style List fill:#ede4d1,stroke:#b5651d,color:#8b4c14
+    style Set fill:#ede4d1,stroke:#b5651d,color:#8b4c14
+    style Queue fill:#ede4d1,stroke:#b5651d,color:#8b4c14
+    style Map fill:#5f7a68,stroke:#4a5f52,color:#fff
+    style ArrayList fill:#f5f0e8,stroke:#a99d8e,color:#6b5e4c
+    style LinkedList fill:#f5f0e8,stroke:#a99d8e,color:#6b5e4c
+    style HashSet fill:#f5f0e8,stroke:#a99d8e,color:#6b5e4c
+    style TreeSet fill:#f5f0e8,stroke:#a99d8e,color:#6b5e4c
+    style PriorityQueue fill:#f5f0e8,stroke:#a99d8e,color:#6b5e4c
+    style HashMap fill:#f5f0e8,stroke:#a99d8e,color:#6b5e4c
+    style TreeMap fill:#f5f0e8,stroke:#a99d8e,color:#6b5e4c`}
           </DiagramBlock>
 
           <SideNote label="历史背景">

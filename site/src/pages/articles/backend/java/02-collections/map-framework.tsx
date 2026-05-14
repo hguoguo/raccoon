@@ -80,37 +80,21 @@ export default function MapFramework({ meta }: { meta: KnowledgeNode }) {
           </h2>
 
           <DiagramBlock title="Map 接口层次结构">
-            <svg className="w-full max-w-[500px] mx-auto block" viewBox="0 0 500 220">
-              <rect x="180" y="10" width="140" height="30" rx="4" fill="#5f7a68" stroke="#4a5f52"/>
-              <text x="250" y="30" fill="white" fontSize="11" fontFamily="monospace" textAnchor="middle">«interface» Map</text>
-              
-              <line x1="250" y1="40" x2="150" y2="80" stroke="#d4c5a9" strokeWidth="1.5"/>
-              <rect x="80" y="80" width="140" height="28" rx="4" fill="#ede4d1" stroke="#b5651d"/>
-              <text x="150" y="98" fill="#8b4c14" fontSize="10" fontFamily="monospace" textAnchor="middle">«interface» SortedMap</text>
-              
-              <line x1="250" y1="40" x2="350" y2="80" stroke="#d4c5a9" strokeWidth="1.5"/>
-              <rect x="280" y="80" width="140" height="28" rx="4" fill="#ede4d1" stroke="#b5651d"/>
-              <text x="350" y="98" fill="#8b4c14" fontSize="10" fontFamily="monospace" textAnchor="middle">«interface» NavigableMap</text>
-              
-              <line x1="150" y1="108" x2="120" y2="140" stroke="#d4c5a9" strokeWidth="1.5"/>
-              <rect x="60" y="140" width="120" height="26" rx="4" fill="#f5f0e8" stroke="#a99d8e"/>
-              <text x="120" y="157" fill="#6b5e4c" fontSize="9" fontFamily="monospace" textAnchor="middle">TreeMap</text>
-              
-              <line x1="350" y1="108" x2="350" y2="140" stroke="#d4c5a9" strokeWidth="1.5"/>
-              <rect x="290" y="140" width="120" height="26" rx="4" fill="#f5f0e8" stroke="#a99d8e"/>
-              <text x="350" y="157" fill="#6b5e4c" fontSize="9" fontFamily="monospace" textAnchor="middle">TreeMap</text>
-              
-              <line x1="250" y1="40" x2="250" y2="140" stroke="#d4c5a9" strokeWidth="1.5"/>
-              <rect x="190" y="140" width="120" height="26" rx="4" fill="#f5f0e8" stroke="#a99d8e"/>
-              <text x="250" y="157" fill="#6b5e4c" fontSize="9" fontFamily="monospace" textAnchor="middle">HashMap</text>
-              
-              <rect x="190" y="180" width="120" height="26" rx="4" fill="#f5f0e8" stroke="#a99d8e"/>
-              <text x="250" y="197" fill="#6b5e4c" fontSize="9" fontFamily="monospace" textAnchor="middle">LinkedHashMap</text>
-              <line x1="250" y1="166" x2="250" y2="180" stroke="#d4c5a9" strokeWidth="1.5"/>
-              
-              <text x="20" y="215" fill="#8a7d6b" fontSize="9" fontFamily="monospace">绿色: Map 根接口</text>
-              <text x="250" y="215" fill="#8a7d6b" fontSize="9" fontFamily="monospace">橙色: 子接口</text>
-            </svg>
+            {`graph TD
+              MAP["«interface» Map"] --> SM["«interface» SortedMap"]
+              MAP --> NM["«interface» NavigableMap"]
+              MAP --> HM["HashMap"]
+              HM --> LHM["LinkedHashMap"]
+              SM --> TM1["TreeMap"]
+              NM --> TM2["TreeMap"]
+              style MAP fill:#5f7a68,stroke:#4a5f52,color:#fff
+              style SM fill:#ede4d1,stroke:#b5651d
+              style NM fill:#ede4d1,stroke:#b5651d
+              style HM fill:#f5f0e8,stroke:#a99d8e
+              style LHM fill:#f5f0e8,stroke:#a99d8e
+              style TM1 fill:#f5f0e8,stroke:#a99d8e
+              style TM2 fill:#f5f0e8,stroke:#a99d8e
+            `}
           </DiagramBlock>
 
           <Playground language="java" filename="Map.java" description="Map 核心方法签名" highlights={[2, 4, 6, 9]}
@@ -171,36 +155,17 @@ export default function MapFramework({ meta }: { meta: KnowledgeNode }) {
           </p>
 
           <DiagramBlock title="TreeMap 红黑树结构">
-            <svg className="w-full max-w-[500px] mx-auto block" viewBox="0 0 500 200">
-              <circle cx="250" cy="30" r="20" fill="rgba(160,82,45,0.15)" stroke="#a0522d" strokeWidth="2"/>
-              <text x="250" y="27" fill="#a0522d" fontSize="9" fontFamily="monospace" textAnchor="middle">k:8</text>
-              <text x="250" y="38" fill="#a0522d" fontSize="8" fontFamily="monospace" textAnchor="middle">v:V8</text>
-              
-              <line x1="235" y1="48" x2="180" y2="80" stroke="#d4c5a9" strokeWidth="1.5"/>
-              <line x1="265" y1="48" x2="320" y2="80" stroke="#d4c5a9" strokeWidth="1.5"/>
-              
-              <circle cx="150" cy="100" r="20" fill="rgba(95,122,104,0.15)" stroke="#5f7a68" strokeWidth="2"/>
-              <text x="150" y="97" fill="#5f7a68" fontSize="9" fontFamily="monospace" textAnchor="middle">k:4</text>
-              <text x="150" y="108" fill="#5f7a68" fontSize="8" fontFamily="monospace" textAnchor="middle">v:V4</text>
-              
-              <circle cx="350" cy="100" r="20" fill="rgba(95,122,104,0.15)" stroke="#5f7a68" strokeWidth="2"/>
-              <text x="350" y="97" fill="#5f7a68" fontSize="9" fontFamily="monospace" textAnchor="middle">k:12</text>
-              <text x="350" y="108" fill="#5f7a68" fontSize="8" fontFamily="monospace" textAnchor="middle">v:V12</text>
-              
-              <line x1="135" y1="118" x2="100" y2="150" stroke="#d4c5a9" strokeWidth="1.5"/>
-              <line x1="165" y1="118" x2="200" y2="150" stroke="#d4c5a9" strokeWidth="1.5"/>
-              
-              <circle cx="80" cy="170" r="20" fill="rgba(160,82,45,0.15)" stroke="#a0522d" strokeWidth="2"/>
-              <text x="80" y="167" fill="#a0522d" fontSize="9" fontFamily="monospace" textAnchor="middle">k:2</text>
-              <text x="80" y="178" fill="#a0522d" fontSize="8" fontFamily="monospace" textAnchor="middle">v:V2</text>
-              
-              <circle cx="220" cy="170" r="20" fill="rgba(160,82,45,0.15)" stroke="#a0522d" strokeWidth="2"/>
-              <text x="220" y="167" fill="#a0522d" fontSize="9" fontFamily="monospace" textAnchor="middle">k:6</text>
-              <text x="220" y="178" fill="#a0522d" fontSize="8" fontFamily="monospace" textAnchor="middle">v:V6</text>
-              
-              <text x="20" y="195" fill="#8a7d6b" fontSize="9" fontFamily="monospace">棕色: 黑色节点</text>
-              <text x="250" y="195" fill="#8a7d6b" fontSize="9" fontFamily="monospace">绿色: 红色节点</text>
-            </svg>
+            {`graph TD
+              K8["k:8 v:V8"] --> K4["k:4 v:V4"]
+              K8 --> K12["k:12 v:V12"]
+              K4 --> K2["k:2 v:V2"]
+              K4 --> K6["k:6 v:V6"]
+              style K8 fill:#a0522d20,stroke:#a0522d,stroke-width:2px
+              style K4 fill:#5f7a6825,stroke:#5f7a68,stroke-width:2px
+              style K12 fill:#5f7a6825,stroke:#5f7a68,stroke-width:2px
+              style K2 fill:#a0522d20,stroke:#a0522d,stroke-width:2px
+              style K6 fill:#a0522d20,stroke:#a0522d,stroke-width:2px
+            `}
           </DiagramBlock>
 
           <Playground language="java" filename="TreeMap.java" description="TreeMap 核心字段" highlights={[3, 5, 7]}

@@ -53,56 +53,36 @@ export default function IoStream({ meta }: { meta: KnowledgeNode }) {
           </p>
 
           <DiagramBlock title="Java IO 类层次结构">
-            <svg className="w-full max-w-[500px] mx-auto block" viewBox="0 0 500 280">
-              <rect x="20" y="10" width="100" height="40" rx="4" fill="#ede4d1" stroke="#b5651d" strokeWidth="2"/>
-              <text x="70" y="35" fill="#6b5e4c" fontSize="10" fontFamily="monospace" textAnchor="middle">InputStream</text>
-              
-              <line x1="70" y1="50" x2="70" y2="70" stroke="#a99d8e" strokeWidth="2"/>
-              
-              <rect x="20" y="70" width="100" height="30" rx="4" fill="#f5f0e8" stroke="#b5651d"/>
-              <text x="70" y="90" fill="#8b4c14" fontSize="9" fontFamily="monospace" textAnchor="middle">FileInputStream</text>
-              
-              <rect x="20" y="105" width="100" height="30" rx="4" fill="#f5f0e8" stroke="#b5651d"/>
-              <text x="70" y="125" fill="#8b4c14" fontSize="9" fontFamily="monospace" textAnchor="middle">BufferedInputStream</text>
-              
-              <rect x="20" y="140" width="100" height="30" rx="4" fill="#f5f0e8" stroke="#b5651d"/>
-              <text x="70" y="160" fill="#8b4c14" fontSize="9" fontFamily="monospace" textAnchor="middle">ObjectInputStream</text>
-              
-              <rect x="200" y="10" width="100" height="40" rx="4" fill="#ede4d1" stroke="#b5651d" strokeWidth="2"/>
-              <text x="250" y="35" fill="#6b5e4c" fontSize="10" fontFamily="monospace" textAnchor="middle">OutputStream</text>
-              
-              <line x1="250" y1="50" x2="250" y2="70" stroke="#a99d8e" strokeWidth="2"/>
-              
-              <rect x="200" y="70" width="100" height="30" rx="4" fill="#f5f0e8" stroke="#b5651d"/>
-              <text x="250" y="90" fill="#8b4c14" fontSize="9" fontFamily="monospace" textAnchor="middle">FileOutputStream</text>
-              
-              <rect x="200" y="105" width="100" height="30" rx="4" fill="#f5f0e8" stroke="#b5651d"/>
-              <text x="250" y="125" fill="#8b4c14" fontSize="9" fontFamily="monospace" textAnchor="middle">BufferedOutputStream</text>
-              
-              <rect x="200" y="140" width="100" height="30" rx="4" fill="#f5f0e8" stroke="#b5651d"/>
-              <text x="250" y="160" fill="#8b4c14" fontSize="9" fontFamily="monospace" textAnchor="middle">ObjectOutputStream</text>
-              
-              <rect x="380" y="10" width="100" height="40" rx="4" fill="#ede4d1" stroke="#b5651d" strokeWidth="2"/>
-              <text x="430" y="35" fill="#6b5e4c" fontSize="10" fontFamily="monospace" textAnchor="middle">Reader</text>
-              
-              <line x1="430" y1="50" x2="430" y2="70" stroke="#a99d8e" strokeWidth="2"/>
-              
-              <rect x="380" y="70" width="100" height="30" rx="4" fill="#f5f0e8" stroke="#b5651d"/>
-              <text x="430" y="90" fill="#8b4c14" fontSize="9" fontFamily="monospace" textAnchor="middle">FileReader</text>
-              
-              <rect x="380" y="105" width="100" height="30" rx="4" fill="#f5f0e8" stroke="#b5651d"/>
-              <text x="430" y="125" fill="#8b4c14" fontSize="9" fontFamily="monospace" textAnchor="middle">BufferedReader</text>
-              
-              <rect x="20" y="200" width="100" height="40" rx="4" fill="#ede4d1" stroke="#b5651d" strokeWidth="2"/>
-              <text x="70" y="225" fill="#6b5e4c" fontSize="10" fontFamily="monospace" textAnchor="middle">Writer</text>
-              
-              <line x1="70" y1="240" x2="70" y2="260" stroke="#a99d8e" strokeWidth="2"/>
-              
-              <rect x="20" y="260" width="100" height="30" rx="4" fill="#f5f0e8" stroke="#b5651d"/>
-              <text x="70" y="280" fill="#8b4c14" fontSize="9" fontFamily="monospace" textAnchor="middle">FileWriter</text>
-              
-              <text x="250" y="200" fill="#8a7d6b" fontSize="9" fontFamily="monospace" textAnchor="middle">左侧：字节流 | 右侧：字符流</text>
-            </svg>
+            {`graph TD
+              subgraph 字节流
+                direction TB
+                IS["InputStream"] --> FIS["FileInputStream"]
+                IS --> BIS["BufferedInputStream"]
+                IS --> OIS["ObjectInputStream"]
+                OS["OutputStream"] --> FOS["FileOutputStream"]
+                OS --> BOS["BufferedOutputStream"]
+                OS --> OOS["ObjectOutputStream"]
+              end
+              subgraph 字符流
+                direction TB
+                R["Reader"] --> FR["FileReader"]
+                R --> BR["BufferedReader"]
+                W["Writer"] --> FW["FileWriter"]
+              end
+              style IS fill:#ede4d1,stroke:#b5651d,stroke-width:2px
+              style OS fill:#ede4d1,stroke:#b5651d,stroke-width:2px
+              style R fill:#ede4d1,stroke:#b5651d,stroke-width:2px
+              style W fill:#ede4d1,stroke:#b5651d,stroke-width:2px
+              style FIS fill:#f5f0e8,stroke:#b5651d
+              style BIS fill:#f5f0e8,stroke:#b5651d
+              style OIS fill:#f5f0e8,stroke:#b5651d
+              style FOS fill:#f5f0e8,stroke:#b5651d
+              style BOS fill:#f5f0e8,stroke:#b5651d
+              style OOS fill:#f5f0e8,stroke:#b5651d
+              style FR fill:#f5f0e8,stroke:#b5651d
+              style BR fill:#f5f0e8,stroke:#b5651d
+              style FW fill:#f5f0e8,stroke:#b5651d
+            `}
           </DiagramBlock>
 
           <Callout type="tip" title="核心要点">

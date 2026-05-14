@@ -80,34 +80,24 @@ export default function Nio({ meta }: { meta: KnowledgeNode }) {
           </div>
 
           <DiagramBlock title="BIO vs NIO 线程模型对比">
-            <svg className="w-full max-w-[600px] mx-auto block" viewBox="0 0 600 200">
-              <text x="150" y="20" fill="#b5651d" fontSize="12" fontWeight="bold" fontFamily="sans-serif" textAnchor="middle">BIO 模型</text>
-              <rect x="20" y="30" width="260" height="100" rx="6" fill="#f5f0e8" stroke="#d4c5a9" strokeWidth="2"/>
-              <circle cx="60" cy="60" r="15" fill="#b5651d" opacity="0.2" stroke="#b5651d" strokeWidth="2"/>
-              <text x="60" y="65" fill="#b5651d" fontSize="10" fontFamily="monospace" textAnchor="middle">C1</text>
-              <line x1="75" y1="60" x2="120" y2="60" stroke="#b5651d" strokeWidth="2"/>
-              <rect x="120" y="45" width="80" height="30" rx="4" fill="#b5651d" opacity="0.15" stroke="#b5651d"/>
-              <text x="160" y="65" fill="#8b4c14" fontSize="9" fontFamily="monospace" textAnchor="middle">Thread-1</text>
-              <circle cx="60" cy="100" r="15" fill="#b5651d" opacity="0.2" stroke="#b5651d" strokeWidth="2"/>
-              <text x="60" y="105" fill="#b5651d" fontSize="10" fontFamily="monospace" textAnchor="middle">C2</text>
-              <line x1="75" y1="100" x2="120" y2="100" stroke="#b5651d" strokeWidth="2"/>
-              <rect x="120" y="85" width="80" height="30" rx="4" fill="#b5651d" opacity="0.15" stroke="#b5651d"/>
-              <text x="160" y="105" fill="#8b4c14" fontSize="9" fontFamily="monospace" textAnchor="middle">Thread-2</text>
-              <text x="150" y="150" fill="#8a7d6b" fontSize="9" fontFamily="sans-serif" textAnchor="middle">n 个连接 → n 个线程</text>
-              
-              <text x="450" y="20" fill="#5f7a68" fontSize="12" fontWeight="bold" fontFamily="sans-serif" textAnchor="middle">NIO 模型</text>
-              <rect x="320" y="30" width="260" height="100" rx="6" fill="#f0f5f3" stroke="#5f7a68" strokeWidth="2"/>
-              <circle cx="360" cy="60" r="15" fill="#5f7a68" opacity="0.2" stroke="#5f7a68" strokeWidth="2"/>
-              <text x="360" y="65" fill="#5f7a68" fontSize="10" fontFamily="monospace" textAnchor="middle">C1</text>
-              <line x1="375" y1="60" x2="420" y2="60" stroke="#5f7a68" strokeWidth="2"/>
-              <circle cx="360" cy="100" r="15" fill="#5f7a68" opacity="0.2" stroke="#5f7a68" strokeWidth="2"/>
-              <text x="360" y="105" fill="#5f7a68" fontSize="10" fontFamily="monospace" textAnchor="middle">C2</text>
-              <line x1="375" y1="100" x2="420" y2="100" stroke="#5f7a68" strokeWidth="2"/>
-              <rect x="420" y="50" width="100" height="60" rx="4" fill="#5f7a68" opacity="0.15" stroke="#5f7a68"/>
-              <text x="470" y="85" fill="#3d5245" fontSize="9" fontFamily="monospace" textAnchor="middle">Selector</text>
-              <text x="470" y="100" fill="#3d5245" fontSize="9" fontFamily="monospace" textAnchor="middle">Thread-1</text>
-              <text x="450" y="150" fill="#8a7d6b" fontSize="9" fontFamily="sans-serif" textAnchor="middle">n 个连接 → 1 个线程</text>
-            </svg>
+{`graph LR
+    subgraph BIO["BIO 模型 🔴"]
+        C1["C1"] --> T1["Thread-1"]
+        C2["C2"] --> T2["Thread-2"]
+    end
+
+    subgraph NIO["NIO 模型 🟢"]
+        N1["C1"] --> S["Selector\nThread-1"]
+        N2["C2"] --> S
+    end
+
+    BIO ~~~ NIO
+
+    style BIO fill:#f5f0e8,stroke:#b5651d,color:#8b4c14
+    style NIO fill:#f0f5f3,stroke:#5f7a68,color:#3d5245
+    style T1 fill:#ede4d1,stroke:#b5651d,color:#8b4c14
+    style T2 fill:#ede4d1,stroke:#b5651d,color:#8b4c14
+    style S fill:#ede4d1,stroke:#5f7a68,color:#3d5245`}
           </DiagramBlock>
 
           <Callout type="tip" title="核心要点">

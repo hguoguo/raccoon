@@ -50,62 +50,36 @@ export default function PrimitiveTypes({ meta }: { meta: KnowledgeNode }) {
             </p>
 
             <DiagramBlock title="Java 基本数据类型全景图">
-              <svg className="w-full max-w-[600px] mx-auto block" viewBox="0 0 600 280">
-                {/* 标题 */}
-                <text x="300" y="25" fill="#6b5e4c" fontSize="14" fontWeight="bold" textAnchor="middle" fontFamily="sans-serif">Java 8 种基本数据类型</text>
-                
-                {/* 整数类型 */}
-                <rect x="20" y="40" width="130" height="180" rx="6" fill="#f5f0e8" stroke="#d4c5a9" strokeWidth="2"/>
-                <text x="85" y="60" fill="#8b4c14" fontSize="12" fontWeight="bold" textAnchor="middle" fontFamily="sans-serif">整数类型</text>
-                
-                <rect x="30" y="70" width="110" height="30" rx="4" fill="rgba(181,101,29,0.15)" stroke="#b5651d"/>
-                <text x="85" y="82" fill="#6b4a1e" fontSize="10" textAnchor="middle" fontFamily="monospace">byte (1字节)</text>
-                <text x="85" y="95" fill="#a99d8e" fontSize="8" textAnchor="middle">-128 ~ 127</text>
-                
-                <rect x="30" y="110" width="110" height="30" rx="4" fill="rgba(181,101,29,0.15)" stroke="#b5651d"/>
-                <text x="85" y="122" fill="#6b4a1e" fontSize="10" textAnchor="middle" fontFamily="monospace">short (2字节)</text>
-                <text x="85" y="135" fill="#a99d8e" fontSize="8" textAnchor="middle">-32768 ~ 32767</text>
-                
-                <rect x="30" y="150" width="110" height="30" rx="4" fill="rgba(181,101,29,0.2)" stroke="#b5651d" strokeWidth="2"/>
-                <text x="85" y="162" fill="#6b4a1e" fontSize="10" fontWeight="bold" textAnchor="middle" fontFamily="monospace">int (4字节) ⭐</text>
-                <text x="85" y="175" fill="#a99d8e" fontSize="8" textAnchor="middle">-2³¹ ~ 2³¹-1</text>
-                
-                <rect x="30" y="190" width="110" height="30" rx="4" fill="rgba(181,101,29,0.15)" stroke="#b5651d"/>
-                <text x="85" y="202" fill="#6b4a1e" fontSize="10" textAnchor="middle" fontFamily="monospace">long (8字节)</text>
-                <text x="85" y="215" fill="#a99d8e" fontSize="8" textAnchor="middle">-2⁶³ ~ 2⁶³-1</text>
-                
-                {/* 浮点类型 */}
-                <rect x="170" y="40" width="130" height="120" rx="6" fill="#f5f0e8" stroke="#d4c5a9" strokeWidth="2"/>
-                <text x="235" y="60" fill="#8b4c14" fontSize="12" fontWeight="bold" textAnchor="middle" fontFamily="sans-serif">浮点类型</text>
-                
-                <rect x="180" y="70" width="110" height="30" rx="4" fill="rgba(160,82,45,0.15)" stroke="#a0522d"/>
-                <text x="235" y="82" fill="#6b4a1e" fontSize="10" textAnchor="middle" fontFamily="monospace">float (4字节)</text>
-                <text x="235" y="95" fill="#a99d8e" fontSize="8" textAnchor="middle">单精度 6-7位</text>
-                
-                <rect x="180" y="110" width="110" height="30" rx="4" fill="rgba(160,82,45,0.2)" stroke="#a0522d" strokeWidth="2"/>
-                <text x="235" y="122" fill="#6b4a1e" fontSize="10" fontWeight="bold" textAnchor="middle" fontFamily="monospace">double (8字节) ⭐</text>
-                <text x="235" y="135" fill="#a99d8e" fontSize="8" textAnchor="middle">双精度 15-16位</text>
-                
-                {/* 字符类型 */}
-                <rect x="320" y="40" width="130" height="60" rx="6" fill="#f5f0e8" stroke="#d4c5a9" strokeWidth="2"/>
-                <text x="385" y="60" fill="#8b4c14" fontSize="12" fontWeight="bold" textAnchor="middle" fontFamily="sans-serif">字符类型</text>
-                
-                <rect x="330" y="70" width="110" height="30" rx="4" fill="rgba(95,122,104,0.15)" stroke="#5f7a68"/>
-                <text x="385" y="82" fill="#4a5f52" fontSize="10" textAnchor="middle" fontFamily="monospace">char (2字节)</text>
-                <text x="385" y="95" fill="#a99d8e" fontSize="8" textAnchor="middle">'A' '\u0000'</text>
-                
-                {/* 布尔类型 */}
-                <rect x="470" y="40" width="110" height="60" rx="6" fill="#f5f0e8" stroke="#d4c5a9" strokeWidth="2"/>
-                <text x="525" y="60" fill="#8b4c14" fontSize="12" fontWeight="bold" textAnchor="middle" fontFamily="sans-serif">布尔类型</text>
-                
-                <rect x="480" y="70" width="90" height="30" rx="4" fill="rgba(106,90,205,0.15)" stroke="#6a5acd"/>
-                <text x="525" y="82" fill="#483d8b" fontSize="10" textAnchor="middle" fontFamily="monospace">boolean</text>
-                <text x="525" y="95" fill="#a99d8e" fontSize="8" textAnchor="middle">true / false</text>
-                
-                {/* 底部说明 */}
-                <rect x="20" y="240" width="560" height="30" rx="4" fill="rgba(181,101,29,0.08)" stroke="#d4c5a9"/>
-                <text x="300" y="260" fill="#6b5e4c" fontSize="10" textAnchor="middle" fontFamily="sans-serif">⭐ 标记为最常用类型 | 所有基本类型默认值：数值=0, char='\u0000', boolean=false</text>
-              </svg>
+              {`graph LR
+                subgraph 整数类型
+                  BYTE["byte (1字节)<br/>-128 ~ 127"]
+                  SHORT["short (2字节)<br/>-32768 ~ 32767"]
+                  INT["int (4字节) ⭐<br/>-2³¹ ~ 2³¹-1"]
+                  LONG["long (8字节)<br/>-2⁶³ ~ 2⁶³-1"]
+                end
+                subgraph 浮点类型
+                  FLOAT["float (4字节)<br/>单精度 6-7位"]
+                  DOUBLE["double (8字节) ⭐<br/>双精度 15-16位"]
+                end
+                subgraph 字符类型
+                  CHAR["char (2字节)<br/>'A' '\\u0000'"]
+                end
+                subgraph 布尔类型
+                  BOOL["boolean<br/>true / false"]
+                end
+                style 整数类型 fill:#f5f0e8,stroke:#d4c5a9,stroke-width:2px
+                style 浮点类型 fill:#f5f0e8,stroke:#d4c5a9,stroke-width:2px
+                style 字符类型 fill:#f5f0e8,stroke:#d4c5a9,stroke-width:2px
+                style 布尔类型 fill:#f5f0e8,stroke:#d4c5a9,stroke-width:2px
+                style BYTE fill:#b5651d25,stroke:#b5651d
+                style SHORT fill:#b5651d25,stroke:#b5651d
+                style INT fill:#b5651d33,stroke:#b5651d,stroke-width:2px
+                style LONG fill:#b5651d25,stroke:#b5651d
+                style FLOAT fill:#a0522d25,stroke:#a0522d
+                style DOUBLE fill:#a0522d33,stroke:#a0522d,stroke-width:2px
+                style CHAR fill:#5f7a6825,stroke:#5f7a68
+                style BOOL fill:#6a5acd25,stroke:#6a5acd
+              `}
             </DiagramBlock>
 
             <div className="overflow-x-auto my-5">
@@ -195,48 +169,34 @@ export default function PrimitiveTypes({ meta }: { meta: KnowledgeNode }) {
             </p>
 
             <DiagramBlock title="基本类型与包装类对应关系">
-              <svg className="w-full max-w-[550px] mx-auto block" viewBox="0 0 550 200">
-                {/* 左侧基本类型 */}
-                <rect x="20" y="20" width="180" height="160" rx="6" fill="#f5f0e8" stroke="#d4c5a9" strokeWidth="2"/>
-                <text x="110" y="40" fill="#6b5e4c" fontSize="12" fontWeight="bold" textAnchor="middle" fontFamily="sans-serif">基本类型 (Primitive)</text>
-                
-                <text x="40" y="65" fill="#8b4c14" fontSize="10" fontFamily="monospace">byte</text>
-                <text x="40" y="85" fill="#8b4c14" fontSize="10" fontFamily="monospace">short</text>
-                <text x="40" y="105" fill="#8b4c14" fontSize="10" fontFamily="monospace">int</text>
-                <text x="40" y="125" fill="#8b4c14" fontSize="10" fontFamily="monospace">long</text>
-                <text x="40" y="145" fill="#8b4c14" fontSize="10" fontFamily="monospace">float</text>
-                <text x="40" y="165" fill="#8b4c14" fontSize="10" fontFamily="monospace">double</text>
-                
-                {/* 右侧包装类 */}
-                <rect x="350" y="20" width="180" height="160" rx="6" fill="#f5f0e8" stroke="#d4c5a9" strokeWidth="2"/>
-                <text x="440" y="40" fill="#6b5e4c" fontSize="12" fontWeight="bold" textAnchor="middle" fontFamily="sans-serif">包装类 (Wrapper)</text>
-                
-                <text x="370" y="65" fill="#6b4a1e" fontSize="10" fontFamily="monospace">Byte</text>
-                <text x="370" y="85" fill="#6b4a1e" fontSize="10" fontFamily="monospace">Short</text>
-                <text x="370" y="105" fill="#6b4a1e" fontSize="10" fontFamily="monospace">Integer</text>
-                <text x="370" y="125" fill="#6b4a1e" fontSize="10" fontFamily="monospace">Long</text>
-                <text x="370" y="145" fill="#6b4a1e" fontSize="10" fontFamily="monospace">Float</text>
-                <text x="370" y="165" fill="#6b4a1e" fontSize="10" fontFamily="monospace">Double</text>
-                
-                {/* 箭头连接 */}
-                <line x1="200" y1="60" x2="350" y2="60" stroke="#b5651d" strokeWidth="2" markerEnd="url(#arrowhead)"/>
-                <line x1="200" y1="80" x2="350" y2="80" stroke="#b5651d" strokeWidth="2" markerEnd="url(#arrowhead)"/>
-                <line x1="200" y1="100" x2="350" y2="100" stroke="#b5651d" strokeWidth="2" markerEnd="url(#arrowhead)"/>
-                <line x1="200" y1="120" x2="350" y2="120" stroke="#b5651d" strokeWidth="2" markerEnd="url(#arrowhead)"/>
-                <line x1="200" y1="140" x2="350" y2="140" stroke="#b5651d" strokeWidth="2" markerEnd="url(#arrowhead)"/>
-                <line x1="200" y1="160" x2="350" y2="160" stroke="#b5651d" strokeWidth="2" markerEnd="url(#arrowhead)"/>
-                
-                {/* 箭头定义 */}
-                <defs>
-                  <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
-                    <polygon points="0 0, 10 3.5, 0 7" fill="#b5651d"/>
-                  </marker>
-                </defs>
-                
-                {/* 底部说明 */}
-                <rect x="20" y="190" width="510" height="25" rx="4" fill="rgba(181,101,29,0.08)" stroke="#d4c5a9"/>
-                <text x="275" y="207" fill="#6b5e4c" fontSize="9" textAnchor="middle" fontFamily="sans-serif">注意：char → Character, boolean → Boolean (命名不一致)</text>
-              </svg>
+              {`graph LR
+                subgraph 基本类型["基本类型 Primitive"]
+                  direction TB
+                  PB["byte"]
+                  PS["short"]
+                  PI["int"]
+                  PL["long"]
+                  PF["float"]
+                  PD["double"]
+                end
+                subgraph 包装类["包装类 Wrapper"]
+                  direction TB
+                  WB["Byte"]
+                  WS["Short"]
+                  WI["Integer"]
+                  WL["Long"]
+                  WF["Float"]
+                  WD["Double"]
+                end
+                PB --> WB
+                PS --> WS
+                PI --> WI
+                PL --> WL
+                PF --> WF
+                PD --> WD
+                style 基本类型 fill:#f5f0e8,stroke:#d4c5a9,stroke-width:2px
+                style 包装类 fill:#f5f0e8,stroke:#d4c5a9,stroke-width:2px
+              `}
             </DiagramBlock>
 
             <Callout type="info" title="包装类的核心价值">
@@ -410,37 +370,21 @@ private static class IntegerCache {
             </p>
 
             <DiagramBlock title="数据类型转换优先级">
-              <svg className="w-full max-w-[550px] mx-auto block" viewBox="0 0 550 120">
-                <defs>
-                  <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" style={{stopColor:'#d4c5a9', stopOpacity:1}} />
-                    <stop offset="100%" style={{stopColor:'#8b4c14', stopOpacity:1}} />
-                  </linearGradient>
-                </defs>
-                
-                <text x="275" y="20" fill="#6b5e4c" fontSize="12" fontWeight="bold" textAnchor="middle" fontFamily="sans-serif">自动转换方向（小 → 大）</text>
-                
-                <rect x="20" y="35" width="510" height="40" rx="6" fill="url(#grad1)" opacity="0.3"/>
-                
-                <text x="50" y="60" fill="#6b4a1e" fontSize="10" fontFamily="monospace" fontWeight="bold">byte</text>
-                <text x="90" y="55" fill="#8b4c14" fontSize="14">→</text>
-                
-                <text x="120" y="60" fill="#6b4a1e" fontSize="10" fontFamily="monospace" fontWeight="bold">short</text>
-                <text x="165" y="55" fill="#8b4c14" fontSize="14">→</text>
-                
-                <text x="195" y="60" fill="#6b4a1e" fontSize="10" fontFamily="monospace" fontWeight="bold">int</text>
-                <text x="225" y="55" fill="#8b4c14" fontSize="14">→</text>
-                
-                <text x="255" y="60" fill="#6b4a1e" fontSize="10" fontFamily="monospace" fontWeight="bold">long</text>
-                <text x="295" y="55" fill="#8b4c14" fontSize="14">→</text>
-                
-                <text x="325" y="60" fill="#6b4a1e" fontSize="10" fontFamily="monospace" fontWeight="bold">float</text>
-                <text x="370" y="55" fill="#8b4c14" fontSize="14">→</text>
-                
-                <text x="400" y="60" fill="#6b4a1e" fontSize="10" fontFamily="monospace" fontWeight="bold">double</text>
-                
-                <text x="275" y="100" fill="#a99d8e" fontSize="9" textAnchor="middle" fontFamily="sans-serif">char → int → long → float → double (char 特殊，可直接转 int)</text>
-              </svg>
+              {`graph LR
+                BYTE2["byte"] --> SHORT2["short"]
+                SHORT2 --> INT2["int"]
+                CHAR2["char"] --> INT2
+                INT2 --> LONG2["long"]
+                LONG2 --> FLOAT2["float"]
+                FLOAT2 --> DOUBLE2["double"]
+                style BYTE2 fill:#d4c5a940,stroke:#d4c5a9
+                style SHORT2 fill:#d4c5a940,stroke:#d4c5a9
+                style INT2 fill:#d4c5a960,stroke:#8b4c14
+                style LONG2 fill:#d4c5a960,stroke:#8b4c14
+                style FLOAT2 fill:#d4c5a960,stroke:#8b4c14
+                style DOUBLE2 fill:#8b4c1440,stroke:#8b4c14,stroke-width:2px
+                style CHAR2 fill:#d4c5a940,stroke:#d4c5a9
+              `}
             </DiagramBlock>
 
             <Playground 

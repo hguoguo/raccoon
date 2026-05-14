@@ -61,46 +61,27 @@ export default function ConcurrentCollections({ meta }: { meta: KnowledgeNode })
           </p>
 
           <DiagramBlock title="并发集合类家族图谱">
-            <svg className="w-full max-w-[600px] mx-auto block" viewBox="0 0 600 320">
-              <rect x="200" y="10" width="200" height="35" rx="4" fill="#ede4d1" stroke="#d4c5a9"/>
-              <text x="300" y="33" fill="#6b5e4c" fontSize="11" fontFamily="monospace" textAnchor="middle" fontWeight="bold">java.util.concurrent</text>
-              
-              <rect x="20" y="70" width="180" height="30" rx="4" fill="rgba(181,101,29,0.15)" stroke="#b5651d"/>
-              <text x="110" y="90" fill="#8b4c14" fontSize="10" fontFamily="monospace" textAnchor="middle">ConcurrentHashMap</text>
-              
-              <rect x="210" y="70" width="180" height="30" rx="4" fill="rgba(160,82,45,0.12)" stroke="#a0522d"/>
-              <text x="300" y="90" fill="#a0522d" fontSize="10" fontFamily="monospace" textAnchor="middle">CopyOnWriteArrayList</text>
-              
-              <rect x="400" y="70" width="180" height="30" rx="4" fill="rgba(95,122,104,0.15)" stroke="#5f7a68"/>
-              <text x="490" y="90" fill="#5f7a68" fontSize="10" fontFamily="monospace" textAnchor="middle">BlockingQueue 接口</text>
-              
-              <line x1="300" y1="45" x2="110" y2="70" stroke="#d4c5a9" strokeWidth="1.5"/>
-              <line x1="300" y1="45" x2="300" y2="70" stroke="#d4c5a9" strokeWidth="1.5"/>
-              <line x1="300" y1="45" x2="490" y2="70" stroke="#d4c5a9" strokeWidth="1.5"/>
-              
-              <rect x="30" y="130" width="160" height="25" rx="4" fill="#f5f0e8" stroke="#d4c5a9"/>
-              <text x="110" y="147" fill="#6b5e4c" fontSize="9" fontFamily="monospace" textAnchor="middle">ArrayBlockingQueue</text>
-              
-              <rect x="30" y="165" width="160" height="25" rx="4" fill="#f5f0e8" stroke="#d4c5a9"/>
-              <text x="110" y="182" fill="#6b5e4c" fontSize="9" fontFamily="monospace" textAnchor="middle">LinkedBlockingQueue</text>
-              
-              <rect x="30" y="200" width="160" height="25" rx="4" fill="#f5f0e8" stroke="#d4c5a9"/>
-              <text x="110" y="217" fill="#6b5e4c" fontSize="9" fontFamily="monospace" textAnchor="middle">PriorityBlockingQueue</text>
-              
-              <line x1="490" y1="100" x2="110" y2="130" stroke="#5f7a68" strokeWidth="1.5"/>
-              <line x1="490" y1="100" x2="110" y2="165" stroke="#5f7a68" strokeWidth="1.5"/>
-              <line x1="490" y1="100" x2="110" y2="200" stroke="#5f7a68" strokeWidth="1.5"/>
-              
-              <rect x="210" y="130" width="180" height="30" rx="4" fill="rgba(120,100,160,0.12)" stroke="#7864a0"/>
-              <text x="300" y="150" fill="#7864a0" fontSize="10" fontFamily="monospace" textAnchor="middle">ConcurrentLinkedQueue</text>
-              
-              <rect x="400" y="130" width="180" height="30" rx="4" fill="rgba(140,100,80,0.12)" stroke="#8c6450"/>
-              <text x="490" y="150" fill="#8c6450" fontSize="10" fontFamily="monospace" textAnchor="middle">ConcurrentSkipListMap</text>
-              
-              <rect x="20" y="250" width="560" height="60" rx="4" fill="rgba(240,230,210,0.5)" stroke="#d4c5a9" strokeDasharray="5,5"/>
-              <text x="300" y="270" fill="#6b5e4c" fontSize="10" fontFamily="monospace" textAnchor="middle" fontWeight="bold">核心设计思想</text>
-              <text x="300" y="290" fill="#8b7d6b" fontSize="9" fontFamily="monospace" textAnchor="middle">细粒度锁 | CAS 原子操作 | 写时复制 | 分段技术</text>
-            </svg>
+            {`graph TD
+              JUC["java.util.concurrent"] --> CHM["ConcurrentHashMap"]
+              JUC --> COW["CopyOnWriteArrayList"]
+              JUC --> BQ["BlockingQueue 接口"]
+              BQ --> ABQ["ArrayBlockingQueue"]
+              BQ --> LBQ["LinkedBlockingQueue"]
+              BQ --> PBQ["PriorityBlockingQueue"]
+              JUC --> CLQ["ConcurrentLinkedQueue"]
+              JUC --> CSLM["ConcurrentSkipListMap"]
+              JUC --> DESIGN["核心设计思想<br/>细粒度锁 | CAS | 写时复制 | 分段技术"]
+              style JUC fill:#ede4d1,stroke:#d4c5a9
+              style CHM fill:#b5651d25,stroke:#b5651d
+              style COW fill:#a0522d20,stroke:#a0522d
+              style BQ fill:#5f7a6825,stroke:#5f7a68
+              style ABQ fill:#f5f0e8,stroke:#d4c5a9
+              style LBQ fill:#f5f0e8,stroke:#d4c5a9
+              style PBQ fill:#f5f0e8,stroke:#d4c5a9
+              style CLQ fill:#7864a020,stroke:#7864a0
+              style CSLM fill:#8c645020,stroke:#8c6450
+              style DESIGN fill:#f0e6d280,stroke:#d4c5a9,stroke-dasharray: 5 5
+            `}
           </DiagramBlock>
 
           <SideNote label="为什么需要并发集合？">
@@ -168,42 +149,30 @@ public class ConcurrentHashMap<K, V> {
           </p>
 
           <DiagramBlock title="JDK 8 ConcurrentHashMap 架构">
-            <svg className="w-full max-w-[550px] mx-auto block" viewBox="0 0 550 240">
-              <rect x="20" y="10" width="510" height="30" rx="4" fill="#ede4d1" stroke="#d4c5a9"/>
-              <text x="275" y="30" fill="#6b5e4c" fontSize="11" fontFamily="monospace" textAnchor="middle">Node[] table (数组)</text>
-              
-              <rect x="20" y="50" width="80" height="30" rx="4" fill="#f5f0e8" stroke="#d4c5a9"/>
-              <text x="60" y="70" fill="#a99d8e" fontSize="9" fontFamily="monospace" textAnchor="middle">[0]</text>
-              
-              <rect x="100" y="50" width="80" height="30" rx="4" fill="rgba(181,101,29,0.15)" stroke="#b5651d"/>
-              <text x="140" y="70" fill="#8b4c14" fontSize="9" fontFamily="monospace" textAnchor="middle">[1]</text>
-              <line x1="140" y1="80" x2="140" y2="100" stroke="#b5651d" strokeWidth="1.5"/>
-              <rect x="100" y="100" width="80" height="25" rx="4" fill="rgba(181,101,29,0.15)" stroke="#b5651d"/>
-              <text x="140" y="117" fill="#8b4c14" fontSize="8" fontFamily="monospace" textAnchor="middle">Node A</text>
-              <line x1="140" y1="125" x2="140" y2="140" stroke="#b5651d" strokeWidth="1.5"/>
-              <rect x="100" y="140" width="80" height="25" rx="4" fill="rgba(181,101,29,0.15)" stroke="#b5651d"/>
-              <text x="140" y="157" fill="#8b4c14" fontSize="8" fontFamily="monospace" textAnchor="middle">Node B 🔒</text>
-              
-              <rect x="180" y="50" width="80" height="30" rx="4" fill="#f5f0e8" stroke="#d4c5a9"/>
-              <text x="220" y="70" fill="#a99d8e" fontSize="9" fontFamily="monospace" textAnchor="middle">[2]</text>
-              
-              <rect x="260" y="50" width="80" height="30" rx="4" fill="rgba(160,82,45,0.12)" stroke="#a0522d"/>
-              <text x="300" y="70" fill="#a0522d" fontSize="9" fontFamily="monospace" textAnchor="middle">[3]</text>
-              <circle cx="300" cy="100" r="12" fill="rgba(160,82,45,0.12)" stroke="#a0522d" strokeWidth="1.5"/>
-              <text x="300" y="104" fill="#a0522d" fontSize="8" fontFamily="monospace" textAnchor="middle">8</text>
-              <line x1="292" y1="110" x2="280" y2="125" stroke="#a0522d"/>
-              <line x1="308" y1="110" x2="320" y2="125" stroke="#a0522d"/>
-              <circle cx="270" cy="140" r="12" fill="rgba(95,122,104,0.15)" stroke="#5f7a68" strokeWidth="1.5"/>
-              <text x="270" y="144" fill="#5f7a68" fontSize="8" fontFamily="monospace" textAnchor="middle">4 🔒</text>
-              <circle cx="330" cy="140" r="12" fill="rgba(95,122,104,0.15)" stroke="#5f7a68" strokeWidth="1.5"/>
-              <text x="330" y="144" fill="#5f7a68" fontSize="8" fontFamily="monospace" textAnchor="middle">12</text>
-              
-              <text x="140" y="185" fill="#8b4c14" fontSize="8" fontFamily="monospace" textAnchor="middle">synchronized(Node A)</text>
-              <text x="300" y="185" fill="#a0522d" fontSize="8" fontFamily="monospace" textAnchor="middle">synchronized(树根节点)</text>
-              
-              <rect x="20" y="200" width="510" height="30" rx="4" fill="rgba(240,230,210,0.5)" stroke="#d4c5a9" strokeDasharray="5,5"/>
-              <text x="275" y="220" fill="#6b5e4c" fontSize="9" fontFamily="monospace" textAnchor="middle">🔒 表示锁定的节点，其他线程可并发访问其他桶</text>
-            </svg>
+            {`graph TD
+              TABLE2["Node[] table 数组"]
+              TABLE2 --> S0["[0] 空"]
+              TABLE2 --> S1["[1] 链表"]
+              TABLE2 --> S2["[2] 空"]
+              TABLE2 --> S3["[3] 红黑树"]
+              S1 --> NA["Node A"]
+              NA --> NB["Node B 🔒"]
+              S3 --> TN["8"]
+              TN --> TL["4 🔒"]
+              TN --> TR["12"]
+              NB -.-> |"synchronized(Node A)"| NOTE2["其他线程可并发访问其他桶"]
+              TL -.-> |"synchronized(树根节点)"| NOTE3["锁粒度：链表头或树根"]
+              style TABLE2 fill:#ede4d1,stroke:#d4c5a9
+              style S0 fill:#f5f0e8,stroke:#d4c5a9
+              style S1 fill:#b5651d25,stroke:#b5651d
+              style S2 fill:#f5f0e8,stroke:#d4c5a9
+              style S3 fill:#a0522d20,stroke:#a0522d
+              style NA fill:#b5651d25,stroke:#b5651d
+              style NB fill:#b5651d25,stroke:#b5651d,stroke-width:2px
+              style TN fill:#a0522d20,stroke:#a0522d
+              style TL fill:#5f7a6825,stroke:#5f7a68,stroke-width:2px
+              style TR fill:#5f7a6825,stroke:#5f7a68
+            `}
           </DiagramBlock>
 
           <Playground 
@@ -345,26 +314,21 @@ static final class CounterCell {
           </h3>
 
           <DiagramBlock title="CopyOnWriteArrayList 写时复制过程">
-            <svg className="w-full max-w-[550px] mx-auto block" viewBox="0 0 550 200">
-              <text x="275" y="20" fill="#6b5e4c" fontSize="11" fontFamily="monospace" textAnchor="middle" fontWeight="bold">步骤 1: 读取操作（无锁）</text>
-              <rect x="20" y="35" width="120" height="30" rx="4" fill="#f5f0e8" stroke="#d4c5a9"/>
-              <text x="80" y="55" fill="#6b5e4c" fontSize="9" fontFamily="monospace" textAnchor="middle">Thread A: get(0)</text>
-              <line x1="80" y1="65" x2="80" y2="85" stroke="#6b5e4c" strokeWidth="1.5"/>
-              <rect x="20" y="85" width="120" height="25" rx="4" fill="#ede4d1" stroke="#d4c5a9"/>
-              <text x="80" y="102" fill="#6b5e4c" fontSize="8" fontFamily="monospace" textAnchor="middle">[A, B, C]</text>
-              <text x="160" y="102" fill="#5f7a68" fontSize="8" fontFamily="monospace" textAnchor="middle">← 引用指向</text>
-              
-              <text x="275" y="135" fill="#6b5e4c" fontSize="11" fontFamily="monospace" textAnchor="middle" fontWeight="bold">步骤 2: 写入操作（复制+修改）</text>
-              <rect x="220" y="150" width="140" height="30" rx="4" fill="rgba(181,101,29,0.15)" stroke="#b5651d"/>
-              <text x="290" y="170" fill="#8b4c14" fontSize="9" fontFamily="monospace" textAnchor="middle">Thread B: add(D)</text>
-              <line x1="290" y1="150" x2="290" y2="135" stroke="#b5651d" strokeWidth="1.5"/>
-              <rect x="380" y="150" width="120" height="25" rx="4" fill="rgba(181,101,29,0.15)" stroke="#b5651d"/>
-              <text x="440" y="167" fill="#8b4c14" fontSize="8" fontFamily="monospace" textAnchor="middle">[A, B, C, D]</text>
-              <text x="360" y="167" fill="#b5651d" fontSize="8" fontFamily="monospace" textAnchor="middle">新数组 →</text>
-              
-              <line x1="290" y1="180" x2="440" y2="180" stroke="#b5651d" strokeWidth="1.5" strokeDasharray="5,5"/>
-              <text x="365" y="195" fill="#b5651d" fontSize="7" fontFamily="monospace" textAnchor="middle">CAS 替换引用</text>
-            </svg>
+            {`graph TD
+              subgraph 读取操作无锁
+                TA["Thread A: get(0)"] --> ARR1["[A, B, C]"]
+              end
+              subgraph 写入操作复制+修改
+                TB["Thread B: add(D)"] --> NEWARR["新数组 [A, B, C, D]"]
+              end
+              ARR1 -.-> |"引用指向"| NEWARR
+              NEWARR -.-> |"CAS 替换引用"| FINAL["最终引用指向新数组"]
+              style TA fill:#f5f0e8,stroke:#d4c5a9
+              style ARR1 fill:#ede4d1,stroke:#d4c5a9
+              style TB fill:#b5651d25,stroke:#b5651d
+              style NEWARR fill:#b5651d25,stroke:#b5651d
+              style FINAL fill:#f0e6d280,stroke:#d4c5a9,stroke-dasharray: 5 5
+            `}
           </DiagramBlock>
 
           <Playground 

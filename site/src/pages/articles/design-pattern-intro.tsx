@@ -57,22 +57,12 @@ export default function DesignPatternIntro({ meta }: { meta: KnowledgeNode }) {
           </p>
 
           <DiagramBlock title="SOLID 原则关系图">
-            <pre className="font-mono text-[11px] sm:text-[12px] text-ink-muted leading-[1.6] whitespace-pre">{`
-         ┌─────────────┐
-         │   SRP       │ ← 单一职责：一个类只做一件事
-         └──────┬──────┘
-                │
-         ┌──────▼──────┐
-         │   OCP       │ ← 开闭原则：对扩展开放，对修改关闭
-         └──────┬──────┘
-                │
-    ┌───────────┼───────────┐
-    │           │           │
-┌───▼───┐ ┌────▼────┐ ┌────▼────┐
-│  LSP  │ │   ISP   │ │   DIP   │
-└───────┘ └─────────┘ └─────────┘
-里氏替换  接口隔离    依赖倒置
-`}</pre>
+            {`graph TD
+              SRP["SRP 单一职责：一个类只做一件事"] --> OCP["OCP 开闭原则：对扩展开放，对修改关闭"]
+              OCP --> LSP["LSP 里氏替换"]
+              OCP --> ISP["ISP 接口隔离"]
+              OCP --> DIP["DIP 依赖倒置"]
+            `}
           </DiagramBlock>
 
           <h3 id="srp" className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
@@ -397,37 +387,35 @@ OrderService service2 = new OrderService(new PostgreSQLDatabase());`}
           </p>
 
           <DiagramBlock title="设计模式分类图谱">
-            <pre className="font-mono text-[11px] sm:text-[12px] text-ink-muted leading-[1.6] whitespace-pre">{`
-设计模式 (23种)
-├── 创建型 (Creational) — 关注对象的创建方式
-│   ├── 单例模式 (Singleton)
-│   ├── 工厂方法 (Factory Method)
-│   ├── 抽象工厂 (Abstract Factory)
-│   ├── 建造者模式 (Builder)
-│   └── 原型模式 (Prototype)
-│
-├── 结构型 (Structural) — 关注类和对象的组合
-│   ├── 代理模式 (Proxy)
-│   ├── 装饰器模式 (Decorator)
-│   ├── 适配器模式 (Adapter)
-│   ├── 外观模式 (Facade)
-│   ├── 桥接模式 (Bridge)
-│   ├── 组合模式 (Composite)
-│   └── 享元模式 (Flyweight)
-│
-└── 行为型 (Behavioral) — 关注对象间的通信和职责分配
-    ├── 策略模式 (Strategy)
-    ├── 观察者模式 (Observer)
-    ├── 模板方法 (Template Method)
-    ├── 责任链模式 (Chain of Responsibility)
-    ├── 状态模式 (State)
-    ├── 命令模式 (Command)
-    ├── 迭代器模式 (Iterator)
-    ├── 中介者模式 (Mediator)
-    ├── 备忘录模式 (Memento)
-    ├── 访问者模式 (Visitor)
-    └── 解释器模式 (Interpreter)
-`}</pre>
+            {`graph TD
+              DP["设计模式 23种"]
+              DP --> CRE["创建型 Creational<br/>关注对象的创建方式"]
+              DP --> STR["结构型 Structural<br/>关注类和对象的组合"]
+              DP --> BEH["行为型 Behavioral<br/>关注对象间的通信和职责分配"]
+              CRE --> S1["单例模式 Singleton"]
+              CRE --> S2["工厂方法 Factory Method"]
+              CRE --> S3["抽象工厂 Abstract Factory"]
+              CRE --> S4["建造者模式 Builder"]
+              CRE --> S5["原型模式 Prototype"]
+              STR --> T1["代理模式 Proxy"]
+              STR --> T2["装饰器模式 Decorator"]
+              STR --> T3["适配器模式 Adapter"]
+              STR --> T4["外观模式 Facade"]
+              STR --> T5["桥接模式 Bridge"]
+              STR --> T6["组合模式 Composite"]
+              STR --> T7["享元模式 Flyweight"]
+              BEH --> B1["策略模式 Strategy"]
+              BEH --> B2["观察者模式 Observer"]
+              BEH --> B3["模板方法 Template Method"]
+              BEH --> B4["责任链模式 Chain of Responsibility"]
+              BEH --> B5["状态模式 State"]
+              BEH --> B6["命令模式 Command"]
+              BEH --> B7["迭代器模式 Iterator"]
+              BEH --> B8["中介者模式 Mediator"]
+              BEH --> B9["备忘录模式 Memento"]
+              BEH --> B10["访问者模式 Visitor"]
+              BEH --> B11["解释器模式 Interpreter"]
+            `}
           </DiagramBlock>
 
           <Callout type="info" title="各类模式的核心目标">

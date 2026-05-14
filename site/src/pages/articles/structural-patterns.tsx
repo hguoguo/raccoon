@@ -189,21 +189,35 @@ System.out.println(coffee.cost());         // 13.0`}
           />
 
           <DiagramBlock title="装饰器 UML 图">
-            <pre className="font-mono text-[11px] sm:text-[12px] text-ink-muted leading-[1.6] whitespace-pre">{`
-   <<interface>>
-      Coffee
-   +cost()
-   +description()
-        ^
-        |
-   +----+-----------+
-   |                |
-SimpleCoffee   CoffeeDecorator (abstract)
-                    |
-               +----+----+
-               |         |
-          MilkDecor  SugarDecor
-`}</pre>
+            {`classDiagram
+              class Coffee {
+                <<interface>>
+                +cost()
+                +description()
+              }
+              class SimpleCoffee {
+                +cost()
+                +description()
+              }
+              class CoffeeDecorator {
+                <<abstract>>
+                +cost()
+                +description()
+              }
+              class MilkDecorator {
+                +cost()
+                +description()
+              }
+              class SugarDecorator {
+                +cost()
+                +description()
+              }
+              Coffee <|.. SimpleCoffee
+              Coffee <|.. CoffeeDecorator
+              CoffeeDecorator <|-- MilkDecorator
+              CoffeeDecorator <|-- SugarDecorator
+              CoffeeDecorator o-- Coffee
+            `}
           </DiagramBlock>
 
           <h2 id="adapter" className="font-display font-bold text-[20px] sm:text-display-md tracking-tight mt-8 sm:mt-12 mb-3 sm:mb-4 pb-[10px] border-b border-border-light text-ink">

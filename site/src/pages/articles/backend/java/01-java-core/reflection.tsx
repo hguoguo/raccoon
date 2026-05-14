@@ -55,46 +55,21 @@ export default function Reflection({ meta }: { meta: KnowledgeNode }) {
           </p>
 
           <DiagramBlock title="反射机制工作原理">
-            <svg className="w-full max-w-[500px] mx-auto block" viewBox="0 0 500 280">
-              <rect x="20" y="10" width="120" height="50" rx="6" fill="#ede4d1" stroke="#b5651d" strokeWidth="2"/>
-              <text x="80" y="40" fill="#6b5e4c" fontSize="11" fontFamily="monospace" textAnchor="middle">源代码.java</text>
-              
-              <line x1="140" y1="35" x2="170" y2="35" stroke="#a99d8e" strokeWidth="2"/>
-              <polygon points="170,30 180,35 170,40" fill="#a99d8e"/>
-              
-              <rect x="180" y="10" width="120" height="50" rx="6" fill="#ede4d1" stroke="#b5651d" strokeWidth="2"/>
-              <text x="240" y="40" fill="#6b5e4c" fontSize="11" fontFamily="monospace" textAnchor="middle">编译</text>
-              
-              <line x1="300" y1="35" x2="330" y2="35" stroke="#a99d8e" strokeWidth="2"/>
-              <polygon points="330,30 340,35 330,40" fill="#a99d8e"/>
-              
-              <rect x="340" y="10" width="120" height="50" rx="6" fill="#f5f0e8" stroke="#b5651d" strokeWidth="2"/>
-              <text x="400" y="40" fill="#6b5e4c" fontSize="11" fontFamily="monospace" textAnchor="middle">字节码.class</text>
-              
-              <rect x="20" y="100" width="120" height="50" rx="6" fill="rgba(181,101,29,0.15)" stroke="#b5651d" strokeWidth="2"/>
-              <text x="80" y="130" fill="#8b4c14" fontSize="11" fontFamily="monospace" textAnchor="middle">JVM加载</text>
-              
-              <line x1="400" y1="60" x2="400" y2="90" stroke="#a99d8e" strokeWidth="2"/>
-              <polygon points="395,90 400,100 405,90" fill="#a99d8e"/>
-              
-              <rect x="340" y="100" width="120" height="50" rx="6" fill="rgba(181,101,29,0.15)" stroke="#b5651d" strokeWidth="2"/>
-              <text x="400" y="130" fill="#8b4c14" fontSize="11" fontFamily="monospace" textAnchor="middle">Class对象</text>
-              
-              <line x1="340" y1="150" x2="200" y2="190" stroke="#b5651d" strokeWidth="2"/>
-              <line x1="400" y1="150" x2="400" y2="190" stroke="#b5651d" strokeWidth="2"/>
-              <line x1="460" y1="150" x2="340" y2="190" stroke="#b5651d" strokeWidth="2"/>
-              
-              <rect x="140" y="190" width="80" height="40" rx="4" fill="rgba(160,82,45,0.12)" stroke="#a0522d"/>
-              <text x="180" y="215" fill="#a0522d" fontSize="10" fontFamily="monospace" textAnchor="middle">Field</text>
-              
-              <rect x="360" y="190" width="80" height="40" rx="4" fill="rgba(160,82,45,0.12)" stroke="#a0522d"/>
-              <text x="400" y="215" fill="#a0522d" fontSize="10" fontFamily="monospace" textAnchor="middle">Method</text>
-              
-              <rect x="250" y="230" width="80" height="40" rx="4" fill="rgba(160,82,45,0.12)" stroke="#a0522d"/>
-              <text x="290" y="255" fill="#a0522d" fontSize="10" fontFamily="monospace" textAnchor="middle">Constructor</text>
-              
-              <text x="250" y="280" fill="#8a7d6b" fontSize="9" fontFamily="monospace" textAnchor="middle">运行时通过Class对象访问类的所有成员</text>
-            </svg>
+            {`graph TD
+              SRC["源代码.java"] --> COMPILE["编译"]
+              COMPILE --> CLASS["字节码.class"]
+              CLASS --> |JVM加载| CLASSOBJ["Class对象"]
+              CLASSOBJ --> FIELD["Field"]
+              CLASSOBJ --> METHOD["Method"]
+              CLASSOBJ --> CTOR["Constructor"]
+              style SRC fill:#ede4d1,stroke:#b5651d,stroke-width:2px
+              style COMPILE fill:#ede4d1,stroke:#b5651d,stroke-width:2px
+              style CLASS fill:#f5f0e8,stroke:#b5651d,stroke-width:2px
+              style CLASSOBJ fill:#ede4d155,stroke:#b5651d,stroke-width:2px
+              style FIELD fill:#a0522d20,stroke:#a0522d
+              style METHOD fill:#a0522d20,stroke:#a0522d
+              style CTOR fill:#a0522d20,stroke:#a0522d
+            `}
           </DiagramBlock>
 
           <Callout type="tip" title="核心要点">

@@ -58,25 +58,20 @@ export default function LangChainAdvanced({ meta }: { meta: KnowledgeNode }) {
           </p>
 
           <DiagramBlock title="LCEL vs 传统 Chain">
-            <pre className="font-mono text-[11px] sm:text-[12px] text-ink-muted leading-[1.6] whitespace-pre">{`
-┌──────────────────────────────────────────────┐
-│         传统 Chain API (已废弃)               │
-├──────────────────────────────────────────────┤
-│ chain = LLMChain(                            │
-│   llm=model,                                 │
-│   prompt=template,                           │
-│   output_parser=parser                       │
-│ )                                            │
-│ result = chain.run({"question": "..."})      │
-└──────────────────────────────────────────────┘
-
-┌──────────────────────────────────────────────┐
-│         LCEL 表达式语言 (推荐)                │
-├──────────────────────────────────────────────┤
-│ chain = template | model | parser            │
-│ result = chain.invoke({"question": "..."})   │
-└──────────────────────────────────────────────┘
-            `}</pre>
+            {`graph LR
+              subgraph 传统ChainAPI已废弃
+                direction TB
+                OLD["LLMChain(llm=model, prompt=template, output_parser=parser)"]
+                OLDRUN["chain.run(question)"]
+                OLD --> OLDRUN
+              end
+              subgraph LCEL表达式语言推荐
+                direction TB
+                NEW["template | model | parser"]
+                NEWRUN["chain.invoke(question)"]
+                NEW --> NEWRUN
+              end
+            `}
           </DiagramBlock>
 
           <Playground

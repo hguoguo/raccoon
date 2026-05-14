@@ -84,21 +84,18 @@ export default function SetDeepDive({ meta }: { meta: KnowledgeNode }) {
           </h3>
 
           <DiagramBlock title="HashSet 内部结构">
-            <svg className="w-full max-w-[500px] mx-auto block" viewBox="0 0 500 160">
-              <rect x="150" y="10" width="200" height="30" rx="4" fill="#ede4d1" stroke="#d4c5a9"/>
-              <text x="250" y="30" fill="#6b5e4c" fontSize="10" fontFamily="monospace" textAnchor="middle">HashSet&lt;String&gt;</text>
-              <line x1="250" y1="40" x2="250" y2="60" stroke="#d4c5a9" strokeWidth="1.5"/>
-              <rect x="130" y="60" width="240" height="30" rx="4" fill="rgba(181,101,29,0.15)" stroke="#b5651d"/>
-              <text x="250" y="80" fill="#8b4c14" fontSize="10" fontFamily="monospace" textAnchor="middle">HashMap&lt;String, Object&gt;</text>
-              <line x1="250" y1="90" x2="250" y2="110" stroke="#d4c5a9" strokeWidth="1.5"/>
-              <rect x="100" y="110" width="100" height="30" rx="4" fill="#f5f0e8" stroke="#a99d8e"/>
-              <text x="150" y="130" fill="#6b5e4c" fontSize="9" fontFamily="monospace" textAnchor="middle">key: "A"</text>
-              <rect x="220" y="110" width="100" height="30" rx="4" fill="#f5f0e8" stroke="#a99d8e"/>
-              <text x="270" y="130" fill="#6b5e4c" fontSize="9" fontFamily="monospace" textAnchor="middle">key: "B"</text>
-              <rect x="340" y="110" width="100" height="30" rx="4" fill="#f5f0e8" stroke="#a99d8e"/>
-              <text x="390" y="130" fill="#6b5e4c" fontSize="9" fontFamily="monospace" textAnchor="middle">key: "C"</text>
-              <text x="250" y="155" fill="#8a7d6b" fontSize="9" fontFamily="monospace" textAnchor="middle">value: 统一的 PRESENT 对象</text>
-            </svg>
+            {`graph TD
+              HS["HashSet&lt;String&gt;"] --> HM["HashMap&lt;String, Object&gt;"]
+              HM --> KA["key: A"]
+              HM --> KB["key: B"]
+              HM --> KC["key: C"]
+              HM --> NOTE["value: 统一的 PRESENT 对象"]
+              style HS fill:#ede4d1,stroke:#d4c5a9
+              style HM fill:#b5651d25,stroke:#b5651d
+              style KA fill:#f5f0e8,stroke:#a99d8e
+              style KB fill:#f5f0e8,stroke:#a99d8e
+              style KC fill:#f5f0e8,stroke:#a99d8e
+            `}
           </DiagramBlock>
 
           <Playground language="java" filename="HashSet.java" description="HashSet 核心实现" highlights={[3, 5, 8]}
@@ -158,24 +155,17 @@ export default function SetDeepDive({ meta }: { meta: KnowledgeNode }) {
           </p>
 
           <DiagramBlock title="红黑树示例">
-            <svg className="w-full max-w-[500px] mx-auto block" viewBox="0 0 500 200">
-              <circle cx="250" cy="30" r="20" fill="rgba(160,82,45,0.15)" stroke="#a0522d" strokeWidth="2"/>
-              <text x="250" y="35" fill="#a0522d" fontSize="12" fontFamily="monospace" textAnchor="middle">8</text>
-              <line x1="235" y1="48" x2="180" y2="80" stroke="#d4c5a9" strokeWidth="1.5"/>
-              <line x1="265" y1="48" x2="320" y2="80" stroke="#d4c5a9" strokeWidth="1.5"/>
-              <circle cx="150" cy="100" r="20" fill="rgba(95,122,104,0.15)" stroke="#5f7a68" strokeWidth="2"/>
-              <text x="150" y="105" fill="#5f7a68" fontSize="12" fontFamily="monospace" textAnchor="middle">4</text>
-              <circle cx="350" cy="100" r="20" fill="rgba(95,122,104,0.15)" stroke="#5f7a68" strokeWidth="2"/>
-              <text x="350" y="105" fill="#5f7a68" fontSize="12" fontFamily="monospace" textAnchor="middle">12</text>
-              <line x1="135" y1="118" x2="100" y2="150" stroke="#d4c5a9" strokeWidth="1.5"/>
-              <line x1="165" y1="118" x2="200" y2="150" stroke="#d4c5a9" strokeWidth="1.5"/>
-              <circle cx="80" cy="170" r="20" fill="rgba(160,82,45,0.15)" stroke="#a0522d" strokeWidth="2"/>
-              <text x="80" y="175" fill="#a0522d" fontSize="12" fontFamily="monospace" textAnchor="middle">2</text>
-              <circle cx="220" cy="170" r="20" fill="rgba(160,82,45,0.15)" stroke="#a0522d" strokeWidth="2"/>
-              <text x="220" y="175" fill="#a0522d" fontSize="12" fontFamily="monospace" textAnchor="middle">6</text>
-              <text x="20" y="195" fill="#8a7d6b" fontSize="9" fontFamily="monospace">棕色: 黑色节点</text>
-              <text x="250" y="195" fill="#8a7d6b" fontSize="9" fontFamily="monospace">绿色: 红色节点</text>
-            </svg>
+            {`graph TD
+              R8["8"] --> R4["4"]
+              R8 --> R12["12"]
+              R4 --> R2["2"]
+              R4 --> R6["6"]
+              style R8 fill:#a0522d20,stroke:#a0522d,stroke-width:2px
+              style R4 fill:#5f7a6825,stroke:#5f7a68,stroke-width:2px
+              style R12 fill:#5f7a6825,stroke:#5f7a68,stroke-width:2px
+              style R2 fill:#a0522d20,stroke:#a0522d,stroke-width:2px
+              style R6 fill:#a0522d20,stroke:#a0522d,stroke-width:2px
+            `}
           </DiagramBlock>
 
           <Playground language="java" filename="TreeSet.java" description="TreeSet 核心实现" highlights={[3, 8, 12]}

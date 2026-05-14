@@ -51,24 +51,11 @@ export default function Jdbc({ meta }: { meta: KnowledgeNode }) {
           </p>
           
           <DiagramBlock title="JDBC架构图">
-            <pre className="font-mono text-[11px] sm:text-[12px] text-ink-muted leading-[1.6] whitespace-pre">{`
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│  Java App     │───▶│  JDBC API       │───▶│  Driver       │
-│               │    │                 │    │               │
-│  DriverManager│    │  Connection     │    │  Oracle JDBC  │
-│  Statement    │    │  PreparedStatement│    │  MySQL JDBC  │
-│  ResultSet    │    │  CallableStatement│    │  PostgreSQL  │
-└─────────────────┘    │  SQLException   │    │  ...         │
-                       └─────────────────┘    └─────────────────┘
-                                                        │
-                                                        ▼
-                                            ┌─────────────────┐
-                                            │  Database     │
-                                            │  Oracle       │
-                                            │  MySQL        │
-                                            │  PostgreSQL   │
-                                            └─────────────────┘
-            `}</pre>
+            {`graph LR
+              APP["Java App<br/>DriverManager<br/>Statement<br/>ResultSet"] --> API["JDBC API<br/>Connection<br/>PreparedStatement<br/>CallableStatement<br/>SQLException"]
+              API --> DRIVER["Driver<br/>Oracle JDBC<br/>MySQL JDBC<br/>PostgreSQL"]
+              DRIVER --> DB["Database<br/>Oracle<br/>MySQL<br/>PostgreSQL"]
+            `}
           </DiagramBlock>
 
           <h2 id="drivermanager" className="font-display font-bold text-[20px] sm:text-display-sm mt-10 sm:mt-12 mb-4 sm:mb-5 text-ink">

@@ -232,26 +232,15 @@ System.out.println(text.substring(2, 6));  // "Java"`}
           </p>
 
           <DiagramBlock title="面向对象三大特性关系图">
-            <svg viewBox="0 0 400 200" className="w-full h-auto">
-              {/* 中心节点 */}
-              <circle cx="200" cy="100" r="35" fill="#F59E0B" opacity="0.2" stroke="#F59E0B" strokeWidth="2"/>
-              <text x="200" y="105" textAnchor="middle" fontSize="14" fontWeight="bold" fill="#92400E">OOP</text>
-              
-              {/* 封装 */}
-              <circle cx="100" cy="60" r="30" fill="#10B981" opacity="0.2" stroke="#10B981" strokeWidth="2"/>
-              <text x="100" y="65" textAnchor="middle" fontSize="12" fontWeight="bold" fill="#065F46">封装</text>
-              <line x1="130" y1="70" x2="170" y2="90" stroke="#D1D5DB" strokeWidth="2"/>
-              
-              {/* 继承 */}
-              <circle cx="300" cy="60" r="30" fill="#3B82F6" opacity="0.2" stroke="#3B82F6" strokeWidth="2"/>
-              <text x="300" y="65" textAnchor="middle" fontSize="12" fontWeight="bold" fill="#1E40AF">继承</text>
-              <line x1="270" y1="70" x2="230" y2="90" stroke="#D1D5DB" strokeWidth="2"/>
-              
-              {/* 多态 */}
-              <circle cx="200" cy="160" r="30" fill="#8B5CF6" opacity="0.2" stroke="#8B5CF6" strokeWidth="2"/>
-              <text x="200" y="165" textAnchor="middle" fontSize="12" fontWeight="bold" fill="#5B21B6">多态</text>
-              <line x1="200" y1="135" x2="200" y2="130" stroke="#D1D5DB" strokeWidth="2"/>
-            </svg>
+{`graph TD
+    OOP["OOP"] --- 封装["封装\n隐藏细节\n保护数据"]
+    OOP --- 继承["继承\n代码复用\n扩展功能"]
+    OOP --- 多态["多态\n同一接口\n不同实现"]
+
+    style OOP fill:#F59E0B,stroke:#F59E0B,color:#92400E
+    style 封装 fill:#10B981,stroke:#10B981,color:#065F46
+    style 继承 fill:#3B82F6,stroke:#3B82F6,color:#1E40AF
+    style 多态 fill:#8B5CF6,stroke:#8B5CF6,color:#5B21B6`}
           </DiagramBlock>
 
           <h3 id="class-object" className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
@@ -472,31 +461,13 @@ eagle.breathe(); // 金雕呼吸`}
           />
 
           <DiagramBlock title="接口 vs 抽象类选择决策树">
-            <svg viewBox="0 0 400 250" className="w-full h-auto">
-              {/* 起点 */}
-              <rect x="150" y="10" width="100" height="40" rx="5" fill="#F59E0B" opacity="0.3" stroke="#F59E0B" strokeWidth="2"/>
-              <text x="200" y="35" textAnchor="middle" fontSize="12" fontWeight="bold" fill="#92400E">需要定义什么？</text>
-              
-              {/* 左分支 - 能力 */}
-              <line x1="150" y1="30" x2="100" y2="70" stroke="#D1D5DB" strokeWidth="2"/>
-              <rect x="50" y="70" width="100" height="35" rx="5" fill="#10B981" opacity="0.2" stroke="#10B981" strokeWidth="2"/>
-              <text x="100" y="92" textAnchor="middle" fontSize="11" fill="#065F46">能力/行为</text>
-              <line x1="100" y1="105" x2="100" y2="130" stroke="#D1D5DB" strokeWidth="2"/>
-              <rect x="50" y="130" width="100" height="35" rx="5" fill="#10B981" opacity="0.3" stroke="#10B981" strokeWidth="2"/>
-              <text x="100" y="152" textAnchor="middle" fontSize="11" fontWeight="bold" fill="#065F46">使用接口</text>
-              
-              {/* 右分支 - 身份 */}
-              <line x1="250" y1="30" x2="300" y2="70" stroke="#D1D5DB" strokeWidth="2"/>
-              <rect x="250" y="70" width="100" height="35" rx="5" fill="#3B82F6" opacity="0.2" stroke="#3B82F6" strokeWidth="2"/>
-              <text x="300" y="92" textAnchor="middle" fontSize="11" fill="#1E40AF">共同特征</text>
-              <line x1="300" y1="105" x2="300" y2="130" stroke="#D1D5DB" strokeWidth="2"/>
-              <rect x="250" y="130" width="100" height="35" rx="5" fill="#3B82F6" opacity="0.3" stroke="#3B82F6" strokeWidth="2"/>
-              <text x="300" y="152" textAnchor="middle" fontSize="11" fontWeight="bold" fill="#1E40AF">使用抽象类</text>
-              
-              {/* 底部说明 */}
-              <text x="200" y="200" textAnchor="middle" fontSize="10" fill="#6B7280">接口：多实现 | 抽象类：单继承</text>
-              <text x="200" y="220" textAnchor="middle" fontSize="10" fill="#6B7280">接口侧重"can-do"，抽象类侧重"is-a"</text>
-            </svg>
+{`graph TD
+    Q["需要定义什么？"] -->|"能力/行为"| I["使用接口"]
+    Q -->|"共同特征"| A["使用抽象类"]
+
+    style Q fill:#F59E0B,stroke:#F59E0B,color:#92400E
+    style I fill:#10B981,stroke:#10B981,color:#065F46
+    style A fill:#3B82F6,stroke:#3B82F6,color:#1E40AF`}
           </DiagramBlock>
 
           <h3 id="overload-override" className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
