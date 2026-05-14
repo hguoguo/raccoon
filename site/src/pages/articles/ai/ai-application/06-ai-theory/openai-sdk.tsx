@@ -156,6 +156,15 @@ print(f"总 Token 数: {response2.usage.total_tokens}")`}
           ③ system 消息通常放在最前面，作为全局指令<br />
           ④ 可以通过删除早期消息来控制上下文长度
         </SideNote>
+        <DiagramBlock title="多轮对话流程">
+          <div className="text-[13px] sm:text-[14px] font-mono text-ink-muted leading-relaxed text-left space-y-2">
+            <div><span className="text-sky font-semibold">初始化</span> → messages = [system_prompt]</div>
+            <div><span className="text-teal font-semibold">第1轮</span> → messages.append(user_msg) → API调用 → messages.append(assistant_reply)</div>
+            <div><span className="text-teal font-semibold">第2轮</span> → messages.append(user_msg) → API调用 → messages.append(assistant_reply)</div>
+            <div><span className="text-amber font-semibold">第N轮</span> → messages.append(user_msg) → API调用 → messages.append(assistant_reply)</div>
+            <div className="mt-3 pt-3 border-t border-border-light"><span className="text-rose font-semibold">关键</span>：每次调用都传入完整 messages 列表，保持上下文连贯</div>
+          </div>
+        </DiagramBlock>
 
         <h3 id="responses-api" className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
           5.2 Responses API（新响应 API）
@@ -345,6 +354,21 @@ if response.choices[0].finish_reason == "tool_calls":
           filename="function_calling_sdk.py"
           description="完整的 Function Calling 流程"
         />
+        <DiagramBlock title="Function Calling 两轮对话流程">
+          <div className="text-[13px] sm:text-[14px] font-mono text-ink-muted leading-relaxed text-left space-y-2">
+            <div><span className="text-sky font-semibold">第1轮 - 决策</span></div>
+            <div className="pl-4">├─ User: "北京天气如何？" + tools 定义</div>
+            <div className="pl-4">├─ LLM 分析 → 决定调用 get_current_weather</div>
+            <div className="pl-4">└─ 返回: tool_calls[{`{name, arguments}`}]</div>
+            <div className="mt-2"><span className="text-emerald font-semibold">客户端执行</span></div>
+            <div className="pl-4">├─ 解析 arguments: {`{"location": "北京"}`}</div>
+            <div className="pl-4">└─ 调用实际函数 → 获取天气数据</div>
+            <div className="mt-2"><span className="text-amber font-semibold">第2轮 - 生成回答</span></div>
+            <div className="pl-4">├─ messages.append(tool_call_result)</div>
+            <div className="pl-4">├─ LLM 基于工具结果生成自然语言回答</div>
+            <div className="pl-4">└─ 返回: "北京今天晴，气温25°C"</div>
+          </div>
+        </DiagramBlock>
 
         <h3 id="embedding-api" className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
           5.5 Embedding API（向量化接口）
