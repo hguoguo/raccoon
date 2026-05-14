@@ -75,6 +75,23 @@ export default function FunctionCalling({ meta }: { meta: KnowledgeNode }) {
           <span className="font-mono text-[13px] bg-parchment-deep px-1.5 py-0.5 rounded-[3px]">two-step process</span>：
           第一步模型决定调用哪个工具，第二步基于工具返回结果生成最终答案。
         </p>
+        <Callout type="info" title="LLM 如何识别可用工具？">
+          <div className="text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted space-y-2">
+            <p><strong>核心机制：</strong>开发者在调用 LLM API 时，通过 <code className="font-mono text-[13px] bg-parchment-deep px-1.5 py-0.5 rounded-[3px]">tools</code> 参数传入所有可用工具的 JSON Schema 描述。这些描述包含：</p>
+            <ul className="list-disc list-inside ml-4 space-y-1">
+              <li><strong>工具名称（name）</strong>：唯一标识符，如 <code className="font-mono text-[12px]">get_weather</code></li>
+              <li><strong>工具描述（description）</strong>：自然语言说明工具的用途和适用场景</li>
+              <li><strong>参数结构（parameters）</strong>：JSON Schema 定义输入参数的类型、必填项、取值范围等</li>
+            </ul>
+            <p className="mt-2"><strong>识别过程：</strong>LLM 内部会将用户输入与所有工具的 description 进行语义匹配，选择最相关的工具。这个过程类似于阅读理解任务——模型"阅读"工具描述，理解每个工具能做什么，然后判断哪个工具最适合当前用户需求。</p>
+            <p className="mt-2"><strong>关键要点：</strong></p>
+            <ul className="list-disc list-inside ml-4 space-y-1">
+              <li>工具描述越清晰准确，模型识别准确率越高</li>
+              <li>工具数量不宜过多（建议 &lt; 20 个），否则会增加模型的决策难度</li>
+              <li>可以通过 <code className="font-mono text-[12px]">tool_choice</code> 参数控制模型行为：<code className="font-mono text-[12px]">auto</code>（自动决定）、<code className="font-mono text-[12px]">none</code>（不调用工具）、或指定具体工具名称</li>
+            </ul>
+          </div>
+        </Callout>
         <Playground
           code={`import openai
 
@@ -387,11 +404,11 @@ tools = registry.get_all_tools()`}
         />
         <DiagramBlock title="工具路由决策流程">
           <div className="text-[13px] sm:text-[14px] font-mono text-ink-muted leading-relaxed text-left space-y-2">
-            <div><span className="text-indigo font-semibold">用户输入</span> → "帮我查一下明天的航班"</div>
-            <div><span className="text-teal font-semibold">意图识别 (LLM)</span> → 旅行相关 → 可能需要航班信息</div>
-            <div><span className="text-sky font-semibold">工具匹配 (LLM)</span> → search_flights vs get_weather vs web_search</div>
-            <div><span className="text-amber font-semibold">参数提取 (LLM)</span> → {"{from: '北京', to: '上海', date: '2024-01-01'}"}</div>
-            <div><span className="text-emerald font-semibold">执行工具</span> → 调用 search_flights()</div>
+            <div><span className="text-indigo font-semibold">【输入】用户输入</span> → "帮我查一下明天的航班"</div>
+            <div><span className="text-teal font-semibold">【处理】意图识别 (LLM)</span> → 旅行相关 → 可能需要航班信息</div>
+            <div><span className="text-sky font-semibold">【处理】工具匹配 (LLM)</span> → search_flights vs get_weather vs web_search</div>
+            <div><span className="text-amber font-semibold">【处理】参数提取 (LLM)</span> → {"{from: '北京', to: '上海', date: '2024-01-01'}"}</div>
+            <div><span className="text-emerald font-semibold">【输出】执行工具</span> → 调用 search_flights()</div>
           </div>
         </DiagramBlock>
 

@@ -84,7 +84,7 @@
 调用create-knowledge-page  技能创建 http-protocol
 调用create-knowledge-page  技能创建 restful-api
 ```
---------------------------------------------------
+
 ### 💡 创建提示词（第2组）
 ```
 调用create-knowledge-page  技能创建 socket-programming
@@ -114,6 +114,7 @@
 3. **项目结构与规范（未实现）** `(project-structure)`
 4. **CI/CD持续集成部署（未实现）** `(cicd)`
 
+--------------------------------------------------
 ## 📚 12-java-security
 
 ### 💡 创建提示词
