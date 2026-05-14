@@ -451,6 +451,17 @@ export const domains: Domain[] = [
               { slug: 'clickhouse-distributed', title: 'ClickHouse分布式集群（未实现）', meta: { id: 'clickhouse-distributed', title: 'ClickHouse分布式集群', level: 'Expert', tags: ['分片', '副本', 'ZooKeeper', '分布式表', '全局字典', '负载均衡'], difficulty: 5, category: 'clickhouse', prerequisites: ['clickhouse-architecture'], relatedPatterns: ['distributed-systems', 'high-availability'], readingTime: 65 } },
             ],
           },
+          {
+            id: 'database-comparison',
+            title: '数据库技术选型与对比',
+            icon: '⚖️',
+            description: '主流数据库的横向对比、选型指南与场景分析',
+            difficulty: 4,
+            color: 'blue',
+            articles: [
+              { slug: 'mysql-vs-postgresql', title: 'MySQL vs PostgreSQL：深度对比与选型指南', meta: { id: 'mysql-vs-postgresql', title: 'MySQL vs PostgreSQL：深度对比与选型指南', level: 'Expert', tags: ['MySQL', 'PostgreSQL', '技术选型', '性能对比', '适用场景', '架构差异'], difficulty: 4, category: 'database-comparison', prerequisites: ['mysql-architecture', 'postgresql-core'], relatedPatterns: ['sql-optimization', 'high-availability'], readingTime: 60 } },
+            ],
+          },
         ],
       },
       {

@@ -455,10 +455,26 @@ if len(messages) > MAX_TURNS * 2 + 1:  # +1 是 system 消息
           <span className="text-emerald font-semibold">④ 动态截断</span>：采用滑动窗口策略，保留 system + 最近 N 轮对话，删除早期消息控制长度
         </SideNote>
 
-        {/* 多轮对话 Mermaid 时序图 - 测试用 */}
-        <DiagramBlock title="测试流程图">
-{`graph LR
-    A[Start] --> B[End]`}
+        {/* 工具调用流程时序图 */}
+        <DiagramBlock title="工具调用流程（时序图）">
+{`sequenceDiagram
+    participant U as 👤 User
+    participant C as 💻 Client
+    participant L as 🤖 LLM
+    participant T as 🔧 Tool
+
+    U->>C: "北京天气如何？"
+    C->>L: messages + tools 定义
+    Note over L: 分析用户意图<br/>决定调用工具
+    L-->>C: tool_calls[{get_current_weather, {location:"北京"}}]
+    Note over C: 第1轮结束<br/>finish_reason="tool_calls"
+    C->>T: 执行 get_current_weather("北京")
+    T-->>C: {temp: 25°C, condition: "晴"}
+    Note over C: 追加 role="tool" 消息
+    C->>L: messages + tool result
+    Note over L: 基于工具结果<br/>生成自然语言
+    L-->>C: "北京今天晴，气温25°C"
+    C->>U: 最终回答`}
         </DiagramBlock>
 
         <h3 id="responses-api" className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
@@ -812,6 +828,7 @@ if response.choices[0].finish_reason == "tool_calls":
         {/* Function Calling 交互式流程 */}
         <InteractiveFlow
           title="Function Calling 执行流程"
+          orientation="vertical"
           steps={[
             { label: '发送请求', description: 'User 发送消息 + tools 定义给 LLM。模型收到可选工具列表和用户问题。', icon: '📤' },
             { label: '模型决策', description: 'LLM 判断需要调用 get_current_weather，返回 tool_calls（包含函数名和参数 {location: "北京"}）。', icon: '🧠' },
@@ -1038,18 +1055,14 @@ print(event.model_dump_json(indent=2))
         {/* 传统方式 vs 新方式对比 — Mermaid */}
         <DiagramBlock title="结构化输出：传统方式 vs 新方式">
 {`graph LR
-    subgraph 传统方式
-        A1["Prompt 要求 JSON"] --> A2["json.loads()"]
-        A2 --> A3["手动校验"]
-        A3 --> A4["错误处理"]
-        A4 --> A5["提取字段"]
-    end
-
-    subgraph 新方式
-        B1["定义 Pydantic Model"] --> B2["parse() 调用"]
-        B2 --> B3["直接获得对象 ✅"]
-    end
-
+    A1["Prompt 要求 JSON"] --> A2["json.loads()"]
+    A2 --> A3["手动校验"]
+    A3 --> A4["错误处理"]
+    A4 --> A5["提取字段"]
+    
+    B1["定义 Pydantic Model"] --> B2["parse() 调用"]
+    B2 --> B3["直接获得对象 ✅"]
+    
     style A1 fill:#fef2f2,stroke:#ef4444
     style A2 fill:#fef2f2,stroke:#ef4444
     style A3 fill:#fef2f2,stroke:#ef4444

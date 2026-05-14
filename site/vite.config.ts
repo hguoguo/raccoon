@@ -13,4 +13,7 @@ export default defineConfig({
     allowedHosts: true,
     port: 5173,
   },
+  optimizeDeps: {
+    include: ['mermaid'],
+  },
 })

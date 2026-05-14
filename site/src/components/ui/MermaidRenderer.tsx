@@ -49,6 +49,7 @@ export default function MermaidRenderer({ code }: MermaidRendererProps) {
       .replace(/\n?```\s*$/i, '')
       .trim()
 
+    // 使用 mermaid.render 进行渲染
     mermaid
       .render(id, cleanCode)
       .then(({ svg: renderedSvg }) => {

@@ -1,0 +1,620 @@
+import KnowledgeLayout from '../../../../../components/knowledge/KnowledgeLayout'
+import Playground from '../../../../../components/knowledge/Playground'
+import InteractiveFlow from '../../../../../components/knowledge/InteractiveFlow'
+import SideNote from '../../../../../components/knowledge/SideNote'
+import ContextSwitcher from '../../../../../components/knowledge/ContextSwitcher'
+import SmartTOC from '../../../../../components/knowledge/SmartTOC'
+import Callout from '../../../../../components/ui/Callout'
+import DiagramBlock from '../../../../../components/ui/DiagramBlock'
+import InterviewSection from '../../../../../components/ui/InterviewSection'
+import ArticleNav from '../../../../../components/article/ArticleNav'
+import { getArticleNav } from '../../../../../data/chapters'
+import type { KnowledgeNode, TocItem } from '../../../../../data/types'
+
+const tocItems: TocItem[] = [
+  { id: 'definition', text: '一句话定义', level: 2 },
+  { id: 'overview', text: '一、高可用架构概述', level: 2 },
+  { id: 'master-slave', text: '二、主从同步架构', level: 2 },
+  { id: 'sync-mode', text: '2.1 同步双写模式', level: 3 },
+  { id: 'async-mode', text: '2.2 异步复制模式', level: 3 },
+  { id: 'replication-principle', text: '2.3 复制原理', level: 3 },
+  { id: 'dledger', text: '三、DLedger 高可用方案', level: 2 },
+  { id: 'raft-algorithm', text: '3.1 Raft 算法基础', level: 3 },
+  { id: 'dledger-arch', text: '3.2 DLedger 架构设计', level: 3 },
+  { id: 'leader-election', text: '3.3 Leader 选举流程', level: 3 },
+  { id: 'failover', text: '四、故障切换机制', level: 2 },
+  { id: 'detect-failure', text: '4.1 故障检测', level: 3 },
+  { id: 'switch-process', text: '4.2 切换流程', level: 3 },
+  { id: 'split-brain', text: '4.3 脑裂问题', level: 3 },
+  { id: 'disaster-recovery', text: '五、容灾方案设计', level: 2 },
+  { id: 'multi-dc', text: '5.1 多数据中心部署', level: 3 },
+  { id: 'geo-replication', text: '5.2 异地复制', level: 3 },
+  { id: 'backup-strategy', text: '5.3 备份策略', level: 3 },
+  { id: 'monitoring', text: '六、监控与告警', level: 2 },
+  { id: 'key-metrics', text: '6.1 关键指标', level: 3 },
+  { id: 'alert-rules', text: '6.2 告警规则', level: 3 },
+  { id: 'best-practices', text: '七、最佳实践', level: 2 },
+  { id: 'deployment', text: '7.1 部署建议', level: 3 },
+  { id: 'tuning', text: '7.2 参数调优', level: 3 },
+  { id: 'misconceptions', text: '八、常见误区', level: 2 },
+  { id: 'interview', text: '九、面试真题', level: 2 },
+  { id: 'related', text: '十、知识关联', level: 2 },
+]
+
+export default function RocketmqHa({ meta }: { meta: KnowledgeNode }) {
+  return (
+    <div className="flex max-w-[100vw] overflow-x-hidden">
+      <div className="flex-1 min-w-0 px-4 sm:px-6 lg:px-10 xl:px-12 xl:pr-[240px] pb-20">
+        <KnowledgeLayout meta={meta}>
+
+          {/* ========== 一句话定义 ========== */}
+          <h2 id="definition" className="font-display font-bold text-[20px] sm:text-display-md tracking-tight mt-6 sm:mt-10 mb-3 sm:mb-4 pb-[10px] border-b border-border-light text-ink">
+            一句话定义
+          </h2>
+          <blockquote className="border-l-[3px] border-accent pl-4 sm:pl-5 py-2 my-5 bg-accent-soft/40 rounded-r-paper-md">
+            <p className="text-[15px] sm:text-base text-ink-light leading-[1.8] font-medium">
+              RocketMQ 高可用通过<strong className="text-accent">主从同步</strong>和<strong className="text-accent">DLedger 集群</strong>两种方案实现，支持数据冗余、故障自动切换和容灾恢复，确保消息中间件在硬件故障、网络异常等情况下仍能持续提供服务，满足金融级可靠性要求。
+            </p>
+          </blockquote>
+
+          {/* ========== 一、高可用架构概述 ========== */}
+          <h2 id="overview" className="font-display font-bold text-[20px] sm:text-display-md tracking-tight mt-8 sm:mt-12 mb-3 sm:mb-4 pb-[10px] border-b border-border-light text-ink">
+            一、高可用架构概述
+          </h2>
+          <p className="text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4">
+            RocketMQ 提供两种高可用方案：<strong>传统主从架构</strong>和<strong>DLedger 架构</strong>。前者简单成熟但不支持自动切换，后者基于 Raft 算法支持自动故障转移。
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+            <div className="bg-surface border border-border-light rounded-paper-sm p-4">
+              <h3 className="font-semibold text-ink mb-2">🔹 传统主从架构</h3>
+              <ul className="text-[13px] sm:text-[14px] text-ink-muted space-y-1 list-disc list-inside">
+                <li>Master-Slave 模式</li>
+                <li>支持同步/异步复制</li>
+                <li>需要人工切换</li>
+                <li>成熟稳定</li>
+              </ul>
+            </div>
+            <div className="bg-surface border border-border-light rounded-paper-sm p-4">
+              <h3 className="font-semibold text-ink mb-2">🔹 DLedger 架构</h3>
+              <ul className="text-[13px] sm:text-[14px] text-ink-muted space-y-1 list-disc list-inside">
+                <li>基于 Raft 算法</li>
+                <li>自动 Leader 选举</li>
+                <li>强一致性保证</li>
+                <li>自动故障切换</li>
+              </ul>
+            </div>
+          </div>
+
+          <Callout type="info" title="选择建议">
+            <p className="text-[14px] sm:text-[15px] leading-[1.8]">
+              对于对可用性要求极高的场景（如金融交易），建议使用 DLedger 架构；对于一般业务场景，传统主从架构已经足够，且运维更简单。
+            </p>
+          </Callout>
+
+          {/* ========== 二、主从同步架构 ========== */}
+          <h2 id="master-slave" className="font-display font-bold text-[20px] sm:text-display-md tracking-tight mt-8 sm:mt-12 mb-3 sm:mb-4 pb-[10px] border-b border-border-light text-ink">
+            二、主从同步架构
+          </h2>
+          <p className="text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4">
+            传统主从架构是 RocketMQ 最早的高可用方案，采用一主多从的部署方式，Master 负责读写，Slave 只负责读和数据备份。
+          </p>
+
+          <DiagramBlock title="主从同步架构图">
+            {`graph TB
+              subgraph "Broker Group 1"
+                M1["Master 1<br/>可读可写"]
+                S1["Slave 1<br/>只读"]
+                S2["Slave 2<br/>只读"]
+                
+                M1 -->|"Sync/Async"| S1
+                M1 -->|"Sync/Async"| S2
+              end
+
+              subgraph "Broker Group 2"
+                M2["Master 2<br/>可读可写"]
+                S3["Slave 3<br/>只读"]
+                
+                M2 -->|"Sync/Async"| S3
+              end
+
+              P["Producer"] --> M1
+              P --> M2
+              
+              C["Consumer"] --> M1
+              C --> S1
+              C --> M2
+              C --> S3
+
+              style M1 fill:#f96,stroke:#333,stroke-width:2px
+              style M2 fill:#f96,stroke:#333,stroke-width:2px`}
+          </DiagramBlock>
+
+          <h3 id="sync-mode" className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
+            2.1 同步双写模式
+          </h3>
+          <p className="text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4">
+            同步双写模式下，消息写入 Master 后，必须等待所有 Slave 也写入成功才返回给 Producer。
+          </p>
+
+          <ul className="list-disc list-inside space-y-2 text-[14px] sm:text-[15px] leading-[1.8] text-ink-muted mb-6 ml-2">
+            <li><strong>可靠性高</strong>：确保消息在多个节点都有副本</li>
+            <li><strong>性能较低</strong>：需要等待所有 Slave 确认，RT 增加</li>
+            <li><strong>适用场景</strong>：对数据可靠性要求极高的场景</li>
+            <li><strong>配置项</strong>：<code className="font-mono text-[13px] bg-parchment-deep px-1.5 py-0.5 rounded-[3px]">flushDiskType=SYNC_FLUSH</code></li>
+          </ul>
+
+          <h3 id="async-mode" className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
+            2.2 异步复制模式
+          </h3>
+          <p className="text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4">
+            异步复制模式下，消息写入 Master 后立即返回，后台异步复制到 Slave。
+          </p>
+
+          <ul className="list-disc list-inside space-y-2 text-[14px] sm:text-[15px] leading-[1.8] text-ink-muted mb-6 ml-2">
+            <li><strong>性能高</strong>：无需等待 Slave 确认，RT 低</li>
+            <li><strong>可能丢数据</strong>：Master 宕机时，未同步的数据会丢失</li>
+            <li><strong>适用场景</strong>：对性能要求高、可以容忍少量数据丢失的场景</li>
+            <li><strong>配置项</strong>：<code className="font-mono text-[13px] bg-parchment-deep px-1.5 py-0.5 rounded-[3px]">flushDiskType=ASYNC_FLUSH</code></li>
+          </ul>
+
+          <table className="w-full border-collapse text-[13px] sm:text-[14px] mb-6">
+            <thead>
+              <tr className="bg-parchment-deep">
+                <th className="border border-border-light px-3 py-2 text-left font-semibold text-ink">对比项</th>
+                <th className="border border-border-light px-3 py-2 text-left font-semibold text-ink">同步双写</th>
+                <th className="border border-border-light px-3 py-2 text-left font-semibold text-ink">异步复制</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td className="border border-border-light px-3 py-2 font-medium text-ink">可靠性</td>
+                <td className="border border-border-light px-3 py-2 text-green-600 font-medium">✅ 高</td>
+                <td className="border border-border-light px-3 py-2 text-yellow-600">⚠️ 中</td>
+              </tr>
+              <tr className="bg-surface">
+                <td className="border border-border-light px-3 py-2 font-medium text-ink">性能</td>
+                <td className="border border-border-light px-3 py-2 text-red-600">❌ 低</td>
+                <td className="border border-border-light px-3 py-2 text-green-600 font-medium">✅ 高</td>
+              </tr>
+              <tr>
+                <td className="border border-border-light px-3 py-2 font-medium text-ink">延迟</td>
+                <td className="border border-border-light px-3 py-2 text-red-600">较高</td>
+                <td className="border border-border-light px-3 py-2 text-green-600 font-medium">较低</td>
+              </tr>
+              <tr className="bg-surface">
+                <td className="border border-border-light px-3 py-2 font-medium text-ink">吞吐量</td>
+                <td className="border border-border-light px-3 py-2 text-red-600">较低</td>
+                <td className="border border-border-light px-3 py-2 text-green-600 font-medium">较高</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3 id="replication-principle" className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
+            2.3 复制原理
+          </h3>
+          <p className="text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4">
+            主从复制的核心流程：
+          </p>
+
+          <ol className="list-decimal list-inside space-y-2 text-[14px] sm:text-[15px] leading-[1.8] text-ink-muted mb-6 ml-2">
+            <li><strong>建立连接</strong>：Slave 启动后向 Master 建立长连接</li>
+            <li><strong>请求同步</strong>：Slave 定期向 Master 请求最新的 CommitLog 偏移量</li>
+            <li><strong>传输数据</strong>：Master 将差异数据发送给 Slave</li>
+            <li><strong>写入磁盘</strong>：Slave 将接收到的数据写入本地 CommitLog</li>
+            <li><strong>更新位点</strong>：Slave 更新已同步的位点，继续下一轮同步</li>
+          </ol>
+
+          <SideNote label="关键点">
+            <p className="text-[13px] leading-[1.7]">
+              主从复制是基于 CommitLog 的物理复制，不是逻辑复制。Slave 会完整复制 Master 的所有数据，包括不同 Topic 的消息。
+            </p>
+          </SideNote>
+
+          {/* ========== 三、DLedger 高可用方案 ========== */}
+          <h2 id="dledger" className="font-display font-bold text-[20px] sm:text-display-md tracking-tight mt-8 sm:mt-12 mb-3 sm:mb-4 pb-[10px] border-b border-border-light text-ink">
+            三、DLedger 高可用方案
+          </h2>
+          <p className="text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4">
+            DLedger 是 RocketMQ 4.5+ 引入的高可用方案，基于 Raft 共识算法实现自动故障切换和强一致性保证。
+          </p>
+
+          <h3 id="raft-algorithm" className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
+            3.1 Raft 算法基础
+          </h3>
+          <p className="text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4">
+            Raft 是一种分布式共识算法，用于在分布式系统中达成一致。核心概念包括：
+          </p>
+
+          <ul className="list-disc list-inside space-y-2 text-[14px] sm:text-[15px] leading-[1.8] text-ink-muted mb-6 ml-2">
+            <li><strong>Leader</strong>：领导者，处理所有客户端请求</li>
+            <li><strong>Follower</strong>：跟随者，被动接收 Leader 的数据</li>
+            <li><strong>Candidate</strong>：候选人，参与 Leader 选举</li>
+            <li><strong>Term</strong>：任期，每次选举产生新的 Term</li>
+            <li><strong>多数派</strong>：超过半数的节点同意即可提交</li>
+          </ul>
+
+          <DiagramBlock title="Raft 角色转换">
+            {`graph LR
+              A["Follower"] -->|"超时"| B["Candidate"]
+              B -->|"获得多数票"| C["Leader"]
+              C -->|"心跳超时"| B
+              B -->|"发现更高Term"| A
+              C -->|"发现更高Term"| A
+
+              style C fill:#f96,stroke:#333,stroke-width:2px
+              style A fill:#bbf,stroke:#333,stroke-width:2px
+              style B fill:#ff9,stroke:#333,stroke-width:2px`}
+          </DiagramBlock>
+
+          <h3 id="dledger-arch" className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
+            3.2 DLedger 架构设计
+          </h3>
+          <p className="text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4">
+            DLedger 集群通常由 3 个或 5 个节点组成，采用奇数节点以便进行选举。
+          </p>
+
+          <ul className="list-disc list-inside space-y-2 text-[14px] sm:text-[15px] leading-[1.8] text-ink-muted mb-6 ml-2">
+            <li><strong>节点数量</strong>：推荐 3 或 5 个节点，最多支持 9 个</li>
+            <li><strong>数据存储</strong>：每个节点都保存完整的数据副本</li>
+            <li><strong>日志复制</strong>：Leader 将日志复制到 Follower</li>
+            <li><strong>一致性保证</strong>：多数派确认后认为提交成功</li>
+          </ul>
+
+          <h3 id="leader-election" className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
+            3.3 Leader 选举流程
+          </h3>
+          <p className="text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4">
+            Leader 选举的详细流程：
+          </p>
+
+          <ol className="list-decimal list-inside space-y-2 text-[14px] sm:text-[15px] leading-[1.8] text-ink-muted mb-6 ml-2">
+            <li><strong>触发选举</strong>：Follower 在一定时间内未收到 Leader 心跳，转为 Candidate</li>
+            <li><strong>增加任期</strong>：Candidate 将自己的 Term +1</li>
+            <li><strong>请求投票</strong>：向其他节点发送投票请求（包含自己的 Term 和日志信息）</li>
+            <li><strong>投票决策</strong>：节点根据以下条件投票：
+              <ul className="list-disc list-inside ml-6 mt-2 space-y-1">
+                <li>如果请求的 Term 小于当前 Term，拒绝投票</li>
+                <li>如果尚未投票给其他 Candidate，且请求者的日志更新或相同，则投票</li>
+              </ul>
+            </li>
+            <li><strong>统计票数</strong>：获得超过半数票的 Candidate 成为新 Leader</li>
+            <li><strong>发送心跳</strong>：新 Leader 开始向 Follower 发送心跳，维持领导地位</li>
+          </ol>
+
+          <Callout type="warning" title="选举期间的服务中断">
+            <p className="text-[14px] sm:text-[15px] leading-[1.8]">
+              Leader 选举期间（通常几秒到十几秒），集群无法提供服务。因此，应尽量避免频繁选举，合理设置选举超时时间。
+            </p>
+          </Callout>
+
+          {/* ========== 四、故障切换机制 ========== */}
+          <h2 id="failover" className="font-display font-bold text-[20px] sm:text-display-md tracking-tight mt-8 sm:mt-12 mb-3 sm:mb-4 pb-[10px] border-b border-border-light text-ink">
+            四、故障切换机制
+          </h2>
+
+          <h3 id="detect-failure" className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
+            4.1 故障检测
+          </h3>
+          <p className="text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4">
+            RocketMQ 通过以下方式检测节点故障：
+          </p>
+
+          <ul className="list-disc list-inside space-y-2 text-[14px] sm:text-[15px] leading-[1.8] text-ink-muted mb-6 ml-2">
+            <li><strong>心跳机制</strong>：Leader 定期向 Follower 发送心跳（默认 1 秒一次）</li>
+            <li><strong>超时判断</strong>：Follower 超过选举超时时间（默认 15 秒）未收到心跳，认为 Leader 故障</li>
+            <li><strong>网络探测</strong>：通过 TCP 连接状态判断节点是否可达</li>
+            <li><strong>健康检查</strong>：定期检查节点的磁盘、内存等资源状态</li>
+          </ul>
+
+          <h3 id="switch-process" className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
+            4.2 切换流程
+          </h3>
+          <p className="text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4">
+            以 DLedger 为例，故障切换流程如下：
+          </p>
+
+          <ol className="list-decimal list-inside space-y-2 text-[14px] sm:text-[15px] leading-[1.8] text-ink-muted mb-6 ml-2">
+            <li><strong>检测故障</strong>：Follower 检测到 Leader 无响应</li>
+            <li><strong>发起选举</strong>：Follower 转为 Candidate，发起新一轮选举</li>
+            <li><strong>选出新 Leader</strong>：获得多数票的 Candidate 成为新 Leader</li>
+            <li><strong>数据同步</strong>：新 Leader 与 Follower 同步数据，确保一致性</li>
+            <li><strong>恢复服务</strong>：新 Leader 开始接受客户端请求</li>
+            <li><strong>通知客户端</strong>：NameServer 更新路由信息，客户端重新获取路由</li>
+          </ol>
+
+          <DiagramBlock title="故障切换时序图">
+            {`sequenceDiagram
+              participant F1 as Follower 1
+              participant F2 as Follower 2
+              participant L as Leader (故障)
+              participant N as NameServer
+              participant C as Client
+
+              Note over L: Leader 故障
+              F1->>F1: 检测超时
+              F2->>F2: 检测超时
+              
+              F1->>F1: 转为 Candidate
+              F1->>F2: 请求投票
+              F2->>F1: 投票
+              
+              F1->>F1: 成为新 Leader
+              F1->>F2: 发送心跳
+              F1->>N: 注册为新 Master
+              
+              C->>N: 查询路由
+              N-->>C: 返回新 Master 地址
+              C->>F1: 发送消息`}
+          </DiagramBlock>
+
+          <h3 id="split-brain" className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
+            4.3 脑裂问题
+          </h3>
+          <p className="text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4">
+            脑裂是指由于网络分区，导致集群中出现多个 Leader 的情况。Raft 算法通过以下机制避免脑裂：
+          </p>
+
+          <ul className="list-disc list-inside space-y-2 text-[14px] sm:text-[15px] leading-[1.8] text-ink-muted mb-6 ml-2">
+            <li><strong>任期机制</strong>：每个 Leader 有唯一的 Term，旧 Term 的 Leader 会被拒绝</li>
+            <li><strong>多数派原则</strong>：只有获得多数票才能成为 Leader，避免同时存在多个 Leader</li>
+            <li><strong>日志一致性</strong>：新 Leader 必须拥有最新的已提交日志，确保数据一致性</li>
+          </ul>
+
+          <Callout type="tip" title="网络分区处理">
+            <p className="text-[14px] sm:text-[15px] leading-[1.8]">
+              当发生网络分区时，只有包含多数派节点的分区可以继续提供服务，少数派分区会停止服务，直到网络恢复。这是为了保证数据一致性而做出的权衡。
+            </p>
+          </Callout>
+
+          {/* ========== 五、容灾方案设计 ========== */}
+          <h2 id="disaster-recovery" className="font-display font-bold text-[20px] sm:text-display-md tracking-tight mt-8 sm:mt-12 mb-3 sm:mb-4 pb-[10px] border-b border-border-light text-ink">
+            五、容灾方案设计
+          </h2>
+
+          <h3 id="multi-dc" className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
+            5.1 多数据中心部署
+          </h3>
+          <p className="text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4">
+            为了应对数据中心级别的故障，可以采用多数据中心部署方案：
+          </p>
+
+          <ul className="list-disc list-inside space-y-2 text-[14px] sm:text-[15px] leading-[1.8] text-ink-muted mb-6 ml-2">
+            <li><strong>同城双活</strong>：在同城两个数据中心部署，实现负载均衡和故障切换</li>
+            <li><strong>异地灾备</strong>：在异地部署备用集群，应对区域性灾难</li>
+            <li><strong>单元化架构</strong>：按用户或业务划分单元，每个单元独立部署</li>
+            <li><strong>流量调度</strong>：通过 DNS 或负载均衡器实现流量的动态调度</li>
+          </ul>
+
+          <h3 id="geo-replication" className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
+            5.2 异地复制
+          </h3>
+          <p className="text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4">
+            异地复制的实现方式：
+          </p>
+
+          <ul className="list-disc list-inside space-y-2 text-[14px] sm:text-[15px] leading-[1.8] text-ink-muted mb-6 ml-2">
+            <li><strong>异步复制</strong>：主集群异步复制数据到异地集群，延迟较低但可能丢数据</li>
+            <li><strong>同步复制</strong>：主集群同步复制到异地集群，可靠性高但延迟较大</li>
+            <li><strong>混合模式</strong>：同城同步 + 异地异步，平衡性能和可靠性</li>
+          </ul>
+
+          <h3 id="backup-strategy" className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
+            5.3 备份策略
+          </h3>
+          <p className="text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4">
+            数据备份的关键策略：
+          </p>
+
+          <ul className="list-disc list-inside space-y-2 text-[14px] sm:text-[15px] leading-[1.8] text-ink-muted mb-6 ml-2">
+            <li><strong>定期快照</strong>：定期对 CommitLog 进行快照备份</li>
+            <li><strong>增量备份</strong>：基于快照进行增量备份，减少存储空间</li>
+            <li><strong>异地存储</strong>：备份数据存储在异地，防止单点故障</li>
+            <li><strong>恢复演练</strong>：定期进行恢复演练，验证备份的有效性</li>
+          </ul>
+
+          {/* ========== 六、监控与告警 ========== */}
+          <h2 id="monitoring" className="font-display font-bold text-[20px] sm:text-display-md tracking-tight mt-8 sm:mt-12 mb-3 sm:mb-4 pb-[10px] border-b border-border-light text-ink">
+            六、监控与告警
+          </h2>
+
+          <h3 id="key-metrics" className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
+            6.1 关键指标
+          </h3>
+          <p className="text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4">
+            需要重点监控的指标：
+          </p>
+
+          <table className="w-full border-collapse text-[13px] sm:text-[14px] mb-6">
+            <thead>
+              <tr className="bg-parchment-deep">
+                <th className="border border-border-light px-3 py-2 text-left font-semibold text-ink">指标类别</th>
+                <th className="border border-border-light px-3 py-2 text-left font-semibold text-ink">具体指标</th>
+                <th className="border border-border-light px-3 py-2 text-left font-semibold text-ink">告警阈值</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td className="border border-border-light px-3 py-2 font-medium text-ink">集群状态</td>
+                <td className="border border-border-light px-3 py-2 text-ink-muted">Broker 存活数、Leader 状态</td>
+                <td className="border border-border-light px-3 py-2 text-ink-muted">Broker 下线立即告警</td>
+              </tr>
+              <tr className="bg-surface">
+                <td className="border border-border-light px-3 py-2 font-medium text-ink">消息堆积</td>
+                <td className="border border-border-light px-3 py-2 text-ink-muted">各 Queue 的未消费消息数</td>
+                <td className="border border-border-light px-3 py-2 text-ink-muted">堆积 &gt; 10万</td>
+              </tr>
+              <tr>
+                <td className="border border-border-light px-3 py-2 font-medium text-ink">性能指标</td>
+                <td className="border border-border-light px-3 py-2 text-ink-muted">TPS、RT、成功率</td>
+                <td className="border border-border-light px-3 py-2 text-ink-muted">RT &gt; 100ms</td>
+              </tr>
+              <tr className="bg-surface">
+                <td className="border border-border-light px-3 py-2 font-medium text-ink">资源使用</td>
+                <td className="border border-border-light px-3 py-2 text-ink-muted">CPU、内存、磁盘使用率</td>
+                <td className="border border-border-light px-3 py-2 text-ink-muted">磁盘 &gt; 80%</td>
+              </tr>
+              <tr>
+                <td className="border border-border-light px-3 py-2 font-medium text-ink">复制延迟</td>
+                <td className="border border-border-light px-3 py-2 text-ink-muted">主从复制延迟、DLedger 同步延迟</td>
+                <td className="border border-border-light px-3 py-2 text-ink-muted">延迟 &gt; 1s</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3 id="alert-rules" className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
+            6.2 告警规则
+          </h3>
+          <p className="text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4">
+            建议设置的告警规则：
+          </p>
+
+          <ul className="list-disc list-inside space-y-2 text-[14px] sm:text-[15px] leading-[1.8] text-ink-muted mb-6 ml-2">
+            <li><strong>P0 紧急</strong>：Broker 宕机、Leader 切换、数据不一致</li>
+            <li><strong>P1 重要</strong>：消息堆积严重、复制延迟过大、磁盘空间不足</li>
+            <li><strong>P2 警告</strong>：TPS 下降、RT 升高、资源使用率偏高</li>
+            <li><strong>P3 提示</strong>：常规巡检、容量规划提醒</li>
+          </ul>
+
+          {/* ========== 七、最佳实践 ========== */}
+          <h2 id="best-practices" className="font-display font-bold text-[20px] sm:text-display-md tracking-tight mt-8 sm:mt-12 mb-3 sm:mb-4 pb-[10px] border-b border-border-light text-ink">
+            七、最佳实践
+          </h2>
+
+          <h3 id="deployment" className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
+            7.1 部署建议
+          </h3>
+          <p className="text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4">
+            高可用部署的最佳实践：
+          </p>
+
+          <ul className="list-disc list-inside space-y-2 text-[14px] sm:text-[15px] leading-[1.8] text-ink-muted mb-6 ml-2">
+            <li><strong>节点分布</strong>：将节点部署在不同的物理机、机架甚至数据中心</li>
+            <li><strong>奇数节点</strong>：DLedger 集群使用 3 或 5 个节点，避免脑裂</li>
+            <li><strong>网络隔离</strong>：生产环境与管理网络分离，避免相互影响</li>
+            <li><strong>资源预留</strong>：预留足够的 CPU、内存和磁盘资源，避免资源竞争</li>
+            <li><strong>灰度升级</strong>：升级时逐个节点进行，避免服务中断</li>
+          </ul>
+
+          <h3 id="tuning" className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
+            7.2 参数调优
+          </h3>
+          <p className="text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4">
+            关键参数调优建议：
+          </p>
+
+          <ul className="list-disc list-inside space-y-2 text-[14px] sm:text-[15px] leading-[1.8] text-ink-muted mb-6 ml-2">
+            <li><strong>刷盘策略</strong>：根据可靠性要求选择 SYNC_FLUSH 或 ASYNC_FLUSH</li>
+            <li><strong>复制模式</strong>：高可靠性场景使用同步复制，高性能场景使用异步复制</li>
+            <li><strong>选举超时</strong>：合理设置 electionTimeoutMs，避免频繁选举</li>
+            <li><strong>心跳间隔</strong>：调整 heartbeatIntervalMs，平衡检测速度和网络开销</li>
+            <li><strong>保留时间</strong>：根据业务需求设置文件保留时间，避免磁盘爆满</li>
+          </ul>
+
+          {/* ========== 八、常见误区 ========== */}
+          <h2 id="misconceptions" className="font-display font-bold text-[20px] sm:text-display-md tracking-tight mt-8 sm:mt-12 mb-3 sm:mb-4 pb-[10px] border-b border-border-light text-ink">
+            八、常见误区
+          </h2>
+
+          <div className="space-y-4 mb-6">
+            <div className="bg-red-50 border-l-4 border-red-500 p-4 rounded-r">
+              <p className="text-[14px] sm:text-[15px] leading-[1.8] text-ink">
+                <strong className="text-red-700">误区 1：</strong>主从架构支持自动切换
+              </p>
+              <p className="text-[13px] sm:text-[14px] leading-[1.7] text-ink-muted mt-2">
+                <strong className="text-green-700">正解：</strong>传统主从架构不支持自动切换，需要人工干预。只有 DLedger 架构才支持基于 Raft 的自动故障切换。
+              </p>
+            </div>
+
+            <div className="bg-red-50 border-l-4 border-red-500 p-4 rounded-r">
+              <p className="text-[14px] sm:text-[15px] leading-[1.8] text-ink">
+                <strong className="text-red-700">误区 2：</strong>同步复制不会影响性能
+              </p>
+              <p className="text-[13px] sm:text-[14px] leading-[1.7] text-ink-muted mt-2">
+                <strong className="text-green-700">正解：</strong>同步复制会显著增加 RT，因为需要等待所有副本确认。在对延迟敏感的场景下，应谨慎使用同步复制。
+              </p>
+            </div>
+
+            <div className="bg-red-50 border-l-4 border-red-500 p-4 rounded-r">
+              <p className="text-[14px] sm:text-[15px] leading-[1.8] text-ink">
+                <strong className="text-red-700">误区 3：</strong>DLedger 节点越多越好
+              </p>
+              <p className="text-[13px] sm:text-[14px] leading-[1.7] text-ink-muted mt-2">
+                <strong className="text-green-700">正解：</strong>DLedger 节点过多会增加网络开销和选举复杂度。通常 3 或 5 个节点就够了，最多不超过 9 个。
+              </p>
+            </div>
+
+            <div className="bg-red-50 border-l-4 border-red-500 p-4 rounded-r">
+              <p className="text-[14px] sm:text-[15px] leading-[1.8] text-ink">
+                <strong className="text-red-700">误区 4：</strong>有了高可用就不需要备份
+              </p>
+              <p className="text-[13px] sm:text-[14px] leading-[1.7] text-ink-muted mt-2">
+                <strong className="text-green-700">正解：</strong>高可用只能应对节点故障，无法应对数据误删、逻辑错误等问题。仍需定期备份数据，并验证恢复流程。
+              </p>
+            </div>
+          </div>
+
+          {/* ========== 九、面试真题 ========== */}
+          <h2 id="interview" className="font-display font-bold text-[20px] sm:text-display-md tracking-tight mt-8 sm:mt-12 mb-3 sm:mb-4 pb-[10px] border-b border-border-light text-ink">
+            九、面试真题
+          </h2>
+
+          <InterviewSection
+            questions={[
+              {
+                question: 'RocketMQ 的主从同步和 DLedger 有什么区别？',
+                answer: '主从同步是传统方案，Master 负责读写，Slave 只读和备份，不支持自动切换；DLedger 基于 Raft 算法，支持自动 Leader 选举和故障切换，提供强一致性保证。DLedger 更适合对可用性要求高的场景。'
+              },
+              {
+                question: '同步复制和异步复制的优缺点是什么？',
+                answer: '同步复制优点：可靠性高，数据不丢失；缺点：性能低，RT 高。异步复制优点：性能高，RT 低；缺点：Master 宕机时可能丢失未同步的数据。应根据业务需求选择合适的复制模式。'
+              },
+              {
+                question: 'Raft 算法如何保证一致性？',
+                answer: 'Raft 通过以下机制保证一致性：1) Leader 唯一性：同一 Term 只有一个 Leader；2) 多数派原则：只有获得多数票才能提交；3) 日志匹配：新 Leader 必须包含所有已提交的日志；4) 任期机制：通过 Term 避免旧 Leader 干扰。'
+              },
+              {
+                question: '如何避免脑裂问题？',
+                answer: '避免脑裂的方法：1) 使用奇数节点（3 或 5 个）；2) 多数派原则：只有获得多数票才能成为 Leader；3) 任期机制：旧 Term 的 Leader 会被拒绝；4) 网络分区时，只有多数派分区能提供服务。'
+              },
+              {
+                question: 'RocketMQ 如何实现异地容灾？',
+                answer: '异地容灾方案：1) 异步复制：主集群异步复制数据到异地，延迟低但可能丢数据；2) 同步复制：可靠性高但延迟大；3) 混合模式：同城同步 + 异地异步；4) 单元化架构：按业务划分单元，独立部署在不同地域。'
+              }
+            ]}
+          />
+
+          {/* ========== 十、知识关联 ========== */}
+          <h2 id="related" className="font-display font-bold text-[20px] sm:text-display-md tracking-tight mt-8 sm:mt-12 mb-3 sm:mb-4 pb-[10px] border-b border-border-light text-ink">
+            十、知识关联
+          </h2>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+            <div className="bg-surface rounded-paper-sm p-4 border border-border-light hover:border-accent transition-colors">
+              <h4 className="font-semibold text-ink mb-2">📌 RocketMQ 架构设计</h4>
+              <p className="text-[13px] text-ink-muted">了解 RocketMQ 的整体架构，为理解高可用方案奠定基础</p>
+            </div>
+            <div className="bg-surface rounded-paper-sm p-4 border border-border-light hover:border-accent transition-colors">
+              <h4 className="font-semibold text-ink mb-2">📌 Kafka 高可用</h4>
+              <p className="text-[13px] text-ink-muted">对比学习 Kafka 的 ISR 机制和控制器选举，理解不同 MQ 的高可用设计</p>
+            </div>
+            <div className="bg-surface rounded-paper-sm p-4 border border-border-light hover:border-accent transition-colors">
+              <h4 className="font-semibold text-ink mb-2">📌 分布式一致性</h4>
+              <p className="text-[13px] text-ink-muted">深入学习 Raft、Paxos 等共识算法，理解分布式系统的理论基础</p>
+            </div>
+            <div className="bg-surface rounded-paper-sm p-4 border border-border-light hover:border-accent transition-colors">
+              <h4 className="font-semibold text-ink mb-2">📌 容灾方案设计</h4>
+              <p className="text-[13px] text-ink-muted">了解多数据中心部署、异地复制等容灾技术的实现细节</p>
+            </div>
+          </div>
+
+          {/* ArticleNav 必须在 KnowledgeLayout 内部的最后 */}
+          <ArticleNav {...getArticleNav(meta.category, meta.id)} />
+        </KnowledgeLayout>
+      </div>
+
+      {/* SmartTOC 直接渲染，禁止用 <aside> 包裹！组件自行管理桌面/移动端显隐 */}
+      <SmartTOC items={tocItems} />
+    </div>
+  )
+}
