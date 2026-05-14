@@ -83,13 +83,28 @@ export default function FunctionCalling({ meta }: { meta: KnowledgeNode }) {
               <li><strong>工具描述（description）</strong>：自然语言说明工具的用途和适用场景</li>
               <li><strong>参数结构（parameters）</strong>：JSON Schema 定义输入参数的类型、必填项、取值范围等</li>
             </ul>
-            <p className="mt-2"><strong>识别过程：</strong>LLM 内部会将用户输入与所有工具的 description 进行语义匹配，选择最相关的工具。这个过程类似于阅读理解任务——模型"阅读"工具描述，理解每个工具能做什么，然后判断哪个工具最适合当前用户需求。</p>
+            <p className="mt-2"><strong>识别过程：</strong>LLM 内部会将用户输入与所有工具的 description 进行语义匹配，选择最相关的工具。这个过程类似于阅读理解任务——模型“阅读”工具描述，理解每个工具能做什么，然后判断哪个工具最适合当前用户需求。</p>
             <p className="mt-2"><strong>关键要点：</strong></p>
             <ul className="list-disc list-inside ml-4 space-y-1">
               <li>工具描述越清晰准确，模型识别准确率越高</li>
               <li>工具数量不宜过多（建议 &lt; 20 个），否则会增加模型的决策难度</li>
               <li>可以通过 <code className="font-mono text-[12px]">tool_choice</code> 参数控制模型行为：<code className="font-mono text-[12px]">auto</code>（自动决定）、<code className="font-mono text-[12px]">none</code>（不调用工具）、或指定具体工具名称</li>
             </ul>
+            <div className="mt-4">
+              <Callout type="warning" title="Token 成本考虑">
+                <div className="text-[13px] sm:text-[14px] leading-[1.7] space-y-2">
+                  <p><strong>是的，工具定义会消耗 Token！</strong>每次 API 调用时，所有工具的 JSON Schema 都会作为 prompt 的一部分发送给 LLM，这会直接增加输入 Token 数量。</p>
+                  <p className="mt-2"><strong>优化策略：</strong></p>
+                  <ul className="list-disc list-inside ml-4 space-y-1">
+                    <li><strong>精简描述：</strong>保持 description 简洁明了，避免冗余信息（每个工具约 50-100 tokens）</li>
+                    <li><strong>动态加载：</strong>根据用户意图动态选择相关工具子集，而非每次都传入全部工具</li>
+                    <li><strong>工具分组：</strong>将工具按领域分组，先让 LLM 判断领域，再加载对应组的工具</li>
+                    <li><strong>缓存优化：</strong>对于相同工具列表的多次调用，利用 LLM 提供商的前缀缓存功能（如 OpenAI 的 prefix caching）</li>
+                    <li><strong>成本控制：</strong>10 个简单工具 ≈ 500-1000 tokens，50 个复杂工具 ≈ 3000-5000 tokens</li>
+                  </ul>
+                </div>
+              </Callout>
+            </div>
           </div>
         </Callout>
         <Playground
@@ -403,13 +418,29 @@ tools = registry.get_all_tools()`}
           description="工具注册和路由管理"
         />
         <DiagramBlock title="工具路由决策流程">
-          <div className="text-[13px] sm:text-[14px] font-mono text-ink-muted leading-relaxed text-left space-y-2">
-            <div><span className="text-indigo font-semibold">【输入】用户输入</span> → "帮我查一下明天的航班"</div>
-            <div><span className="text-teal font-semibold">【处理】意图识别 (LLM)</span> → 旅行相关 → 可能需要航班信息</div>
-            <div><span className="text-sky font-semibold">【处理】工具匹配 (LLM)</span> → search_flights vs get_weather vs web_search</div>
-            <div><span className="text-amber font-semibold">【处理】参数提取 (LLM)</span> → {"{from: '北京', to: '上海', date: '2024-01-01'}"}</div>
-            <div><span className="text-emerald font-semibold">【输出】执行工具</span> → 调用 search_flights()</div>
-          </div>
+          {`\`\`\`mermaid
+graph LR
+    subgraph "准备阶段"
+        A["开发者定义工具<br/>JSON Schema"] --> B["传入 tools 参数<br/>到 LLM API"]
+    end
+    
+    subgraph "运行时"
+        C["用户输入<br/>查明天航班"] --> D{"LLM 决策"}
+        B -.->|可用工具列表| D
+        D -->|匹配 search_flights| E["提取参数<br/>from/to/date"]
+        D -->|无匹配| F["直接回答"]
+        E --> G["执行工具<br/>API 调用"]
+        G --> H["返回结果<br/>给 LLM"]
+        H --> I["生成最终<br/>自然语言回答"]
+    end
+    
+    style A fill:#e0e7ff,stroke:#6366f1,stroke-width:2px
+    style B fill:#ccfbf1,stroke:#14b8a6,stroke-width:2px
+    style D fill:#fef3c7,stroke:#f59e0b,stroke-width:3px
+    style E fill:#e0f2fe,stroke:#0ea5e9,stroke-width:2px
+    style G fill:#d1fae5,stroke:#10b981,stroke-width:2px
+    style I fill:#fce7f3,stroke:#ec4899,stroke-width:2px
+\`\`\``}
         </DiagramBlock>
 
         <h3 id="error-handling" className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">

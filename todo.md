@@ -97,17 +97,16 @@
 
 ## 📚 11-build-tools
 
-### 💡 创建提示词（第1组）
-```
-调用create-knowledge-page  技能创建 maven
-调用create-knowledge-page  技能创建 gradle
-调用create-knowledge-page  技能创建 project-structure
-```
+### ✅ 已完成
+1. **Maven构建工具** `(maven)` - 已创建页面
+2. **Gradle构建工具** `(gradle)` - 已创建页面
+3. **项目结构与规范** `(project-structure)` - 已创建页面
 
 ### 💡 创建提示词（第2组）
 ```
 调用create-knowledge-page  技能创建 cicd
 ```
+✅ 已完成：CI/CD持续集成部署页面已创建
 
 1. **Maven构建工具（未实现）** `(maven)`
 2. **Gradle构建工具（未实现）** `(gradle)`
