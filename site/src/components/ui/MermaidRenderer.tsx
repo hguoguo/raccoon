@@ -19,6 +19,10 @@ function initMermaid() {
     theme: 'default',
     securityLevel: 'loose',
     fontFamily: 'inherit',
+    sequence: {
+      useMaxWidth: true,
+      showSequenceNumbers: false,
+    },
   })
   mermaidInitialized = true
 }
@@ -53,6 +57,7 @@ export default function MermaidRenderer({ code }: MermaidRendererProps) {
       })
       .catch((err) => {
         console.error('Mermaid render error:', err)
+        console.error('Failed code:', cleanCode)
         setError(cleanCode)
       })
   }, [code])

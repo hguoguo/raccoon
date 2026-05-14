@@ -185,18 +185,18 @@
 
 ### 💡 创建提示词（第2组）
 ```
-调用create-knowledge-page  技能创建 kafka-streams
-调用create-knowledge-page  技能创建 kafka-performance-tuning
+✅ 已调用create-knowledge-page 技能创建 kafka-streams
+✅ 已调用create-knowledge-page 技能创建 kafka-performance-tuning
 ```
 
 1. **Kafka架构与核心概念（未实现）** `(kafka-architecture)`
 2. **Kafka生产者与消费者（未实现）** `(kafka-producer-consumer)`
 3. **Kafka消息可靠性保证（未实现）** `(kafka-reliability)`
-4. **Kafka Streams流处理（未实现）** `(kafka-streams)`
-5. **Kafka性能调优（未实现）** `(kafka-performance-tuning)`
+4. **Kafka Streams流处理** `(kafka-streams)`
+5. **Kafka性能调优** `(kafka-performance-tuning)`
 
 
---------------------------------------------------
+
 ## 📚 mysql
 
 ### 💡 创建提示词（第1组）
@@ -224,6 +224,8 @@
 ```
 调用create-knowledge-page  技能创建 postgresql-core
 调用create-knowledge-page  技能创建 postgresql-jsonb
+
+--------------------------------------------------
 调用create-knowledge-page  技能创建 postgresql-extensions
 调用create-knowledge-page  技能创建 postgresql-replication
 ```
