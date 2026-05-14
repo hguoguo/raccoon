@@ -144,57 +144,10 @@ export default function XxxPage({ meta }: { meta: KnowledgeNode }) {
 
 1. 识别目标章节，扫描该章节下所有文章的 slug
 2. 检测哪些页面文件缺失（根据核心规范 §1 计算路径）
-3. 展示待创建列表，自动逐个创建（可用 `dispatching-parallel-agents` skill 并行）
+3. 展示待创建列表，自动逐个创建
 4. 全部完成后统一执行步骤 8 部署
 
 **注意：** 每个页面内容质量不降低；元数据不完整的页面跳过并提示；批量操作只在最后统一部署一次。
-
-**⚠️ 并行 Agent 约束（极易出错，必须遵守）：**
-
-使用 `dispatching-parallel-agents` 派发子任务时，**必须在 prompt 中明确以下约束**，否则子代理可能误判为"浏览前端页面"而调用 Browser 工具，导致无法写入文件：
-
-1. **任务性质声明**：明确告知子代理这是一个**代码文件生成任务**，不是浏览/测试任务
-2. **工具限制**：子代理只能使用 `write_to_file` / `replace_in_file` 写入文件，**禁止使用 Browser Automation、playwright-cli 等浏览器自动化工具**
-3. **禁止预览**：子代理不需要启动 dev server 或在浏览器中预览页面
-4. **单个文件职责**：每个子代理只负责生成一个 `.tsx` 文件
-
-**子代理 Prompt 模板（直接复制使用）：**
-
-```
-你是一个代码生成代理。你的任务是创建一个知识点页面 TSX 文件。
-
-【任务性质】这是一个纯代码文件生成任务，你只需要写文件，不需要浏览网页、启动服务器或预览效果。
-
-【工具限制】
-- ✅ 使用 write_to_file 创建文件
-- ✅ 使用 replace_in_file 修改文件
-- ✅ 使用 read_file 读取参考文件
-- ❌ 禁止使用 Browser Automation / playwright-cli 等浏览器工具
-- ❌ 禁止启动 dev server 或 npm run dev
-- ❌ 禁止尝试预览页面
-
-【任务详情】
-- 知识点：{title}
-- slug：{slug}
-- 目标文件路径：{filePath}
-- 章节：{category}
-- 难度：{level}
-- 标签：{tags}
-
-【执行步骤】
-1. 读取 site/src/data/chapters.ts 确认元数据
-2. 扫描 site/src/components/knowledge/ 和 site/src/components/ui/ 下的组件 JSDoc
-3. 参考已有页面（如 langgraph-core.tsx）的布局结构
-4. 使用 write_to_file 在目标路径创建 .tsx 文件
-5. 确保文件内容遵循以下核心规范：
-   - 组件签名：export default function Xxx({ meta }: { meta: KnowledgeNode })
-   - 布局：flex 容器 + KnowledgeLayout + SmartTOC + ArticleNav
-   - SmartTOC 直接渲染，不用 aside 包裹
-   - ArticleNav 在 KnowledgeLayout 内部末尾
-   - 所有 h2/h3 有 id 属性，与 tocItems 对应
-   - 包含 12 项结构要素（定义、架构、原理、源码、流程、实验场、边注、上下文切换、误区、面试、对比、关联）
-6. 完成后报告文件路径，不要执行构建或部署
-```
 
 ### 步骤 1：收集需求 + 扫描组件库（标准流程）
 

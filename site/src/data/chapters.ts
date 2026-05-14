@@ -367,9 +367,9 @@ export const domains: Domain[] = [
             difficulty: 5,
             color: 'purple',
             articles: [
-              { slug: 'autogen-framework', title: 'AutoGen多智能体框架（未实现）', meta: { id: 'autogen-framework', title: 'AutoGen多智能体框架', level: 'Expert', tags: ['AutoGen', 'Microsoft', 'ConversableAgent', 'GroupChat', '多轮对话', '协作模式'], difficulty: 5, category: '11-ai-agent-frameworks', prerequisites: ['multi-agent-systems', 'agent-patterns'], relatedPatterns: ['crewai-framework', 'langgraph-core'], readingTime: 65 } },
-              { slug: 'crewai-framework', title: 'CrewAI协作框架（未实现）', meta: { id: 'crewai-framework', title: 'CrewAI协作框架', level: 'Senior', tags: ['CrewAI', 'Role-playing', 'Task', 'Process', 'Sequential', 'Hierarchical'], difficulty: 4, category: '11-ai-agent-frameworks', prerequisites: ['agent-patterns'], relatedPatterns: ['autogen-framework', 'workflow-design'], readingTime: 55 } },
-              { slug: 'nl2sql', title: 'NL2SQL自然语言转SQL（未实现）', meta: { id: 'nl2sql', title: 'NL2SQL自然语言转SQL', level: 'Senior', tags: ['NL2SQL', 'Text-to-SQL', 'Schema Linking', 'SQL生成', '数据库查询', '语义解析'], difficulty: 4, category: '11-ai-agent-frameworks', prerequisites: ['structured-output', 'sql-optimization'], relatedPatterns: ['rag-introduction', 'function-calling'], readingTime: 50 } },
+              { slug: 'autogen-framework', title: 'AutoGen多智能体框架', meta: { id: 'autogen-framework', title: 'AutoGen多智能体框架', level: 'Expert', tags: ['AutoGen', 'Microsoft', 'ConversableAgent', 'GroupChat', '多轮对话', '协作模式'], difficulty: 5, category: '11-ai-agent-frameworks', prerequisites: ['multi-agent-systems', 'agent-patterns'], relatedPatterns: ['crewai-framework', 'langgraph-core'], readingTime: 65 } },
+              { slug: 'crewai-framework', title: 'CrewAI协作框架', meta: { id: 'crewai-framework', title: 'CrewAI协作框架', level: 'Senior', tags: ['CrewAI', 'Role-playing', 'Task', 'Process', 'Sequential', 'Hierarchical'], difficulty: 4, category: '11-ai-agent-frameworks', prerequisites: ['agent-patterns'], relatedPatterns: ['autogen-framework', 'workflow-design'], readingTime: 55 } },
+              { slug: 'nl2sql', title: 'NL2SQL自然语言转SQL', meta: { id: 'nl2sql', title: 'NL2SQL自然语言转SQL', level: 'Senior', tags: ['NL2SQL', 'Text-to-SQL', 'Schema Linking', 'SQL生成', '数据库查询', '语义解析'], difficulty: 4, category: '11-ai-agent-frameworks', prerequisites: ['structured-output', 'sql-optimization'], relatedPatterns: ['rag-introduction', 'function-calling'], readingTime: 50 } },
             ],
           },
           {
