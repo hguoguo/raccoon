@@ -101,6 +101,7 @@
 1. **Maven构建工具** `(maven)` - 已创建页面
 2. **Gradle构建工具** `(gradle)` - 已创建页面
 3. **项目结构与规范** `(project-structure)` - 已创建页面
+4. **CI/CD持续集成部署** `(cicd)` - 已创建页面
 
 ### 💡 创建提示词（第2组）
 ```
@@ -113,7 +114,7 @@
 3. **项目结构与规范（未实现）** `(project-structure)`
 4. **CI/CD持续集成部署（未实现）** `(cicd)`
 
---------------------------------------------------
+
 ## 📚 12-java-security
 
 ### 💡 创建提示词
@@ -142,7 +143,7 @@
 调用create-knowledge-page  技能创建 elasticsearch
 调用create-knowledge-page  技能创建 hdfs
 ```
-
+--------------------------------------------------
 ### 💡 创建提示词（第3组）
 ```
 调用create-knowledge-page  技能创建 realtime-data-warehouse
