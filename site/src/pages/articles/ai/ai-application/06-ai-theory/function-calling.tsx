@@ -388,9 +388,9 @@ tools = registry.get_all_tools()`}
         <DiagramBlock title="工具路由决策流程">
           <div className="text-[13px] sm:text-[14px] font-mono text-ink-muted leading-relaxed text-left space-y-2">
             <div><span className="text-indigo font-semibold">用户输入</span> → "帮我查一下明天的航班"</div>
-            <div><span className="text-teal font-semibold">意图识别</span> → 旅行相关 → 可能需要航班信息</div>
-            <div><span className="text-sky font-semibold">工具匹配</span> → search_flights vs get_weather vs web_search</div>
-            <div><span className="text-amber font-semibold">参数提取</span> → {"{from: '北京', to: '上海', date: '2024-01-01'}"}</div>
+            <div><span className="text-teal font-semibold">意图识别 (LLM)</span> → 旅行相关 → 可能需要航班信息</div>
+            <div><span className="text-sky font-semibold">工具匹配 (LLM)</span> → search_flights vs get_weather vs web_search</div>
+            <div><span className="text-amber font-semibold">参数提取 (LLM)</span> → {"{from: '北京', to: '上海', date: '2024-01-01'}"}</div>
             <div><span className="text-emerald font-semibold">执行工具</span> → 调用 search_flights()</div>
           </div>
         </DiagramBlock>
