@@ -445,7 +445,7 @@ Caused by: java.sql.SQLException: 用户不存在: 999
               <p className="text-[13px] sm:text-[14px] leading-relaxed mb-2">
                 <strong>错误做法</strong>：
               </p>
-              <pre className="bg-parchment-deep p-3 rounded-lg text-[12px] sm:text-[13px] font-mono overflow-x-auto mb-2">
+              <pre className="bg-parchment-deep p-3 rounded-paper-sm text-[12px] sm:text-[13px] font-mono overflow-x-auto mb-2">
 {`try {
     doSomething();
 } catch (Exception e) {
@@ -461,7 +461,7 @@ Caused by: java.sql.SQLException: 用户不存在: 999
               <p className="text-[13px] sm:text-[14px] leading-relaxed mb-2">
                 <strong>错误做法</strong>：
               </p>
-              <pre className="bg-parchment-deep p-3 rounded-lg text-[12px] sm:text-[13px] font-mono overflow-x-auto mb-2">
+              <pre className="bg-parchment-deep p-3 rounded-paper-sm text-[12px] sm:text-[13px] font-mono overflow-x-auto mb-2">
 {`try {
     int value = Integer.parseInt(input);
 } catch (NumberFormatException e) {
@@ -572,14 +572,14 @@ Caused by: java.sql.SQLException: 用户不存在: 999
               知识关联
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="border border-border rounded-lg p-4 bg-parchment/50 hover:border-accent transition-colors">
+              <div className="border border-border rounded-paper-md p-4 bg-parchment/50 hover:border-accent transition-colors">
                 <h4 className="font-semibold text-[14px] sm:text-[15px] text-ink mb-2">🔗 前置知识</h4>
                 <ul className="space-y-1 text-[13px] sm:text-[14px] text-ink-muted">
                   <li>• <a href="/docs/01-java-core/java-basics" className="text-accent hover:underline">Java 基础语法</a> — 理解类、方法、继承</li>
                   <li>• <a href="/docs/01-java-core/java-oop" className="text-accent hover:underline">面向对象编程</a> — 理解继承与多态</li>
                 </ul>
               </div>
-              <div className="border border-border rounded-lg p-4 bg-parchment/50 hover:border-accent transition-colors">
+              <div className="border border-border rounded-paper-md p-4 bg-parchment/50 hover:border-accent transition-colors">
                 <h4 className="font-semibold text-[14px] sm:text-[15px] text-ink mb-2">🚀 延伸学习</h4>
                 <ul className="space-y-1 text-[13px] sm:text-[14px] text-ink-muted">
                   <li>• <a href="/docs/01-java-core/io-stream" className="text-accent hover:underline">IO 流</a> — 异常在资源管理中的应用</li>

@@ -82,16 +82,16 @@ export default function LockMechanism({ meta }: { meta: KnowledgeNode }) {
           </p>
 
           <div className="overflow-x-auto mb-6">
-            <table className="min-w-full divide-y divide-gray-200 border border-gray-200 rounded-lg">
-              <thead className="bg-gray-50">
+            <table className="min-w-full divide-y divide-border border border-border rounded-paper-md">
+              <thead className="bg-parchment-deep">
                 <tr>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">锁状态</th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">触发条件</th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">实现方式</th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">性能</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-ink-muted uppercase tracking-wider">锁状态</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-ink-muted uppercase tracking-wider">触发条件</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-ink-muted uppercase tracking-wider">实现方式</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-ink-muted uppercase tracking-wider">性能</th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="bg-white divide-y divide-border">
                 <tr><td className="px-4 py-3 font-medium text-sm">无锁</td><td className="px-4 py-3 text-sm">对象刚创建</td><td className="px-4 py-3 text-sm">Mark Word 存储 hashCode</td><td className="px-4 py-3 text-sm">⚡ 最快</td></tr>
                 <tr><td className="px-4 py-3 font-medium text-sm">偏向锁</td><td className="px-4 py-3 text-sm">单线程访问</td><td className="px-4 py-3 text-sm">记录线程 ID</td><td className="px-4 py-3 text-sm">⚡ 很快</td></tr>
                 <tr><td className="px-4 py-3 font-medium text-sm">轻量级锁</td><td className="px-4 py-3 text-sm">轻微竞争</td><td className="px-4 py-3 text-sm">CAS + 自旋</td><td className="px-4 py-3 text-sm">⚡ 较快</td></tr>
@@ -448,16 +448,16 @@ synchronized (lock) {  // 只加锁一次
             各种锁机制的全面对比：
           </p>
           <div className="overflow-x-auto mb-6">
-            <table className="min-w-full divide-y divide-gray-200 border border-gray-200 rounded-lg">
-              <thead className="bg-gray-50">
+            <table className="min-w-full divide-y divide-border border border-border rounded-paper-md">
+              <thead className="bg-parchment-deep">
                 <tr>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">特性</th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">偏向锁</th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">轻量级锁</th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">重量级锁</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-ink-muted uppercase tracking-wider">特性</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-ink-muted uppercase tracking-wider">偏向锁</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-ink-muted uppercase tracking-wider">轻量级锁</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-ink-muted uppercase tracking-wider">重量级锁</th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="bg-white divide-y divide-border">
                 <tr><td className="px-4 py-3 font-medium text-sm">适用场景</td><td className="px-4 py-3 text-sm">单线程访问</td><td className="px-4 py-3 text-sm">交替访问</td><td className="px-4 py-3 text-sm">同时竞争</td></tr>
                 <tr><td className="px-4 py-3 font-medium text-sm">实现方式</td><td className="px-4 py-3 text-sm">记录线程 ID</td><td className="px-4 py-3 text-sm">CAS + 自旋</td><td className="px-4 py-3 text-sm">Monitor + 队列</td></tr>
                 <tr><td className="px-4 py-3 font-medium text-sm">线程阻塞</td><td className="px-4 py-3 text-sm text-green-600">❌</td><td className="px-4 py-3 text-sm text-green-600">❌</td><td className="px-4 py-3 text-sm text-red-600">✅</td></tr>
@@ -473,11 +473,11 @@ synchronized (lock) {  // 只加锁一次
               关联知识
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="p-4 border border-gray-200 rounded-lg hover:border-indigo-300 transition-colors">
+              <div className="p-4 border border-border rounded-paper-md hover:border-accent transition-colors">
                 <h4 className="font-semibold text-sm mb-2">→ Java内存模型（JMM）深度解析</h4>
                 <p className="text-xs text-ink-muted">理解 volatile 和 synchronized 的底层语义</p>
               </div>
-              <div className="p-4 border border-gray-200 rounded-lg hover:border-indigo-300 transition-colors">
+              <div className="p-4 border border-border rounded-paper-md hover:border-accent transition-colors">
                 <h4 className="font-semibold text-sm mb-2">→ AQS原理剖析</h4>
                 <p className="text-xs text-ink-muted">学习 ReentrantLock 的实现基础</p>
               </div>

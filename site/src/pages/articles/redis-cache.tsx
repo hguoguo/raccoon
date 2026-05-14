@@ -34,12 +34,12 @@ export default function RedisCache({ meta }: { meta: KnowledgeNode }) {
       <div className="flex-1 max-w-[820px] min-w-0 px-4 sm:px-6 lg:px-12 pb-20">
         <div className="knowledge-layout" data-meta={JSON.stringify(meta)}>
           {/* 头部信息 */}
-          <div className="mb-8 pb-6 border-b border-slate-200">
+          <div className="mb-8 pb-6 border-b border-border-light">
             <h1 className="font-display font-bold text-3xl sm:text-4xl mb-3 text-ink">
               {meta.title}
             </h1>
-            <div className="flex flex-wrap gap-2 items-center text-sm text-slate-600">
-              <span className="px-2 py-1 bg-indigo-50 text-indigo-700 rounded-md font-medium">
+            <div className="flex flex-wrap gap-2 items-center text-sm text-ink-muted">
+              <span className="px-2 py-1 bg-accent-soft text-accent rounded-md font-medium">
                 {meta.level}
               </span>
               <span>难度 ⭐⭐⭐⭐⭐</span>
@@ -49,7 +49,7 @@ export default function RedisCache({ meta }: { meta: KnowledgeNode }) {
               {meta.tags.map((tag) => (
                 <span
                   key={tag}
-                  className="px-2.5 py-0.5 bg-slate-100 text-slate-700 rounded-full text-xs"
+                  className="px-2.5 py-0.5 bg-parchment-deep text-ink-muted rounded-full text-xs"
                 >
                   {tag}
                 </span>
@@ -62,7 +62,7 @@ export default function RedisCache({ meta }: { meta: KnowledgeNode }) {
             <h2 className="font-display font-bold text-[20px] sm:text-display-sm mt-10 sm:mt-12 mb-4 sm:mb-5 text-ink">
               一句话定义
             </h2>
-            <blockquote className="pl-4 border-l-4 border-indigo-500 bg-indigo-50 py-3 pr-4 rounded-r-lg italic text-slate-700">
+            <blockquote className="pl-4 border-l-4 border-accent bg-accent-soft/40 py-3 pr-4 rounded-r-paper-md italic text-ink-light">
               Redis（Remote Dictionary Server）是一个基于内存的高性能键值对存储数据库，支持字符串、哈希、列表、集合、有序集合等多种数据结构，并提供持久化、主从复制、集群等特性，广泛应用于缓存、会话管理、消息队列等场景。
             </blockquote>
             <SideNote label="为什么叫 Redis？">
@@ -250,7 +250,7 @@ ZRANK leaderboard "玩家C"
             </p>
 
             <div className="grid md:grid-cols-2 gap-4 mb-6">
-              <div className="border border-slate-200 rounded-lg p-4 bg-white">
+              <div className="border border-border rounded-paper-md p-4 bg-white shadow-sm">
                 <h4 className="font-semibold text-ink mb-2">RDB（Redis Database）</h4>
                 <ul className="text-[14px] sm:text-[15px] leading-[1.8] text-ink-muted space-y-1">
                   <li>• 定期生成数据快照</li>
@@ -259,7 +259,7 @@ ZRANK leaderboard "玩家C"
                   <li>• 可能丢失最后一次快照后的数据</li>
                 </ul>
               </div>
-              <div className="border border-slate-200 rounded-lg p-4 bg-white">
+              <div className="border border-border rounded-paper-md p-4 bg-white shadow-sm">
                 <h4 className="font-semibold text-ink mb-2">AOF（Append Only File）</h4>
                 <ul className="text-[14px] sm:text-[15px] leading-[1.8] text-ink-muted space-y-1">
                   <li>• 记录每次写操作命令</li>
@@ -687,51 +687,51 @@ redis-cli --cluster check 127.0.0.1:7000
             </h2>
 
             <div className="overflow-x-auto">
-              <table className="min-w-full border-collapse border border-slate-200 text-[14px] sm:text-[15px]">
+              <table className="min-w-full border-collapse border border-border text-[14px] sm:text-[15px]">
                 <thead>
-                  <tr className="bg-slate-50">
-                    <th className="border border-slate-200 px-4 py-2 text-left font-semibold text-ink">特性</th>
-                    <th className="border border-slate-200 px-4 py-2 text-left font-semibold text-ink">Redis</th>
-                    <th className="border border-slate-200 px-4 py-2 text-left font-semibold text-ink">Memcached</th>
-                    <th className="border border-slate-200 px-4 py-2 text-left font-semibold text-ink">Ehcache</th>
+                  <tr className="bg-parchment-deep">
+                    <th className="border border-border px-4 py-2 text-left font-semibold text-ink">特性</th>
+                    <th className="border border-border px-4 py-2 text-left font-semibold text-ink">Redis</th>
+                    <th className="border border-border px-4 py-2 text-left font-semibold text-ink">Memcached</th>
+                    <th className="border border-border px-4 py-2 text-left font-semibold text-ink">Ehcache</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td className="border border-slate-200 px-4 py-2 font-medium text-ink">类型</td>
-                    <td className="border border-slate-200 px-4 py-2 text-ink-muted">远程缓存</td>
-                    <td className="border border-slate-200 px-4 py-2 text-ink-muted">远程缓存</td>
-                    <td className="border border-slate-200 px-4 py-2 text-ink-muted">本地缓存</td>
+                    <td className="border border-border px-4 py-2 font-medium text-ink">类型</td>
+                    <td className="border border-border px-4 py-2 text-ink-muted">远程缓存</td>
+                    <td className="border border-border px-4 py-2 text-ink-muted">远程缓存</td>
+                    <td className="border border-border px-4 py-2 text-ink-muted">本地缓存</td>
                   </tr>
-                  <tr className="bg-slate-50">
-                    <td className="border border-slate-200 px-4 py-2 font-medium text-ink">数据结构</td>
-                    <td className="border border-slate-200 px-4 py-2 text-ink-muted">丰富（5+ 种）</td>
-                    <td className="border border-slate-200 px-4 py-2 text-ink-muted">简单（key-value）</td>
-                    <td className="border border-slate-200 px-4 py-2 text-ink-muted">简单（key-value）</td>
-                  </tr>
-                  <tr>
-                    <td className="border border-slate-200 px-4 py-2 font-medium text-ink">持久化</td>
-                    <td className="border border-slate-200 px-4 py-2 text-ink-muted">✅ 支持</td>
-                    <td className="border border-slate-200 px-4 py-2 text-ink-muted">❌ 不支持</td>
-                    <td className="border border-slate-200 px-4 py-2 text-ink-muted">⚠️ 可选</td>
-                  </tr>
-                  <tr className="bg-slate-50">
-                    <td className="border border-slate-200 px-4 py-2 font-medium text-ink">高可用</td>
-                    <td className="border border-slate-200 px-4 py-2 text-ink-muted">✅ 原生支持</td>
-                    <td className="border border-slate-200 px-4 py-2 text-ink-muted">❌ 需第三方</td>
-                    <td className="border border-slate-200 px-4 py-2 text-ink-muted">❌ 不支持</td>
+                  <tr className="bg-parchment-deep/50">
+                    <td className="border border-border px-4 py-2 font-medium text-ink">数据结构</td>
+                    <td className="border border-border px-4 py-2 text-ink-muted">丰富（5+ 种）</td>
+                    <td className="border border-border px-4 py-2 text-ink-muted">简单（key-value）</td>
+                    <td className="border border-border px-4 py-2 text-ink-muted">简单（key-value）</td>
                   </tr>
                   <tr>
-                    <td className="border border-slate-200 px-4 py-2 font-medium text-ink">性能（QPS）</td>
-                    <td className="border border-slate-200 px-4 py-2 text-ink-muted">~10w+</td>
-                    <td className="border border-slate-200 px-4 py-2 text-ink-muted">~12w+</td>
-                    <td className="border border-slate-200 px-4 py-2 text-ink-muted">~100w+（本地）</td>
+                    <td className="border border-border px-4 py-2 font-medium text-ink">持久化</td>
+                    <td className="border border-border px-4 py-2 text-ink-muted">✅ 支持</td>
+                    <td className="border border-border px-4 py-2 text-ink-muted">❌ 不支持</td>
+                    <td className="border border-border px-4 py-2 text-ink-muted">⚠️ 可选</td>
                   </tr>
-                  <tr className="bg-slate-50">
-                    <td className="border border-slate-200 px-4 py-2 font-medium text-ink">适用场景</td>
-                    <td className="border border-slate-200 px-4 py-2 text-ink-muted">通用缓存、分布式锁、消息队列</td>
-                    <td className="border border-slate-200 px-4 py-2 text-ink-muted">简单缓存、高并发读取</td>
-                    <td className="border border-slate-200 px-4 py-2 text-ink-muted">本地缓存、减少网络开销</td>
+                  <tr className="bg-parchment-deep/50">
+                    <td className="border border-border px-4 py-2 font-medium text-ink">高可用</td>
+                    <td className="border border-border px-4 py-2 text-ink-muted">✅ 原生支持</td>
+                    <td className="border border-border px-4 py-2 text-ink-muted">❌ 需第三方</td>
+                    <td className="border border-border px-4 py-2 text-ink-muted">❌ 不支持</td>
+                  </tr>
+                  <tr>
+                    <td className="border border-border px-4 py-2 font-medium text-ink">性能（QPS）</td>
+                    <td className="border border-border px-4 py-2 text-ink-muted">~10w+</td>
+                    <td className="border border-border px-4 py-2 text-ink-muted">~12w+</td>
+                    <td className="border border-border px-4 py-2 text-ink-muted">~100w+（本地）</td>
+                  </tr>
+                  <tr className="bg-parchment-deep/50">
+                    <td className="border border-border px-4 py-2 font-medium text-ink">适用场景</td>
+                    <td className="border border-border px-4 py-2 text-ink-muted">通用缓存、分布式锁、消息队列</td>
+                    <td className="border border-border px-4 py-2 text-ink-muted">简单缓存、高并发读取</td>
+                    <td className="border border-border px-4 py-2 text-ink-muted">本地缓存、减少网络开销</td>
                   </tr>
                 </tbody>
               </table>
@@ -748,25 +748,25 @@ redis-cli --cluster check 127.0.0.1:7000
               知识关联
             </h2>
             <div className="grid sm:grid-cols-2 gap-4">
-              <div className="border border-slate-200 rounded-lg p-4 hover:border-indigo-300 transition-colors">
+              <div className="border border-border rounded-paper-md p-4 hover:border-accent transition-colors">
                 <h4 className="font-semibold text-ink mb-2">📊 Spring Data JPA</h4>
                 <p className="text-[14px] sm:text-[15px] leading-[1.8] text-ink-muted">
                   学习如何将 Redis 与 Spring Data JPA 集成，实现二级缓存
                 </p>
               </div>
-              <div className="border border-slate-200 rounded-lg p-4 hover:border-indigo-300 transition-colors">
+              <div className="border border-border rounded-paper-md p-4 hover:border-accent transition-colors">
                 <h4 className="font-semibold text-ink mb-2">🔄 分布式事务</h4>
                 <p className="text-[14px] sm:text-[15px] leading-[1.8] text-ink-muted">
                   了解在分布式系统中如何保证缓存与数据库的一致性
                 </p>
               </div>
-              <div className="border border-slate-200 rounded-lg p-4 hover:border-indigo-300 transition-colors">
+              <div className="border border-border rounded-paper-md p-4 hover:border-accent transition-colors">
                 <h4 className="font-semibold text-ink mb-2">🗄️ SQL优化与索引</h4>
                 <p className="text-[14px] sm:text-[15px] leading-[1.8] text-ink-muted">
                   缓存是数据库优化的重要手段，配合索引优化效果更佳
                 </p>
               </div>
-              <div className="border border-slate-200 rounded-lg p-4 hover:border-indigo-300 transition-colors">
+              <div className="border border-border rounded-paper-md p-4 hover:border-accent transition-colors">
                 <h4 className="font-semibold text-ink mb-2">🧵 多线程基础</h4>
                 <p className="text-[14px] sm:text-[15px] leading-[1.8] text-ink-muted">
                   理解 Redis 单线程模型的优势和局限性

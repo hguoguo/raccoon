@@ -104,15 +104,15 @@ export default function SpringAop({ meta }: { meta: KnowledgeNode }) {
           </p>
 
           <div className="overflow-x-auto mb-6">
-            <table className="min-w-full divide-y divide-gray-200 border border-gray-200 rounded-lg">
-              <thead className="bg-gray-50">
+            <table className="min-w-full divide-y divide-border border border-border rounded-paper-md">
+              <thead className="bg-parchment-deep">
                 <tr>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">特性</th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">JDK 动态代理</th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">CGLIB</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-ink-muted uppercase tracking-wider">特性</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-ink-muted uppercase tracking-wider">JDK 动态代理</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-ink-muted uppercase tracking-wider">CGLIB</th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="bg-white divide-y divide-border">
                 <tr><td className="px-4 py-3 font-medium text-sm">原理</td><td className="px-4 py-3 text-sm">基于接口，生成接口的实现类</td><td className="px-4 py-3 text-sm">基于继承，生成目标类的子类</td></tr>
                 <tr><td className="px-4 py-3 font-medium text-sm">要求</td><td className="px-4 py-3 text-sm">目标类必须实现接口</td><td className="px-4 py-3 text-sm">目标类不能是 final</td></tr>
                 <tr><td className="px-4 py-3 font-medium text-sm">性能</td><td className="px-4 py-3 text-sm">JDK 8+ 性能接近 CGLIB</td><td className="px-4 py-3 text-sm">早期版本性能更好</td></tr>
@@ -332,7 +332,7 @@ public class OrderService {
             <p className="text-sm mb-2">
               ❌ 危险做法：
             </p>
-            <pre className="bg-gray-50 p-3 rounded text-sm font-mono">
+            <pre className="bg-parchment-deep p-3 rounded-paper-sm text-sm font-mono">
 {`@Service
 public class UserService {
     public void createUser() {
@@ -355,7 +355,7 @@ public class UserService {
             <p className="text-sm mb-2">
               ❌ 危险做法：
             </p>
-            <pre className="bg-gray-50 p-3 rounded text-sm font-mono">
+            <pre className="bg-parchment-deep p-3 rounded-paper-sm text-sm font-mono">
 {`@Around("execution(* *.*(..))")
 public Object aroundAdvice(ProceedingJoinPoint pjp) {
     System.out.println("Before");
@@ -558,15 +558,15 @@ public class LoggingAspect {  // Aspect
             AOP vs OOP 的对比：
           </p>
           <div className="overflow-x-auto mb-6">
-            <table className="min-w-full divide-y divide-gray-200 border border-gray-200 rounded-lg">
-              <thead className="bg-gray-50">
+            <table className="min-w-full divide-y divide-border border border-border rounded-paper-md">
+              <thead className="bg-parchment-deep">
                 <tr>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">维度</th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">OOP（面向对象）</th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">AOP（面向切面）</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-ink-muted uppercase tracking-wider">维度</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-ink-muted uppercase tracking-wider">OOP（面向对象）</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-ink-muted uppercase tracking-wider">AOP（面向切面）</th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="bg-white divide-y divide-border">
                 <tr><td className="px-4 py-3 font-medium text-sm">关注点</td><td className="px-4 py-3 text-sm">纵向业务逻辑</td><td className="px-4 py-3 text-sm">横向横切关注点</td></tr>
                 <tr><td className="px-4 py-3 font-medium text-sm">模块化</td><td className="px-4 py-3 text-sm">类、对象</td><td className="px-4 py-3 text-sm">切面</td></tr>
                 <tr><td className="px-4 py-3 font-medium text-sm">解决的问题</td><td className="px-4 py-3 text-sm">代码复用、封装</td><td className="px-4 py-3 text-sm">代码解耦、分离关注点</td></tr>
@@ -581,11 +581,11 @@ public class LoggingAspect {  // Aspect
               关联知识
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="p-4 border border-gray-200 rounded-lg hover:border-indigo-300 transition-colors">
+              <div className="p-4 border border-border rounded-paper-md hover:border-accent transition-colors">
                 <h4 className="font-semibold text-sm mb-2">→ Spring事务管理</h4>
                 <p className="text-xs text-ink-muted">学习 AOP 在事务中的应用</p>
               </div>
-              <div className="p-4 border border-gray-200 rounded-lg hover:border-indigo-300 transition-colors">
+              <div className="p-4 border border-border rounded-paper-md hover:border-accent transition-colors">
                 <h4 className="font-semibold text-sm mb-2">→ 代理模式详解</h4>
                 <p className="text-xs text-ink-muted">深入理解 JDK 动态代理和 CGLIB</p>
               </div>

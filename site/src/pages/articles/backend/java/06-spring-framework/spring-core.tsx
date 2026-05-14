@@ -290,15 +290,15 @@ public class ProductService {
           </p>
 
           <div className="overflow-x-auto mb-6">
-            <table className="min-w-full divide-y divide-gray-200 border border-gray-200 rounded-lg">
-              <thead className="bg-gray-50">
+            <table className="min-w-full divide-y divide-border border border-border rounded-paper-md">
+              <thead className="bg-parchment-deep">
                 <tr>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">作用域</th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">说明</th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">适用场景</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-ink-muted uppercase tracking-wider">作用域</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-ink-muted uppercase tracking-wider">说明</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-ink-muted uppercase tracking-wider">适用场景</th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="bg-white divide-y divide-border">
                 <tr><td className="px-4 py-3 font-mono text-sm">singleton</td><td className="px-4 py-3 text-sm">单例（默认），整个容器只有一个实例</td><td className="px-4 py-3 text-sm">无状态服务（Service、DAO）</td></tr>
                 <tr><td className="px-4 py-3 font-mono text-sm">prototype</td><td className="px-4 py-3 text-sm">原型，每次获取都创建新实例</td><td className="px-4 py-3 text-sm">有状态对象</td></tr>
                 <tr><td className="px-4 py-3 font-mono text-sm">request</td><td className="px-4 py-3 text-sm">每个 HTTP 请求一个实例</td><td className="px-4 py-3 text-sm">Web 应用</td></tr>
@@ -374,7 +374,7 @@ public class UserService {
             <p className="text-sm mb-2">
               ❌ 不良习惯：
             </p>
-            <pre className="bg-gray-50 p-3 rounded text-sm font-mono">
+            <pre className="bg-parchment-deep p-3 rounded-paper-sm text-sm font-mono">
 {`@Service
 public class UserService {
     @Autowired
@@ -592,16 +592,16 @@ private UserRepository userRepo;
             不同依赖注入方式的对比：
           </p>
           <div className="overflow-x-auto mb-6">
-            <table className="min-w-full divide-y divide-gray-200 border border-gray-200 rounded-lg">
-              <thead className="bg-gray-50">
+            <table className="min-w-full divide-y divide-border border border-border rounded-paper-md">
+              <thead className="bg-parchment-deep">
                 <tr>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">特性</th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">构造器注入</th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Setter 注入</th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">字段注入</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-ink-muted uppercase tracking-wider">特性</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-ink-muted uppercase tracking-wider">构造器注入</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-ink-muted uppercase tracking-wider">Setter 注入</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-ink-muted uppercase tracking-wider">字段注入</th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="bg-white divide-y divide-border">
                 <tr><td className="px-4 py-3 font-medium text-sm">不可变性</td><td className="px-4 py-3 text-sm text-green-600">✅ 可设为 final</td><td className="px-4 py-3 text-sm text-red-600">❌</td><td className="px-4 py-3 text-sm text-red-600">❌</td></tr>
                 <tr><td className="px-4 py-3 font-medium text-sm">强制依赖</td><td className="px-4 py-3 text-sm text-green-600">✅ 明确</td><td className="px-4 py-3 text-sm text-red-600">❌ 不明显</td><td className="px-4 py-3 text-sm text-red-600">❌ 隐藏</td></tr>
                 <tr><td className="px-4 py-3 font-medium text-sm">可测试性</td><td className="px-4 py-3 text-sm text-green-600">✅ 容易</td><td className="px-4 py-3 text-sm text-green-600">✅ 容易</td><td className="px-4 py-3 text-sm text-red-600">❌ 困难</td></tr>
@@ -616,11 +616,11 @@ private UserRepository userRepo;
               关联知识
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="p-4 border border-gray-200 rounded-lg hover:border-indigo-300 transition-colors">
+              <div className="p-4 border border-border rounded-paper-md hover:border-accent transition-colors">
                 <h4 className="font-semibold text-sm mb-2">→ Spring AOP切面编程</h4>
                 <p className="text-xs text-ink-muted">学习 AOP 如何在 Bean 生命周期中创建代理</p>
               </div>
-              <div className="p-4 border border-gray-200 rounded-lg hover:border-indigo-300 transition-colors">
+              <div className="p-4 border border-border rounded-paper-md hover:border-accent transition-colors">
                 <h4 className="font-semibold text-sm mb-2">→ Spring Boot自动化配置</h4>
                 <p className="text-xs text-ink-muted">了解 Spring Boot 如何简化 IoC 配置</p>
               </div>

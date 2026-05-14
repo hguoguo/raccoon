@@ -149,15 +149,15 @@ t.start();  // happens-before 线程内的所有操作
           </p>
 
           <div className="overflow-x-auto mb-6">
-            <table className="min-w-full divide-y divide-gray-200 border border-gray-200 rounded-lg">
-              <thead className="bg-gray-50">
+            <table className="min-w-full divide-y divide-border border border-border rounded-paper-md">
+              <thead className="bg-parchment-deep">
                 <tr>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">屏障类型</th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">作用</th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">插入场景</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-ink-muted uppercase tracking-wider">屏障类型</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-ink-muted uppercase tracking-wider">作用</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-ink-muted uppercase tracking-wider">插入场景</th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="bg-white divide-y divide-border">
                 <tr>
                   <td className="px-4 py-3 font-mono text-sm">LoadLoad</td>
                   <td className="px-4 py-3 text-sm">确保 Load1 的数据装载先于 Load2</td>
@@ -441,16 +441,16 @@ volatile 禁止重排序，保证步骤 3 一定在步骤 2 之前完成，
             JMM 中各种同步机制的全面对比：
           </p>
           <div className="overflow-x-auto mb-6">
-            <table className="min-w-full divide-y divide-gray-200 border border-gray-200 rounded-lg">
-              <thead className="bg-gray-50">
+            <table className="min-w-full divide-y divide-border border border-border rounded-paper-md">
+              <thead className="bg-parchment-deep">
                 <tr>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">特性</th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">volatile</th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">synchronized</th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">AtomicXXX</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-ink-muted uppercase tracking-wider">特性</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-ink-muted uppercase tracking-wider">volatile</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-ink-muted uppercase tracking-wider">synchronized</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-ink-muted uppercase tracking-wider">AtomicXXX</th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="bg-white divide-y divide-border">
                 <tr><td className="px-4 py-3 font-medium text-sm">原子性</td><td className="px-4 py-3 text-sm text-red-600">❌</td><td className="px-4 py-3 text-sm text-green-600">✅</td><td className="px-4 py-3 text-sm text-green-600">✅</td></tr>
                 <tr><td className="px-4 py-3 font-medium text-sm">可见性</td><td className="px-4 py-3 text-sm text-green-600">✅</td><td className="px-4 py-3 text-sm text-green-600">✅</td><td className="px-4 py-3 text-sm text-green-600">✅</td></tr>
                 <tr><td className="px-4 py-3 font-medium text-sm">有序性</td><td className="px-4 py-3 text-sm text-green-600">✅</td><td className="px-4 py-3 text-sm text-green-600">✅</td><td className="px-4 py-3 text-sm text-green-600">✅</td></tr>
@@ -467,11 +467,11 @@ volatile 禁止重排序，保证步骤 3 一定在步骤 2 之前完成，
               关联知识
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="p-4 border border-gray-200 rounded-lg hover:border-indigo-300 transition-colors">
+              <div className="p-4 border border-border rounded-paper-md hover:border-accent transition-colors">
                 <h4 className="font-semibold text-sm mb-2">→ Java锁机制深入剖析</h4>
                 <p className="text-xs text-ink-muted">了解 synchronized 的锁升级过程和底层实现</p>
               </div>
-              <div className="p-4 border border-gray-200 rounded-lg hover:border-indigo-300 transition-colors">
+              <div className="p-4 border border-border rounded-paper-md hover:border-accent transition-colors">
                 <h4 className="font-semibold text-sm mb-2">→ CAS与原子类深度解析</h4>
                 <p className="text-xs text-ink-muted">学习无锁并发编程和原子操作的实现原理</p>
               </div>

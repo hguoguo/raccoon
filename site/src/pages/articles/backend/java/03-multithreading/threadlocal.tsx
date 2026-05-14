@@ -537,16 +537,16 @@ public class ThreadLocalDateFormat {
             ThreadLocal 与其他线程安全方案的对比：
           </p>
           <div className="overflow-x-auto mb-6">
-            <table className="min-w-full divide-y divide-gray-200 border border-gray-200 rounded-lg">
-              <thead className="bg-gray-50">
+            <table className="min-w-full divide-y divide-border border border-border rounded-paper-md">
+              <thead className="bg-parchment-deep">
                 <tr>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">特性</th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ThreadLocal</th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">synchronized</th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ConcurrentHashMap</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-ink-muted uppercase tracking-wider">特性</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-ink-muted uppercase tracking-wider">ThreadLocal</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-ink-muted uppercase tracking-wider">synchronized</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-ink-muted uppercase tracking-wider">ConcurrentHashMap</th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="bg-white divide-y divide-border">
                 <tr><td className="px-4 py-3 font-medium text-sm">线程安全方式</td><td className="px-4 py-3 text-sm">线程隔离</td><td className="px-4 py-3 text-sm">互斥访问</td><td className="px-4 py-3 text-sm">分段锁/CAS</td></tr>
                 <tr><td className="px-4 py-3 font-medium text-sm">数据共享</td><td className="px-4 py-3 text-sm text-red-600">❌ 不共享</td><td className="px-4 py-3 text-sm text-green-600">✅ 共享</td><td className="px-4 py-3 text-sm text-green-600">✅ 共享</td></tr>
                 <tr><td className="px-4 py-3 font-medium text-sm">性能</td><td className="px-4 py-3 text-sm">⚡ 高（无锁）</td><td className="px-4 py-3 text-sm">🐢 中（有锁）</td><td className="px-4 py-3 text-sm">⚡ 高（细粒度锁）</td></tr>
@@ -562,11 +562,11 @@ public class ThreadLocalDateFormat {
               关联知识
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="p-4 border border-gray-200 rounded-lg hover:border-indigo-300 transition-colors">
+              <div className="p-4 border border-border rounded-paper-md hover:border-accent transition-colors">
                 <h4 className="font-semibold text-sm mb-2">→ Java内存模型（JMM）深度解析</h4>
                 <p className="text-xs text-ink-muted">理解线程可见性和内存屏障</p>
               </div>
-              <div className="p-4 border border-gray-200 rounded-lg hover:border-indigo-300 transition-colors">
+              <div className="p-4 border border-border rounded-paper-md hover:border-accent transition-colors">
                 <h4 className="font-semibold text-sm mb-2">→ Spring事务管理</h4>
                 <p className="text-xs text-ink-muted">学习 ThreadLocal 在事务中的应用</p>
               </div>

@@ -104,15 +104,15 @@ export default function SpringTransaction({ meta }: { meta: KnowledgeNode }) {
           </p>
 
           <div className="overflow-x-auto mb-6">
-            <table className="min-w-full divide-y divide-gray-200 border border-gray-200 rounded-lg">
-              <thead className="bg-gray-50">
+            <table className="min-w-full divide-y divide-border border border-border rounded-paper-md">
+              <thead className="bg-parchment-deep">
                 <tr>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">传播行为</th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">说明</th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">使用场景</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-ink-muted uppercase tracking-wider">传播行为</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-ink-muted uppercase tracking-wider">说明</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-ink-muted uppercase tracking-wider">使用场景</th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="bg-white divide-y divide-border">
                 <tr><td className="px-4 py-3 font-mono text-sm">REQUIRED</td><td className="px-4 py-3 text-sm">如果当前有事务则加入，否则新建（默认）</td><td className="px-4 py-3 text-sm">大多数场景</td></tr>
                 <tr><td className="px-4 py-3 font-mono text-sm">REQUIRES_NEW</td><td className="px-4 py-3 text-sm">挂起当前事务，新建独立事务</td><td className="px-4 py-3 text-sm">日志记录、审计</td></tr>
                 <tr><td className="px-4 py-3 font-mono text-sm">SUPPORTS</td><td className="px-4 py-3 text-sm">如果有事务则加入，否则非事务执行</td><td className="px-4 py-3 text-sm">查询操作</td></tr>
@@ -168,17 +168,17 @@ public class InventoryService {
           </p>
 
           <div className="overflow-x-auto mb-6">
-            <table className="min-w-full divide-y divide-gray-200 border border-gray-200 rounded-lg">
-              <thead className="bg-gray-50">
+            <table className="min-w-full divide-y divide-border border border-border rounded-paper-md">
+              <thead className="bg-parchment-deep">
                 <tr>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">隔离级别</th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">脏读</th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">不可重复读</th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">幻读</th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">性能</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-ink-muted uppercase tracking-wider">隔离级别</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-ink-muted uppercase tracking-wider">脏读</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-ink-muted uppercase tracking-wider">不可重复读</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-ink-muted uppercase tracking-wider">幻读</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-ink-muted uppercase tracking-wider">性能</th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="bg-white divide-y divide-border">
                 <tr><td className="px-4 py-3 font-mono text-sm">READ_UNCOMMITTED</td><td className="px-4 py-3 text-sm text-red-600">✅</td><td className="px-4 py-3 text-sm text-red-600">✅</td><td className="px-4 py-3 text-sm text-red-600">✅</td><td className="px-4 py-3 text-sm">⚡ 最快</td></tr>
                 <tr><td className="px-4 py-3 font-mono text-sm">READ_COMMITTED</td><td className="px-4 py-3 text-sm text-green-600">❌</td><td className="px-4 py-3 text-sm text-red-600">✅</td><td className="px-4 py-3 text-sm text-red-600">✅</td><td className="px-4 py-3 text-sm">⚡ 快</td></tr>
                 <tr><td className="px-4 py-3 font-mono text-sm">REPEATABLE_READ</td><td className="px-4 py-3 text-sm text-green-600">❌</td><td className="px-4 py-3 text-sm text-green-600">❌</td><td className="px-4 py-3 text-sm text-red-600">✅</td><td className="px-4 py-3 text-sm">🐢 中等</td></tr>
@@ -254,7 +254,7 @@ public class UserService {
             <p className="text-sm mb-2">
               ❌ 错误做法：
             </p>
-            <pre className="bg-gray-50 p-3 rounded text-sm font-mono">
+            <pre className="bg-parchment-deep p-3 rounded-paper-sm text-sm font-mono">
 {`@Service
 public class OrderService {
     public void createOrder() {
@@ -284,7 +284,7 @@ public class OrderService {
             <p className="text-sm mb-2">
               ❌ 错误做法：
             </p>
-            <pre className="bg-gray-50 p-3 rounded text-sm font-mono">
+            <pre className="bg-parchment-deep p-3 rounded-paper-sm text-sm font-mono">
 {`@Transactional
 public void createUser() {
     try {
@@ -567,15 +567,15 @@ public void saveLog() {
             声明式事务 vs 编程式事务的对比：
           </p>
           <div className="overflow-x-auto mb-6">
-            <table className="min-w-full divide-y divide-gray-200 border border-gray-200 rounded-lg">
-              <thead className="bg-gray-50">
+            <table className="min-w-full divide-y divide-border border border-border rounded-paper-md">
+              <thead className="bg-parchment-deep">
                 <tr>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">特性</th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">声明式事务</th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">编程式事务</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-ink-muted uppercase tracking-wider">特性</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-ink-muted uppercase tracking-wider">声明式事务</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-ink-muted uppercase tracking-wider">编程式事务</th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="bg-white divide-y divide-border">
                 <tr><td className="px-4 py-3 font-medium text-sm">使用方式</td><td className="px-4 py-3 text-sm">@Transactional 注解</td><td className="px-4 py-3 text-sm">TransactionTemplate</td></tr>
                 <tr><td className="px-4 py-3 font-medium text-sm">代码侵入性</td><td className="px-4 py-3 text-sm text-green-600">低</td><td className="px-4 py-3 text-sm text-red-600">高</td></tr>
                 <tr><td className="px-4 py-3 font-medium text-sm">灵活性</td><td className="px-4 py-3 text-sm text-red-600">低</td><td className="px-4 py-3 text-sm text-green-600">高</td></tr>
@@ -591,11 +591,11 @@ public void saveLog() {
               关联知识
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="p-4 border border-gray-200 rounded-lg hover:border-indigo-300 transition-colors">
+              <div className="p-4 border border-border rounded-paper-md hover:border-accent transition-colors">
                 <h4 className="font-semibold text-sm mb-2">→ Spring AOP切面编程</h4>
                 <p className="text-xs text-ink-muted">理解事务的底层实现原理</p>
               </div>
-              <div className="p-4 border border-gray-200 rounded-lg hover:border-indigo-300 transition-colors">
+              <div className="p-4 border border-border rounded-paper-md hover:border-accent transition-colors">
                 <h4 className="font-semibold text-sm mb-2">→ 分布式事务</h4>
                 <p className="text-xs text-ink-muted">学习微服务架构下的事务解决方案</p>
               </div>
