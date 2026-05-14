@@ -11,15 +11,15 @@ import type { KnowledgeNode, TocItem } from '../../../../../data/types'
 
 const tocItems: TocItem[] = [
   { id: 'definition', text: '一句话定义', level: 2 },
-  { id: 'aop-concepts', text: '一、AOP 核心概念', level: 2 },
-  { id: 'proxy-mechanism', text: '二、代理机制详解', level: 2 },
-  { id: 'advice-types', text: '三、通知类型', level: 2 },
-  { id: 'pointcut-expression', text: '四、切点表达式', level: 2 },
-  { id: 'implementation', text: '五、AOP 实现方式', level: 2 },
-  { id: 'use-cases', text: '六、典型应用场景', level: 2 },
-  { id: 'misconceptions', text: '七、常见误区', level: 2 },
-  { id: 'interview', text: '八、面试真题', level: 2 },
-  { id: 'related', text: '九、知识关联', level: 2 },
+  { id: 'overview', text: '整体架构', level: 2 },
+  { id: 'core', text: '核心原理', level: 2 },
+  { id: 'proxy-mechanism', text: '代理机制', level: 3 },
+  { id: 'advice-types', text: '通知类型', level: 3 },
+  { id: 'pointcut-expression', text: '切点表达式', level: 3 },
+  { id: 'playground', text: '代码实验场', level: 2 },
+  { id: 'misconceptions', text: '常见误区', level: 2 },
+  { id: 'interview', text: '面试真题', level: 2 },
+  { id: 'comparison', text: '对比分析', level: 2 },
 ]
 
 export default function SpringAop({ meta }: { meta: KnowledgeNode }) {
@@ -33,611 +33,564 @@ export default function SpringAop({ meta }: { meta: KnowledgeNode }) {
           </h2>
           <blockquote className="border-l-[3px] border-accent pl-4 sm:pl-5 py-2 my-5 bg-accent-soft/40 rounded-r-paper-md">
             <p className="text-[15px] sm:text-base text-ink-light leading-[1.8] font-medium">
-              Spring AOP（Aspect-Oriented Programming）是<strong className="text-accent">面向切面编程</strong>的实现，通过将横切关注点（如日志、事务、安全）从业务逻辑中分离，
-              实现代码解耦和复用，基于动态代理技术在运行时织入增强逻辑。
+              <strong>Spring AOP（面向切面编程）</strong>是一种通过动态代理技术，将横切关注点（如日志、事务、安全）
+              从业务逻辑中分离出来的编程范式，通过<strong>Advice（通知）</strong>、
+              <strong>Pointcut（切点）</strong>、<strong>Aspect（切面）</strong>三大核心概念，
+              实现代码解耦和复用。
             </p>
           </blockquote>
 
           <Callout type="tip" title="为什么需要 AOP？">
-            传统 OOP 难以处理跨多个对象的横切关注点（如日志记录），导致代码重复和耦合。AOP 将这些关注点模块化，通过声明式方式应用，提升代码可维护性。
+            在传统 OOP 中，日志、事务、权限校验等横切关注点会分散在各个业务方法中，导致代码重复和耦合。
+            AOP 将这些关注点抽取出来，集中管理，业务代码只需关注核心逻辑，大大提升了代码的可维护性和可测试性。
           </Callout>
 
-          <h2 id="aop-concepts" className="font-display font-bold text-[20px] sm:text-display-md tracking-tight mt-8 sm:mt-12 mb-3 sm:mb-4 pb-[10px] border-b border-border-light text-ink">
-            一、AOP 核心概念
+          <h2 id="overview" className="font-display font-bold text-[20px] sm:text-display-md tracking-tight mt-8 sm:mt-12 mb-3 sm:mb-4 pb-[10px] border-b border-border-light text-ink">
+            整体架构
           </h2>
           <p className="text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4">
-            理解 AOP 需要掌握以下核心术语：
+            Spring AOP 的核心是通过<strong>动态代理</strong>在运行时为目标对象创建代理，
+            在方法调用前后插入额外的逻辑（通知）。
           </p>
 
-          <DiagramBlock title="AOP 核心术语关系图">
-            <pre className="font-mono text-[11px] sm:text-[12px] text-ink-muted leading-[1.6] whitespace-pre">{`
-┌─────────────────────────────────────────┐
-│           Aspect（切面）                 │
-│  ┌──────────────┐  ┌────────────────┐  │
-│  │ Pointcut     │  │ Advice         │  │
-│  │ (切点)       │+ │ (通知)         │  │
-│  │ WHERE?       │  │ WHEN & WHAT?   │  │
-│  └──────────────┘  └────────────────┘  │
-│         │                    │          │
-│         ▼                    ▼          │
-│  ┌────────────────────────────────┐    │
-│  │   JoinPoint（连接点）           │    │
-│  │   - 方法执行点                  │    │
-│  │   - 异常抛出点                  │    │
-│  └────────────────────────────────┘    │
-│         │                               │
-│         ▼                               │
-│  ┌────────────────────────────────┐    │
-│  │   Target（目标对象）            │    │
-│  │   - 被代理的原始对象             │    │
-│  └────────────────────────────────┘    │
-│         │                               │
-│         ▼                               │
-│  ┌────────────────────────────────┐    │
-│  │   Proxy（代理对象）             │    │
-│  │   - 包含增强逻辑的代理           │    │
-│  └────────────────────────────────┘    │
-└─────────────────────────────────────────┘
+          <DiagramBlock title="Spring AOP 工作流程">
+            {`
+┌─────────────────────────────────────────────┐
+│              Client Code                     │
+│         调用目标方法                          │
+└──────────────────┬──────────────────────────┘
+                   │
+                   ▼
+┌─────────────────────────────────────────────┐
+│         Proxy Object (代理对象)               │
+│   ┌─────────────────────────────────────┐   │
+│   │  Before Advice (前置通知)            │   │
+│   ├─────────────────────────────────────┤   │
+│   │  Target Method (目标方法)            │   │
+│   ├─────────────────────────────────────┤   │
+│   │  After Returning (后置通知)          │   │
+│   │  After Throwing (异常通知)           │   │
+│   │  After (最终通知)                    │   │
+│   └─────────────────────────────────────┘   │
+└─────────────────────────────────────────────┘
+                   │
+                   ▼
+┌─────────────────────────────────────────────┐
+│         Target Object (目标对象)              │
+│         实际业务逻辑                          │
+└─────────────────────────────────────────────┘
 
-Weaving（织入）：将 Aspect 应用到 Target 的过程
-            `}</pre>
+注意：Spring AOP 默认使用 JDK 动态代理（接口），如果目标类没有实现接口，
+则使用 CGLIB 代理（子类继承）。
+            `}
           </DiagramBlock>
 
-          <table className="w-full border-collapse my-6 text-[13px] sm:text-[14px]">
-            <thead>
-              <tr className="bg-parchment-deep">
-                <th className="border border-border-light px-3 py-2 text-left font-semibold">术语</th>
-                <th className="border border-border-light px-3 py-2 text-left font-semibold">说明</th>
-                <th className="border border-border-light px-3 py-2 text-left font-semibold">示例</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td className="border border-border-light px-3 py-2"><strong>Aspect</strong></td>
-                <td className="border border-border-light px-3 py-2">切面，横切关注点的模块化</td>
-                <td className="border border-border-light px-3 py-2">@Transactional</td>
-              </tr>
-              <tr className="bg-parchment-light/30">
-                <td className="border border-border-light px-3 py-2"><strong>JoinPoint</strong></td>
-                <td className="border border-border-light px-3 py-2">连接点，程序执行的某个点</td>
-                <td className="border border-border-light px-3 py-2">方法调用、异常抛出</td>
-              </tr>
-              <tr>
-                <td className="border border-border-light px-3 py-2"><strong>Advice</strong></td>
-                <td className="border border-border-light px-3 py-2">通知，在特定连接点执行的动作</td>
-                <td className="border border-border-light px-3 py-2">@Before、@After</td>
-              </tr>
-              <tr className="bg-parchment-light/30">
-                <td className="border border-border-light px-3 py-2"><strong>Pointcut</strong></td>
-                <td className="border border-border-light px-3 py-2">切点，匹配连接点的表达式</td>
-                <td className="border border-border-light px-3 py-2">execution(* com.example.*.*(..))</td>
-              </tr>
-              <tr>
-                <td className="border border-border-light px-3 py-2"><strong>Target</strong></td>
-                <td className="border border-border-light px-3 py-2">目标对象，被代理的原始对象</td>
-                <td className="border border-border-light px-3 py-2">UserService 实例</td>
-              </tr>
-              <tr className="bg-parchment-light/30">
-                <td className="border border-border-light px-3 py-2"><strong>Proxy</strong></td>
-                <td className="border border-border-light px-3 py-2">代理对象，包含增强逻辑</td>
-                <td className="border border-border-light px-3 py-2">JDK/CGLIB 代理</td>
-              </tr>
-              <tr>
-                <td className="border border-border-light px-3 py-2"><strong>Weaving</strong></td>
-                <td className="border border-border-light px-3 py-2">织入，将切面应用到目标对象</td>
-                <td className="border border-border-light px-3 py-2">编译期/运行时</td>
-              </tr>
-            </tbody>
-          </table>
-
-          <SideNote label="Spring AOP vs AspectJ">
-            Spring AOP 基于动态代理，仅支持方法级别的连接点；AspectJ 是完整的 AOP 框架，支持字段、构造器等更细粒度的连接点，但需要特殊编译器。
+          <SideNote>
+            <p className="text-sm text-ink-muted">
+              <strong>关键点：</strong>Spring AOP 只能拦截 <code className="font-mono text-xs">public</code> 
+              方法，且只有通过代理调用的方法才会被拦截。同类方法自调用不会经过代理，AOP 失效。
+            </p>
           </SideNote>
 
-          <h2 id="proxy-mechanism" className="font-display font-bold text-[20px] sm:text-display-md tracking-tight mt-8 sm:mt-12 mb-3 sm:mb-4 pb-[10px] border-b border-border-light text-ink">
-            二、代理机制详解
+          <h2 id="core" className="font-display font-bold text-[20px] sm:text-display-md tracking-tight mt-8 sm:mt-12 mb-3 sm:mb-4 pb-[10px] border-b border-border-light text-ink">
+            核心原理
           </h2>
+
+          <h3 id="proxy-mechanism" className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
+            代理机制
+          </h3>
           <p className="text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4">
-            Spring AOP 使用两种代理机制：<strong>JDK 动态代理</strong>和<strong>CGLIB 代理</strong>。
+            Spring AOP 支持两种代理方式：
           </p>
 
-          <Playground
-            code={`// ===== JDK 动态代理（基于接口）=====
-import java.lang.reflect.Proxy;
-import java.lang.reflect.InvocationHandler;
+          <div className="overflow-x-auto mb-6">
+            <table className="min-w-full divide-y divide-gray-200 border border-gray-200 rounded-lg">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">特性</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">JDK 动态代理</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">CGLIB</th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                <tr><td className="px-4 py-3 font-medium text-sm">原理</td><td className="px-4 py-3 text-sm">基于接口，生成接口的实现类</td><td className="px-4 py-3 text-sm">基于继承，生成目标类的子类</td></tr>
+                <tr><td className="px-4 py-3 font-medium text-sm">要求</td><td className="px-4 py-3 text-sm">目标类必须实现接口</td><td className="px-4 py-3 text-sm">目标类不能是 final</td></tr>
+                <tr><td className="px-4 py-3 font-medium text-sm">性能</td><td className="px-4 py-3 text-sm">JDK 8+ 性能接近 CGLIB</td><td className="px-4 py-3 text-sm">早期版本性能更好</td></tr>
+                <tr><td className="px-4 py-3 font-medium text-sm">默认策略</td><td className="px-4 py-3 text-sm">Spring Boot 2.x+ 默认</td><td className="px-4 py-3 text-sm">需手动配置</td></tr>
+                <tr><td className="px-4 py-3 font-medium text-sm">适用场景</td><td className="px-4 py-3 text-sm">面向接口编程</td><td className="px-4 py-3 text-sm">无接口的类</td></tr>
+              </tbody>
+            </table>
+          </div>
 
+          <Playground
+            code={`// JDK 动态代理示例
 public class JdkProxyExample {
     
     interface UserService {
-        void saveUser(String user);
+        void createUser(String name);
     }
     
     static class UserServiceImpl implements UserService {
-        public void saveUser(String user) {
-            System.out.println("保存用户: " + user);
-        }
-    }
-    
-    static class LoggingHandler implements InvocationHandler {
-        private final Object target;
-        
-        public LoggingHandler(Object target) {
-            this.target = target;
-        }
-        
         @Override
-        public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-            System.out.println("[日志] 方法开始: " + method.getName());
-            Object result = method.invoke(target, args);
-            System.out.println("[日志] 方法结束: " + method.getName());
-            return result;
+        public void createUser(String name) {
+            System.out.println("创建用户: " + name);
         }
     }
     
     public static void main(String[] args) {
         UserService target = new UserServiceImpl();
+        
+        // 创建代理
         UserService proxy = (UserService) Proxy.newProxyInstance(
             target.getClass().getClassLoader(),
             target.getClass().getInterfaces(),
-            new LoggingHandler(target)
+            (proxyObj, method, methodArgs) -> {
+                System.out.println("Before: " + method.getName());
+                Object result = method.invoke(target, methodArgs);
+                System.out.println("After: " + method.getName());
+                return result;
+            }
         );
-        proxy.saveUser("张三");
-    }
-}
-
-// 预期输出：
-// [日志] 方法开始: saveUser
-// 保存用户: 张三
-// [日志] 方法结束: saveUser
-
-
-// ===== CGLIB 代理（基于继承）=====
-import net.sf.cglib.proxy.Enhancer;
-import net.sf.cglib.proxy.MethodInterceptor;
-import net.sf.cglib.proxy.MethodProxy;
-
-public class CglibProxyExample {
-    
-    static class UserService {  // 无需实现接口
-        public void saveUser(String user) {
-            System.out.println("保存用户: " + user);
-        }
-    }
-    
-    static class LoggingInterceptor implements MethodInterceptor {
-        @Override
-        public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
-            System.out.println("[日志] 方法开始: " + method.getName());
-            Object result = proxy.invokeSuper(obj, args);
-            System.out.println("[日志] 方法结束: " + method.getName());
-            return result;
-        }
-    }
-    
-    public static void main(String[] args) {
-        Enhancer enhancer = new Enhancer();
-        enhancer.setSuperclass(UserService.class);
-        enhancer.setCallback(new LoggingInterceptor());
-        UserService proxy = (UserService) enhancer.create();
-        proxy.saveUser("李四");
+        
+        // 调用代理方法
+        proxy.createUser("张三");
+        // 输出：
+        // Before: createUser
+        // 创建用户: 张三
+        // After: createUser
     }
 }`}
             language="java"
-            highlights={[17, 28, 55, 65]}
-            filename="ProxyMechanism.java"
-            description="JDK 动态代理与 CGLIB 代理对比"
+            description="JDK 动态代理示例"
           />
 
-          <table className="w-full border-collapse my-6 text-[13px] sm:text-[14px]">
-            <thead>
-              <tr className="bg-parchment-deep">
-                <th className="border border-border-light px-3 py-2 text-left font-semibold">特性</th>
-                <th className="border border-border-light px-3 py-2 text-left font-semibold">JDK 动态代理</th>
-                <th className="border border-border-light px-3 py-2 text-left font-semibold">CGLIB 代理</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td className="border border-border-light px-3 py-2">实现方式</td>
-                <td className="border border-border-light px-3 py-2">基于接口</td>
-                <td className="border border-border-light px-3 py-2">基于继承</td>
-              </tr>
-              <tr className="bg-parchment-light/30">
-                <td className="border border-border-light px-3 py-2">目标类要求</td>
-                <td className="border border-border-light px-3 py-2">必须实现接口</td>
-                <td className="border border-border-light px-3 py-2">不能是 final 类</td>
-              </tr>
-              <tr>
-                <td className="border border-border-light px-3 py-2">性能</td>
-                <td className="border border-border-light px-3 py-2">JDK 8+ 优化后较快</td>
-                <td className="border border-border-light px-3 py-2">创建慢，调用快</td>
-              </tr>
-              <tr className="bg-parchment-light/30">
-                <td className="border border-border-light px-3 py-2">Spring 默认策略</td>
-                <td className="border border-border-light px-3 py-2">有接口时使用</td>
-                <td className="border border-border-light px-3 py-2">无接口时使用</td>
-              </tr>
-              <tr>
-                <td className="border border-border-light px-3 py-2">强制使用</td>
-                <td className="border border-border-light px-3 py-2">-</td>
-                <td className="border border-border-light px-3 py-2"><code className="font-mono text-[12px]">proxyTargetClass=true</code></td>
-              </tr>
-            </tbody>
-          </table>
-
-          <Callout type="warning" title="Spring Boot 2.x+ 的变化">
-            Spring Boot 2.x 默认使用 CGLIB 代理（<code className="font-mono text-[12px]">spring.aop.proxy-target-class=true</code>），即使目标类实现了接口。这可以避免一些因代理类型不一致导致的问题。
-          </Callout>
-
-          <h2 id="advice-types" className="font-display font-bold text-[20px] sm:text-display-md tracking-tight mt-8 sm:mt-12 mb-3 sm:mb-4 pb-[10px] border-b border-border-light text-ink">
-            三、通知类型
-          </h2>
+          <h3 id="advice-types" className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
+            通知类型
+          </h3>
           <p className="text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4">
-            Spring AOP 提供五种通知类型，控制在何时执行增强逻辑。
+            Spring AOP 提供了 <strong>5 种通知类型</strong>：
           </p>
 
           <Playground
-            code={`import org.aspectj.lang.annotation.*;
-import org.aspectj.lang.ProceedingJoinPoint;
-import org.springframework.stereotype.Component;
-
-@Aspect
+            code={`@Aspect
 @Component
 public class LoggingAspect {
     
-    // 1. @Before：前置通知（方法执行前）
+    // 1. Before Advice - 前置通知（方法执行前）
     @Before("execution(* com.example.service.*.*(..))")
-    public void beforeAdvice() {
-        System.out.println("【前置】方法执行前");
+    public void beforeAdvice(JoinPoint joinPoint) {
+        System.out.println("Before: " + joinPoint.getSignature().getName());
     }
     
-    // 2. @After：后置通知（方法执行后，无论是否异常）
-    @After("execution(* com.example.service.*.*(..))")
-    public void afterAdvice() {
-        System.out.println("【后置】方法执行后");
-    }
-    
-    // 3. @AfterReturning：返回通知（方法成功返回后）
+    // 2. After Returning - 后置通知（方法正常返回后）
     @AfterReturning(pointcut = "execution(* com.example.service.*.*(..))", returning = "result")
-    public void afterReturningAdvice(Object result) {
-        System.out.println("【返回】方法返回值: " + result);
+    public void afterReturningAdvice(JoinPoint joinPoint, Object result) {
+        System.out.println("After Returning: " + result);
     }
     
-    // 4. @AfterThrowing：异常通知（方法抛出异常时）
+    // 3. After Throwing - 异常通知（方法抛出异常后）
     @AfterThrowing(pointcut = "execution(* com.example.service.*.*(..))", throwing = "ex")
-    public void afterThrowingAdvice(Exception ex) {
-        System.out.println("【异常】捕获异常: " + ex.getMessage());
+    public void afterThrowingAdvice(JoinPoint joinPoint, Throwable ex) {
+        System.out.println("After Throwing: " + ex.getMessage());
     }
     
-    // 5. @Around：环绕通知（最强大，可控制方法执行）
+    // 4. After (Finally) - 最终通知（无论是否异常都执行）
+    @After("execution(* com.example.service.*.*(..))")
+    public void afterAdvice(JoinPoint joinPoint) {
+        System.out.println("After (Finally): cleanup resources");
+    }
+    
+    // 5. Around - 环绕通知（最强大，可以控制方法执行）
     @Around("execution(* com.example.service.*.*(..))")
     public Object aroundAdvice(ProceedingJoinPoint joinPoint) throws Throwable {
-        System.out.println("【环绕】方法执行前");
+        System.out.println("Around: Before");
         try {
             Object result = joinPoint.proceed();  // 执行目标方法
-            System.out.println("【环绕】方法执行后，返回值: " + result);
+            System.out.println("Around: After Returning");
             return result;
-        } catch (Throwable e) {
-            System.out.println("【环绕】捕获异常: " + e.getMessage());
-            throw e;
+        } catch (Throwable ex) {
+            System.out.println("Around: After Throwing");
+            throw ex;
+        } finally {
+            System.out.println("Around: After Finally");
         }
     }
 }`}
             language="java"
-            highlights={[10, 16, 22, 28, 34]}
-            filename="AdviceTypes.java"
-            description="五种通知类型示例"
+            description="5种通知类型示例"
           />
 
-          <DiagramBlock title="通知执行顺序">
-            <pre className="font-mono text-[11px] sm:text-[12px] text-ink-muted leading-[1.6] whitespace-pre">{`
-正常执行流程：
-@Before → 目标方法 → @AfterReturning → @After
-
-异常执行流程：
-@Before → 目标方法(异常) → @AfterThrowing → @After
-
-@Around 包裹整个流程：
-@Around(前) → @Before → 目标方法 → @AfterReturning/@AfterThrowing → @After → @Around(后)
-            `}</pre>
-          </DiagramBlock>
-
-          <SideNote label="@Around 的威力">
-            @Around 是最强大的通知类型，可以完全控制方法执行（包括是否执行、修改参数、修改返回值、捕获异常）。其他通知类型都可以用 @Around 实现。
-          </SideNote>
-
-          <h2 id="pointcut-expression" className="font-display font-bold text-[20px] sm:text-display-md tracking-tight mt-8 sm:mt-12 mb-3 sm:mb-4 pb-[10px] border-b border-border-light text-ink">
-            四、切点表达式
-          </h2>
+          <h3 id="pointcut-expression" className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
+            切点表达式
+          </h3>
           <p className="text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4">
-            切点表达式用于精确匹配需要增强的方法，Spring AOP 使用 AspectJ 切点表达式语言。
+            切点表达式用于定义哪些方法需要被拦截，Spring 使用 AspectJ 的切点表达式语言：
           </p>
 
           <Playground
             code={`// 切点表达式语法：
-// execution(<修饰符>? <返回类型> <方法名>(<参数>) <异常>?)
+// execution(modifiers-pattern? ret-type-pattern declaring-type-pattern? name-pattern(param-pattern) throws-pattern?)
 
-@Aspect
-@Component
-public class PointcutExamples {
-    
-    // 1. 匹配所有 public 方法
-    @Pointcut("execution(public * *(..))")
-    public void allPublicMethods() {}
-    
-    // 2. 匹配指定包下的所有方法
-    @Pointcut("execution(* com.example.service.*.*(..))")
-    public void serviceLayerMethods() {}
-    
-    // 3. 匹配指定类的所有方法
-    @Pointcut("execution(* com.example.service.UserService.*(..))")
-    public void userServiceMethods() {}
-    
-    // 4. 匹配指定方法（带参数）
-    @Pointcut("execution(* com.example.service.UserService.saveUser(String))")
-    public void saveUserMethod() {}
-    
-    // 5. 匹配带有特定注解的方法
-    @Pointcut("@annotation(org.springframework.transaction.annotation.Transactional)")
-    public void transactionalMethods() {}
-    
-    // 6. 组合表达式（AND、OR、NOT）
-    @Pointcut("serviceLayerMethods() AND !saveUserMethod()")
-    public void serviceExceptSave() {}
-    
-    // 7. 匹配指定包及其子包
-    @Pointcut("execution(* com.example.service..*.*(..))")
-    public void serviceLayerAndSubpackages() {}
-    
-    // 使用示例
-    @Before("serviceLayerMethods()")
-    public void logServiceCalls() {
-        System.out.println("调用服务层方法");
-    }
-}`}
+// 示例：
+@Pointcut("execution(public * com.example.service.*.*(..))")
+//     ↓       ↓    ↓                      ↓     ↓    ↓
+//   修饰符  返回值  包名.类名             方法名  参数  异常
+
+// 常用表达式：
+// 1. 拦截所有 public 方法
+@Pointcut("execution(public * *(..))")
+
+// 2. 拦截指定包下所有类的所有方法
+@Pointcut("execution(* com.example.service.*.*(..))")
+
+// 3. 拦截指定类的所有方法
+@Pointcut("execution(* com.example.service.UserService.*(..))")
+
+// 4. 拦截指定方法
+@Pointcut("execution(* com.example.service.UserService.createUser(..))")
+
+// 5. 拦截带特定注解的方法
+@Pointcut("@annotation(org.springframework.transaction.annotation.Transactional)")
+
+// 6. 组合表达式
+@Pointcut("execution(* com.example.service.*.*(..)) && !execution(* *.toString(..))")`}
             language="java"
-            highlights={[9, 13, 17, 21, 25, 29, 33]}
-            filename="PointcutExpressions.java"
-            description="常用切点表达式示例"
+            description="切点表达式语法"
           />
 
-          <table className="w-full border-collapse my-6 text-[13px] sm:text-[14px]">
-            <thead>
-              <tr className="bg-parchment-deep">
-                <th className="border border-border-light px-3 py-2 text-left font-semibold">通配符</th>
-                <th className="border border-border-light px-3 py-2 text-left font-semibold">说明</th>
-                <th className="border border-border-light px-3 py-2 text-left font-semibold">示例</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td className="border border-border-light px-3 py-2"><code className="font-mono text-[12px]">*</code></td>
-                <td className="border border-border-light px-3 py-2">匹配任意字符（不包括包分隔符 .）</td>
-                <td className="border border-border-light px-3 py-2"><code className="font-mono text-[12px]">*Service</code> 匹配 UserService、OrderService</td>
-              </tr>
-              <tr className="bg-parchment-light/30">
-                <td className="border border-border-light px-3 py-2"><code className="font-mono text-[12px]">..</code></td>
-                <td className="border border-border-light px-3 py-2">匹配任意子包或任意参数</td>
-                <td className="border border-border-light px-3 py-2"><code className="font-mono text-[12px]">com.example..*</code> 匹配 com.example 及其子包</td>
-              </tr>
-              <tr>
-                <td className="border border-border-light px-3 py-2"><code className="font-mono text-[12px]">+</code></td>
-                <td className="border border-border-light px-3 py-2">匹配指定类及其子类</td>
-                <td className="border border-border-light px-3 py-2"><code className="font-mono text-[12px]">com.example.BaseService+</code></td>
-              </tr>
-            </tbody>
-          </table>
-
-          <h2 id="implementation" className="font-display font-bold text-[20px] sm:text-display-md tracking-tight mt-8 sm:mt-12 mb-3 sm:mb-4 pb-[10px] border-b border-border-light text-ink">
-            五、AOP 实现方式
+          <h2 id="playground" className="font-display font-bold text-[20px] sm:text-display-md tracking-tight mt-8 sm:mt-12 mb-3 sm:mb-4 pb-[10px] border-b border-border-light text-ink">
+            代码实验场
           </h2>
-          <p className="text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4">
-            Spring 提供两种 AOP 配置方式：<strong>注解驱动</strong>和<strong>XML 配置</strong>。
-          </p>
-
           <Playground
-            code={`// ===== 方式 1：注解驱动（推荐）=====
-@Aspect
+            code={`@Aspect
 @Component
-public class TransactionAspect {
-    
-    @Around("@annotation(transactional)")
-    public Object manageTransaction(ProceedingJoinPoint joinPoint, 
-                                     Transactional transactional) throws Throwable {
-        System.out.println("开启事务");
-        try {
-            Object result = joinPoint.proceed();
-            System.out.println("提交事务");
-            return result;
-        } catch (Exception e) {
-            System.out.println("回滚事务");
-            throw e;
-        }
-    }
-}
-
-// 启用注解支持
-@Configuration
-@EnableAspectJAutoProxy
-public class AopConfig {
-}
-
-
-// ===== 方式 2：XML 配置（遗留系统）=====
-/*
-<aop:config>
-    <aop:aspect ref="loggingAspect">
-        <aop:pointcut id="serviceMethods" 
-                      expression="execution(* com.example.service.*.*(..))"/>
-        <aop:before method="logBefore" pointcut-ref="serviceMethods"/>
-        <aop:after-returning method="logAfter" 
-                             pointcut-ref="serviceMethods" 
-                             returning="result"/>
-    </aop:aspect>
-</aop:config>
-
-<bean id="loggingAspect" class="com.example.LoggingAspect"/>
-*/`}
-            language="java"
-            highlights={[2, 6, 23]}
-            filename="AopImplementation.java"
-            description="AOP 两种实现方式"
-          />
-
-          <Callout type="tip" title="现代 Spring 最佳实践">
-            <ul className="list-disc list-inside space-y-1 text-[13px] sm:text-[14px]">
-              <li>优先使用注解驱动方式，代码更简洁</li>
-              <li>使用 <code className="font-mono text-[12px]">@EnableAspectJAutoProxy</code> 启用 AOP 支持</li>
-              <li>将切面定义为 <code className="font-mono text-[12px]">@Component</code>，让 Spring 自动管理</li>
-              <li>使用 <code className="font-mono text-[12px]">@Pointcut</code> 定义 reusable 切点表达式</li>
-            </ul>
-          </Callout>
-
-          <h2 id="use-cases" className="font-display font-bold text-[20px] sm:text-display-md tracking-tight mt-8 sm:mt-12 mb-3 sm:mb-4 pb-[10px] border-b border-border-light text-ink">
-            六、典型应用场景
-          </h2>
-
-          <Playground
-            code={`import org.aspectj.lang.annotation.*;
-import org.aspectj.lang.ProceedingJoinPoint;
-import org.springframework.stereotype.Component;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-// 场景 1：日志记录
-@Aspect
-@Component
-public class LoggingAspect {
-    private static final Logger log = LoggerFactory.getLogger(LoggingAspect.class);
-    
-    @Around("@annotation(org.springframework.web.bind.annotation.RequestMapping)")
-    public Object logControllerExecution(ProceedingJoinPoint joinPoint) throws Throwable {
-        long start = System.currentTimeMillis();
-        String methodName = joinPoint.getSignature().toShortString();
-        
-        try {
-            Object result = joinPoint.proceed();
-            long duration = System.currentTimeMillis() - start;
-            log.info("{} 执行成功，耗时: {}ms", methodName, duration);
-            return result;
-        } catch (Exception e) {
-            log.error("{} 执行失败: {}", methodName, e.getMessage());
-            throw e;
-        }
-    }
-}
-
-// 场景 2：权限检查
-@Aspect
-@Component
-public class SecurityAspect {
-    
-    @Before("@annotation(requireRole)")
-    public void checkPermission(JoinPoint joinPoint, RequireRole requireRole) {
-        String requiredRole = requireRole.value();
-        String currentUserRole = getCurrentUserRole();
-        
-        if (!currentUserRole.equals(requiredRole)) {
-            throw new AccessDeniedException("无权访问");
-        }
-    }
-    
-    private String getCurrentUserRole() {
-        // 从 SecurityContext 获取当前用户角色
-        return "ADMIN";
-    }
-}
-
-// 场景 3：性能监控
-@Aspect
-@Component
+@Slf4j
 public class PerformanceAspect {
     
-    @Around("@annotation(MonitorPerformance)")
+    /**
+     * 性能监控切面：记录方法执行时间
+     */
+    @Around("@annotation(com.example.annotation.MonitorPerformance)")
     public Object monitorPerformance(ProceedingJoinPoint joinPoint) throws Throwable {
-        long start = System.nanoTime();
+        long startTime = System.currentTimeMillis();
+        
         try {
-            return joinPoint.proceed();
-        } finally {
-            long duration = System.nanoTime() - start;
-            if (duration > 1_000_000_000L) {  // 超过 1 秒
-                System.err.println("慢方法警告: " + joinPoint.getSignature() + 
-                                   " 耗时: " + (duration / 1_000_000) + "ms");
+            // 执行目标方法
+            Object result = joinPoint.proceed();
+            
+            long endTime = System.currentTimeMillis();
+            long duration = endTime - startTime;
+            
+            log.info("Method: {}, Duration: {}ms", 
+                joinPoint.getSignature().toShortString(), duration);
+            
+            // 如果执行时间超过阈值，记录警告
+            if (duration > 1000) {
+                log.warn("Slow method detected: {} took {}ms", 
+                    joinPoint.getSignature().toShortString(), duration);
             }
+            
+            return result;
+        } catch (Throwable ex) {
+            long endTime = System.currentTimeMillis();
+            log.error("Method failed after {}ms: {}", 
+                endTime - startTime, joinPoint.getSignature().toShortString(), ex);
+            throw ex;
         }
+    }
+}
+
+// 使用示例
+@Service
+public class OrderService {
+    
+    @MonitorPerformance  // 添加注解即可启用性能监控
+    public Order createOrder(OrderRequest request) {
+        // 业务逻辑...
+        return order;
     }
 }`}
             language="java"
-            highlights={[13, 34, 52]}
-            filename="AopUseCases.java"
-            description="AOP 典型应用场景"
+            description="性能监控切面示例"
           />
 
           <h2 id="misconceptions" className="font-display font-bold text-[20px] sm:text-display-md tracking-tight mt-8 sm:mt-12 mb-3 sm:mb-4 pb-[10px] border-b border-border-light text-ink">
-            七、常见误区
+            常见误区
           </h2>
 
-          <Callout type="danger" title="误区 1：AOP 可以拦截所有方法调用">
-            <p className="text-[13px] sm:text-[14px] leading-relaxed">
-              <strong>错误认知：</strong>AOP 可以拦截类内部的方法调用。<br/>
-              <strong>真相：</strong>Spring AOP 基于代理，只能拦截外部调用。如果类内部方法 A 调用方法 B，方法 B 上的 AOP 不会生效。解决方案：自注入或使用 AspectJ。
+          <Callout type="danger" title="误区 1：认为 AOP 可以拦截所有方法">
+            <p className="text-sm mb-2">
+              ❌ 错误认知：AOP 可以拦截 private、protected 方法
+            </p>
+            <p className="text-sm">
+              ✅ 正确理解：Spring AOP <strong>只能拦截 public 方法</strong>。private、protected、default 
+              修饰的方法无法被代理拦截。如果需要拦截非 public 方法，应使用 AspectJ（编译时织入）。
             </p>
           </Callout>
 
-          <Callout type="danger" title="误区 2：final 方法可以被 AOP 增强">
-            <p className="text-[13px] sm:text-[14px] leading-relaxed">
-              <strong>错误认知：</strong>final 方法可以正常被 AOP 拦截。<br/>
-              <strong>真相：</strong>CGLIB 基于继承实现代理，final 方法无法被子类重写，因此无法被 CGLIB 代理增强。JDK 动态代理不受此限制（基于接口）。
+          <Callout type="danger" title="误区 2：忽略自调用问题">
+            <p className="text-sm mb-2">
+              ❌ 危险做法：
+            </p>
+            <pre className="bg-gray-50 p-3 rounded text-sm font-mono">
+{`@Service
+public class UserService {
+    public void createUser() {
+        this.validateUser();  // 自调用，AOP 失效！
+    }
+    
+    @Transactional
+    public void validateUser() {
+        // 事务不会生效
+    }
+}`}
+            </pre>
+            <p className="text-sm mt-2">
+              ✅ 解决方案：注入自身代理对象 <code className="font-mono text-xs">@Autowired private UserService self;</code> 
+              然后调用 <code className="font-mono text-xs">self.validateUser()</code>
             </p>
           </Callout>
 
-          <Callout type="danger" title="误区 3：@Transactional 一定生效">
-            <p className="text-[13px] sm:text-[14px] leading-relaxed">
-              <strong>错误认知：</strong>标注 @Transactional 的方法一定会开启事务。<br/>
-              <strong>真相：</strong>以下情况事务不生效：① 方法不是 public；② 同类内部调用；③ 异常被捕获未抛出；④ 数据库引擎不支持事务（如 MyISAM）；⑤ 未配置事务管理器。
+          <Callout type="danger" title="误区 3：认为 Around 通知可以省略 proceed()">
+            <p className="text-sm mb-2">
+              ❌ 危险做法：
+            </p>
+            <pre className="bg-gray-50 p-3 rounded text-sm font-mono">
+{`@Around("execution(* *.*(..))")
+public Object aroundAdvice(ProceedingJoinPoint pjp) {
+    System.out.println("Before");
+    // 忘记调用 pjp.proceed()，目标方法不会执行！
+    System.out.println("After");
+    return null;
+}`}
+            </pre>
+            <p className="text-sm mt-2">
+              ✅ 正确做法：必须调用 <code className="font-mono text-xs">pjp.proceed()</code> 执行目标方法，
+              除非你故意要阻止方法执行（如权限校验失败）。
             </p>
           </Callout>
 
           <h2 id="interview" className="font-display font-bold text-[20px] sm:text-display-md tracking-tight mt-8 sm:mt-12 mb-3 sm:mb-4 pb-[10px] border-b border-border-light text-ink">
-            八、面试真题
+            面试真题
           </h2>
-
           <InterviewSection
             questions={[
               {
-                question: "Spring AOP 的实现原理是什么？",
-                answer: "Spring AOP 基于动态代理实现：① 如果目标类实现了接口，使用 JDK 动态代理（java.lang.reflect.Proxy）；② 如果目标类没有实现接口，使用 CGLIB 代理（通过继承生成子类）。Spring Boot 2.x+ 默认使用 CGLIB。代理对象在方法调用前后织入增强逻辑（Advice）。"
+                question: 'Spring AOP 的实现原理是什么？',
+                answer: `Spring AOP 基于动态代理实现：
+
+1. 代理方式：
+   - JDK 动态代理：基于接口，生成接口的实现类
+   - CGLIB：基于继承，生成目标类的子类
+   
+2. 选择策略：
+   - 如果目标类实现了接口 → 默认使用 JDK 动态代理
+   - 如果目标类没有接口 → 使用 CGLIB
+   - Spring Boot 2.x+ 可以通过配置强制使用 CGLIB
+
+3. 工作流程：
+   a. Spring 启动时扫描 @Aspect 注解的切面类
+   b. 解析切点表达式，确定哪些 Bean 需要被代理
+   c. 为符合条件的 Bean 创建代理对象
+   d. 代理对象包裹了目标对象和通知逻辑
+   e. 调用代理方法时，先执行通知，再执行目标方法
+
+4. 底层技术：
+   - JDK 动态代理：java.lang.reflect.Proxy + InvocationHandler
+   - CGLIB：net.sf.cglib.proxy.Enhancer + MethodInterceptor
+
+5. 局限性：
+   - 只能拦截 public 方法
+   - 只能拦截通过代理调用的方法（自调用失效）
+   - 无法拦截 final 方法（CGLIB）`
               },
               {
-                question: "JDK 动态代理和 CGLIB 的区别？",
-                answer: "主要区别：① JDK 动态代理基于接口，CGLIB 基于继承；② JDK 要求目标类实现接口，CGLIB 要求目标类不能是 final；③ JDK 8+ 优化后性能接近 CGLIB；④ CGLIB 创建代理慢但调用快，JDK 相反；⑤ Spring Boot 2.x+ 默认使用 CGLIB。"
+                question: 'JDK 动态代理和 CGLIB 的区别是什么？如何选择？',
+                answer: `主要区别：
+
+1. 实现原理：
+   - JDK 动态代理：基于接口，生成接口的实现类
+   - CGLIB：基于继承，生成目标类的子类
+
+2. 使用条件：
+   - JDK：目标类必须实现接口
+   - CGLIB：目标类不能是 final，方法不能是 final
+
+3. 性能：
+   - JDK 8+：两者性能接近，JDK 略优
+   - JDK 7 及以前：CGLIB 性能更好
+
+4. 功能：
+   - JDK：只能代理接口方法
+   - CGLIB：可以代理类的所有非 final 方法
+
+5. 依赖：
+   - JDK：无需额外依赖
+   - CGLIB：需要 cglib 库（Spring 已内置）
+
+选择原则：
+- Spring Boot 2.x+：默认使用 JDK 动态代理
+- 如果需要代理没有接口的类：使用 CGLIB
+- 配置方式：spring.aop.proxy-target-class=true 强制使用 CGLIB
+
+最佳实践：
+- 优先面向接口编程，使用 JDK 动态代理
+- 只有在必要时才使用 CGLIB`
               },
               {
-                question: "什么是 AOP 的五大通知类型？",
-                answer: "五大通知类型：① @Before（前置通知）：方法执行前；② @After（后置通知）：方法执行后，无论是否异常；③ @AfterReturning（返回通知）：方法成功返回后；④ @AfterThrowing（异常通知）：方法抛出异常时；⑤ @Around（环绕通知）：包裹整个方法执行，最强大，可控制方法执行、修改返回值、捕获异常。"
+                question: 'Spring AOP 和 AspectJ 的区别是什么？',
+                answer: `核心区别：
+
+1. 织入时机：
+   - Spring AOP：运行时织入（动态代理）
+   - AspectJ：编译时织入或加载时织入
+
+2. 功能范围：
+   - Spring AOP：只能拦截方法调用
+   - AspectJ：可以拦截字段访问、构造器调用、静态方法等
+
+3. 性能：
+   - Spring AOP：有代理开销，但影响不大
+   - AspectJ：无运行时开销，性能更好
+
+4. 复杂度：
+   - Spring AOP：简单易用，与 Spring 集成好
+   - AspectJ：学习曲线陡峭，配置复杂
+
+5. 适用场景：
+   - Spring AOP：大多数企业应用（日志、事务、安全）
+   - AspectJ：需要更细粒度控制的场景
+
+6. 依赖：
+   - Spring AOP：只需 spring-aop
+   - AspectJ：需要 aspectjweaver、aspectjrt
+
+推荐：
+- 90% 的场景使用 Spring AOP 就足够了
+- 只有在 Spring AOP 无法满足需求时才考虑 AspectJ`
               },
               {
-                question: "为什么类内部方法调用会导致 AOP 失效？",
-                answer: "Spring AOP 基于代理模式，只有外部调用代理对象时才会触发增强逻辑。当类内部方法 A 调用方法 B 时，调用的是 this.B()，绕过了代理对象，直接调用目标对象的方法，因此 AOP 不生效。解决方案：① 自注入（@Autowired self）；② 通过 AopContext.currentProxy() 获取代理；③ 重构代码，将方法 B 移到另一个类；④ 使用 AspectJ 替代 Spring AOP。"
+                question: '什么是 AOP 中的 JoinPoint、Pointcut、Advice、Aspect？',
+                answer: `AOP 核心概念：
+
+1. JoinPoint（连接点）：
+   - 程序执行过程中的某个点（方法调用、异常抛出等）
+   - Spring AOP 只支持方法级别的连接点
+   - 通过 JoinPoint 对象可以获取方法签名、参数等信息
+
+2. Pointcut（切点）：
+   - 一组 JoinPoint 的集合，定义了哪些方法需要被拦截
+   - 使用切点表达式定义，如 execution(* com.example.service.*.*(..))
+   - 一个切面可以有多个切点
+
+3. Advice（通知）：
+   - 在切点处执行的额外逻辑
+   - 5 种类型：Before、After Returning、After Throwing、After、Around
+   - Around 最强大，可以控制方法是否执行
+
+4. Aspect（切面）：
+   - Pointcut + Advice 的组合
+   - 使用 @Aspect 注解标记的类
+   - 一个切面可以包含多个切点和通知
+
+关系：
+Aspect = Pointcut（在哪里）+ Advice（做什么）
+
+示例：
+@Aspect
+@Component
+public class LoggingAspect {  // Aspect
+    
+    @Before("execution(* com.example.service.*.*(..))")  // Pointcut
+    public void logBefore(JoinPoint jp) {  // Advice
+        System.out.println("Before: " + jp.getSignature());
+    }
+}`
               },
               {
-                question: "@Transactional 在什么情况下会失效？",
-                answer: "事务失效场景：① 方法不是 public；② 同类内部方法调用（AOP 失效）；③ 异常被 try-catch 捕获未抛出；④ 数据库引擎不支持事务（如 MySQL MyISAM）；⑤ 未配置或未启用事务管理器；⑥  propagation 设置错误；⑦  rollbackFor 配置不当。"
-              }
+                question: 'Spring AOP 有哪些典型应用场景？',
+                answer: `Spring AOP 的典型应用场景：
+
+1. 日志记录：
+   - 记录方法调用、参数、返回值、执行时间
+   - 统一日志格式，便于排查问题
+
+2. 事务管理：
+   - @Transactional 就是基于 AOP 实现
+   - 自动开启、提交、回滚事务
+
+3. 权限校验：
+   - 在方法执行前检查用户权限
+   - 无权限时抛出异常，阻止方法执行
+
+4. 性能监控：
+   - 记录方法执行时间
+   - 检测慢方法，优化性能
+
+5. 缓存：
+   - @Cacheable、@CacheEvict 等注解
+   - 方法执行前检查缓存，执行后更新缓存
+
+6. 异常处理：
+   - 统一捕获和处理异常
+   - 转换为友好的错误信息
+
+7. 审计：
+   - 记录关键操作（如删除、修改）
+   - 满足合规要求
+
+8. 重试机制：
+   - @Retryable 注解
+   - 方法失败时自动重试
+
+最佳实践：
+- 避免在切面中编写复杂业务逻辑
+- 切面应该轻量、无状态
+- 注意切面的执行顺序（@Order）`
+              },
             ]}
           />
 
-          <h2 id="related" className="font-display font-bold text-[20px] sm:text-display-md tracking-tight mt-8 sm:mt-12 mb-3 sm:mb-4 pb-[10px] border-b border-border-light text-ink">
-            九、知识关联
+          <h2 id="comparison" className="font-display font-bold text-[20px] sm:text-display-md tracking-tight mt-8 sm:mt-12 mb-3 sm:mb-4 pb-[10px] border-b border-border-light text-ink">
+            对比分析
           </h2>
           <p className="text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4">
-            Spring AOP 是 Spring 框架的核心技术之一，广泛应用于事务管理、日志记录等场景：
+            AOP vs OOP 的对比：
           </p>
-          <ul className="list-disc list-inside space-y-2 text-[14px] sm:text-[15px] text-ink-muted mb-6">
-            <li><strong className="text-ink">前置知识：</strong><a href="/docs/01-java-core/reflection" className="text-accent hover:underline ml-1">反射机制</a>、<a href="/docs/06-spring-framework/spring-core" className="text-accent hover:underline ml-1">Spring IoC</a></li>
-            <li><strong className="text-ink">后续学习：</strong><a href="/docs/06-spring-framework/spring-transaction" className="text-accent hover:underline ml-1">Spring 事务管理</a>、<a href="/docs/09-design-patterns/structural-patterns" className="text-accent hover:underline ml-1">代理模式</a></li>
-            <li><strong className="text-ink">相关技术：</strong>AspectJ、Java 动态代理、CGLIB</li>
-          </ul>
+          <div className="overflow-x-auto mb-6">
+            <table className="min-w-full divide-y divide-gray-200 border border-gray-200 rounded-lg">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">维度</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">OOP（面向对象）</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">AOP（面向切面）</th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                <tr><td className="px-4 py-3 font-medium text-sm">关注点</td><td className="px-4 py-3 text-sm">纵向业务逻辑</td><td className="px-4 py-3 text-sm">横向横切关注点</td></tr>
+                <tr><td className="px-4 py-3 font-medium text-sm">模块化</td><td className="px-4 py-3 text-sm">类、对象</td><td className="px-4 py-3 text-sm">切面</td></tr>
+                <tr><td className="px-4 py-3 font-medium text-sm">解决的问题</td><td className="px-4 py-3 text-sm">代码复用、封装</td><td className="px-4 py-3 text-sm">代码解耦、分离关注点</td></tr>
+                <tr><td className="px-4 py-3 font-medium text-sm">典型应用</td><td className="px-4 py-3 text-sm">业务实体、服务</td><td className="px-4 py-3 text-sm">日志、事务、安全</td></tr>
+                <tr><td className="px-4 py-3 font-medium text-sm">关系</td><td className="px-4 py-3 text-sm">互补，不是替代</td><td className="px-4 py-3 text-sm">补充 OOP 的不足</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <section id="related" className="mb-8">
+            <h2 className="font-display font-bold text-[20px] sm:text-display-md tracking-tight mt-8 sm:mt-12 mb-3 sm:mb-4 pb-[10px] border-b border-border-light text-ink">
+              关联知识
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="p-4 border border-gray-200 rounded-lg hover:border-indigo-300 transition-colors">
+                <h4 className="font-semibold text-sm mb-2">→ Spring事务管理</h4>
+                <p className="text-xs text-ink-muted">学习 AOP 在事务中的应用</p>
+              </div>
+              <div className="p-4 border border-gray-200 rounded-lg hover:border-indigo-300 transition-colors">
+                <h4 className="font-semibold text-sm mb-2">→ 代理模式详解</h4>
+                <p className="text-xs text-ink-muted">深入理解 JDK 动态代理和 CGLIB</p>
+              </div>
+            </div>
+          </section>
 
           <ArticleNav {...getArticleNav(meta.category, meta.id)} />
         </KnowledgeLayout>
