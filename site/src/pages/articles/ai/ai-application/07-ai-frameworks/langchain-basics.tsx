@@ -61,12 +61,17 @@ export default function LangChainBasics({ meta }: { meta: KnowledgeNode }) {
 
           <DiagramBlock title="LangChain 核心架构">
             {`graph TD
-              APP["LangChain Application"]
-              APP --> PROMPTS["Prompts<br/>Template / Few-shot / Dynamic"]
-              APP --> MODELS["Models<br/>Chat / LLM / Embedding"]
-              APP --> CHAINS["Chains<br/>Runnable / Parallel / Sequence"]
-              APP --> MEMORY["Memory<br/>Buffer / Summary / Vector"]
-              APP --> TOOLS["Tools & Agents"]
+              APP["LangChain Application<br/>应用层：整合各模块构建AI应用"]
+              APP --> PROMPTS["Prompts<br/>提示词管理：模板化、动态生成、Few-shot示例"]
+              APP --> MODELS["Models<br/>模型接口：统一封装不同LLM提供商"]
+              APP --> CHAINS["Chains<br/>链式编排：组合多个组件形成处理流程"]
+              APP --> MEMORY["Memory<br/>记忆管理：维护对话历史和上下文"]
+              APP --> TOOLS["Tools & Agents<br/>工具与代理：扩展LLM能力，实现自主决策"]
+              
+              PROMPTS -.->|提供结构化输入| MODELS
+              MODELS -.->|生成原始输出| CHAINS
+              CHAINS -.->|协调执行| TOOLS
+              MEMORY -.->|存储/检索上下文| CHAINS
             `}
           </DiagramBlock>
 

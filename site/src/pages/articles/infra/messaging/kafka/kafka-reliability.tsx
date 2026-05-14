@@ -39,7 +39,7 @@ const tocItems: TocItem[] = [
   { id: 'related', text: '十二、知识关联', level: 2 },
 ]
 
-export default function KafkaReliability({ meta }: { metanswer: KnowledgeNode }) {
+export default function KafkaReliability({ meta }: { meta: KnowledgeNode }) {
   return (
     <div className="flex max-w-[100vw] overflow-x-hidden">
       <div className="flex-1 min-w-0 px-4 sm:px-6 lg:px-10 xl:px-12 xl:pr-[240px] pb-20">

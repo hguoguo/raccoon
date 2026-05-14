@@ -390,9 +390,9 @@ producer.send(record);`}
               P3 --> CB4`}
           </DiagramBlock>
 
-          <SideNote side="right">
+          <SideNote label="关键规则">
             <p className="text-[13px] leading-[1.7]">
-              <strong>关键规则：</strong>同一 Consumer Group 内，每个 Partition 只能被一个 Consumer 消费；但不同 Group 可以独立消费同一 Topic（发布-订阅模式）。
+              同一 Consumer Group 内，每个 Partition 只能被一个 Consumer 消费；但不同 Group 可以独立消费同一 Topic（发布-订阅模式）。
             </p>
           </SideNote>
 
@@ -459,15 +459,12 @@ while (true) {
           </p>
 
           <ContextSwitcher
-            scenarios={[
-              {
-                label: '同步提交',
-                content: (
-                  <div className="space-y-3">
-                    <p className="text-[14px] leading-[1.8]">
-                      <code className="font-mono text-[12px] bg-parchment-warm text-accent-deep px-[5px] py-[2px] rounded-[3px]">commitSync()</code> 会阻塞直到提交成功或抛出异常。
-                    </p>
-                    <pre className="bg-parchment-deep p-3 rounded-paper-sm text-[13px] overflow-x-auto">
+            simpleContent={
+              <div className="space-y-3">
+                <p className="text-[14px] leading-[1.8]">
+                  <code className="font-mono text-[12px] bg-parchment-warm text-accent-deep px-[5px] py-[2px] rounded-[3px]">commitSync()</code> 会阻塞直到提交成功或抛出异常。
+                </p>
+                <pre className="bg-parchment-deep p-3 rounded-paper-sm text-[13px] overflow-x-auto">
 {`try {
     processMessage(record);
     consumer.commitSync(); // 阻塞等待
@@ -475,34 +472,29 @@ while (true) {
     // 处理提交失败
     log.error("Commit failed", e);
 }`}
-                    </pre>
-                    <p className="text-[14px] leading-[1.8]">
-                      <strong>优点：</strong>可靠性高；<strong>缺点：</strong>影响吞吐量。
-                    </p>
-                  </div>
-                ),
-              },
-              {
-                label: '异步提交',
-                content: (
-                  <div className="space-y-3">
-                    <p className="text-[14px] leading-[1.8]">
-                      <code className="font-mono text-[12px] bg-parchment-warm text-accent-deep px-[5px] py-[2px] rounded-[3px]">commitAsync()</code> 立即返回，通过回调处理结果。
-                    </p>
-                    <pre className="bg-parchment-deep p-3 rounded-paper-sm text-[13px] overflow-x-auto">
+                </pre>
+                <p className="text-[14px] leading-[1.8]">
+                  <strong>优点：</strong>可靠性高；<strong>缺点：</strong>影响吞吐量。
+                </p>
+              </div>
+            }
+            hardcoreContent={
+              <div className="space-y-3">
+                <p className="text-[14px] leading-[1.8]">
+                  <code className="font-mono text-[12px] bg-parchment-warm text-accent-deep px-[5px] py-[2px] rounded-[3px]">commitAsync()</code> 立即返回，通过回调处理结果。
+                </p>
+                <pre className="bg-parchment-deep p-3 rounded-paper-sm text-[13px] overflow-x-auto">
 {`consumer.commitAsync((offsets, exception) -> {
     if (exception != null) {
         log.error("Commit failed for offsets {}", offsets, exception);
     }
 });`}
-                    </pre>
-                    <p className="text-[14px] leading-[1.8]">
-                      <strong>优点：</strong>不阻塞，吞吐量高；<strong>缺点：</strong>失败时需自行处理重试。
-                    </p>
-                  </div>
-                ),
-              },
-            ]}
+                </pre>
+                <p className="text-[14px] leading-[1.8]">
+                  <strong>优点：</strong>不阻塞，吞吐量高；<strong>缺点：</strong>失败时需自行处理重试。
+                </p>
+              </div>
+            }
           />
 
           <Callout type="warning" title="精确一次处理">
@@ -592,9 +584,9 @@ while (true) {
             <li><strong>Offset 存储</strong>：Coordinator 将 Offset 写入 <code className="font-mono text-[12px] bg-parchment-warm text-accent-deep px-[5px] py-[2px] rounded-[3px]">__consumer_offsets</code> Topic</li>
           </ul>
 
-          <SideNote side="right">
+          <SideNote label="查找 Coordinator">
             <p className="text-[13px] leading-[1.7]">
-              <strong>查找 Coordinator：</strong>Consumer 通过 <code className="font-mono text-[12px] bg-parchment-warm text-accent-deep px-[5px] py-[2px] rounded-[3px]">group.id</code> 哈希计算找到对应的 Coordinator Broker，然后与其通信。
+              Consumer 通过 <code className="font-mono text-[12px] bg-parchment-warm text-accent-deep px-[5px] py-[2px] rounded-[3px]">group.id</code> 哈希计算找到对应的 Coordinator Broker，然后与其通信。
             </p>
           </SideNote>
 
