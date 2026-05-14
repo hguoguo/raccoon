@@ -1,3 +1,4 @@
+import KnowledgeLayout from '../../components/knowledge/KnowledgeLayout'
 import SmartTOC from '../../components/knowledge/SmartTOC'
 import ArticleNav from '../../components/article/ArticleNav'
 import Playground from '../../components/knowledge/Playground'
@@ -31,8 +32,8 @@ const tocItems: TocItem[] = [
 export default function RedisCache({ meta }: { meta: KnowledgeNode }) {
   return (
     <div className="flex max-w-[100vw] overflow-x-hidden">
-      <div className="flex-1 max-w-[820px] min-w-0 px-4 sm:px-6 lg:px-12 pb-20">
-        <div className="knowledge-layout" data-meta={JSON.stringify(meta)}>
+      <div className="flex-1 min-w-0 px-4 sm:px-6 lg:px-10 xl:px-12 xl:pr-[240px] pb-20">
+        <KnowledgeLayout meta={meta}>
           {/* 头部信息 */}
           <div className="mb-8 pb-6 border-b border-border-light">
             <h1 className="font-display font-bold text-3xl sm:text-4xl mb-3 text-ink">
@@ -777,11 +778,13 @@ redis-cli --cluster check 127.0.0.1:7000
 
           {/* 文章导航 */}
           <ArticleNav {...getArticleNav(meta.category, meta.id)} />
-        </div>
+        </KnowledgeLayout>
       </div>
 
       {/* 右侧目录 */}
-      <SmartTOC items={tocItems} />
+      <aside className="hidden xl:block w-[240px] shrink-0 sticky top-24 self-start h-[calc(100vh-6rem)] overflow-y-auto pr-4">
+        <SmartTOC items={tocItems} />
+      </aside>
     </div>
   )
 }
