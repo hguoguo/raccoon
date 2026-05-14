@@ -439,19 +439,6 @@ export const domains: Domain[] = [
             ],
           },
           {
-            id: 'clickhouse',
-            title: 'ClickHouse OLAP',
-            icon: '⚡',
-            description: 'ClickHouse列式存储、实时分析、海量数据处理',
-            difficulty: 5,
-            color: 'orange',
-            articles: [
-              { slug: 'clickhouse-architecture', title: 'ClickHouse架构与原理（未实现）', meta: { id: 'clickhouse-architecture', title: 'ClickHouse架构与原理', level: 'Expert', tags: ['列式存储', '向量化执行', '稀疏索引', '数据压缩', 'MergeTree', 'LSM-Tree'], difficulty: 5, category: 'clickhouse', prerequisites: [], relatedPatterns: ['olap', 'bigdata-ecosystem'], readingTime: 65 } },
-              { slug: 'clickhouse-performance', title: 'ClickHouse性能优化（未实现）', meta: { id: 'clickhouse-performance', title: 'ClickHouse性能优化', level: 'Expert', tags: ['分区键', '排序键', '采样', '物化视图', '预聚合', '查询优化'], difficulty: 5, category: 'clickhouse', prerequisites: ['clickhouse-architecture'], relatedPatterns: ['performance-tuning', 'realtime-data-warehouse'], readingTime: 60 } },
-              { slug: 'clickhouse-distributed', title: 'ClickHouse分布式集群（未实现）', meta: { id: 'clickhouse-distributed', title: 'ClickHouse分布式集群', level: 'Expert', tags: ['分片', '副本', 'ZooKeeper', '分布式表', '全局字典', '负载均衡'], difficulty: 5, category: 'clickhouse', prerequisites: ['clickhouse-architecture'], relatedPatterns: ['distributed-systems', 'high-availability'], readingTime: 65 } },
-            ],
-          },
-          {
             id: 'database-comparison',
             title: '数据库技术选型与对比',
             icon: '⚖️',
@@ -491,6 +478,23 @@ export const domains: Domain[] = [
         domainId: 'infra',
         description: 'Flink、Spark、Hadoop等大数据处理框架与生态系统',
         chapters: [
+          {
+            id: 'olap-database',
+            title: 'OLAP分析型数据库',
+            icon: '⚡',
+            description: 'ClickHouse、TiDB等分析型与HTAP数据库，用于实时分析与海量数据处理',
+            difficulty: 5,
+            color: 'orange',
+            articles: [
+              { slug: 'clickhouse-architecture', title: 'ClickHouse架构与原理（未实现）', meta: { id: 'clickhouse-architecture', title: 'ClickHouse架构与原理', level: 'Expert', tags: ['列式存储', '向量化执行', '稀疏索引', '数据压缩', 'MergeTree', 'LSM-Tree'], difficulty: 5, category: 'olap-database', prerequisites: [], relatedPatterns: ['olap', 'bigdata-ecosystem'], readingTime: 65 } },
+              { slug: 'clickhouse-performance', title: 'ClickHouse性能优化（未实现）', meta: { id: 'clickhouse-performance', title: 'ClickHouse性能优化', level: 'Expert', tags: ['分区键', '排序键', '采样', '物化视图', '预聚合', '查询优化'], difficulty: 5, category: 'olap-database', prerequisites: ['clickhouse-architecture'], relatedPatterns: ['performance-tuning', 'realtime-data-warehouse'], readingTime: 60 } },
+              { slug: 'clickhouse-distributed', title: 'ClickHouse分布式集群（未实现）', meta: { id: 'clickhouse-distributed', title: 'ClickHouse分布式集群', level: 'Expert', tags: ['分片', '副本', 'ZooKeeper', '分布式表', '全局字典', '负载均衡'], difficulty: 5, category: 'olap-database', prerequisites: ['clickhouse-architecture'], relatedPatterns: ['distributed-systems', 'high-availability'], readingTime: 65 } },
+              { slug: 'tidb-architecture', title: 'TiDB分布式HTAP数据库（未实现）', meta: { id: 'tidb-architecture', title: 'TiDB分布式HTAP数据库', level: 'Expert', tags: ['TiDB', 'HTAP', '分布式数据库', 'TiKV', 'TiFlash', 'NewSQL', 'MySQL兼容', '水平扩展'], difficulty: 5, category: 'olap-database', prerequisites: ['mysql-architecture'], relatedPatterns: ['distributed-systems', 'high-availability', 'clickhouse-architecture'], readingTime: 70 } },
+              { slug: 'tidb-optimization', title: 'TiDB性能调优与实践（未实现）', meta: { id: 'tidb-optimization', title: 'TiDB性能调优与实践', level: 'Expert', tags: ['TiDB', '执行计划', '索引优化', '统计信息', 'Region分裂', 'PD调度', 'TiFlash加速'], difficulty: 5, category: 'olap-database', prerequisites: ['tidb-architecture'], relatedPatterns: ['performance-tuning', 'sql-optimization'], readingTime: 65 } },
+              { slug: 'tidb-vs-mysql', title: 'TiDB vs MySQL：选型与迁移指南（未实现）', meta: { id: 'tidb-vs-mysql', title: 'TiDB vs MySQL：选型与迁移指南', level: 'Expert', tags: ['TiDB', 'MySQL', '技术选型', '数据库迁移', '分布式', '兼容性', '场景对比'], difficulty: 4, category: 'olap-database', prerequisites: ['tidb-architecture', 'mysql-architecture'], relatedPatterns: ['database-comparison', 'high-availability'], readingTime: 60 } },
+              { slug: 'olap-database-comparison', title: 'OLAP数据库选型与对比（未实现）', meta: { id: 'olap-database-comparison', title: 'OLAP数据库选型与对比', level: 'Expert', tags: ['ClickHouse', 'TiDB', 'Doris', 'Presto', 'Druid', '技术选型', '性能对比', '适用场景', '架构差异', '成本分析'], difficulty: 5, category: 'olap-database', prerequisites: ['clickhouse-architecture', 'tidb-architecture'], relatedPatterns: ['database-comparison', 'realtime-data-warehouse', 'bigdata-ecosystem'], readingTime: 70 } },
+            ],
+          },
           {
             id: '13-bigdata-ecosystem',
             title: '大数据生态',
@@ -559,6 +563,19 @@ export const domains: Domain[] = [
               { slug: 'rabbitmq-routing', title: 'RabbitMQ路由模式（未实现）', meta: { id: 'rabbitmq-routing', title: 'RabbitMQ路由模式', level: 'Senior', tags: ['Direct', 'Fanout', 'Topic', 'Headers', '路由策略', '消息分发'], difficulty: 4, category: 'rabbitmq', prerequisites: ['rabbitmq-core'], relatedPatterns: ['message-patterns', 'event-driven'], readingTime: 55 } },
               { slug: 'rabbitmq-reliability', title: 'RabbitMQ消息可靠性（未实现）', meta: { id: 'rabbitmq-reliability', title: 'RabbitMQ消息可靠性', level: 'Expert', tags: ['持久化', 'ACK机制', '镜像队列', '事务', 'Confirm模式', '消息确认'], difficulty: 5, category: 'rabbitmq', prerequisites: ['rabbitmq-core'], relatedPatterns: ['message-reliability', 'high-availability'], readingTime: 60 } },
               { slug: 'rabbitmq-cluster', title: 'RabbitMQ集群与高可用（未实现）', meta: { id: 'rabbitmq-cluster', title: 'RabbitMQ集群与高可用', level: 'Expert', tags: ['集群模式', '镜像队列', 'HaProxy', '负载均衡', '故障转移', '联邦队列'], difficulty: 5, category: 'rabbitmq', prerequisites: ['rabbitmq-core'], relatedPatterns: ['high-availability', 'load-balancing'], readingTime: 65 } },
+            ],
+          },
+          {
+            id: 'message-queue-comparison',
+            title: '消息队列选型与对比',
+            icon: '⚖️',
+            description: 'Kafka、RocketMQ、RabbitMQ等主流消息队列的横向对比与选型指南',
+            difficulty: 4,
+            color: 'blue',
+            articles: [
+              { slug: 'mq-selection-guide', title: '消息队列选型与对比（未实现）', meta: { id: 'mq-selection-guide', title: '消息队列选型与对比', level: 'Expert', tags: ['Kafka', 'RocketMQ', 'RabbitMQ', 'Pulsar', '技术选型', '性能对比', '适用场景', '架构差异', '成本分析'], difficulty: 5, category: 'message-queue-comparison', prerequisites: ['kafka-architecture', 'rocketmq-architecture', 'rabbitmq-core'], relatedPatterns: ['distributed-systems', 'microservices', 'event-driven'], readingTime: 70 } },
+              { slug: 'mq-reliability-patterns', title: '消息可靠性保障模式（未实现）', meta: { id: 'mq-reliability-patterns', title: '消息可靠性保障模式', level: 'Expert', tags: ['消息可靠性', 'ACK机制', '幂等性', '事务消息', '死信队列', '重试策略', 'Exactly-Once'], difficulty: 5, category: 'message-queue-comparison', prerequisites: ['kafka-reliability', 'rocketmq-transaction', 'rabbitmq-reliability'], relatedPatterns: ['distributed-transaction', 'error-handling'], readingTime: 65 } },
+              { slug: 'mq-performance-tuning', title: '消息队列性能调优实践（未实现）', meta: { id: 'mq-performance-tuning', title: '消息队列性能调优实践', level: 'Expert', tags: ['性能优化', '吞吐量', '延迟优化', '批量处理', '压缩算法', '参数调优', '监控告警'], difficulty: 5, category: 'message-queue-comparison', prerequisites: ['kafka-performance-tuning'], relatedPatterns: ['performance-tuning', 'observability-monitoring'], readingTime: 60 } },
             ],
           },
         ],
