@@ -39,7 +39,7 @@ const tocItems: TocItem[] = [
   { id: 'related', text: '十二、知识关联', level: 2 },
 ]
 
-export default function KafkaReliability({ meta }: { meta: KnowledgeNode }) {
+export default function KafkaReliability({ meta }: { metanswer: KnowledgeNode }) {
   return (
     <div className="flex max-w-[100vw] overflow-x-hidden">
       <div className="flex-1 min-w-0 px-4 sm:px-6 lg:px-10 xl:px-12 xl:pr-[240px] pb-20">
@@ -160,7 +160,7 @@ export default function KafkaReliability({ meta }: { meta: KnowledgeNode }) {
             <li><strong>acks=all（或 -1）</strong>：Leader 和所有 ISR 中的 Follower 都写入成功后才返回。可靠性最高。</li>
           </ul>
 
-          <SideNote side="right">
+          <SideNote label="重要提示">
             <p className="text-[13px] leading-[1.7]">
               <strong>重要提示：</strong>acks=all 必须配合 <code className="font-mono text-[12px] bg-parchment-warm text-accent-deep px-[5px] py-[2px] rounded-[3px]">min.insync.replicas</code> 使用，否则当 ISR 只剩 Leader 时，acks=all 退化为 acks=1。
             </p>
@@ -305,7 +305,7 @@ export default function KafkaReliability({ meta }: { meta: KnowledgeNode }) {
             <li>HW 由 Leader 定期更新，取所有 ISR 副本 LEO 的最小值</li>
           </ul>
 
-          <SideNote side="right">
+          <SideNote label="重要提示">
             <p className="text-[13px] leading-[1.7]">
               <strong>示例：</strong>如果 Leader LEO=100，Follower1 LEO=100，Follower2 LEO=98，则 HW=min(100, 100, 98)=98。Consumer 最多只能消费到 Offset 97。
             </p>
@@ -434,37 +434,29 @@ export default function KafkaReliability({ meta }: { meta: KnowledgeNode }) {
           </ul>
 
           <ContextSwitcher
-            scenarios={[
-              {
-                label: 'Read Uncommitted',
-                content: (
-                  <div className="space-y-3">
-                    <p className="text-[14px] leading-[1.8]">
-                      Consumer 可以读取所有消息，包括未提交的事务消息和已中止的消息。
-                    </p>
-                    <p className="text-[14px] leading-[1.8] text-red-600">
-                      <strong>缺点：</strong>可能读到脏数据，不适用于生产环境。
-                    </p>
-                  </div>
-                ),
-              },
-              {
-                label: 'Read Committed',
-                content: (
-                  <div className="space-y-3">
-                    <p className="text-[14px] leading-[1.8]">
-                      Consumer 只能读取已提交的事务消息，未提交或已中止的消息对 Consumer 不可见。
-                    </p>
-                    <p className="text-[14px] leading-[1.8] text-green-600">
-                      <strong>优点：</strong>保证数据一致性，是实现 Exactly-Once 的关键配置。
-                    </p>
-                  </div>
-                ),
-              },
-            ]}
+            simpleContent={
+              <div className="space-y-3">
+                <p className="text-[14px] leading-[1.8]">
+                  Consumer 可以读取所有消息，包括未提交的事务消息和已中止的消息。
+                </p>
+                <p className="text-[14px] leading-[1.8] text-red-600">
+                  <strong>缺点：</strong>可能读到脏数据，不适用于生产环境。
+                </p>
+              </div>
+            }
+            hardcoreContent={
+              <div className="space-y-3">
+                <p className="text-[14px] leading-[1.8]">
+                  Consumer 只能读取已提交的事务消息，未提交或已中止的消息对 Consumer 不可见。
+                </p>
+                <p className="text-[14px] leading-[1.8] text-green-600">
+                  <strong>优点：</strong>保证数据一致性，是实现 Exactly-Once 的关键配置。
+                </p>
+              </div>
+            }
           />
 
-          <Callout type="success" title="Exactly-Once 配置">
+          <Callout type="tip" title="Exactly-Once 配置">
             <p className="text-[14px] sm:text-[15px] leading-[1.8]">
               <strong>Producer 端：</strong><br/>
               <code className="font-mono text-[12px] bg-parchment-warm text-accent-deep px-[5px] py-[2px] rounded-[3px]">transactional.id=my-transaction</code><br/>
@@ -507,7 +499,7 @@ export default function KafkaReliability({ meta }: { meta: KnowledgeNode }) {
             <li><strong>消费异常</strong>：处理消息时抛出异常但未捕获，Offset 已提交</li>
           </ul>
 
-          <Callout type="error" title="典型丢失场景">
+          <Callout type="danger" title="典型丢失场景">
             <p className="text-[14px] sm:text-[15px] leading-[1.8]">
               <strong>场景：</strong>acks=1，replication.factor=3，min.insync.replicas=1。<br/>
               <strong>过程：</strong>Leader 写入成功后返回 ACK，此时 Follower 正在同步。Leader 突然宕机，触发选举，新的 Leader 是从旧的 Follower 中选出的，缺少刚才写入的消息。<br/>
@@ -634,19 +626,19 @@ export default function KafkaReliability({ meta }: { meta: KnowledgeNode }) {
             十、常见误区
           </h2>
 
-          <Callout type="error" title="误区 1：acks=all 就万无一失">
+          <Callout type="danger" title="误区 1：acks=all 就万无一失">
             <p className="text-[14px] sm:text-[15px] leading-[1.8]">
               <strong>事实：</strong>acks=all 只保证 ISR 中的副本都确认，但如果 ISR 只剩 Leader（其他 Follower 都滞后被移出），acks=all 退化为 acks=1。必须配合 <code className="font-mono text-[12px] bg-parchment-warm text-accent-deep px-[5px] py-[2px] rounded-[3px]">min.insync.replicas=2</code> 使用。
             </p>
           </Callout>
 
-          <Callout type="error" title="误区 2：幂等性可以保证全局不重复">
+          <Callout type="danger" title="误区 2：幂等性可以保证全局不重复">
             <p className="text-[14px] sm:text-[15px] leading-[1.8]">
               <strong>事实：</strong>幂等性只在<strong>单 Partition</strong>内有效，跨 Partition 无效。如果需要跨 Partition 的 Exactly-Once，必须使用事务机制。
             </p>
           </Callout>
 
-          <Callout type="error" title="误区 3：事务性能很差，不能用">
+          <Callout type="danger" title="误区 3：事务性能很差，不能用">
             <p className="text-[14px] sm:text-[15px] leading-[1.8]">
               <strong>事实：</strong>事务确实会带来性能开销（约 20%-30%），但对于金融交易等关键场景，这是必须的代价。可以通过批量提交事务、优化事务粒度等方式减轻影响。
             </p>
@@ -660,24 +652,24 @@ export default function KafkaReliability({ meta }: { meta: KnowledgeNode }) {
           <InterviewSection
             questions={[
               {
-                q: 'Kafka 如何保证消息不丢失？',
-                a: 'Kafka 通过多层机制保证消息可靠性：\n\n**Producer 端**：\n1. 设置 `acks=all`，等待所有 ISR 副本确认。\n2. 启用幂等性（`enable.idempotence=true`），防止重复发送。\n3. 设置 `retries=Integer.MAX_VALUE`，无限重试直到成功。\n\n**Broker 端**：\n1. 配置 `replication.factor>=3`，保证足够的副本数。\n2. 设置 `min.insync.replicas=2`，确保至少有 2 个副本同步成功。\n3. 禁用 `unclean.leader.election.enable=false`，防止非 ISR 副本选举为 Leader。\n\n**Consumer 端**：\n1. 关闭自动提交（`enable.auto.commit=false`）。\n2. 手动提交 Offset，在业务逻辑执行成功后再提交。\n3. 实现幂等消费，防止重复处理。',
+                question: 'Kafka 如何保证消息不丢失？',
+                answer: 'Kafka 通过多层机制保证消息可靠性：\n\n**Producer 端**：\n1. 设置 `acks=all`，等待所有 ISR 副本确认。\n2. 启用幂等性（`enable.idempotence=true`），防止重复发送。\n3. 设置 `retries=Integer.MAX_VALUE`，无限重试直到成功。\n\n**Broker 端**：\n1. 配置 `replication.factor>=3`，保证足够的副本数。\n2. 设置 `min.insync.replicas=2`，确保至少有 2 个副本同步成功。\n3. 禁用 `unclean.leader.election.enable=false`，防止非 ISR 副本选举为 Leader。\n\n**Consumer 端**：\n1. 关闭自动提交（`enable.auto.commit=false`）。\n2. 手动提交 Offset，在业务逻辑执行成功后再提交。\n3. 实现幂等消费，防止重复处理。',
               },
               {
-                q: '解释一下 Kafka 的 ISR 机制和 HW、LEO 的作用。',
-                a: '**ISR（In-Sync Replicas）**：与 Leader 保持同步的副本集合。判断标准是 Follower 落后 Leader 的时间不超过 `replica.lag.time.max.ms`（默认 30 秒）。\n\n**作用**：\n1. **Leader 选举**：只有 ISR 中的副本才有资格被选举为新的 Leader，保证数据不丢失。\n2. **ACK 确认**：acks=all 时，需要等待所有 ISR 副本确认。\n\n**LEO（Log End Offset）**：日志末尾偏移量，表示下一条待写入消息的位置。\n\n**HW（High Watermark）**：高水位，表示所有 ISR 副本都已同步的最大偏移量。Consumer 只能消费 HW 之前的消息，保证不会读到未完全同步的数据。\n\n**关系**：HW = min(所有 ISR 副本的 LEO)。Leader 故障时，新 Leader 会截断 HW 之后的消息，保证数据一致性。',
+                question: '解释一下 Kafka 的 ISR 机制和 HW、LEO 的作用。',
+                answer: '**ISR（In-Sync Replicas）**：与 Leader 保持同步的副本集合。判断标准是 Follower 落后 Leader 的时间不超过 `replica.lag.time.max.ms`（默认 30 秒）。\n\n**作用**：\n1. **Leader 选举**：只有 ISR 中的副本才有资格被选举为新的 Leader，保证数据不丢失。\n2. **ACK 确认**：acks=all 时，需要等待所有 ISR 副本确认。\n\n**LEO（Log End Offset）**：日志末尾偏移量，表示下一条待写入消息的位置。\n\n**HW（High Watermark）**：高水位，表示所有 ISR 副本都已同步的最大偏移量。Consumer 只能消费 HW 之前的消息，保证不会读到未完全同步的数据。\n\n**关系**：HW = min(所有 ISR 副本的 LEO)。Leader 故障时，新 Leader 会截断 HW 之后的消息，保证数据一致性。',
               },
               {
-                q: 'Kafka 的幂等性和事务有什么区别？',
-                a: '**幂等性**：\n- **范围**：单 Partition 内有效，跨 Partition 无效。\n- **实现**：通过 PID（Producer ID）和 Sequence Number 去重。\n- **会话**：单会话有效，Producer 重启后 PID 变化，无法检测之前的重复。\n- **适用场景**：防止网络超时重试导致的重复发送。\n\n**事务**：\n- **范围**：跨 Partition、跨会话有效。\n- **实现**：通过 Transaction Coordinator 和两阶段提交协议。\n- **会话**：通过 `transactional.id` 标识，重启后可恢复事务状态。\n- **适用场景**：实现端到端的 Exactly-Once 语义，如跨多个 Topic 的原子操作。\n\n**总结**：幂等性是事务的基础，事务是幂等性的扩展。启用事务时会自动启用幂等性。',
+                question: 'Kafka 的幂等性和事务有什么区别？',
+                answer: '**幂等性**：\n- **范围**：单 Partition 内有效，跨 Partition 无效。\n- **实现**：通过 PID（Producer ID）和 Sequence Number 去重。\n- **会话**：单会话有效，Producer 重启后 PID 变化，无法检测之前的重复。\n- **适用场景**：防止网络超时重试导致的重复发送。\n\n**事务**：\n- **范围**：跨 Partition、跨会话有效。\n- **实现**：通过 Transaction Coordinator 和两阶段提交协议。\n- **会话**：通过 `transactional.id` 标识，重启后可恢复事务状态。\n- **适用场景**：实现端到端的 Exactly-Once 语义，如跨多个 Topic 的原子操作。\n\n**总结**：幂等性是事务的基础，事务是幂等性的扩展。启用事务时会自动启用幂等性。',
               },
               {
-                q: '什么情况下 Kafka 会丢失消息？如何避免？',
-                a: '**丢失场景**：\n\n1. **Producer 端**：acks=0 或不重试。→ 解决：设置 `acks=all` + `retries=Integer.MAX_VALUE`。\n\n2. **Broker 端**：acks=1 且 Leader 故障，或非 ISR 选举。→ 解决：`acks=all` + `min.insync.replicas=2` + `unclean.leader.election.enable=false`。\n\n3. **Consumer 端**：自动提交 Offset 后处理失败。→ 解决：手动提交 Offset，业务成功后再提交。\n\n**最佳实践**：\n- Producer：`acks=all` + `enable.idempotence=true` + `retries=Integer.MAX_VALUE`\n- Broker：`replication.factor=3` + `min.insync.replicas=2`\n- Consumer：`enable.auto.commit=false` + 手动提交 + 幂等消费',
+                question: '什么情况下 Kafka 会丢失消息？如何避免？',
+                answer: '**丢失场景**：\n\n1. **Producer 端**：acks=0 或不重试。→ 解决：设置 `acks=all` + `retries=Integer.MAX_VALUE`。\n\n2. **Broker 端**：acks=1 且 Leader 故障，或非 ISR 选举。→ 解决：`acks=all` + `min.insync.replicas=2` + `unclean.leader.election.enable=false`。\n\n3. **Consumer 端**：自动提交 Offset 后处理失败。→ 解决：手动提交 Offset，业务成功后再提交。\n\n**最佳实践**：\n- Producer：`acks=all` + `enable.idempotence=true` + `retries=Integer.MAX_VALUE`\n- Broker：`replication.factor=3` + `min.insync.replicas=2`\n- Consumer：`enable.auto.commit=false` + 手动提交 + 幂等消费',
               },
               {
-                q: 'Kafka 如何实现 Exactly-Once 语义？',
-                a: 'Kafka 通过以下方式实现端到端的 Exactly-Once 语义：\n\n**Producer 端**：\n1. 设置 `transactional.id`，启用事务。\n2. 使用 `beginTransaction()`、`sendMessages()`、`commitTransaction()` 包裹发送逻辑。\n3. 自动启用幂等性（`enable.idempotence=true`）。\n\n**Broker 端**：\n1. Transaction Coordinator 管理事务状态。\n2. 事务消息对 Consumer 不可见，直到事务提交。\n3. 通过 Control Batch 标记事务边界。\n\n**Consumer 端**：\n1. 设置 `isolation.level=read_committed`，只读取已提交的事务消息。\n2. 在事务中处理消息并提交 Offset，保证原子性。\n\n**注意**：事务会带来性能开销（约 20%-30%），仅在需要强一致性的场景使用。',
+                question: 'Kafka 如何实现 Exactly-Once 语义？',
+                answer: 'Kafka 通过以下方式实现端到端的 Exactly-Once 语义：\n\n**Producer 端**：\n1. 设置 `transactional.id`，启用事务。\n2. 使用 `beginTransaction()`、`sendMessages()`、`commitTransaction()` 包裹发送逻辑。\n3. 自动启用幂等性（`enable.idempotence=true`）。\n\n**Broker 端**：\n1. Transaction Coordinator 管理事务状态。\n2. 事务消息对 Consumer 不可见，直到事务提交。\n3. 通过 Control Batch 标记事务边界。\n\n**Consumer 端**：\n1. 设置 `isolation.level=read_committed`，只读取已提交的事务消息。\n2. 在事务中处理消息并提交 Offset，保证原子性。\n\n**注意**：事务会带来性能开销（约 20%-30%），仅在需要强一致性的场景使用。',
               },
             ]}
           />
