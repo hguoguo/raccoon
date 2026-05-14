@@ -60,7 +60,7 @@ export default function RedisCache({ meta }: { meta: KnowledgeNode }) {
 
           {/* 一句话定义 */}
           <section id="definition" className="mb-8">
-            <h2 className="font-display font-bold text-[20px] sm:text-display-sm mt-10 sm:mt-12 mb-4 sm:mb-5 text-ink">
+            <h2 id="definition" className="font-display font-bold text-[20px] sm:text-display-sm mt-10 sm:mt-12 mb-4 sm:mb-5 text-ink">
               一句话定义
             </h2>
             <blockquote className="pl-4 border-l-4 border-accent bg-accent-soft/40 py-3 pr-4 rounded-r-paper-md italic text-ink-light">
@@ -73,7 +73,7 @@ export default function RedisCache({ meta }: { meta: KnowledgeNode }) {
 
           {/* 整体架构 */}
           <section id="overview" className="mb-8">
-            <h2 className="font-display font-bold text-[20px] sm:text-display-sm mt-10 sm:mt-12 mb-4 sm:mb-5 text-ink">
+            <h2 id="overview" className="font-display font-bold text-[20px] sm:text-display-sm mt-10 sm:mt-12 mb-4 sm:mb-5 text-ink">
               整体架构
             </h2>
             <DiagramBlock title="Redis 架构概览">
@@ -105,7 +105,7 @@ export default function RedisCache({ meta }: { meta: KnowledgeNode }) {
 
           {/* 核心原理 */}
           <section id="core" className="mb-8">
-            <h2 className="font-display font-bold text-[20px] sm:text-display-sm mt-10 sm:mt-12 mb-4 sm:mb-5 text-ink">
+            <h2 id="core" className="font-display font-bold text-[20px] sm:text-display-sm mt-10 sm:mt-12 mb-4 sm:mb-5 text-ink">
               核心原理
             </h2>
 
@@ -292,7 +292,7 @@ aof-use-rdb-preamble yes  # AOF重写时使用RDB格式`}
 
           {/* 源码分析 */}
           <section id="source-code" className="mb-8">
-            <h2 className="font-display font-bold text-[20px] sm:text-display-sm mt-10 sm:mt-12 mb-4 sm:mb-5 text-ink">
+            <h2 id="source-code" className="font-display font-bold text-[20px] sm:text-display-sm mt-10 sm:mt-12 mb-4 sm:mb-5 text-ink">
               源码分析
             </h2>
             <p className="text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4">
@@ -353,7 +353,7 @@ void setCommand(client *c) {
 
           {/* 缓存策略 */}
           <section id="cache-strategies" className="mb-8">
-            <h2 className="font-display font-bold text-[20px] sm:text-display-sm mt-10 sm:mt-12 mb-4 sm:mb-5 text-ink">
+            <h2 id="cache-strategies" className="font-display font-bold text-[20px] sm:text-display-sm mt-10 sm:mt-12 mb-4 sm:mb-5 text-ink">
               缓存策略
             </h2>
             <p className="text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4">
@@ -446,7 +446,7 @@ end
 
           {/* 集群与高可用 */}
           <section id="cluster" className="mb-8">
-            <h2 className="font-display font-bold text-[20px] sm:text-display-sm mt-10 sm:mt-12 mb-4 sm:mb-5 text-ink">
+            <h2 id="cluster" className="font-display font-bold text-[20px] sm:text-display-sm mt-10 sm:mt-12 mb-4 sm:mb-5 text-ink">
               集群与高可用
             </h2>
 
@@ -523,7 +523,7 @@ redis-cli --cluster check 127.0.0.1:7000
 
           {/* 常见误区 */}
           <section id="misconceptions" className="mb-8">
-            <h2 className="font-display font-bold text-[20px] sm:text-display-sm mt-10 sm:mt-12 mb-4 sm:mb-5 text-ink">
+            <h2 id="misconceptions" className="font-display font-bold text-[20px] sm:text-display-sm mt-10 sm:mt-12 mb-4 sm:mb-5 text-ink">
               常见误区
             </h2>
 
@@ -574,7 +574,7 @@ redis-cli --cluster check 127.0.0.1:7000
 
           {/* 面试真题 */}
           <section id="interview" className="mb-8">
-            <h2 className="font-display font-bold text-[20px] sm:text-display-sm mt-10 sm:mt-12 mb-4 sm:mb-5 text-ink">
+            <h2 id="interview" className="font-display font-bold text-[20px] sm:text-display-sm mt-10 sm:mt-12 mb-4 sm:mb-5 text-ink">
               面试真题
             </h2>
 
@@ -683,7 +683,7 @@ redis-cli --cluster check 127.0.0.1:7000
 
           {/* 对比其他缓存方案 */}
           <section id="comparison" className="mb-8">
-            <h2 className="font-display font-bold text-[20px] sm:text-display-sm mt-10 sm:mt-12 mb-4 sm:mb-5 text-ink">
+            <h2 id="comparison" className="font-display font-bold text-[20px] sm:text-display-sm mt-10 sm:mt-12 mb-4 sm:mb-5 text-ink">
               对比其他缓存方案
             </h2>
 
@@ -745,7 +745,7 @@ redis-cli --cluster check 127.0.0.1:7000
 
           {/* 知识关联 */}
           <section id="related" className="mb-8">
-            <h2 className="font-display font-bold text-[20px] sm:text-display-sm mt-10 sm:mt-12 mb-4 sm:mb-5 text-ink">
+            <h2 id="related" className="font-display font-bold text-[20px] sm:text-display-sm mt-10 sm:mt-12 mb-4 sm:mb-5 text-ink">
               知识关联
             </h2>
             <div className="grid sm:grid-cols-2 gap-4">
@@ -781,10 +781,8 @@ redis-cli --cluster check 127.0.0.1:7000
         </KnowledgeLayout>
       </div>
 
-      {/* 右侧目录 */}
-      <aside className="hidden xl:block w-[240px] shrink-0 sticky top-24 self-start h-[calc(100vh-6rem)] overflow-y-auto pr-4">
-        <SmartTOC items={tocItems} />
-      </aside>
+      {/* 右侧目录 - 直接渲染，不用 aside 包裹 */}
+      <SmartTOC items={tocItems} />
     </div>
   )
 }
