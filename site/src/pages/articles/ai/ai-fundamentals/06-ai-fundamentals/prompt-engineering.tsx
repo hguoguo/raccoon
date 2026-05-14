@@ -762,12 +762,81 @@ else:
 
         <Callout type="info" title="防御架构总结">
           <DiagramBlock title="纵深防御体系">
-            <div className="text-[13px] sm:text-[14px] font-mono text-ink-muted leading-relaxed text-left space-y-2">
-              <div><span className="text-indigo font-semibold">L1 - 输入层:</span> Sanitization + 长度限制 + 关键词过滤</div>
-              <div><span className="text-teal font-semibold">L2 - Prompt 层:</span> 结构化设计 + 指令优先级 + 沙箱隔离</div>
-              <div><span className="text-sky font-semibold">L3 - 模型层:</span> RLHF 安全对齐 + 系统级防护</div>
-              <div><span className="text-amber font-semibold">L4 - 输出层:</span> 敏感信息检测 + 内容分类 + 格式验证</div>
-              <div><span className="text-rose font-semibold">L5 - 监控层:</span> 实时告警 + 异常检测 + 自动熔断</div>
+            <div className="space-y-3 text-[13px] sm:text-[14px]">
+              {/* 第一层 */}
+              <div className="flex items-start gap-3 p-3 bg-blue-50 rounded-lg border-l-4 border-blue-500">
+                <div className="font-bold text-blue-700 min-w-[90px]">L1 输入层</div>
+                <div className="text-ink-muted flex-1">
+                  <span className="font-mono text-[12px] bg-white px-1.5 py-0.5 rounded">Sanitization</span>
+                  {' '}+{' '}
+                  <span className="font-mono text-[12px] bg-white px-1.5 py-0.5 rounded">长度限制</span>
+                  {' '}+{' '}
+                  <span className="font-mono text-[12px] bg-white px-1.5 py-0.5 rounded">关键词过滤</span>
+                </div>
+              </div>
+              
+              {/* 第二层 */}
+              <div className="flex items-start gap-3 p-3 bg-green-50 rounded-lg border-l-4 border-green-500">
+                <div className="font-bold text-green-700 min-w-[90px]">L2 Prompt层</div>
+                <div className="text-ink-muted flex-1">
+                  <span className="font-mono text-[12px] bg-white px-1.5 py-0.5 rounded">结构化设计</span>
+                  {' '}+{' '}
+                  <span className="font-mono text-[12px] bg-white px-1.5 py-0.5 rounded">指令优先级</span>
+                  {' '}+{' '}
+                  <span className="font-mono text-[12px] bg-white px-1.5 py-0.5 rounded">沙箱隔离</span>
+                </div>
+              </div>
+              
+              {/* 第三层 */}
+              <div className="flex items-start gap-3 p-3 bg-orange-50 rounded-lg border-l-4 border-orange-500">
+                <div className="font-bold text-orange-700 min-w-[90px]">L3 模型层</div>
+                <div className="text-ink-muted flex-1">
+                  <span className="font-mono text-[12px] bg-white px-1.5 py-0.5 rounded">RLHF安全对齐</span>
+                  {' '}+{' '}
+                  <span className="font-mono text-[12px] bg-white px-1.5 py-0.5 rounded">系统级防护</span>
+                </div>
+              </div>
+              
+              {/* 第四层 */}
+              <div className="flex items-start gap-3 p-3 bg-pink-50 rounded-lg border-l-4 border-pink-500">
+                <div className="font-bold text-pink-700 min-w-[90px]">L4 输出层</div>
+                <div className="text-ink-muted flex-1">
+                  <span className="font-mono text-[12px] bg-white px-1.5 py-0.5 rounded">敏感信息检测</span>
+                  {' '}+{' '}
+                  <span className="font-mono text-[12px] bg-white px-1.5 py-0.5 rounded">内容分类</span>
+                  {' '}+{' '}
+                  <span className="font-mono text-[12px] bg-white px-1.5 py-0.5 rounded">格式验证</span>
+                </div>
+              </div>
+              
+              {/* 第五层 */}
+              <div className="flex items-start gap-3 p-3 bg-purple-50 rounded-lg border-l-4 border-purple-500">
+                <div className="font-bold text-purple-700 min-w-[90px]">L5 监控层</div>
+                <div className="text-ink-muted flex-1">
+                  <span className="font-mono text-[12px] bg-white px-1.5 py-0.5 rounded">实时告警</span>
+                  {' '}+{' '}
+                  <span className="font-mono text-[12px] bg-white px-1.5 py-0.5 rounded">异常检测</span>
+                  {' '}+{' '}
+                  <span className="font-mono text-[12px] bg-white px-1.5 py-0.5 rounded">自动熔断</span>
+                </div>
+              </div>
+              
+              {/* 流程箭头 */}
+              <div className="flex justify-center items-center py-2 text-ink-faded text-[12px]">
+                <span>用户请求</span>
+                <span className="mx-2">→</span>
+                <span>L1</span>
+                <span className="mx-2">→</span>
+                <span>L2</span>
+                <span className="mx-2">→</span>
+                <span>L3</span>
+                <span className="mx-2">→</span>
+                <span>L4</span>
+                <span className="mx-2">→</span>
+                <span>L5</span>
+                <span className="mx-2">→</span>
+                <span>安全响应</span>
+              </div>
             </div>
           </DiagramBlock>
           <p className="text-[14px] sm:text-[15px] text-ink-muted mt-3">
@@ -818,124 +887,97 @@ else:
         <p className="text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4">
           A/B 测试通过对比不同 Prompt 版本的实际表现,数据驱动地选择最优方案。
         </p>
-        <Playground
-          code={`import random
-from dataclasses import dataclass
-from typing import List, Dict
-
-@dataclass
-class PromptVariant:
-    """Prompt 变体"""
-    name: str
-    prompt_template: str
-    traffic_percentage: float  # 流量分配比例
-
-@dataclass
-class TestResult:
-    """测试结果指标"""
-    variant_name: str
-    total_requests: int
-    success_rate: float  # 成功率
-    avg_response_time: float  # 平均响应时间(ms)
-    avg_token_cost: float  # 平均 Token 成本
-    user_satisfaction: float  # 用户满意度(1-5)
-
-class PromptABTester:
-    def __init__(self, variants: List[PromptVariant]):
-        self.variants = variants
-        self.results: Dict[str, TestResult] = {}
         
-        # 验证流量分配总和为 100%
-        total_traffic = sum(v.traffic_percentage for v in variants)
-        assert abs(total_traffic - 1.0) < 0.01, "流量分配总和必须为 100%"
+        {/* A/B 测试流程图解 */}
+        <DiagramBlock title="A/B 测试核心流程">
+          <div className="space-y-2 text-[13px] sm:text-[14px]">
+            <div className="flex items-center gap-2">
+              <span className="font-mono text-[12px] bg-blue-100 text-blue-700 px-2 py-1 rounded font-semibold">Step 1</span>
+              <span className="text-ink-muted">定义变体：Baseline vs Optimized（流量分配 50%/50%）</span>
+            </div>
+            <div className="flex justify-center text-ink-faded">↓</div>
+            <div className="flex items-center gap-2">
+              <span className="font-mono text-[12px] bg-green-100 text-green-700 px-2 py-1 rounded font-semibold">Step 2</span>
+              <span className="text-ink-muted">随机分流：根据流量比例将请求分配到不同变体</span>
+            </div>
+            <div className="flex justify-center text-ink-faded">↓</div>
+            <div className="flex items-center gap-2">
+              <span className="font-mono text-[12px] bg-orange-100 text-orange-700 px-2 py-1 rounded font-semibold">Step 3</span>
+              <span className="text-ink-muted">收集指标：成功率、响应时间、Token 成本、用户满意度</span>
+            </div>
+            <div className="flex justify-center text-ink-faded">↓</div>
+            <div className="flex items-center gap-2">
+              <span className="font-mono text-[12px] bg-purple-100 text-purple-700 px-2 py-1 rounded font-semibold">Step 4</span>
+              <span className="text-ink-muted">综合评分：加权计算各指标，选择最佳变体</span>
+            </div>
+          </div>
+        </DiagramBlock>
+        
+        <Playground
+          code={`# 简化的 A/B 测试核心逻辑
+class PromptABTester:
+    def __init__(self, variants):
+        """初始化：定义多个 Prompt 变体及流量分配"""
+        self.variants = variants  # [{name, template, traffic%}]
+        self.results = {}         # 存储测试结果
     
-    def select_variant(self) -> PromptVariant:
-        """根据流量分配随机选择 Prompt 变体"""
+    def select_variant(self):
+        """Step 2: 根据流量比例随机选择变体"""
         rand = random.random()
         cumulative = 0
         for variant in self.variants:
-            cumulative += variant.traffic_percentage
+            cumulative += variant['traffic_percentage']
             if rand <= cumulative:
                 return variant
-        return self.variants[-1]
     
-    def record_result(self, variant_name: str, 
-                     success: bool, response_time: float,
-                     token_cost: float, user_rating: float):
-        """记录单次测试结果"""
-        if variant_name not in self.results:
-            self.results[variant_name] = TestResult(
-                variant_name=variant_name,
-                total_requests=0,
-                success_rate=0,
-                avg_response_time=0,
-                avg_token_cost=0,
-                user_satisfaction=0
-            )
-        
-        result = self.results[variant_name]
-        result.total_requests += 1
-        
-        # 更新成功率
-        successes = result.success_rate * (result.total_requests - 1)
-        if success:
-            successes += 1
-        result.success_rate = successes / result.total_requests
-        
-        # 更新平均值(增量计算)
-        n = result.total_requests
-        result.avg_response_time += (response_time - result.avg_response_time) / n
-        result.avg_token_cost += (token_cost - result.avg_token_cost) / n
-        result.user_satisfaction += (user_rating - result.user_satisfaction) / n
+    def record_result(self, variant_name, metrics):
+        """Step 3: 记录测试结果（成功率、延迟、成本、缓存命中率）"""
+        # metrics = {
+        #     'success': True,
+        #     'response_time_ms': 1200,
+        #     'input_tokens': 500,
+        #     'output_tokens': 200,
+        #     'cached_tokens': 300,  # 缓存命中的 Token 数
+        #     'user_rating': 4.5
+        # }
+        self._update_metrics(variant_name, metrics)
     
-    def get_best_variant(self) -> str:
-        """根据综合评分选择最佳变体"""
+    def get_best_variant(self):
+        """Step 4: 综合评分，选择最佳变体"""
         best_score = -1
-        best_variant = None
-        
         for name, result in self.results.items():
-            # 综合评分公式(可根据业务调整权重)
+            # 计算实际成本（考虑缓存折扣）
+            # 假设：缓存命中部分按 20% 计费
+            cached_ratio = result.cached_tokens / (result.input_tokens + result.output_tokens)
+            actual_cost = (
+                result.input_tokens * 1.0 +  # 输入 Token 全价
+                result.output_tokens * 1.0 -  # 输出 Token 全价
+                result.cached_tokens * 0.8    # 缓存部分节省 80%
+            )
+            
+            # 加权评分：成功率40% + 满意度30% + 实际成本20% + 速度10%
             score = (
                 result.success_rate * 0.4 +
                 result.user_satisfaction / 5.0 * 0.3 +
-                (1 - result.avg_token_cost / 1000) * 0.2 +
+                (1 - actual_cost / 1000) * 0.2 +  # 使用实际成本
                 (1 - result.avg_response_time / 5000) * 0.1
             )
-            
             if score > best_score:
                 best_score = score
                 best_variant = name
-        
         return best_variant
 
 # 使用示例
 variants = [
-    PromptVariant(
-        name="baseline",
-        prompt_template="你是助手,请回答:{question}",
-        traffic_percentage=0.5
-    ),
-    PromptVariant(
-        name="optimized",
-        prompt_template="""你是{domain}专家,请专业简洁地回答:
-问题:{question}
-要求:提供具体示例,控制在200字内""",
-        traffic_percentage=0.5
-    )
+    {'name': 'baseline', 'template': '简单提示', 'traffic_percentage': 0.5},
+    {'name': 'optimized', 'template': '优化提示', 'traffic_percentage': 0.5}
 ]
 
 tester = PromptABTester(variants)
-
-# 模拟测试循环
-for i in range(1000):
-    variant = tester.select_variant()
-    # ... 调用 LLM API ...
-    # tester.record_result(variant.name, success, time, cost, rating)
-
-print(f"最佳变体: {tester.get_best_variant()}")`}
+# 运行测试 → 收集数据 → 选择最佳变体`}
           language="python"
           filename="prompt_ab_tester.py"
-          description="完整的 Prompt A/B 测试框架实现"
+          description="A/B 测试核心逻辑（简化版）"
         />
 
         <h3 className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
@@ -951,6 +993,9 @@ print(f"最佳变体: {tester.get_best_variant()}")`}
             <div><span className="text-sky font-semibold">性能指标:</span></div>
             <div className="ml-4">• 响应时间(Response Time) - P50/P95/P99</div>
             <div className="ml-4">• Token 成本(Token Cost) - 输入+输出总 Token 数</div>
+            <div className="ml-4 pl-4 text-[12px] text-ink-faded">└─ 实际费用 = (输入Token × 单价) + (输出Token × 单价) - 缓存命中折扣</div>
+            <div className="ml-4">• 缓存命中率(Cache Hit Rate) - Prompt 缓存复用的比例</div>
+            <div className="ml-4 pl-4 text-[12px] text-ink-faded">└─ OpenAI/Claude 支持前缀缓存，命中部分按 10%-25% 计费</div>
             <div className="ml-4">• 错误率(Error Rate) - API 调用失败比例</div>
             <div><span className="text-rose font-semibold">用户体验:</span></div>
             <div className="ml-4">• 满意度评分(User Rating) - 1-5 分制</div>
