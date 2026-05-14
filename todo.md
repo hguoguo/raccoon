@@ -29,7 +29,7 @@
 
 ### 💡 创建提示词
 ```
-/create-knowledge-page pass-by-value
+调用create-knowledge-page  技能创建 pass-by-value
 ```
 
 3. **值传递vs引用传递辨析（未实现）** `(pass-by-value)`
@@ -38,25 +38,25 @@
 
 ### 💡 创建提示词
 ```
-/create-knowledge-page aqs-principle
-/create-knowledge-page completable-future
+调用create-knowledge-page  技能创建 aqs-principle
+调用create-knowledge-page  技能创建 completable-future
 ```
 
-1. **AQS原理剖析（未实现）** `(aqs-principle)`
-2. **CompletableFuture异步编程（未实现）** `(completable-future)`
+1. **AQS原理剖析** `(aqs-principle)`
+2. **CompletableFuture异步编程** `(completable-future)`
 
 ## 📚 08-microservices
 
 ### 💡 创建提示词（第1组）
 ```
-/create-knowledge-page configuration-management
-/create-knowledge-page service-resilience
-/create-knowledge-page distributed-tracing
+调用create-knowledge-page  技能创建 configuration-management
+调用create-knowledge-page  技能创建 service-resilience
+调用create-knowledge-page  技能创建 distributed-tracing
 ```
 
 ### 💡 创建提示词（第2组）
 ```
-/create-knowledge-page message-queue
+调用create-knowledge-page  技能创建 message-queue
 ```
 
 1. **配置中心（未实现）** `(configuration-management)`
@@ -64,12 +64,13 @@
 3. **分布式链路追踪（未实现）** `(distributed-tracing)`
 4. **消息队列（未实现）** `(message-queue)`
 
+--------------------------------------------------
 ## 📚 10-llm-advanced
 
 ### 💡 创建提示词
 ```
-/create-knowledge-page mcp-server-development
-/create-knowledge-page multimodal-agent
+调用create-knowledge-page  技能创建 mcp-server-development
+调用create-knowledge-page  技能创建 multimodal-agent
 ```
 
 1. **MCP Server开发与集成** `(mcp-server-development)`
@@ -79,14 +80,14 @@
 
 ### 💡 创建提示词（第1组）
 ```
-/create-knowledge-page tcp-ip-basics
-/create-knowledge-page http-protocol
-/create-knowledge-page restful-api
+调用create-knowledge-page  技能创建 tcp-ip-basics
+调用create-knowledge-page  技能创建 http-protocol
+调用create-knowledge-page  技能创建 restful-api
 ```
 
 ### 💡 创建提示词（第2组）
 ```
-/create-knowledge-page socket-programming
+调用create-knowledge-page  技能创建 socket-programming
 ```
 
 1. **TCP/IP协议栈（未实现）** `(tcp-ip-basics)`
@@ -98,14 +99,14 @@
 
 ### 💡 创建提示词（第1组）
 ```
-/create-knowledge-page maven
-/create-knowledge-page gradle
-/create-knowledge-page project-structure
+调用create-knowledge-page  技能创建 maven
+调用create-knowledge-page  技能创建 gradle
+调用create-knowledge-page  技能创建 project-structure
 ```
 
 ### 💡 创建提示词（第2组）
 ```
-/create-knowledge-page cicd
+调用create-knowledge-page  技能创建 cicd
 ```
 
 1. **Maven构建工具（未实现）** `(maven)`
@@ -117,9 +118,9 @@
 
 ### 💡 创建提示词
 ```
-/create-knowledge-page cryptography
-/create-knowledge-page digital-signature
-/create-knowledge-page owasp-security
+调用create-knowledge-page  技能创建 cryptography
+调用create-knowledge-page  技能创建 digital-signature
+调用create-knowledge-page  技能创建 owasp-security
 ```
 
 1. **加密与解密（未实现）** `(cryptography)`
@@ -130,22 +131,22 @@
 
 ### 💡 创建提示词（第1组）
 ```
-/create-knowledge-page flink-streaming
-/create-knowledge-page spark-computing
-/create-knowledge-page hadoop-ecosystem
+调用create-knowledge-page  技能创建 flink-streaming
+调用create-knowledge-page  技能创建 spark-computing
+调用create-knowledge-page  技能创建 hadoop-ecosystem
 ```
 
 ### 💡 创建提示词（第2组）
 ```
-/create-knowledge-page hive-data-warehouse
-/create-knowledge-page elasticsearch
-/create-knowledge-page hdfs
+调用create-knowledge-page  技能创建 hive-data-warehouse
+调用create-knowledge-page  技能创建 elasticsearch
+调用create-knowledge-page  技能创建 hdfs
 ```
 
 ### 💡 创建提示词（第3组）
 ```
-/create-knowledge-page realtime-data-warehouse
-/create-knowledge-page stream-batch-unified
+调用create-knowledge-page  技能创建 realtime-data-warehouse
+调用create-knowledge-page  技能创建 stream-batch-unified
 ```
 
 1. **Flink实时计算框架（未实现）** `(flink-streaming)`
@@ -161,9 +162,9 @@
 
 ### 💡 创建提示词
 ```
-/create-knowledge-page clickhouse-architecture
-/create-knowledge-page clickhouse-performance
-/create-knowledge-page clickhouse-distributed
+调用create-knowledge-page  技能创建 clickhouse-architecture
+调用create-knowledge-page  技能创建 clickhouse-performance
+调用create-knowledge-page  技能创建 clickhouse-distributed
 ```
 
 1. **ClickHouse架构与原理（未实现）** `(clickhouse-architecture)`
@@ -174,15 +175,15 @@
 
 ### 💡 创建提示词（第1组）
 ```
-/create-knowledge-page kafka-architecture
-/create-knowledge-page kafka-producer-consumer
-/create-knowledge-page kafka-reliability
+调用create-knowledge-page  技能创建 kafka-architecture
+调用create-knowledge-page  技能创建 kafka-producer-consumer
+调用create-knowledge-page  技能创建 kafka-reliability
 ```
 
 ### 💡 创建提示词（第2组）
 ```
-/create-knowledge-page kafka-streams
-/create-knowledge-page kafka-performance-tuning
+调用create-knowledge-page  技能创建 kafka-streams
+调用create-knowledge-page  技能创建 kafka-performance-tuning
 ```
 
 1. **Kafka架构与核心概念（未实现）** `(kafka-architecture)`
@@ -195,15 +196,15 @@
 
 ### 💡 创建提示词（第1组）
 ```
-/create-knowledge-page mysql-architecture
-/create-knowledge-page mysql-index-optimization
-/create-knowledge-page mysql-transaction-lock
+调用create-knowledge-page  技能创建 mysql-architecture
+调用create-knowledge-page  技能创建 mysql-index-optimization
+调用create-knowledge-page  技能创建 mysql-transaction-lock
 ```
 
 ### 💡 创建提示词（第2组）
 ```
-/create-knowledge-page mysql-replication-ha
-/create-knowledge-page mysql-performance-tuning
+调用create-knowledge-page  技能创建 mysql-replication-ha
+调用create-knowledge-page  技能创建 mysql-performance-tuning
 ```
 
 1. **MySQL架构与存储引擎（未实现）** `(mysql-architecture)`
@@ -216,10 +217,10 @@
 
 ### 💡 创建提示词
 ```
-/create-knowledge-page postgresql-core
-/create-knowledge-page postgresql-jsonb
-/create-knowledge-page postgresql-extensions
-/create-knowledge-page postgresql-replication
+调用create-knowledge-page  技能创建 postgresql-core
+调用create-knowledge-page  技能创建 postgresql-jsonb
+调用create-knowledge-page  技能创建 postgresql-extensions
+调用create-knowledge-page  技能创建 postgresql-replication
 ```
 
 1. **PostgreSQL核心原理（未实现）** `(postgresql-core)`
@@ -231,10 +232,10 @@
 
 ### 💡 创建提示词
 ```
-/create-knowledge-page rabbitmq-core
-/create-knowledge-page rabbitmq-routing
-/create-knowledge-page rabbitmq-reliability
-/create-knowledge-page rabbitmq-cluster
+调用create-knowledge-page  技能创建 rabbitmq-core
+调用create-knowledge-page  技能创建 rabbitmq-routing
+调用create-knowledge-page  技能创建 rabbitmq-reliability
+调用create-knowledge-page  技能创建 rabbitmq-cluster
 ```
 
 1. **RabbitMQ核心概念（未实现）** `(rabbitmq-core)`
@@ -246,10 +247,10 @@
 
 ### 💡 创建提示词
 ```
-/create-knowledge-page rocketmq-architecture
-/create-knowledge-page rocketmq-transaction
-/create-knowledge-page rocketmq-advanced
-/create-knowledge-page rocketmq-ha
+调用create-knowledge-page  技能创建 rocketmq-architecture
+调用create-knowledge-page  技能创建 rocketmq-transaction
+调用create-knowledge-page  技能创建 rocketmq-advanced
+调用create-knowledge-page  技能创建 rocketmq-ha
 ```
 
 1. **RocketMQ架构设计（未实现）** `(rocketmq-architecture)`
