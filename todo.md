@@ -26,14 +26,38 @@
 ---
 
 ## 📚 01-java-core
+
+### 💡 创建提示词
+```
+/create-knowledge-page pass-by-value
+```
+
 3. **值传递vs引用传递辨析（未实现）** `(pass-by-value)`
 
 ## 📚 03-multithreading
+
+### 💡 创建提示词
+```
+/create-knowledge-page aqs-principle
+/create-knowledge-page completable-future
+```
 
 1. **AQS原理剖析（未实现）** `(aqs-principle)`
 2. **CompletableFuture异步编程（未实现）** `(completable-future)`
 
 ## 📚 08-microservices
+
+### 💡 创建提示词（第1组）
+```
+/create-knowledge-page configuration-management
+/create-knowledge-page service-resilience
+/create-knowledge-page distributed-tracing
+```
+
+### 💡 创建提示词（第2组）
+```
+/create-knowledge-page message-queue
+```
 
 1. **配置中心（未实现）** `(configuration-management)`
 2. **服务限流降级（未实现）** `(service-resilience)`
@@ -42,10 +66,28 @@
 
 ## 📚 10-llm-advanced
 
+### 💡 创建提示词
+```
+/create-knowledge-page mcp-server-development
+/create-knowledge-page multimodal-agent
+```
+
 1. **MCP Server开发与集成** `(mcp-server-development)`
 2. **多模态Agent架构设计** `(multimodal-agent)`
 
 ## 📚 10-network-protocol
+
+### 💡 创建提示词（第1组）
+```
+/create-knowledge-page tcp-ip-basics
+/create-knowledge-page http-protocol
+/create-knowledge-page restful-api
+```
+
+### 💡 创建提示词（第2组）
+```
+/create-knowledge-page socket-programming
+```
 
 1. **TCP/IP协议栈（未实现）** `(tcp-ip-basics)`
 2. **HTTP/HTTPS协议详解（未实现）** `(http-protocol)`
@@ -54,6 +96,18 @@
 
 ## 📚 11-build-tools
 
+### 💡 创建提示词（第1组）
+```
+/create-knowledge-page maven
+/create-knowledge-page gradle
+/create-knowledge-page project-structure
+```
+
+### 💡 创建提示词（第2组）
+```
+/create-knowledge-page cicd
+```
+
 1. **Maven构建工具（未实现）** `(maven)`
 2. **Gradle构建工具（未实现）** `(gradle)`
 3. **项目结构与规范（未实现）** `(project-structure)`
@@ -61,11 +115,38 @@
 
 ## 📚 12-java-security
 
+### 💡 创建提示词
+```
+/create-knowledge-page cryptography
+/create-knowledge-page digital-signature
+/create-knowledge-page owasp-security
+```
+
 1. **加密与解密（未实现）** `(cryptography)`
 2. **数字签名与证书（未实现）** `(digital-signature)`
 3. **OWASP常见漏洞防护（未实现）** `(owasp-security)`
 
 ## 📚 13-bigdata-ecosystem
+
+### 💡 创建提示词（第1组）
+```
+/create-knowledge-page flink-streaming
+/create-knowledge-page spark-computing
+/create-knowledge-page hadoop-ecosystem
+```
+
+### 💡 创建提示词（第2组）
+```
+/create-knowledge-page hive-data-warehouse
+/create-knowledge-page elasticsearch
+/create-knowledge-page hdfs
+```
+
+### 💡 创建提示词（第3组）
+```
+/create-knowledge-page realtime-data-warehouse
+/create-knowledge-page stream-batch-unified
+```
 
 1. **Flink实时计算框架（未实现）** `(flink-streaming)`
 2. **Spark分布式计算（未实现）** `(spark-computing)`
@@ -78,11 +159,31 @@
 
 ## 📚 clickhouse
 
+### 💡 创建提示词
+```
+/create-knowledge-page clickhouse-architecture
+/create-knowledge-page clickhouse-performance
+/create-knowledge-page clickhouse-distributed
+```
+
 1. **ClickHouse架构与原理（未实现）** `(clickhouse-architecture)`
 2. **ClickHouse性能优化（未实现）** `(clickhouse-performance)`
 3. **ClickHouse分布式集群（未实现）** `(clickhouse-distributed)`
 
 ## 📚 kafka
+
+### 💡 创建提示词（第1组）
+```
+/create-knowledge-page kafka-architecture
+/create-knowledge-page kafka-producer-consumer
+/create-knowledge-page kafka-reliability
+```
+
+### 💡 创建提示词（第2组）
+```
+/create-knowledge-page kafka-streams
+/create-knowledge-page kafka-performance-tuning
+```
 
 1. **Kafka架构与核心概念（未实现）** `(kafka-architecture)`
 2. **Kafka生产者与消费者（未实现）** `(kafka-producer-consumer)`
@@ -92,6 +193,19 @@
 
 ## 📚 mysql
 
+### 💡 创建提示词（第1组）
+```
+/create-knowledge-page mysql-architecture
+/create-knowledge-page mysql-index-optimization
+/create-knowledge-page mysql-transaction-lock
+```
+
+### 💡 创建提示词（第2组）
+```
+/create-knowledge-page mysql-replication-ha
+/create-knowledge-page mysql-performance-tuning
+```
+
 1. **MySQL架构与存储引擎（未实现）** `(mysql-architecture)`
 2. **MySQL索引优化实战（未实现）** `(mysql-index-optimization)`
 3. **MySQL事务与锁机制（未实现）** `(mysql-transaction-lock)`
@@ -100,6 +214,14 @@
 
 ## 📚 postgresql
 
+### 💡 创建提示词
+```
+/create-knowledge-page postgresql-core
+/create-knowledge-page postgresql-jsonb
+/create-knowledge-page postgresql-extensions
+/create-knowledge-page postgresql-replication
+```
+
 1. **PostgreSQL核心原理（未实现）** `(postgresql-core)`
 2. **PostgreSQL JSONB与NoSQL能力（未实现）** `(postgresql-jsonb)`
 3. **PostgreSQL扩展生态（未实现）** `(postgresql-extensions)`
@@ -107,12 +229,28 @@
 
 ## 📚 rabbitmq
 
+### 💡 创建提示词
+```
+/create-knowledge-page rabbitmq-core
+/create-knowledge-page rabbitmq-routing
+/create-knowledge-page rabbitmq-reliability
+/create-knowledge-page rabbitmq-cluster
+```
+
 1. **RabbitMQ核心概念（未实现）** `(rabbitmq-core)`
 2. **RabbitMQ路由模式（未实现）** `(rabbitmq-routing)`
 3. **RabbitMQ消息可靠性（未实现）** `(rabbitmq-reliability)`
 4. **RabbitMQ集群与高可用（未实现）** `(rabbitmq-cluster)`
 
 ## 📚 rocketmq
+
+### 💡 创建提示词
+```
+/create-knowledge-page rocketmq-architecture
+/create-knowledge-page rocketmq-transaction
+/create-knowledge-page rocketmq-advanced
+/create-knowledge-page rocketmq-ha
+```
 
 1. **RocketMQ架构设计（未实现）** `(rocketmq-architecture)`
 2. **RocketMQ事务消息（未实现）** `(rocketmq-transaction)`
