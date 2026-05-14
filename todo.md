@@ -267,3 +267,150 @@
 3. ✅ **RocketMQ高级特性** `(rocketmq-advanced)` - 已创建页面
 4. ✅ **RocketMQ高可用与容灾** `(rocketmq-ha)` - 已创建页面
 
+
+---
+
+## 📚 infra/oltp - OLTP关系型数据库（新增分类）
+
+### 💡 TiDB (3篇待实现)
+```bash
+调用create-knowledge-page 技能创建 tidb-architecture
+调用create-knowledge-page 技能创建 tidb-optimization
+调用create-knowledge-page 技能创建 tidb-vs-mysql
+```
+
+1. **TiDB分布式HTAP数据库** `(tidb-architecture)` - 目录: `infra/oltp/tidb/`
+2. **TiDB性能调优与实践** `(tidb-optimization)` - 目录: `infra/oltp/tidb/`
+3. **TiDB vs MySQL：选型与迁移指南** `(tidb-vs-mysql)` - 目录: `infra/oltp/tidb/`
+
+### 💡 数据库对比 (1篇待实现)
+```bash
+调用create-knowledge-page 技能创建 mysql-vs-postgresql
+```
+
+1. **MySQL vs PostgreSQL：深度对比与选型指南** `(mysql-vs-postgresql)` - 目录: `infra/oltp/database-comparison/`
+
+---
+
+## 📚 infra/nosql - NoSQL数据库（新增分类）
+
+### 💡 Elasticsearch (1篇待实现)
+```bash
+调用create-knowledge-page 技能创建 elasticsearch
+```
+
+1. **Elasticsearch搜索引擎** `(elasticsearch)` - 目录: `infra/nosql/elasticsearch/`
+
+> ✅ Redis 已实现：`redis-cache`
+
+---
+
+## 📚 infra/olap - OLAP分析型数据库（新增分类）
+----------------------------------------------------------------------------------------------------
+### 💡 ClickHouse (3篇待实现) - 从 oltp 移动过来
+```bash
+调用create-knowledge-page 技能创建 clickhouse-architecture
+调用create-knowledge-page 技能创建 clickhouse-performance
+调用create-knowledge-page 技能创建 clickhouse-distributed
+```
+
+1. **ClickHouse架构与原理** `(clickhouse-architecture)` - 目录: `infra/olap/clickhouse/`
+2. **ClickHouse性能优化** `(clickhouse-performance)` - 目录: `infra/olap/clickhouse/`
+3. **ClickHouse分布式集群** `(clickhouse-distributed)` - 目录: `infra/olap/clickhouse/`
+
+### 💡 OLAP对比 (1篇待实现)
+```bash
+调用create-knowledge-page 技能创建 olap-database-comparison
+```
+
+1. **OLAP数据库选型与对比** `(olap-database-comparison)` - 目录: `infra/olap/olap-comparison/`
+
+---
+
+## 📚 infra/bigdata - 大数据处理（重命名自 data-processing）
+
+### 💡 大数据生态 (7篇待实现)
+```bash
+# 第1组：计算框架
+调用create-knowledge-page 技能创建 flink-streaming
+调用create-knowledge-page 技能创建 spark-computing
+调用create-knowledge-page 技能创建 hadoop-ecosystem
+
+# 第2组：存储与数仓
+调用create-knowledge-page 技能创建 hive-data-warehouse
+调用create-knowledge-page 技能创建 hdfs
+
+# 第3组：架构设计
+调用create-knowledge-page 技能创建 realtime-data-warehouse
+调用create-knowledge-page 技能创建 stream-batch-unified
+```
+
+1. **Flink实时计算框架** `(flink-streaming)` - 目录: `infra/bigdata/13-bigdata-ecosystem/`
+2. **Spark分布式计算** `(spark-computing)` - 目录: `infra/bigdata/13-bigdata-ecosystem/`
+3. **Hadoop生态系统** `(hadoop-ecosystem)` - 目录: `infra/bigdata/13-bigdata-ecosystem/`
+4. **Hive数据仓库** `(hive-data-warehouse)` - 目录: `infra/bigdata/13-bigdata-ecosystem/`
+5. **HDFS分布式文件系统** `(hdfs)` - 目录: `infra/bigdata/13-bigdata-ecosystem/`
+6. **实时数仓架构设计** `(realtime-data-warehouse)` - 目录: `infra/bigdata/13-bigdata-ecosystem/`
+7. **流批一体处理** `(stream-batch-unified)` - 目录: `infra/bigdata/13-bigdata-ecosystem/`
+
+---
+
+## 📚 infra/messaging - 消息通信（新增分类）
+
+### 💡 Kafka (5篇待实现)
+```bash
+# 第1组：核心概念
+调用create-knowledge-page 技能创建 kafka-architecture
+调用create-knowledge-page 技能创建 kafka-producer-consumer
+调用create-knowledge-page 技能创建 kafka-reliability
+
+# 第2组：高级特性
+调用create-knowledge-page 技能创建 kafka-streams
+调用create-knowledge-page 技能创建 kafka-performance-tuning
+```
+
+1. **Kafka架构与核心概念** `(kafka-architecture)` - 目录: `infra/messaging/kafka/`
+2. **Kafka生产者与消费者** `(kafka-producer-consumer)` - 目录: `infra/messaging/kafka/`
+3. **Kafka消息可靠性保证** `(kafka-reliability)` - 目录: `infra/messaging/kafka/`
+4. **Kafka Streams流处理** `(kafka-streams)` - 目录: `infra/messaging/kafka/`
+5. **Kafka性能调优** `(kafka-performance-tuning)` - 目录: `infra/messaging/kafka/`
+
+### 💡 RocketMQ (4篇待实现)
+```bash
+调用create-knowledge-page 技能创建 rocketmq-architecture
+调用create-knowledge-page 技能创建 rocketmq-transaction
+调用create-knowledge-page 技能创建 rocketmq-advanced
+调用create-knowledge-page 技能创建 rocketmq-ha
+```
+
+1. **RocketMQ架构设计** `(rocketmq-architecture)` - 目录: `infra/messaging/rocketmq/`
+2. **RocketMQ事务消息** `(rocketmq-transaction)` - 目录: `infra/messaging/rocketmq/`
+3. **RocketMQ高级特性** `(rocketmq-advanced)` - 目录: `infra/messaging/rocketmq/`
+4. **RocketMQ高可用与容灾** `(rocketmq-ha)` - 目录: `infra/messaging/rocketmq/`
+
+### 💡 RabbitMQ (4篇待实现)
+```bash
+# 第1组：基础概念
+调用create-knowledge-page 技能创建 rabbitmq-core
+调用create-knowledge-page 技能创建 rabbitmq-routing
+
+# 第2组：高级特性
+调用create-knowledge-page 技能创建 rabbitmq-reliability
+调用create-knowledge-page 技能创建 rabbitmq-cluster
+```
+
+1. **RabbitMQ核心概念** `(rabbitmq-core)` - 目录: `infra/messaging/rabbitmq/`
+2. **RabbitMQ路由模式** `(rabbitmq-routing)` - 目录: `infra/messaging/rabbitmq/`
+3. **RabbitMQ消息可靠性** `(rabbitmq-reliability)` - 目录: `infra/messaging/rabbitmq/`
+4. **RabbitMQ集群与高可用** `(rabbitmq-cluster)` - 目录: `infra/messaging/rabbitmq/`
+
+### 💡 消息队列对比 (3篇待实现)
+```bash
+调用create-knowledge-page 技能创建 mq-selection-guide
+调用create-knowledge-page 技能创建 mq-reliability-patterns
+调用create-knowledge-page 技能创建 mq-performance-tuning
+```
+
+1. **消息队列选型与对比** `(mq-selection-guide)` - 目录: `infra/messaging/message-queue-comparison/`
+2. **消息可靠性保障模式** `(mq-reliability-patterns)` - 目录: `infra/messaging/message-queue-comparison/`
+3. **消息队列性能调优实践** `(mq-performance-tuning)` - 目录: `infra/messaging/message-queue-comparison/`
