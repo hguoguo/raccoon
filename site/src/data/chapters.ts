@@ -380,9 +380,9 @@ export const domains: Domain[] = [
             difficulty: 3,
             color: 'teal',
             articles: [
-              { slug: 'cursor-ai-editor', title: 'Cursor AI代码编辑器（未实现）', meta: { id: 'cursor-ai-editor', title: 'Cursor AI代码编辑器', level: 'Junior', tags: ['Cursor', 'AI编辑器', '代码补全', '代码生成', 'Chat', 'Composer', '快捷键'], difficulty: 2, category: '12-ai-coding-tools', prerequisites: [], relatedPatterns: ['github-copilot', 'ai-coding-workflow'], readingTime: 40 } },
-              { slug: 'github-copilot', title: 'GitHub Copilot编程助手（未实现）', meta: { id: 'github-copilot', title: 'GitHub Copilot编程助手', level: 'Junior', tags: ['GitHub Copilot', '代码建议', '自动补全', 'IDE集成', 'VSCode', 'JetBrains'], difficulty: 2, category: '12-ai-coding-tools', prerequisites: [], relatedPatterns: ['cursor-ai-editor', 'ai-coding-workflow'], readingTime: 35 } },
-              { slug: 'claude-code', title: 'Claude Code智能编程（未实现）', meta: { id: 'claude-code', title: 'Claude Code智能编程', level: 'Senior', tags: ['Claude Code', 'Anthropic', '代码理解', '重构建议', 'Bug修复', '代码解释'], difficulty: 3, category: '12-ai-coding-tools', prerequisites: [], relatedPatterns: ['cursor-ai-editor', 'github-copilot'], readingTime: 45 } },
+              { slug: 'cursor-ai-editor', title: 'Cursor AI代码编辑器', meta: { id: 'cursor-ai-editor', title: 'Cursor AI代码编辑器', level: 'Junior', tags: ['Cursor', 'AI编辑器', '代码补全', '代码生成', 'Chat', 'Composer', '快捷键'], difficulty: 2, category: '12-ai-coding-tools', prerequisites: [], relatedPatterns: ['github-copilot', 'ai-coding-workflow'], readingTime: 40 } },
+              { slug: 'github-copilot', title: 'GitHub Copilot编程助手', meta: { id: 'github-copilot', title: 'GitHub Copilot编程助手', level: 'Junior', tags: ['GitHub Copilot', '代码建议', '自动补全', 'IDE集成', 'VSCode', 'JetBrains'], difficulty: 2, category: '12-ai-coding-tools', prerequisites: [], relatedPatterns: ['cursor-ai-editor', 'ai-coding-workflow'], readingTime: 35 } },
+              { slug: 'claude-code', title: 'Claude Code智能编程', meta: { id: 'claude-code', title: 'Claude Code智能编程', level: 'Senior', tags: ['Claude Code', 'Anthropic', '代码理解', '重构建议', 'Bug修复', '代码解释'], difficulty: 3, category: '12-ai-coding-tools', prerequisites: [], relatedPatterns: ['cursor-ai-editor', 'github-copilot'], readingTime: 45 } },
             ],
           },
         ],
