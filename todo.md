@@ -132,9 +132,9 @@
 
 ### 💡 创建提示词（第1组）
 ```
-调用create-knowledge-page  技能创建 flink-streaming
-调用create-knowledge-page  技能创建 spark-computing
-调用create-knowledge-page  技能创建 hadoop-ecosystem
+✅ 已调用create-knowledge-page 技能创建 flink-streaming
+✅ 已调用create-knowledge-page 技能创建 spark-computing
+✅ 已调用create-knowledge-page 技能创建 hadoop-ecosystem
 ```
 
 ### 💡 创建提示词（第2组）
@@ -143,7 +143,7 @@
 调用create-knowledge-page  技能创建 elasticsearch
 调用create-knowledge-page  技能创建 hdfs
 ```
---------------------------------------------------
+
 ### 💡 创建提示词（第3组）
 ```
 调用create-knowledge-page  技能创建 realtime-data-warehouse
@@ -159,6 +159,7 @@
 7. **实时数仓架构设计（未实现）** `(realtime-data-warehouse)`
 8. **流批一体处理（未实现）** `(stream-batch-unified)`
 
+--------------------------------------------------
 ## 📚 clickhouse
 
 ### 💡 创建提示词

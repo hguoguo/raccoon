@@ -14,12 +14,13 @@ const tocItems: TocItem[] = [
   { id: 'definition', text: '一句话定义', level: 2 },
   { id: 'sdk-modules', text: 'SDK 核心模块', level: 2 },
   { id: 'core-api', text: '核心 API 详解', level: 2 },
-  { id: 'chat-api', text: '5.1 Chat API（对话接口）', level: 3 },
-  { id: 'responses-api', text: '5.2 Responses API（新响应 API）', level: 3 },
-  { id: 'streaming', text: '5.3 Streaming（流式响应）', level: 3 },
-  { id: 'function-calling', text: '5.4 Function Calling（函数调用）', level: 3 },
-  { id: 'embedding-api', text: '5.5 Embedding API（向量化接口）', level: 3 },
-  { id: 'structured-output', text: '5.6 Structured Output（结构化输出）', level: 3 },
+  { id: 'chat-api', text: '5.1 Chat API(对话接口)', level: 3 },
+  { id: 'responses-api', text: '5.2 Responses API(新响应 API)', level: 3 },
+  { id: 'reasoning', text: '5.7 Reasoning API(深度思考)', level: 3 },
+  { id: 'streaming', text: '5.3 Streaming(流式响应)', level: 3 },
+  { id: 'function-calling', text: '5.4 Function Calling(函数调用)', level: 3 },
+  { id: 'embedding-api', text: '5.5 Embedding API(向量化接口)', level: 3 },
+  { id: 'structured-output', text: '5.6 Structured Output(结构化输出)', level: 3 },
   { id: 'misconceptions', text: '常见误区', level: 2 },
   { id: 'interview', text: '面试真题', level: 2 },
   { id: 'related', text: '知识关联', level: 2 },
@@ -109,6 +110,52 @@ print(f"Tokens used: {response.usage.total_tokens}")`}
             <li><code className="font-mono text-[13px] bg-parchment-deep px-1.5 py-0.5 rounded-[3px]">top_p</code>：核采样参数（0-1）</li>
           </ul>
         </Callout>
+        <Playground
+          code={`from openai import OpenAI
+
+client = OpenAI()
+
+# 多轮对话：维护完整的消息历史
+messages = [
+    {"role": "system", "content": "你是友好的编程助手"}
+]
+
+# 第一轮对话
+messages.append({"role": "user", "content": "Python 中如何实现单例模式？"})
+response1 = client.chat.completions.create(
+    model="gpt-4",
+    messages=messages
+)
+assistant_reply1 = response1.choices[0].message.content
+print("助手:", assistant_reply1)
+
+# 将助手回复加入历史
+messages.append({"role": "assistant", "content": assistant_reply1})
+
+# 第二轮对话（基于上下文）
+messages.append({"role": "user", "content": "那线程安全的单例呢？"})
+response2 = client.chat.completions.create(
+    model="gpt-4",
+    messages=messages  # 包含之前的完整对话历史
+)
+assistant_reply2 = response2.choices[0].message.content
+print("助手:", assistant_reply2)
+
+# 查看完整对话历史
+print(f"\n对话轮数: {(len(messages) - 1) // 2}")
+print(f"总 Token 数: {response2.usage.total_tokens}")`}
+          language="python"
+          filename="multi_turn_conversation.py"
+          description="多轮对话：维护消息历史实现上下文连贯"
+        />
+        <SideNote label="多轮对话要点">
+          <strong>核心原则：</strong>每次调用 API 时，都要传入完整的消息历史（包括之前所有的 user 和 assistant 消息）。<br />
+          <strong>注意事项：</strong><br />
+          ① 消息顺序很重要，必须按时间顺序排列<br />
+          ② 注意 Token 限制，过长的历史需要截断或总结<br />
+          ③ system 消息通常放在最前面，作为全局指令<br />
+          ④ 可以通过删除早期消息来控制上下文长度
+        </SideNote>
 
         <h3 id="responses-api" className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
           5.2 Responses API（新响应 API）
@@ -393,8 +440,53 @@ print(f"参与者: {', '.join(event.participants)}`}
         <SideNote label="与传统方式对比">
           <strong>传统方式：</strong>Prompt 要求 JSON → 解析字符串 → 手动校验 → 错误处理<br />
           <strong>新方式：</strong>定义 Pydantic Model → 调用 parse() → 直接获得对象<br />
-          新方式减少了 80% 的样板代码，且类型安全、IDE 友好。
+          新方式减少了 80% 的样板代码,且类型安全、IDE 友好。
         </SideNote>
+
+        <h3 id="reasoning" className="font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink">
+          5.7 Reasoning API(深度思考)
+        </h3>
+        <p className="text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4">
+          Reasoning API 是 OpenAI o1/o3 系列模型的核心特性,允许模型在生成最终答案前进行"深度思考"。通过 <code className="font-mono text-[13px] bg-parchment-deep px-1.5 py-0.5 rounded-[3px]">reasoning_effort</code> 参数控制思考深度,适用于复杂推理、数学证明、代码调试等场景。
+        </p>
+        <Playground
+          code={`from openai import OpenAI
+
+client = OpenAI()
+
+# 基础用法:启用深度思考
+response = client.chat.completions.create(
+    model="o1-preview",
+    messages=[
+        {"role": "user", "content": "解决这个复杂的数学问题..."}
+    ],
+    reasoning_effort="high"  # low | medium | high
+)
+
+print(response.choices[0].message.content)
+
+# 查看思考过程(如果支持)
+if hasattr(response.choices[0].message, 'reasoning_content'):
+    print("思考过程:", response.choices[0].message.reasoning_content)`}
+          language="python"
+          filename="reasoning_api.py"
+          description="使用 Reasoning API 进行深度思考"
+        />
+        <Callout type="info" title="Reasoning Effort 级别">
+          <ul className="list-disc list-inside space-y-1 mt-2 text-[14px] sm:text-[15px] text-ink-muted">
+            <li><code className="font-mono text-[13px] bg-parchment-deep px-1.5 py-0.5 rounded-[3px]">low</code>:快速响应,适合简单问题</li>
+            <li><code className="font-mono text-[13px] bg-parchment-deep px-1.5 py-0.5 rounded-[3px]">medium</code>:平衡速度与准确性(默认)</li>
+            <li><code className="font-mono text-[13px] bg-parchment-deep px-1.5 py-0.5 rounded-[3px]">high</code>:深度推理,适合复杂任务,但耗时更长</li>
+          </ul>
+        </Callout>
+        <Callout type="tip" title="适用场景">
+          <ul className="list-disc list-inside space-y-1 mt-2 text-[14px] sm:text-[15px] text-ink-muted">
+            <li>复杂数学问题和逻辑推理</li>
+            <li>多步骤代码调试和优化</li>
+            <li>科学计算和数据分析</li>
+            <li>需要逐步推导的决策问题</li>
+          </ul>
+        </Callout>
       </section>
 
       {/* 常见误区 */}
@@ -402,19 +494,24 @@ print(f"参与者: {', '.join(event.participants)}`}
         <h2 id="misconceptions" className="font-display font-bold text-[20px] sm:text-display-md tracking-tight mt-8 sm:mt-12 mb-3 sm:mb-4 pb-[10px] border-b border-border-light text-ink">
           常见误区
         </h2>
-        <Callout type="danger" title="误区 1：不设置超时和重试">
+        <Callout type="danger" title="误区 1:不设置超时和重试">
           <p className="text-[14px] sm:text-[15px] leading-[1.8] text-ink-muted mt-2">
-            网络请求可能失败（超时、限流、服务器错误）。SDK 内置了自动重试机制，但应配置合理的超时时间和最大重试次数，避免无限等待。
+            网络请求可能失败(超时、限流、服务器错误)。SDK 内置了自动重试机制,但应配置合理的超时时间和最大重试次数,避免无限等待。
           </p>
         </Callout>
-        <Callout type="danger" title="误区 2：忽略 Token 用量监控">
+        <Callout type="danger" title="误区 2:忽略 Token 用量监控">
           <p className="text-[14px] sm:text-[15px] leading-[1.8] text-ink-muted mt-2">
-            每次响应都包含 usage 信息（prompt_tokens、completion_tokens、total_tokens）。应在生产环境中记录这些数据，以便成本控制和性能优化。
+            每次响应都包含 usage 信息(prompt_tokens、completion_tokens、total_tokens)。应在生产环境中记录这些数据,以便成本控制和性能优化。
           </p>
         </Callout>
-        <Callout type="danger" title="误区 3：在循环中创建 Client 实例">
+        <Callout type="danger" title="误区 3:在循环中创建 Client 实例">
           <p className="text-[14px] sm:text-[15px] leading-[1.8] text-ink-muted mt-2">
-            Client 应该作为全局单例复用，而不是每次调用都创建新实例。重复创建会导致连接池失效、性能下降。推荐在应用启动时创建一次，全局共享。
+            Client 应该作为全局单例复用,而不是每次调用都创建新实例。重复创建会导致连接池失效、性能下降。推荐在应用启动时创建一次,全局共享。
+          </p>
+        </Callout>
+        <Callout type="danger" title="误区 4:滥用深度思考功能">
+          <p className="text-[14px] sm:text-[15px] leading-[1.8] text-ink-muted mt-2">
+            Reasoning API 虽然强大,但并非所有场景都需要。对于简单问答、事实查询等任务,使用标准模型更经济高效。应根据任务复杂度选择合适的模型和思考级别,避免不必要的成本和延迟。
           </p>
         </Callout>
       </section>
@@ -440,8 +537,16 @@ print(f"参与者: {', '.join(event.participants)}`}
               answer: '优化策略：① 批量处理：一次性发送多个文本（最多 2048 个），减少 API 调用次数；② 缓存：对相同文本缓存 embedding 结果；③ 降维：使用 PCA 等技术降低向量维度；④ 模型选择：text-embedding-3-small 性价比最高；⑤ 截断：过长文本先截断再嵌入；⑥ 异步并发：使用 AsyncClient 并行处理；⑦ 本地模型：高频场景考虑使用 sentence-transformers 等开源方案。',
             },
             {
-              question: 'Structured Output 相比手动解析 JSON 有什么优势？',
-              answer: '优势：① 类型安全：IDE 自动补全和类型检查；② 自动验证：Pydantic 内置数据校验；③ 减少样板代码：无需手动 json.loads() 和字段提取；④ 错误处理清晰：ValidationError 提供详细错误信息；⑤ 嵌套结构支持：复杂对象自动解析；⑥ 默认值处理：可选字段自动填充默认值；⑦ 序列化便捷：model_dump() 一键转 JSON。缺点是依赖较新的模型版本（gpt-4o 系列）。',
+              question: 'Structured Output 相比手动解析 JSON 有什么优势?',
+              answer: '优势:① 类型安全:IDE 自动补全和类型检查;② 自动验证:Pydantic 内置数据校验;③ 减少样板代码:无需手动 json.loads() 和字段提取;④ 错误处理清晰:ValidationError 提供详细错误信息;⑤ 嵌套结构支持:复杂对象自动解析;⑥ 默认值处理:可选字段自动填充默认值;⑦ 序列化便捷:model_dump() 一键转 JSON。缺点是依赖较新的模型版本(gpt-4o 系列)。',
+            },
+            {
+              question: 'Reasoning API 的优缺点是什么?如何选择合适的思考级别?',
+              answer: '优点:① 显著提升复杂问题的准确率;② 展示推理过程,便于调试和验证;③ 适合数学、编程、科学等需要多步推理的任务。缺点:① 响应时间长(high 级别可能需要数十秒);② Token 消耗大幅增加(思考过程也计费);③ 成本高昂(o1 模型价格是 gpt-4 的数倍);④ 不适合实时交互场景。选择策略:简单任务用 standard 模型 + low effort;中等复杂度用 medium;只有真正复杂的推理任务才用 high。建议先从小规模测试开始,评估性价比后再大规模应用。',
+            },
+            {
+              question: '如何在生产环境中管理长对话的上下文长度?',
+              answer: '策略包括：① 滑动窗口：只保留最近 N 轮对话；② 摘要压缩：定期用 LLM 总结早期对话内容；③ 重要性筛选：保留关键信息，删除冗余内容；④ 分层存储：近期对话存内存，远期对话存数据库；⑤ Token 监控：实时统计 token 使用量，接近限制时触发压缩；⑥ 用户主动清理：提供"清空对话"功能。实际应用中常组合使用多种策略，平衡上下文完整性和成本。',
             },
           ]}
         />
