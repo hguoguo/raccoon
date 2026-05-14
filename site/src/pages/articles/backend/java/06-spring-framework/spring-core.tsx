@@ -181,7 +181,7 @@ public class LifecycleBean implements InitializingBean, DisposableBean {
     
     // 2. 属性注入
     @Autowired
-    public void setName(@Value("${app.name}") String name) {
+    public void setName(@Value("${'app.name'}") String name) {
         this.name = name;
         System.out.println("2. Property injected: " + name);
     }
