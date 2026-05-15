@@ -54,7 +54,7 @@ export default function HeroSection() {
             {/* Central hub */}
             <div className="absolute z-20 flex items-center justify-center">
               <div className="w-16 h-16 xl:w-18 xl:h-18 rounded-full bg-gradient-to-br from-accent to-accent-warm shadow-paper-md flex items-center justify-center animate-[gentlePulse_3s_ease-in-out_infinite]">
-                <img src="/logo.png" alt="Raccoon Logo" className="w-8 h-8 object-contain" />
+                <img src={`${import.meta.env.BASE_URL}logo.png`} alt="Raccoon Logo" className="w-8 h-8 object-contain" />
               </div>
             </div>
 

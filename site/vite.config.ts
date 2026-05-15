@@ -3,6 +3,7 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
+  base: '/raccoon/', // GitHub Pages 子路径
   resolve: {
     alias: {
       '@': '/src',

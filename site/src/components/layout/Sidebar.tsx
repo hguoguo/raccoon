@@ -1,4 +1,4 @@
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate, useResolvedPath } from 'react-router-dom'
 import { domains, getSubCategoryById } from '../../data/chapters'
 import { useState, useEffect } from 'react'
 
@@ -16,7 +16,7 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
     for (const domain of domains) {
       for (const sub of domain.subCategories) {
         for (const ch of sub.chapters) {
-          if (location.pathname.startsWith(`/docs/${ch.id}`)) {
+          if (location.pathname.includes(`/docs/${ch.id}`)) {
             return domain.id
           }
         }
@@ -29,7 +29,7 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
     for (const domain of domains) {
       for (const sub of domain.subCategories) {
         for (const ch of sub.chapters) {
-          if (location.pathname.startsWith(`/docs/${ch.id}`)) {
+          if (location.pathname.includes(`/docs/${ch.id}`)) {
             return sub.id
           }
         }
@@ -75,7 +75,7 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
       {/* Brand */}
       <Link to="/" onClick={onClose} className="flex items-center gap-3 px-6 py-6 border-b border-border">
         <div className="w-10 h-10 rounded-2xl bg-[#e8dcc8] flex items-center justify-center shadow-sm">
-          <img src="/logo.png" alt="Raccoon Logo" className="w-7 h-7 object-contain" />
+          <img src={`${import.meta.env.BASE_URL}logo.png`} alt="Raccoon Logo" className="w-7 h-7 object-contain" />
         </div>
         <div className="flex flex-col">
           <span className="font-display font-bold text-[17px] tracking-tight text-ink">Raccoon</span>
@@ -171,8 +171,8 @@ function NavGroup({ chapter, currentPath, onNavigate }: {
   currentPath: string
   onNavigate: () => void
 }) {
-  const chPath = `/docs/${chapter.id}`
-  const isActive = currentPath.startsWith(chPath)
+  const chPath = useResolvedPath(`/docs/${chapter.id}`).pathname
+  const isActive = currentPath === chPath || currentPath.startsWith(chPath + '/')
   const [expanded, setExpanded] = useState(isActive)
 
   // 当路由匹配时自动展开
@@ -201,23 +201,41 @@ function NavGroup({ chapter, currentPath, onNavigate }: {
       {expanded && (
         <div className="py-[2px]">
           {chapter.articles.map(article => {
-            const artPath = `/docs/${chapter.id}/${article.slug}`
-            const isArtActive = currentPath === artPath
+            const artSlug = `/docs/${chapter.id}/${article.slug}`
             return (
-              <Link
+              <ArticleLink
                 key={article.slug}
-                to={artPath}
-                onClick={onNavigate}
-                className={`block pl-[44px] pr-3 py-[5px] text-[12px] font-sans rounded-2xl transition-all duration-150 truncate ${
-                  isArtActive ? 'text-accent font-medium bg-[#eadcc8] border border-[#e2cfb7]' : 'text-ink-faded hover:bg-white hover:text-ink-muted'
-                }`}
-              >
-                {article.title}
-              </Link>
+                articleSlug={artSlug}
+                articleTitle={article.title}
+                currentPath={currentPath}
+                onNavigate={onNavigate}
+              />
             )
           })}
         </div>
       )}
     </div>
+  )
+}
+
+function ArticleLink({ articleSlug, articleTitle, currentPath, onNavigate }: {
+  articleSlug: string
+  articleTitle: string
+  currentPath: string
+  onNavigate: () => void
+}) {
+  const resolvedPath = useResolvedPath(articleSlug).pathname
+  const isArtActive = currentPath === resolvedPath
+  
+  return (
+    <Link
+      to={articleSlug}
+      onClick={onNavigate}
+      className={`block pl-[44px] pr-3 py-[5px] text-[12px] font-sans rounded-2xl transition-all duration-150 truncate ${
+        isArtActive ? 'text-accent font-medium bg-[#eadcc8] border border-[#e2cfb7]' : 'text-ink-faded hover:bg-white hover:text-ink-muted'
+      }`}
+    >
+      {articleTitle}
+    </Link>
   )
 }
