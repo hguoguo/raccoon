@@ -171,6 +171,7 @@ export const domains: Domain[] = [
             articles: [
               { slug: 'spring-cloud-core', title: 'Spring Cloud核心组件', meta: { id: 'spring-cloud-core', title: 'Spring Cloud核心组件', level: 'Expert', tags: ['Eureka', 'Consul', 'Nacos', '服务注册', '服务发现', '负载均衡'], difficulty: 5, category: '08-microservices', prerequisites: ['spring-boot'], relatedPatterns: ['service-mesh', 'api-gateway'], readingTime: 65 } },
               { slug: 'api-gateway', title: 'API网关设计', meta: { id: 'api-gateway', title: 'API网关设计', level: 'Expert', tags: ['Gateway', 'Zuul', '限流', '熔断', '鉴权', '路由'], difficulty: 5, category: '08-microservices', prerequisites: ['spring-cloud-core'], relatedPatterns: ['spring-cloud-gateway', 'nginx'], readingTime: 60 } },
+              { slug: 'message-queue', title: '消息队列详解', meta: { id: 'message-queue', title: '消息队列详解', level: 'Expert', tags: ['Kafka', 'RocketMQ', 'RabbitMQ', '消息可靠性', '幂等性', '顺序消息', '死信队列', '发布订阅'], difficulty: 5, category: '08-microservices', prerequisites: ['spring-boot'], relatedPatterns: ['distributed-transaction', 'spring-event'], readingTime: 70 } },
               { slug: 'distributed-transaction', title: '分布式事务', meta: { id: 'distributed-transaction', title: '分布式事务', level: 'Expert', tags: ['2PC', 'TCC', 'Saga', '可靠消息最终一致性', 'Seata', 'XA事务'], difficulty: 5, category: '08-microservices', prerequisites: ['spring-boot', 'database'], relatedPatterns: ['eventual-consistency', 'compensating-transaction'], readingTime: 70 } },
               { slug: 'configuration-management', title: '配置中心（未实现）', meta: { id: 'configuration-management', title: '配置中心', level: 'Expert', tags: ['Spring Cloud Config', 'Nacos配置', 'Apollo', '配置刷新', '灰度发布'], difficulty: 4, category: '08-microservices', prerequisites: ['spring-boot'], relatedPatterns: ['dynamic-config', 'environment-management'], readingTime: 50 } },
               { slug: 'service-resilience', title: '服务限流降级（未实现）', meta: { id: 'service-resilience', title: '服务限流降级', level: 'Expert', tags: ['Sentinel', 'Resilience4j', '限流', '熔断', '降级', '滑动窗口', '令牌桶', '漏桶'], difficulty: 5, category: '08-microservices', prerequisites: ['spring-cloud-core'], relatedPatterns: ['api-gateway', 'circuit-breaker'], readingTime: 55 } },
@@ -408,6 +409,17 @@ export const domains: Domain[] = [
         domainId: 'infra',
         description: 'MySQL、PostgreSQL等关系型数据库的优化与最佳实践',
         chapters: [
+          {
+            id: 'sql-optimization',
+            title: 'SQL优化与索引',
+            icon: '⚡',
+            description: 'SQL性能优化、索引原理、执行计划分析等核心技能',
+            difficulty: 4,
+            color: 'teal',
+            articles: [
+              { slug: 'sql-optimization', title: 'SQL优化与索引', meta: { id: 'sql-optimization', title: 'SQL优化与索引', level: 'Expert', tags: ['B+树', '索引优化', '执行计划', 'EXPLAIN', '覆盖索引', '最左前缀', '深分页', '慢查询'], difficulty: 5, category: 'sql-optimization', prerequisites: [], relatedPatterns: ['mysql-index-optimization', 'mybatis'], readingTime: 65 } },
+            ],
+          },
           {
             id: 'mysql',
             title: 'MySQL数据库',

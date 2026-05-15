@@ -719,7 +719,7 @@ cleaner.scheduleAtFixedRate(() -> cache.clear(), 0, 1, TimeUnit.HOURS);`}
               <h4 className="font-semibold text-ink mb-2">→ 线程池深入解析</h4>
               <p className="text-sm text-ink-muted">线程池配置与JVM线程模型的关系</p>
             </a>
-            <a href="/docs/07-database/sql-optimization" className="block p-4 border border-border-light rounded-paper-md hover:border-accent hover:bg-accent-soft/30 transition-colors">
+            <a href="/docs/sql-optimization/sql-optimization" className="block p-4 border border-border-light rounded-paper-md hover:border-accent hover:bg-accent-soft/30 transition-colors">
               <h4 className="font-semibold text-ink mb-2">→ SQL优化与索引</h4>
               <p className="text-sm text-ink-muted">数据库性能优化与JVM调优的配合</p>
             </a>

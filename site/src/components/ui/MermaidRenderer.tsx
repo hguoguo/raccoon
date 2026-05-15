@@ -19,6 +19,9 @@ function initMermaid() {
     theme: 'default',
     securityLevel: 'loose',
     fontFamily: 'inherit',
+    mindmap: {
+      useMaxWidth: true,
+    },
     sequence: {
       useMaxWidth: true,
       showSequenceNumbers: false,

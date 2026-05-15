@@ -259,14 +259,28 @@ model = ChatOllama(model="llama3:8b")`}
 
           <DiagramBlock title="Runnable 标准方法">
             {`graph TD
-              RI["Runnable Interface"]
-              RI --> M1["invoke(input) → output"]
-              RI --> M2["batch(inputs) → outputs"]
-              RI --> M3["stream(input) → Iterator"]
-              RI --> M4["ainvoke(input) → output async"]
-              RI --> M5["abatch(inputs) → outputs async"]
-              RI --> M6["astream(input) → AsyncIterator"]
-            `}
+              ROOT["Runnable Interface<br/>统一接口规范"]
+              
+              ROOT --> SYNC["同步方法"]
+              ROOT --> ASYNC["异步方法"]
+              
+              SYNC --> M1["invoke(input)<br/>单次调用"]
+              SYNC --> M2["batch(inputs)<br/>批量并行处理"]
+              SYNC --> M3["stream(input)<br/>流式迭代输出"]
+              
+              ASYNC --> M4["ainvoke(input)<br/>非阻塞单次调用"]
+              ASYNC --> M5["abatch(inputs)<br/>并发批量处理"]
+              ASYNC --> M6["astream(input)<br/>非阻塞流式推送"]
+              
+              style ROOT fill:#5f7a68,stroke:#4a5f52,color:#fff
+              style SYNC fill:#ff9999,stroke:#cc6666
+              style ASYNC fill:#99ccff,stroke:#6699cc
+              style M1 fill:#f5f0e8,stroke:#a99d8e
+              style M2 fill:#f5f0e8,stroke:#a99d8e
+              style M3 fill:#f5f0e8,stroke:#a99d8e
+              style M4 fill:#f5f0e8,stroke:#a99d8e
+              style M5 fill:#f5f0e8,stroke:#a99d8e
+              style M6 fill:#f5f0e8,stroke:#a99d8e`}
           </DiagramBlock>
 
           <Playground

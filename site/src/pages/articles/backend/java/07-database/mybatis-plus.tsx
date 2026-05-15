@@ -786,7 +786,7 @@ public class BestPracticeService {
               <div className="font-semibold text-ink group-hover:text-rose">Spring Data JPA</div>
               <div className="text-[12px] text-ink-muted mt-1">另一种 ORM 方案</div>
             </a>
-            <a href="/docs/07-database/sql-optimization" className="block p-4 bg-parchment-light border border-border rounded-paper-md hover:border-accent hover:shadow-paper transition-all group">
+            <a href="/docs/sql-optimization/sql-optimization" className="block p-4 bg-parchment-light border border-border rounded-paper-md hover:border-accent hover:shadow-paper transition-all group">
               <div className="text-[11px] font-mono text-rose mb-1">相关技术 →</div>
               <div className="font-semibold text-ink group-hover:text-rose">SQL 优化与索引</div>
               <div className="text-[12px] text-ink-muted mt-1">提升 MyBatis-Plus 查询性能</div>

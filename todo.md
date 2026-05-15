@@ -272,16 +272,16 @@
 
 ## 📚 infra/oltp - OLTP关系型数据库（新增分类）
 
-### 💡 TiDB (3篇待实现)
+### 💡 TiDB (3篇已完成 ✅)
 ```bash
-调用create-knowledge-page 技能创建 tidb-architecture
-调用create-knowledge-page 技能创建 tidb-optimization
-调用create-knowledge-page 技能创建 tidb-vs-mysql
+✅ 已创建 tidb-architecture.tsx
+✅ 已创建 tidb-optimization.tsx
+✅ 已创建 tidb-vs-mysql.tsx
 ```
 
-1. **TiDB分布式HTAP数据库** `(tidb-architecture)` - 目录: `infra/oltp/tidb/`
-2. **TiDB性能调优与实践** `(tidb-optimization)` - 目录: `infra/oltp/tidb/`
-3. **TiDB vs MySQL：选型与迁移指南** `(tidb-vs-mysql)` - 目录: `infra/oltp/tidb/`
+1. **TiDB分布式HTAP数据库** `(tidb-architecture)` - 目录: `infra/oltp/tidb/` ✅
+2. **TiDB性能调优与实践** `(tidb-optimization)` - 目录: `infra/oltp/tidb/` ✅
+3. **TiDB vs MySQL：选型与迁移指南** `(tidb-vs-mysql)` - 目录: `infra/oltp/tidb/` ✅
 
 ### 💡 数据库对比 (1篇待实现)
 ```bash

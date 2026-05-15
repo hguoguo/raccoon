@@ -631,7 +631,7 @@ public interface InventoryFeignClient {
             <li><a href="/docs/08-microservices/spring-cloud-core" className="text-accent hover:underline">Spring Cloud 核心组件</a> - 理解微服务间的通信机制</li>
             <li><a href="/docs/08-microservices/message-queue" className="text-accent hover:underline">消息队列</a> - 实现异步解耦和最终一致性</li>
             <li><a href="/docs/06-spring-framework/spring-transaction" className="text-accent hover:underline">Spring 事务管理</a> - 深入理解单机事务原理</li>
-            <li><a href="/docs/07-database/sql-optimization" className="text-accent hover:underline">SQL 优化与索引</a> - 优化事务中的数据库操作</li>
+            <li><a href="/docs/sql-optimization/sql-optimization" className="text-accent hover:underline">SQL 优化与索引</a> - 优化事务中的数据库操作</li>
           </ul>
 
           <ArticleNav {...getArticleNav(meta.category, meta.id)} />
