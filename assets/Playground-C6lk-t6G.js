@@ -1,0 +1,12 @@
+import{c as i,r as p,j as e}from"./index-hyqxTCwJ.js";/**
+ * @license lucide-react v1.14.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */const l=[["path",{d:"M20 6 9 17l-5-5",key:"1gmf2c"}]],h=i("check",l);/**
+ * @license lucide-react v1.14.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */const m=[["rect",{width:"14",height:"14",x:"8",y:"8",rx:"2",ry:"2",key:"17jyea"}],["path",{d:"M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2",key:"zix9uf"}]],u=i("copy",m);function b({language:r,code:n,highlights:o=[],filename:c}){const[t,s]=p.useState(!1),a=()=>{navigator.clipboard.writeText(n),s(!0),setTimeout(()=>s(!1),2e3)};return e.jsxs("div",{className:"bg-paper-aged border border-border rounded-paper-md my-5 overflow-hidden shadow-paper",children:[e.jsxs("div",{className:"flex items-center justify-between px-4 py-2 bg-parchment-deep border-b border-border font-mono text-[11px] text-ink-faded",children:[e.jsx("span",{className:"bg-accent-soft text-accent px-2 py-0.5 rounded-[3px] text-[10px] uppercase font-semibold",children:r}),c&&e.jsx("span",{className:"text-ink-ghost text-[11px]",children:c}),e.jsxs("button",{onClick:a,className:"flex items-center gap-1 bg-transparent border-none text-ink-faded cursor-pointer text-xs hover:text-ink-muted transition-colors",children:[t?e.jsx(h,{size:12}):e.jsx(u,{size:12}),e.jsx("span",{className:"text-[12px]",children:t?"已复制":"复制"})]})]}),e.jsx("pre",{className:"p-4 px-5 overflow-x-auto font-mono text-[13px] leading-[1.7] text-ink-muted",children:e.jsx("code",{children:n.split(`
+`).map((x,d)=>e.jsx("div",{className:o.includes(d+1)?"bg-accent-glow -mx-5 px-5 border-l-2 border-accent":"",children:x||" "},d))})})]})}function g({code:r,language:n,highlights:o=[],filename:c,description:t}){const[s,a]=p.useState(!0);return e.jsxs("div",{className:"my-6",children:[t&&e.jsxs("div",{className:"text-[13px] text-ink-muted font-sans mb-2 flex items-center gap-2",children:[e.jsx("span",{className:"text-accent font-mono text-[11px] bg-accent-soft px-2 py-0.5 rounded-[3px]",children:"PLAYGROUND"}),t]}),o.length>0&&e.jsx("button",{onClick:()=>a(x=>!x),className:"text-[11px] font-mono text-ink-ghost hover:text-accent mb-2 transition-colors",children:s?"⚪ 隐藏行标注":"⚫ 显示行标注"}),e.jsx(b,{language:n,code:r,highlights:s?o:[],filename:c})]})}export{b as C,g as P};

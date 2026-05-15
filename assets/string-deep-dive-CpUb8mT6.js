@@ -1,0 +1,163 @@
+import{j as e,g as n}from"./index-hyqxTCwJ.js";import{K as l}from"./KnowledgeLayout-CwkOMHwC.js";import{P as s}from"./Playground-C6lk-t6G.js";import{I as a}from"./InteractiveFlow-GAP1pk49.js";import{S as i}from"./SideNote-BKvanovA.js";import{C as t,A as d,S as x}from"./ArticleNav-DhfiS38Y.js";import{D as o}from"./DiagramBlock-CLaKE9_7.js";import{I as c}from"./InterviewSection-BBNdwyyN.js";const m=[{id:"definition",text:"一句话定义",level:2},{id:"immutability",text:"一、String 的不可变性",level:2},{id:"string-pool",text:"二、字符串常量池",level:2},{id:"intern",text:"2.1 intern() 方法详解",level:3},{id:"jdk9-compact",text:"三、JDK 9 Compact Strings",level:2},{id:"builders",text:"四、StringBuilder vs StringBuffer",level:2},{id:"comparison",text:"五、性能对比与选型",level:2},{id:"common-operations",text:"六、常用操作与陷阱",level:2},{id:"misconceptions",text:"七、常见误区",level:2},{id:"interview",text:"八、面试真题",level:2},{id:"related",text:"九、知识关联",level:2}];function N({meta:r}){return e.jsxs("div",{className:"flex max-w-[100vw] overflow-x-hidden",children:[e.jsx("div",{className:"flex-1 min-w-0 px-4 sm:px-6 lg:px-10 xl:px-12 xl:pr-[240px] pb-20",children:e.jsxs(l,{meta:r,children:[e.jsx("h2",{id:"definition",className:"font-display font-bold text-[20px] sm:text-display-md tracking-tight mt-6 sm:mt-10 mb-3 sm:mb-4 pb-[10px] border-b border-border-light text-ink",children:"一句话定义"}),e.jsx("blockquote",{className:"border-l-[3px] border-accent pl-4 sm:pl-5 py-2 my-5 bg-accent-soft/40 rounded-r-paper-md",children:e.jsxs("p",{className:"text-[15px] sm:text-base text-ink-light leading-[1.8] font-medium",children:["String 是 Java 中最常用的引用类型，基于",e.jsx("code",{className:"font-mono text-[12px] sm:text-[13px] bg-parchment-warm text-accent-deep px-[5px] sm:px-[7px] py-[2px] rounded-[3px] border border-border-light mx-1",children:"不可变字符数组"}),"实现，通过",e.jsx("strong",{className:"text-accent",children:"字符串常量池"}),"优化内存使用，JDK 9 引入",e.jsx("code",{className:"font-mono text-[12px] sm:text-[13px] bg-parchment-warm text-accent-deep px-[5px] sm:px-[7px] py-[2px] rounded-[3px] border border-border-light mx-1",children:"Compact Strings"}),"进一步节省空间，是理解 Java 内存管理和性能优化的关键知识点。"]})}),e.jsx("h2",{id:"immutability",className:"font-display font-bold text-[20px] sm:text-display-md tracking-tight mt-8 sm:mt-12 mb-3 sm:mb-4 pb-[10px] border-b border-border-light text-ink",children:"一、String 的不可变性"}),e.jsx("p",{className:"text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4",children:"String 的不可变性是指一旦创建，其内容就不能被修改。这是通过以下机制实现的："}),e.jsx(s,{language:"java",filename:"StringImmutability.java",description:"String 不可变性源码分析",highlights:[3,7,11],code:`public final class String implements java.io.Serializable, Comparable<String>, CharSequence {
+    // JDK 8: char[] value（每个字符占 2 字节）
+    // JDK 9+: byte[] value + coder（Latin-1 占 1 字节，UTF-16 占 2 字节）
+    private final byte[] value;
+    private final byte coder;
+    
+    // 缓存 hash code（避免重复计算）
+    private int hash;
+    
+    // 构造函数：复制数组，防止外部修改
+    public String(String original) {
+        this.value = original.value;
+        this.hash = original.hash;
+        this.coder = original.coder;
+    }
+    
+    // 所有"修改"操作都返回新对象
+    public String substring(int beginIndex) {
+        // 创建新的 String 对象，而非修改原对象
+        return new String(value, beginIndex, subLen, coder);
+    }
+}`}),e.jsxs("div",{className:"grid grid-cols-1 sm:grid-cols-2 gap-3 my-5",children:[e.jsxs("div",{className:"bg-parchment-light border border-border rounded-paper-md p-4",children:[e.jsx("div",{className:"text-[11px] font-semibold uppercase tracking-[0.08em] text-green-700 font-sans mb-3",children:"✅ 不可变性优势"}),e.jsxs("ul",{className:"space-y-2 text-[13px] text-ink-muted font-sans",children:[e.jsxs("li",{className:"flex items-start gap-2",children:[e.jsx("span",{className:"text-sm",children:"✓"}),e.jsx("span",{children:"线程安全：无需同步"})]}),e.jsxs("li",{className:"flex items-start gap-2",children:[e.jsx("span",{className:"text-sm",children:"✓"}),e.jsx("span",{children:"支持字符串常量池"})]}),e.jsxs("li",{className:"flex items-start gap-2",children:[e.jsx("span",{className:"text-sm",children:"✓"}),e.jsx("span",{children:"hash code 可缓存"})]}),e.jsxs("li",{className:"flex items-start gap-2",children:[e.jsx("span",{className:"text-sm",children:"✓"}),e.jsx("span",{children:"可作为 HashMap 键"})]})]})]}),e.jsxs("div",{className:"bg-parchment-light border border-border rounded-paper-md p-4",children:[e.jsx("div",{className:"text-[11px] font-semibold uppercase tracking-[0.08em] text-red-700 font-sans mb-3",children:"❌ 不可变性劣势"}),e.jsxs("ul",{className:"space-y-2 text-[13px] text-ink-muted font-sans",children:[e.jsxs("li",{className:"flex items-start gap-2",children:[e.jsx("span",{className:"text-sm",children:"✗"}),e.jsx("span",{children:"频繁拼接产生大量临时对象"})]}),e.jsxs("li",{className:"flex items-start gap-2",children:[e.jsx("span",{className:"text-sm",children:"✗"}),e.jsx("span",{children:"GC 压力大"})]}),e.jsxs("li",{className:"flex items-start gap-2",children:[e.jsx("span",{className:"text-sm",children:"✗"}),e.jsx("span",{children:"性能开销（需使用 StringBuilder）"})]})]})]})]}),e.jsxs(t,{type:"tip",title:"为什么 String 设计为不可变？",children:["1）",e.jsx("strong",{children:"安全性"}),"：String 常用于存储敏感信息（密码、URL、数据库连接），不可变防止被恶意修改；",e.jsx("br",{}),"2）",e.jsx("strong",{children:"线程安全"}),"：多线程共享时无需同步；",e.jsx("br",{}),"3）",e.jsx("strong",{children:"常量池优化"}),"：相同字符串只需存储一份，节省内存；",e.jsx("br",{}),"4）",e.jsx("strong",{children:"Hash 缓存"}),"：HashMap 中作为 key 时，hash code 只需计算一次。"]}),e.jsx("h2",{id:"string-pool",className:"font-display font-bold text-[20px] sm:text-display-md tracking-tight mt-8 sm:mt-12 mb-3 sm:mb-4 pb-[10px] border-b border-border-light text-ink",children:"二、字符串常量池"}),e.jsxs("p",{className:"text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4",children:["字符串常量池（String Pool）是 JVM 在堆内存中维护的一个特殊区域，用于存储字符串字面量。它的核心思想是：",e.jsx("strong",{className:"text-ink-light font-semibold",children:"相同内容的字符串只存储一份"}),"。"]}),e.jsx(o,{title:"字符串常量池工作原理",children:`graph TD
+    subgraph Heap["Heap Memory"]
+        subgraph Pool["String Pool"]
+            S1[""Hello" @0x001"]
+            S2[""World" @0x002"]
+            S3[""Java" @0x003"]
+        end
+    end
+
+    subgraph Stack["Stack Memory"]
+        V1["s1 = "Hello""]
+        V2["s2 = "Hello""]
+        V3["s3 = new String("Hello")"]
+    end
+
+    V1 -.->|指向池| S1
+    V2 -.->|指向同一对象| S1
+    V3 -.->|堆中创建新对象| S1
+
+    style Heap fill:#f5f0e8,stroke:#d4c5a9,color:#6b5e4c
+    style Pool fill:#ede4d1,stroke:#b5651d,color:#8b4c14
+    style Stack fill:#f0f5f3,stroke:#5f7a68,color:#3d5245
+    style S1 fill:#ede4d1,stroke:#b5651d,color:#8b4c14
+    style S2 fill:#ede4d1,stroke:#b5651d,color:#8b4c14
+    style S3 fill:#ede4d1,stroke:#b5651d,color:#8b4c14`}),e.jsx(s,{language:"java",filename:"StringPoolExample.java",description:"字符串常量池示例",highlights:[3,7,11,15],code:`// 1. 字面量创建（从常量池获取）
+String s1 = "Hello";
+String s2 = "Hello";
+System.out.println(s1 == s2); // true（同一对象）
+
+// 2. new 创建（堆中新建对象）
+String s3 = new String("Hello");
+System.out.println(s1 == s3); // false（不同对象）
+System.out.println(s1.equals(s3)); // true（内容相同）
+
+// 3. 编译期优化
+String s4 = "Hel" + "lo"; // 编译器优化为 "Hello"
+System.out.println(s1 == s4); // true
+
+// 4. 运行时拼接（不会进入常量池）
+String s5 = "Hel";
+String s6 = s5 + "lo"; // 运行时创建新对象
+System.out.println(s1 == s6); // false`}),e.jsxs(i,{label:"JVM 参数控制",children:["字符串常量池的大小可通过 JVM 参数调整：",e.jsx("code",{className:"font-mono text-[12px] sm:text-[13px] bg-parchment-warm text-accent-deep px-[5px] sm:px-[7px] py-[2px] rounded-[3px] border border-border-light",children:"-XX:StringTableSize=60013"}),"（默认值，必须是质数）。如果应用中大量使用字符串，可适当增大此值以减少哈希冲突。"]}),e.jsx("h3",{id:"intern",className:"font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink",children:"2.1 intern() 方法详解"}),e.jsxs("p",{className:"text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4",children:[e.jsx("code",{className:"font-mono text-[12px] sm:text-[13px] bg-parchment-warm text-accent-deep px-[5px] sm:px-[7px] py-[2px] rounded-[3px] border border-border-light",children:"intern()"})," 方法用于手动将字符串加入常量池："]}),e.jsx(s,{language:"java",filename:"InternExample.java",description:"intern() 方法使用示例",highlights:[5,9,13],code:`// 1. new 创建的字符串不在常量池中
+String s1 = new String("Hello");
+String s2 = "Hello";
+System.out.println(s1 == s2); // false
+
+// 2. 调用 intern() 后加入常量池
+String s3 = s1.intern();
+System.out.println(s3 == s2); // true（s3 指向常量池中的 "Hello"）
+
+// 3. JDK 6 vs JDK 7+ 的差异
+// JDK 6：intern() 在永久代创建副本
+// JDK 7+：intern() 仅在常量池中记录引用（不复制）
+String s4 = new String("World");
+String s5 = s4.intern();
+String s6 = "World";
+System.out.println(s5 == s6); // true（JDK 7+）`}),e.jsxs(t,{type:"warning",title:"intern() 的性能陷阱",children:[e.jsx("code",{className:"font-mono text-[12px] sm:text-[13px] bg-parchment-warm text-accent-deep px-[5px] sm:px-[7px] py-[2px] rounded-[3px] border border-border-light",children:"intern()"})," 是同步方法，高并发场景下会成为性能瓶颈。此外，常量池位于堆内存（JDK 7+），过度使用会导致 OOM。建议仅在需要大量重复字符串且内存敏感的场景下使用（如字典、缓存键）。"]}),e.jsx("h2",{id:"jdk9-compact",className:"font-display font-bold text-[20px] sm:text-display-md tracking-tight mt-8 sm:mt-12 mb-3 sm:mb-4 pb-[10px] border-b border-border-light text-ink",children:"三、JDK 9 Compact Strings"}),e.jsxs("p",{className:"text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4",children:["JDK 9 引入了 Compact Strings 优化，将内部的 ",e.jsx("code",{className:"font-mono text-[12px] sm:text-[13px] bg-parchment-warm text-accent-deep px-[5px] sm:px-[7px] py-[2px] rounded-[3px] border border-border-light",children:"char[]"})," 改为 ",e.jsx("code",{className:"font-mono text-[12px] sm:text-[13px] bg-parchment-warm text-accent-deep px-[5px] sm:px-[7px] py-[2px] rounded-[3px] border border-border-light",children:"byte[] + coder"}),"："]}),e.jsx("div",{className:"overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0 my-5",children:e.jsxs("table",{className:"w-full text-[12px] sm:text-[13px] border-collapse font-sans min-w-[520px]",children:[e.jsx("thead",{children:e.jsxs("tr",{className:"border-b-2 border-border",children:[e.jsx("th",{className:"text-left py-2.5 px-3 text-ink font-semibold",children:"特性"}),e.jsx("th",{className:"text-left py-2.5 px-3 text-orange font-semibold",children:"JDK 8 及之前"}),e.jsx("th",{className:"text-left py-2.5 px-3 text-teal font-semibold",children:"JDK 9+"})]})}),e.jsxs("tbody",{className:"text-ink-muted",children:[e.jsxs("tr",{className:"border-b border-border-light",children:[e.jsx("td",{className:"py-2.5 px-3 font-medium text-ink",children:"内部存储"}),e.jsx("td",{className:"py-2.5 px-3 font-mono",children:"char[]（每字符 2 字节）"}),e.jsx("td",{className:"py-2.5 px-3 font-mono",children:"byte[] + coder"})]}),e.jsxs("tr",{className:"border-b border-border-light",children:[e.jsx("td",{className:"py-2.5 px-3 font-medium text-ink",children:"Latin-1 字符"}),e.jsx("td",{className:"py-2.5 px-3",children:"占用 2 字节"}),e.jsx("td",{className:"py-2.5 px-3",children:"占用 1 字节（coder=0）"})]}),e.jsxs("tr",{className:"border-b border-border-light",children:[e.jsx("td",{className:"py-2.5 px-3 font-medium text-ink",children:"UTF-16 字符"}),e.jsx("td",{className:"py-2.5 px-3",children:"占用 2 字节"}),e.jsx("td",{className:"py-2.5 px-3",children:"占用 2 字节（coder=1）"})]}),e.jsxs("tr",{className:"border-b border-border-light",children:[e.jsx("td",{className:"py-2.5 px-3 font-medium text-ink",children:"内存节省"}),e.jsx("td",{className:"py-2.5 px-3",children:"-"}),e.jsx("td",{className:"py-2.5 px-3",children:"纯 ASCII 字符串节省 50%"})]}),e.jsxs("tr",{children:[e.jsx("td",{className:"py-2.5 px-3 font-medium text-ink",children:"兼容性"}),e.jsx("td",{className:"py-2.5 px-3",children:"-"}),e.jsx("td",{className:"py-2.5 px-3",children:"API 完全兼容，透明切换"})]})]})]})}),e.jsx(s,{language:"java",filename:"CompactStringsExample.java",description:"Compact Strings 原理",highlights:[5,9],code:`// JDK 9+ String 内部结构
+public final class String {
+    // 存储字符数据
+    private final byte[] value;
+    
+    // 编码标识：0=Latin-1（1字节/字符），1=UTF-16（2字节/字符）
+    private final byte coder;
+    
+    // 判断是否为 Latin-1
+    boolean isLatin1() {
+        return coder == LATIN1; // 0
+    }
+    
+    // 示例："Hello"（纯 ASCII）→ coder=0，value.length=5
+    // 示例："你好"（中文）→ coder=1，value.length=4（2个字符×2字节）
+}`}),e.jsx(t,{type:"tip",title:"Compact Strings 的优势",children:"大部分应用中的字符串都是纯 ASCII（英文、数字、符号），Compact Strings 可将这些字符串的内存占用减半。对于包含中文等非 Latin-1 字符的字符串，自动使用 UTF-16 编码（2 字节/字符），与 JDK 8 行为一致。这一优化对大型应用可节省数百 MB 甚至 GB 级内存。"}),e.jsx("h2",{id:"builders",className:"font-display font-bold text-[20px] sm:text-display-md tracking-tight mt-8 sm:mt-12 mb-3 sm:mb-4 pb-[10px] border-b border-border-light text-ink",children:"四、StringBuilder vs StringBuffer"}),e.jsx("p",{className:"text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4",children:"由于 String 不可变，频繁拼接会产生大量临时对象。StringBuilder 和 StringBuffer 提供了可变的字符串构建能力："}),e.jsx("div",{className:"overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0 my-5",children:e.jsxs("table",{className:"w-full text-[12px] sm:text-[13px] border-collapse font-sans min-w-[520px]",children:[e.jsx("thead",{children:e.jsxs("tr",{className:"border-b-2 border-border",children:[e.jsx("th",{className:"text-left py-2.5 px-3 text-ink font-semibold",children:"特性"}),e.jsx("th",{className:"text-left py-2.5 px-3 text-teal font-semibold",children:"StringBuilder"}),e.jsx("th",{className:"text-left py-2.5 px-3 text-indigo font-semibold",children:"StringBuffer"})]})}),e.jsxs("tbody",{className:"text-ink-muted",children:[e.jsxs("tr",{className:"border-b border-border-light",children:[e.jsx("td",{className:"py-2.5 px-3 font-medium text-ink",children:"线程安全"}),e.jsx("td",{className:"py-2.5 px-3 font-mono text-red-700",children:"❌ 否"}),e.jsx("td",{className:"py-2.5 px-3 font-mono text-green-700",children:"✅ 是（synchronized）"})]}),e.jsxs("tr",{className:"border-b border-border-light",children:[e.jsx("td",{className:"py-2.5 px-3 font-medium text-ink",children:"性能"}),e.jsx("td",{className:"py-2.5 px-3 font-mono text-green-700",children:"快"}),e.jsx("td",{className:"py-2.5 px-3 font-mono text-orange",children:"较慢（同步开销）"})]}),e.jsxs("tr",{className:"border-b border-border-light",children:[e.jsx("td",{className:"py-2.5 px-3 font-medium text-ink",children:"JDK 版本"}),e.jsx("td",{className:"py-2.5 px-3",children:"JDK 5+"}),e.jsx("td",{className:"py-2.5 px-3",children:"JDK 1.0"})]}),e.jsxs("tr",{className:"border-b border-border-light",children:[e.jsx("td",{className:"py-2.5 px-3 font-medium text-ink",children:"适用场景"}),e.jsx("td",{className:"py-2.5 px-3",children:"单线程拼接"}),e.jsx("td",{className:"py-2.5 px-3",children:"多线程拼接"})]}),e.jsxs("tr",{children:[e.jsx("td",{className:"py-2.5 px-3 font-medium text-ink",children:"推荐度"}),e.jsx("td",{className:"py-2.5 px-3 font-mono text-green-700",children:"⭐⭐⭐⭐⭐"}),e.jsx("td",{className:"py-2.5 px-3 font-mono text-orange",children:"⭐⭐"})]})]})]})}),e.jsx(s,{language:"java",filename:"BuilderComparison.java",description:"StringBuilder vs StringBuffer 性能对比",highlights:[5,10,15],code:`// 1. StringBuilder（推荐，单线程场景）
+StringBuilder sb1 = new StringBuilder();
+for (int i = 0; i < 10000; i++) {
+    sb1.append(i);
+}
+String result1 = sb1.toString();
+
+// 2. StringBuffer（多线程场景）
+StringBuffer sb2 = new StringBuffer();
+for (int i = 0; i < 10000; i++) {
+    sb2.append(i);
+}
+String result2 = sb2.toString();
+
+// 3. String 拼接（不推荐，性能差）
+String result3 = "";
+for (int i = 0; i < 10000; i++) {
+    result3 += i; // 每次创建新对象！
+}`}),e.jsxs(i,{label:"扩容机制",children:["StringBuilder/StringBuffer 内部维护一个 char[] 数组，初始容量为 16。当容量不足时，会扩容为 ",e.jsx("code",{className:"font-mono text-[12px] sm:text-[13px] bg-parchment-warm text-accent-deep px-[5px] sm:px-[7px] py-[2px] rounded-[3px] border border-border-light",children:"oldCapacity * 2 + 2"}),"。如果预知最终长度，建议在构造时指定容量：",e.jsx("code",{className:"font-mono text-[12px] sm:text-[13px] bg-parchment-warm text-accent-deep px-[5px] sm:px-[7px] py-[2px] rounded-[3px] border border-border-light",children:"new StringBuilder(1000)"}),"，避免多次扩容带来的性能开销。"]}),e.jsx("h2",{id:"comparison",className:"font-display font-bold text-[20px] sm:text-display-md tracking-tight mt-8 sm:mt-12 mb-3 sm:mb-4 pb-[10px] border-b border-border-light text-ink",children:"五、性能对比与选型"}),e.jsx(a,{title:"字符串操作选型指南",steps:[{label:"单次赋值",description:'直接使用 String，如 String s = "Hello"',icon:"📝"},{label:"少量拼接（≤3次）",description:"使用 + 运算符，编译器会优化为 StringBuilder",icon:"➕"},{label:"循环拼接",description:"必须使用 StringBuilder，避免产生大量临时对象",icon:"🔄"},{label:"多线程拼接",description:"使用 StringBuffer 或 ThreadLocal<StringBuilder>",icon:"🧵"},{label:"大量重复字符串",description:"考虑使用 intern() 或 String.valueOf() 缓存",icon:"💾"}]}),e.jsx(s,{language:"java",filename:"PerformanceTest.java",description:"性能测试对比",highlights:[7,12,17],code:`// 测试 10 万次拼接的性能
+long start, end;
+
+// 1. String 拼接（最慢）
+start = System.currentTimeMillis();
+String s1 = "";
+for (int i = 0; i < 100000; i++) {
+    s1 += i;
+}
+end = System.currentTimeMillis();
+System.out.println("String: " + (end - start) + "ms"); // ~5000ms
+
+// 2. StringBuilder（最快）
+start = System.currentTimeMillis();
+StringBuilder sb = new StringBuilder();
+for (int i = 0; i < 100000; i++) {
+    sb.append(i);
+}
+String s2 = sb.toString();
+end = System.currentTimeMillis();
+System.out.println("StringBuilder: " + (end - start) + "ms"); // ~10ms
+
+// 3. StringBuffer（略慢于 StringBuilder）
+start = System.currentTimeMillis();
+StringBuffer sbf = new StringBuffer();
+for (int i = 0; i < 100000; i++) {
+    sbf.append(i);
+}
+String s3 = sbf.toString();
+end = System.currentTimeMillis();
+System.out.println("StringBuffer: " + (end - start) + "ms"); // ~15ms`}),e.jsx(t,{type:"tip",title:"编译器优化",children:"对于少量的字符串拼接，Javac 编译器会自动优化为 StringBuilder 操作。但对于循环中的拼接，编译器无法优化，必须手动使用 StringBuilder。"}),e.jsx("h2",{id:"common-operations",className:"font-display font-bold text-[20px] sm:text-display-md tracking-tight mt-8 sm:mt-12 mb-3 sm:mb-4 pb-[10px] border-b border-border-light text-ink",children:"六、常用操作与陷阱"}),e.jsx(s,{language:"java",filename:"CommonOperations.java",description:"常用操作与陷阱",highlights:[5,10,15,20],code:`// 1. 空值检查（避免 NPE）
+String s = null;
+if (s != null && !s.isEmpty()) { ... }
+// 推荐：使用 Objects.requireNonNullElse(s, "")
+
+// 2. equals vs ==
+String s1 = new String("Hello");
+String s2 = "Hello";
+System.out.println(s1 == s2);      // false（比较引用）
+System.out.println(s1.equals(s2)); // true（比较内容）
+
+// 3. trim() 的陷阱（只去除首尾空格，不去除中间空格）
+String s3 = "  Hello World  ";
+System.out.println(s3.trim()); // "Hello World"
+
+// 4. split() 的特殊字符需要转义
+String s4 = "a.b.c";
+String[] parts = s4.split("\\."); // 注意转义
+// 错误写法：s4.split(".") 会匹配任意字符
+
+// 5. substring 内存泄漏（JDK 6）
+// JDK 6：substring 共享原 String 的 char[]，可能导致内存泄漏
+// JDK 7+：substring 创建新的 char[]，已修复`}),e.jsx("h2",{id:"misconceptions",className:"font-display font-bold text-[20px] sm:text-display-md tracking-tight mt-8 sm:mt-12 mb-3 sm:mb-4 pb-[10px] border-b border-border-light text-ink",children:"七、常见误区"}),e.jsxs(t,{type:"danger",title:'误区一：String s = new String("Hello") 创建了几个对象？',children:[e.jsx("span",{className:"font-semibold text-ink-light",children:"你以为的："}),"1 个对象",e.jsx("br",{}),e.jsx("span",{className:"font-semibold text-accent",children:"实际："}),e.jsx("strong",{children:"2 个对象"}),'（如果常量池中没有 "Hello"）。第一个对象是常量池中的 "Hello"（编译期创建），第二个对象是堆中的 new String("Hello")（运行期创建）。如果常量池中已有 "Hello"，则只创建 1 个堆对象。']}),e.jsxs(t,{type:"danger",title:"误区二：字符串拼接都用 + 运算符",children:[e.jsx("span",{className:"font-semibold text-ink-light",children:"你以为的："}),"+ 运算符简洁方便，应该优先使用",e.jsx("br",{}),e.jsx("span",{className:"font-semibold text-accent",children:"实际："}),"少量拼接（≤3次）可以用 +，编译器会优化。但",e.jsx("strong",{children:"循环中的拼接必须用 StringBuilder"}),"，否则每次循环都会创建新的 String 对象，导致性能急剧下降和 GC 压力增大。"]}),e.jsxs(t,{type:"danger",title:"误区三：intern() 可以随意使用",children:[e.jsx("span",{className:"font-semibold text-ink-light",children:"你以为的："}),"intern() 能节省内存，应该多用",e.jsx("br",{}),e.jsx("span",{className:"font-semibold text-accent",children:"实际："}),"intern() 是同步方法，高并发下性能差。此外，常量池位于堆内存，过度使用会导致 OOM。建议仅在",e.jsx("strong",{children:"大量重复字符串且内存敏感"}),"的场景下使用（如字典、缓存键），普通业务代码不建议使用。"]}),e.jsxs(t,{type:"danger",title:"误区四：String 是不可变的，所以线程安全",children:[e.jsx("span",{className:"font-semibold text-ink-light",children:"你以为的："}),"String 不可变，任何场景都线程安全",e.jsx("br",{}),e.jsx("span",{className:"font-semibold text-accent",children:"实际："}),"String 对象本身确实线程安全，但",e.jsx("strong",{children:"引用 String 的变量不一定线程安全"}),"。例如：",e.jsx("code",{className:"font-mono text-[12px] sm:text-[13px] bg-parchment-warm text-accent-deep px-[5px] sm:px-[7px] py-[2px] rounded-[3px] border border-border-light",children:"private String name;"})," 在多线程环境下读写仍需要同步。不可变的是对象内容，不是引用的可见性。"]}),e.jsxs(t,{type:"danger",title:"误区五：substring 会共享底层数组",children:[e.jsx("span",{className:"font-semibold text-ink-light",children:"你以为的："}),"substring 会共享原 String 的 char[]，节省内存",e.jsx("br",{}),e.jsx("span",{className:"font-semibold text-accent",children:"实际："}),"JDK 6 确实如此，但这导致了内存泄漏问题（大字符串截取小片段后，大字符串的 char[] 无法回收）。",e.jsx("strong",{children:"JDK 7+ 已修复"}),"，substring 会创建新的 char[]，不再共享。不要依赖过时的行为。"]}),e.jsx("h2",{id:"interview",className:"font-display font-bold text-[20px] sm:text-display-md tracking-tight mt-8 sm:mt-12 mb-3 sm:mb-4 pb-[10px] border-b border-border-light text-ink",children:"八、面试真题"}),e.jsx(c,{questions:[{question:"String 为什么设计为不可变？",answer:"1）安全性：String 常用于存储敏感信息（密码、URL），不可变防止被恶意修改；2）线程安全：多线程共享时无需同步；3）常量池优化：相同字符串只需存储一份，节省内存；4）Hash 缓存：HashMap 中作为 key 时，hash code 只需计算一次，提升性能。"},{question:'String s = new String("Hello") 创建了几个对象？',answer:'如果常量池中没有 "Hello"，则创建 2 个对象：1）常量池中的 "Hello"（编译期创建）；2）堆中的 new String("Hello")（运行期创建）。如果常量池中已有 "Hello"，则只创建 1 个堆对象。注意：常量池在 JDK 7+ 位于堆内存，JDK 6 位于永久代。'},{question:"字符串常量池的作用是什么？存放在哪里？",answer:"字符串常量池用于存储字符串字面量，相同内容的字符串只存储一份，节省内存。JDK 6 及之前，常量池位于永久代（PermGen）；JDK 7+，常量池移至堆内存（Heap）。常量池大小可通过 -XX:StringTableSize 参数调整（默认 60013，必须是质数）。"},{question:"intern() 方法的作用及 JDK 6 与 JDK 7+ 的差异？",answer:"intern() 用于手动将字符串加入常量池。JDK 6：在永久代创建字符串副本；JDK 7+：仅在常量池中记录引用（不复制），如果常量池中已存在则返回已有引用。JDK 7+ 的实现更节省内存，但 intern() 仍是同步方法，高并发下性能差。"},{question:"JDK 9 Compact Strings 的原理和优势？",answer:"JDK 9 将 String 内部的 char[] 改为 byte[] + coder。coder=0 表示 Latin-1 编码（1 字节/字符），coder=1 表示 UTF-16 编码（2 字节/字符）。优势：纯 ASCII 字符串内存占用减半（从 2 字节/字符降为 1 字节/字符），对大型应用可节省数百 MB 甚至 GB 级内存。API 完全兼容，透明切换。"},{question:"StringBuilder 和 StringBuffer 的区别及选型建议？",answer:"StringBuilder 非线程安全，性能更快；StringBuffer 线程安全（方法加 synchronized），性能略慢。选型建议：单线程场景用 StringBuilder（绝大多数情况）；多线程共享场景用 StringBuffer 或 ThreadLocal<StringBuilder>。日常开发中 99% 的场景应使用 StringBuilder。"},{question:"String、StringBuilder、StringBuffer 的性能差异？",answer:"性能排序：StringBuilder > StringBuffer > String。测试 10 万次拼接：String 约 5000ms（每次创建新对象），StringBuilder 约 10ms（可变数组），StringBuffer 约 15ms（同步开销）。循环拼接必须用 StringBuilder，少量拼接（≤3次）可用 + 运算符（编译器优化）。"},{question:"如何避免 String 相关的内存泄漏？",answer:"1）JDK 6 中 substring 共享底层 char[]，大字符串截取小片段会导致内存泄漏，JDK 7+ 已修复；2）避免过度使用 intern()，常量池过大可能导致 OOM；3）大量字符串拼接使用 StringBuilder，避免产生大量临时对象；4）及时释放不再使用的 String 引用，让 GC 回收。"}]}),e.jsx("h2",{id:"related",className:"font-display font-bold text-[20px] sm:text-display-md tracking-tight mt-8 sm:mt-12 mb-3 sm:mb-4 pb-[10px] border-b border-border-light text-ink",children:"九、知识关联"}),e.jsxs("div",{className:"grid grid-cols-1 sm:grid-cols-2 gap-3 my-5",children:[e.jsxs("div",{className:"bg-parchment-light border border-border rounded-paper-md p-4",children:[e.jsx("div",{className:"text-[11px] font-semibold uppercase tracking-[0.08em] text-teal font-sans mb-3",children:"← 前置知识"}),e.jsxs("div",{className:"space-y-2",children:[e.jsxs("div",{className:"flex items-center gap-2 text-[13px] text-ink-muted font-sans",children:[e.jsx("span",{className:"text-sm",children:"📋"}),e.jsx("span",{children:"Java 基础语法"})]}),e.jsxs("div",{className:"flex items-center gap-2 text-[13px] text-ink-muted font-sans",children:[e.jsx("span",{className:"text-sm",children:"🧵"}),e.jsx("span",{children:"线程安全与不可变性"})]}),e.jsxs("div",{className:"flex items-center gap-2 text-[13px] text-ink-muted font-sans",children:[e.jsx("span",{className:"text-sm",children:"💾"}),e.jsx("span",{children:"JVM 内存模型"})]})]})]}),e.jsxs("div",{className:"bg-parchment-light border border-border rounded-paper-md p-4",children:[e.jsx("div",{className:"text-[11px] font-semibold uppercase tracking-[0.08em] text-accent font-sans mb-3",children:"延伸知识 →"}),e.jsxs("div",{className:"space-y-2",children:[e.jsxs("div",{className:"flex items-center gap-2 text-[13px] text-ink-muted font-sans",children:[e.jsx("span",{className:"text-sm",children:"⚡"}),e.jsx("span",{children:"HashMap 深度剖析"})]}),e.jsxs("div",{className:"flex items-center gap-2 text-[13px] text-ink-muted font-sans",children:[e.jsx("span",{className:"text-sm",children:"🔒"}),e.jsx("span",{children:"Collection 框架体系"})]}),e.jsxs("div",{className:"flex items-center gap-2 text-[13px] text-ink-muted font-sans",children:[e.jsx("span",{className:"text-sm",children:"🚀"}),e.jsx("span",{children:"JVM 垃圾回收机制"})]})]})]})]}),e.jsx(d,{...n(r.category,r.id)})]})}),e.jsx(x,{items:m})]})}export{N as default};

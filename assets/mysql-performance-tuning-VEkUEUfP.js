@@ -1,0 +1,271 @@
+import{j as e,g as i}from"./index-hyqxTCwJ.js";import{K as d}from"./KnowledgeLayout-CwkOMHwC.js";import{C as t,A as a,S as c}from"./ArticleNav-DhfiS38Y.js";import{P as s}from"./Playground-C6lk-t6G.js";import{S as n}from"./SideNote-BKvanovA.js";import{I as m}from"./InterviewSection-BBNdwyyN.js";import{D as r}from"./DiagramBlock-CLaKE9_7.js";const x=[{id:"definition",text:"一句话定义",level:2},{id:"performance-metrics",text:"性能指标体系",level:2},{id:"slow-query-analysis",text:"慢查询分析",level:3},{id:"execution-plan",text:"执行计划详解",level:3},{id:"parameter-tuning",text:"参数调优策略",level:2},{id:"innodb-config",text:"InnoDB 核心参数",level:3},{id:"connection-pool",text:"连接池优化",level:3},{id:"buffer-pool",text:"缓冲池配置",level:3},{id:"monitoring-tools",text:"监控工具链",level:2},{id:"prometheus-grafana",text:"Prometheus + Grafana",level:3},{id:"pt-tools",text:"Percona Toolkit",level:3},{id:"source-code",text:"源码分析",level:2},{id:"misconceptions",text:"常见误区",level:2},{id:"interview",text:"面试真题",level:2},{id:"comparison",text:"对比其他数据库调优",level:2},{id:"related",text:"知识关联",level:2}];function N({meta:l}){return e.jsxs("div",{className:"flex max-w-[100vw] overflow-x-hidden",children:[e.jsx("div",{className:"flex-1 min-w-0 px-4 sm:px-6 lg:px-10 xl:px-12 xl:pr-[240px] pb-20",children:e.jsxs(d,{meta:l,children:[e.jsxs("div",{className:"mb-8 pb-6 border-b border-border-light",children:[e.jsx("h1",{className:"font-display font-bold text-3xl sm:text-4xl mb-3 text-ink",children:l.title}),e.jsxs("div",{className:"flex flex-wrap gap-2 items-center text-sm text-ink-muted",children:[e.jsx("span",{className:"px-2 py-1 bg-accent-soft text-accent rounded-md font-medium",children:l.level}),e.jsx("span",{children:"难度 ⭐⭐⭐⭐⭐"}),e.jsxs("span",{children:["预计阅读 ",l.readingTime," 分钟"]})]}),e.jsx("div",{className:"mt-3 flex flex-wrap gap-2",children:l.tags.map(o=>e.jsx("span",{className:"px-2.5 py-0.5 bg-parchment-deep text-ink-muted rounded-full text-xs",children:o},o))})]}),e.jsxs("section",{id:"definition",className:"mb-8",children:[e.jsx("h2",{className:"font-display font-bold text-[20px] sm:text-display-sm mt-10 sm:mt-12 mb-4 sm:mb-5 text-ink",children:"一句话定义"}),e.jsx("blockquote",{className:"pl-4 border-l-4 border-accent bg-accent-soft/40 py-3 pr-4 rounded-r-paper-md italic text-ink-light",children:"MySQL 性能调优是通过慢查询分析、执行计划优化、参数调整、索引设计和硬件升级等手段，系统性提升数据库吞吐量、降低响应时间的工程实践。"}),e.jsx(n,{label:"性能调优的核心原则",children:"先监控定位瓶颈，再针对性优化；避免过早优化和过度优化；每次只改变一个变量，量化优化效果。"})]}),e.jsxs("section",{id:"performance-metrics",className:"mb-8",children:[e.jsx("h2",{className:"font-display font-bold text-[20px] sm:text-display-sm mt-10 sm:mt-12 mb-4 sm:mb-5 text-ink",children:"性能指标体系"}),e.jsx("p",{className:"text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4",children:"MySQL 性能调优需要建立完整的指标体系，核心指标包括 QPS、TPS、响应时间、连接数、缓冲池命中率等。"}),e.jsx(r,{title:"MySQL 核心性能指标",children:`graph TD
+                METRICS["性能指标"] --> THROUGHPUT["吞吐量"]
+                METRICS --> LATENCY["延迟"]
+                METRICS --> RESOURCES["资源使用"]
+                
+                THROUGHPUT --> QPS["QPS<br/>每秒查询数"]
+                THROUGHPUT --> TPS["TPS<br/>每秒事务数"]
+                
+                LATENCY --> AVG_RT["平均响应时间"]
+                LATENCY --> P95_RT["P95 响应时间"]
+                LATENCY --> P99_RT["P99 响应时间"]
+                
+                RESOURCES --> CPU["CPU 使用率"]
+                RESOURCES --> MEMORY["内存使用"]
+                RESOURCES --> IO["I/O 等待"]
+                RESOURCES --> CONNECTIONS["连接数"]
+                
+                style THROUGHPUT fill:#69db7c,stroke:#2b8a3e,color:#fff
+                style LATENCY fill:#ffd43b,stroke:#f08c00,color:#000
+              `}),e.jsx(s,{code:`-- 查看 QPS/TPS
+SHOW GLOBAL STATUS LIKE 'Questions';
+SHOW GLOBAL STATUS LIKE 'Com_commit';
+SHOW GLOBAL STATUS LIKE 'Com_rollback';
+
+-- 查看当前连接数
+SHOW STATUS LIKE 'Threads_connected';
+SHOW STATUS LIKE 'Max_used_connections';
+
+-- 查看缓冲池命中率
+SHOW STATUS LIKE 'Innodb_buffer_pool_read_requests';
+SHOW STATUS LIKE 'Innodb_buffer_pool_reads';
+
+-- 计算命中率: (1 - Innodb_buffer_pool_reads / Innodb_buffer_pool_read_requests) * 100%`,language:"sql",description:"查看核心性能指标"}),e.jsx(t,{type:"info",title:"关键阈值参考",children:e.jsxs("ul",{className:"list-disc list-inside space-y-1 mt-2",children:[e.jsx("li",{children:"缓冲池命中率 > 99%"}),e.jsx("li",{children:"连接使用率 < 80%（Max_used_connections / max_connections）"}),e.jsx("li",{children:"InnoDB 日志写入等待 < 10ms"}),e.jsx("li",{children:"临时表创建率 < 5%"})]})})]}),e.jsxs("section",{id:"slow-query-analysis",className:"mb-8",children:[e.jsx("h3",{className:"font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink",children:"慢查询分析"}),e.jsx("p",{className:"text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4",children:"慢查询日志是性能调优的入口，记录执行时间超过阈值的 SQL 语句。通过分析慢查询可以快速定位性能瓶颈。"}),e.jsx(s,{code:`-- 开启慢查询日志
+SET GLOBAL slow_query_log = 'ON';
+SET GLOBAL slow_query_log_file = '/var/lib/mysql/slow.log';
+SET GLOBAL long_query_time = 2;  -- 超过2秒的查询
+SET GLOBAL log_queries_not_using_indexes = 'ON';  -- 未使用索引的查询
+
+-- 查看慢查询配置
+SHOW VARIABLES LIKE 'slow_query%';
+SHOW VARIABLES LIKE 'long_query_time';
+
+-- 查看慢查询数量
+SHOW GLOBAL STATUS LIKE 'Slow_queries';`,language:"sql",description:"配置慢查询日志"}),e.jsx(n,{label:"long_query_time 设置建议",children:"生产环境建议设置为 1-2 秒。设置过小会导致日志量过大，设置过大会遗漏潜在问题。对于高并发系统，可以设置为 0.5 秒。"}),e.jsx(s,{code:`# 使用 mysqldumpslow 分析慢查询日志
+# 按查询时间排序，显示前10条
+mysqldumpslow -s t -t 10 /var/lib/mysql/slow.log
+
+# 按出现次数排序
+mysqldumpslow -s c -t 10 /var/lib/mysql/slow.log
+
+# 按锁定时间排序
+mysqldumpslow -s l -t 10 /var/lib/mysql/slow.log
+
+# 使用 pt-query-digest（更强大）
+pt-query-digest /var/lib/mysql/slow.log --limit 10`,language:"bash",description:"分析慢查询日志"})]}),e.jsxs("section",{id:"execution-plan",className:"mb-8",children:[e.jsx("h3",{className:"font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink",children:"执行计划详解"}),e.jsx("p",{className:"text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4",children:"EXPLAIN 是分析 SQL 执行计划的核心工具，通过解读执行计划可以判断是否使用了索引、扫描行数、临时表等关键信息。"}),e.jsx(s,{code:`-- 基本用法
+EXPLAIN SELECT * FROM users WHERE age > 18;
+
+-- 详细模式（MySQL 5.7+）
+EXPLAIN FORMAT=JSON SELECT * FROM users WHERE age > 18;
+
+-- 实际执行（MySQL 8.0+）
+EXPLAIN ANALYZE SELECT * FROM users WHERE age > 18;`,language:"sql",description:"EXPLAIN 基本用法"}),e.jsx(r,{title:"EXPLAIN 关键字段解读",children:`graph LR
+                EXPLAIN["EXPLAIN 输出"] --> TYPE["type<br/>访问类型"]
+                EXPLAIN --> KEY["key<br/>使用的索引"]
+                EXPLAIN --> ROWS["rows<br/>扫描行数"]
+                EXPLAIN --> EXTRA["Extra<br/>额外信息"]
+                
+                TYPE --> SYSTEM["system/const<br/>最优"]
+                TYPE --> REF["ref/range<br/>良好"]
+                TYPE --> ALL["ALL<br/>全表扫描<br/>需优化"]
+                
+                EXTRA --> USING_FILESORT["Using filesort<br/>需优化"]
+                EXTRA --> USING_TEMP["Using temporary<br/>需优化"]
+                EXTRA --> USING_INDEX["Using index<br/>覆盖索引"]
+                
+                style SYSTEM fill:#69db7c,stroke:#2b8a3e,color:#fff
+                style ALL fill:#ff6b6b,stroke:#c92a2a,color:#fff
+              `}),e.jsxs(t,{type:"warning",title:"type 字段性能排序",children:[e.jsx("p",{className:"mb-2",children:e.jsx("strong",{children:"从最优到最差："})}),e.jsx("code",{className:"font-mono text-[13px] bg-parchment-deep px-2 py-1 rounded-[3px] block",children:"system > const > eq_ref > ref > range > index > ALL"}),e.jsxs("p",{className:"mt-2",children:["目标：至少达到 ",e.jsx("code",{className:"font-mono text-[13px] bg-parchment-deep px-1.5 py-0.5 rounded-[3px]",children:"range"})," 级别，避免 ",e.jsx("code",{className:"font-mono text-[13px] bg-parchment-deep px-1.5 py-0.5 rounded-[3px]",children:"ALL"})," 全表扫描。"]})]})]}),e.jsxs("section",{id:"parameter-tuning",className:"mb-8",children:[e.jsx("h2",{className:"font-display font-bold text-[20px] sm:text-display-sm mt-10 sm:mt-12 mb-4 sm:mb-5 text-ink",children:"参数调优策略"}),e.jsx("p",{className:"text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4",children:'MySQL 有 300+ 个可调参数，但核心参数不超过 20 个。调优应遵循"二八原则"，重点关注影响最大的核心参数。'}),e.jsx(r,{title:"参数调优优先级",children:`graph TD
+                TUNING["参数调优"] --> HIGH["高优先级<br/>影响巨大"]
+                TUNING --> MEDIUM["中优先级<br/>显著影响"]
+                TUNING --> LOW["低优先级<br/>微调"]
+                
+                HIGH --> INNODB_BUFFER["innodb_buffer_pool_size"]
+                HIGH --> INNODB_LOG["innodb_log_file_size"]
+                HIGH --> MAX_CONN["max_connections"]
+                
+                MEDIUM --> QUERY_CACHE["query_cache_type"]
+                MEDIUM --> SORT_BUFFER["sort_buffer_size"]
+                MEDIUM --> JOIN_BUFFER["join_buffer_size"]
+                
+                LOW --> THREAD_CACHE["thread_cache_size"]
+                LOW --> TABLE_CACHE["table_open_cache"]
+                
+                style HIGH fill:#ff6b6b,stroke:#c92a2a,color:#fff
+              `})]}),e.jsxs("section",{id:"innodb-config",className:"mb-8",children:[e.jsx("h3",{className:"font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink",children:"InnoDB 核心参数"}),e.jsx(s,{code:`[mysqld]
+# === InnoDB 缓冲池（最重要）===
+# 设置为物理内存的 50-70%
+innodb_buffer_pool_size = 8G
+innodb_buffer_pool_instances = 8  # 8GB以上时设置为8-16
+
+# === InnoDB 日志文件 ===
+# 总大小建议为缓冲池的 25%
+innodb_log_file_size = 2G
+innodb_log_buffer_size = 64M
+innodb_flush_log_at_trx_commit = 1  # 1=最安全, 2=性能更好
+
+# === 刷新策略 ===
+innodb_max_dirty_pages_pct = 75
+innodb_io_capacity = 2000  # SSD 可设置为 2000-5000
+innodb_io_capacity_max = 4000
+
+# === 并发控制 ===
+innodb_read_io_threads = 8
+innodb_write_io_threads = 8
+innodb_purge_threads = 4
+
+# === 其他重要参数 ===
+innodb_file_per_table = ON  # 每表一个文件
+innodb_flush_method = O_DIRECT  # 避免双重缓冲`,language:"ini",description:"InnoDB 核心参数配置"}),e.jsxs(n,{label:"innodb_buffer_pool_size 计算公式",children:[e.jsx("code",{className:"font-mono text-[13px] bg-parchment-deep px-2 py-1 rounded-[3px] block mb-2",children:"buffer_pool_size = 物理内存 × 0.6 ~ 0.7"}),e.jsx("p",{className:"text-sm text-ink-muted",children:"例如 16GB 内存的服务器，设置为 10-12GB。预留足够内存给操作系统和其他进程。"})]})]}),e.jsxs("section",{id:"connection-pool",className:"mb-8",children:[e.jsx("h3",{className:"font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink",children:"连接池优化"}),e.jsx("p",{className:"text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4",children:"合理的连接池配置可以避免连接风暴和资源浪费。需要平衡连接数和线程开销。"}),e.jsx(s,{code:`[mysqld]
+# 最大连接数（根据业务峰值设置）
+max_connections = 500
+
+# 连接超时时间
+wait_timeout = 600
+interactive_timeout = 600
+
+# 线程缓存（减少线程创建销毁开销）
+thread_cache_size = 50
+
+# 每个连接的缓冲区（谨慎设置，避免内存爆炸）
+# 总内存 ≈ max_connections × (read_buffer + sort_buffer + join_buffer)
+read_buffer_size = 2M
+sort_buffer_size = 2M
+join_buffer_size = 2M`,language:"ini",description:"连接池参数配置"}),e.jsxs(t,{type:"danger",title:"连接数设置的陷阱",children:[e.jsxs("p",{className:"mb-2",children:["假设 ",e.jsx("code",{className:"font-mono text-[13px] bg-parchment-deep px-1.5 py-0.5 rounded-[3px]",children:"max_connections = 1000"}),"，每个连接的缓冲区总计 10MB，则极端情况下需要 ",e.jsx("strong",{children:"10GB"})," 内存仅用于连接缓冲！"]}),e.jsxs("p",{children:[e.jsx("strong",{children:"正确做法："}),"使用连接池中间件（如 ProxySQL、HikariCP）控制应用层连接数，MySQL 层设置合理的上限。"]})]})]}),e.jsxs("section",{id:"buffer-pool",className:"mb-8",children:[e.jsx("h3",{className:"font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink",children:"缓冲池配置"}),e.jsx("p",{className:"text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4",children:"InnoDB 缓冲池是性能调优的核心，缓存数据和索引页。合理配置可以显著提升读写性能。"}),e.jsx(r,{title:"InnoDB 缓冲池架构",children:`graph TB
+                BUFFER_POOL["InnoDB Buffer Pool"] --> INSTANCES["Buffer Pool Instances"]
+                
+                INSTANCES --> INSTANCE1["Instance 1"]
+                INSTANCES --> INSTANCE2["Instance 2"]
+                INSTANCES --> INSTANCE8["Instance N"]
+                
+                INSTANCE1 --> LRU["LRU List"]
+                INSTANCE1 --> FREE["Free List"]
+                INSTANCE1 --> FLUSH["Flush List"]
+                
+                LRU --> NEW["New Sublist<br/>热数据"]
+                LRU --> OLD["Old Sublist<br/>冷数据"]
+                
+                style BUFFER_POOL fill:#4dabf7,stroke:#1864ab,color:#fff
+              `}),e.jsx(s,{code:`-- 查看缓冲池状态
+SHOW ENGINE INNODB STATUS\\G
+
+-- 关键指标
+SELECT 
+  VARIABLE_NAME, 
+  VARIABLE_VALUE 
+FROM information_schema.GLOBAL_STATUS 
+WHERE VARIABLE_NAME IN (
+  'Innodb_buffer_pool_read_requests',
+  'Innodb_buffer_pool_reads',
+  'Innodb_buffer_pool_pages_total',
+  'Innodb_buffer_pool_pages_free',
+  'Innodb_buffer_pool_pages_dirty'
+);
+
+-- 计算命中率
+SELECT 
+  (1 - @@global.Innodb_buffer_pool_reads / @@global.Innodb_buffer_pool_read_requests) * 100 AS hit_rate;`,language:"sql",description:"监控缓冲池状态"})]}),e.jsxs("section",{id:"monitoring-tools",className:"mb-8",children:[e.jsx("h2",{className:"font-display font-bold text-[20px] sm:text-display-sm mt-10 sm:mt-12 mb-4 sm:mb-5 text-ink",children:"监控工具链"}),e.jsx("p",{className:"text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4",children:"完善的监控体系是性能调优的基础，包括实时监控、历史趋势分析和告警机制。"})]}),e.jsxs("section",{id:"prometheus-grafana",className:"mb-8",children:[e.jsx("h3",{className:"font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink",children:"Prometheus + Grafana"}),e.jsx("p",{className:"text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4",children:"Prometheus + Grafana 是目前最流行的 MySQL 监控方案，提供丰富的可视化面板和告警功能。"}),e.jsx(r,{title:"MySQL 监控架构",children:`graph LR
+                MYSQL["MySQL Server"] --> EXPORTER["mysqld_exporter"]
+                EXPORTER --> PROMETHEUS["Prometheus"]
+                PROMETHEUS --> GRAFANA["Grafana"]
+                PROMETHEUS --> ALERT["AlertManager"]
+                ALERT --> NOTIFY["邮件/钉钉/企业微信"]
+                
+                style MYSQL fill:#4dabf7,stroke:#1864ab,color:#fff
+                style GRAFANA fill:#ffd43b,stroke:#f08c00,color:#000
+              `}),e.jsx(s,{code:`# docker-compose.yml
+version: '3'
+services:
+  mysqld-exporter:
+    image: prom/mysqld-exporter
+    environment:
+      - DATA_SOURCE_NAME=root:password@(mysql:3306)/
+    ports:
+      - "9104:9104"
+  
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+  
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin`,language:"yaml",description:"部署 MySQL 监控栈"}),e.jsxs(n,{label:"推荐 Dashboard",children:["Percona 提供的 ",e.jsx("a",{href:"https://grafana.com/grafana/dashboards/7362",className:"text-accent hover:underline",target:"_blank",rel:"noopener noreferrer",children:"MySQL Overview"})," Dashboard（ID: 7362）是最常用的监控面板，包含 QPS、TPS、连接数、缓冲池命中率等核心指标。"]})]}),e.jsxs("section",{id:"pt-tools",className:"mb-8",children:[e.jsx("h3",{className:"font-display font-semibold text-[17px] sm:text-lg mt-6 sm:mt-8 mb-3 text-ink",children:"Percona Toolkit"}),e.jsx("p",{className:"text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4",children:"Percona Toolkit 是一套强大的 MySQL 管理和诊断工具集，包含 30+ 个命令行工具。"}),e.jsx(s,{code:`# 分析慢查询日志
+pt-query-digest /var/lib/mysql/slow.log --limit 10
+
+# 查找重复索引
+pt-duplicate-key-checker --host=localhost --user=root --password=xxx
+
+# 查找未使用的索引
+pt-index-usage --host=localhost --user=root --password=xxx /var/lib/mysql/slow.log
+
+# 在线修改表结构（不锁表）
+pt-online-schema-change \\
+  --alter "ADD COLUMN email VARCHAR(100)" \\
+  --execute D=mydb,t=users
+
+# 检查主从一致性
+pt-table-checksum --host=master --user=root --password=xxx
+pt-table-sync --execute --print h=slave,u=root,p=xxx`,language:"bash",description:"Percona Toolkit 常用命令"})]}),e.jsxs("section",{id:"source-code",className:"mb-8",children:[e.jsx("h2",{className:"font-display font-bold text-[20px] sm:text-display-sm mt-10 sm:mt-12 mb-4 sm:mb-5 text-ink",children:"源码分析"}),e.jsx("p",{className:"text-[14px] sm:text-[15px] leading-[1.8] sm:leading-[1.9] text-ink-muted mb-4",children:"MySQL 性能优化的底层原理涉及存储引擎、查询优化器、执行器等核心模块。以下是关键流程的伪代码实现："}),e.jsx(s,{code:`// sql/sql_select.cc - 查询优化器核心逻辑
+JOIN::optimize() {
+  // 1. 预处理：语法检查、权限验证
+  preprocess_query();
+  
+  // 2. 条件简化：常量传播、等价谓词推导
+  simplify_conditions();
+  
+  // 3. 访问路径选择：基于成本的优化（CBO）
+  for (each table in query) {
+    // 估算不同访问方式的成本
+    cost_full_scan = estimate_full_scan_cost();
+    cost_index_scan = estimate_index_scan_cost();
+    cost_index_lookup = estimate_index_lookup_cost();
+    
+    // 选择成本最低的访问方式
+    best_access_path = min(cost_full_scan, cost_index_scan, cost_index_lookup);
+  }
+  
+  // 4. 连接顺序优化：动态规划算法
+  optimal_join_order = find_optimal_join_order();
+  
+  // 5. 生成执行计划
+  generate_execution_plan();
+}`,language:"cpp",description:"查询优化器核心逻辑"}),e.jsx(s,{code:`// storage/innobase/buf/buf0buf.cc - 缓冲池管理
+buf_page_get_gen(page_id, mode) {
+  // 1. 在缓冲池中查找页
+  block = buf_pool->look_up(page_id);
+  
+  if (block != NULL) {
+    // 缓存命中
+    if (mode == BUF_GET_PEEK) {
+      return block;  // 仅查看，不加锁
+    }
+    
+    // 将页移动到 LRU 链表头部（热数据）
+    buf_LRU_move_to_head(block);
+    return block;
+  }
+  
+  // 2. 缓存未命中，从磁盘读取
+  block = buf_pool->allocate_free_block();
+  
+  if (block == NULL) {
+    // 没有空闲块，驱逐冷数据
+    evict_block = buf_LRU_evict_cold_page();
+    flush_if_dirty(evict_block);
+    block = evict_block;
+  }
+  
+  // 3. 从磁盘读取页到缓冲池
+  os_file_read(page_id, block->frame);
+  
+  // 4. 插入到 LRU 链表的 Old 子列表
+  buf_LRU_add_to_old(block);
+  
+  return block;
+}`,language:"cpp",description:"InnoDB 缓冲池页面读取逻辑"})]}),e.jsxs("section",{id:"misconceptions",className:"mb-8",children:[e.jsx("h2",{className:"font-display font-bold text-[20px] sm:text-display-sm mt-10 sm:mt-12 mb-4 sm:mb-5 text-ink",children:"常见误区"}),e.jsxs("div",{className:"space-y-4",children:[e.jsxs(t,{type:"danger",title:"误区 1：索引越多越好",children:[e.jsx("p",{className:"mb-2",children:"每个索引都会增加写操作的开销（INSERT/UPDATE/DELETE 需要更新所有索引），并占用额外的存储空间。过多的索引反而会降低整体性能。"}),e.jsxs("p",{children:[e.jsx("strong",{children:"正确做法："}),"根据查询场景精心设计索引，定期清理未使用的索引（使用 ",e.jsx("code",{className:"font-mono text-[13px] bg-parchment-deep px-1.5 py-0.5 rounded-[3px]",children:"pt-index-usage"})," 工具）。"]})]}),e.jsxs(t,{type:"danger",title:"误区 2：COUNT(*) 比 COUNT(1) 慢",children:[e.jsxs("p",{className:"mb-2",children:["在 InnoDB 引擎中，",e.jsx("code",{className:"font-mono text-[13px] bg-parchment-deep px-1.5 py-0.5 rounded-[3px]",children:"COUNT(*)"}),"、",e.jsx("code",{className:"font-mono text-[13px] bg-parchment-deep px-1.5 py-0.5 rounded-[3px]",children:"COUNT(1)"}),"、",e.jsx("code",{className:"font-mono text-[13px] bg-parchment-deep px-1.5 py-0.5 rounded-[3px]",children:"COUNT(id)"})," 的性能差异微乎其微。MySQL 优化器会自动选择最优的执行方式。"]}),e.jsxs("p",{children:[e.jsx("strong",{children:"正确做法："}),"优先使用 ",e.jsx("code",{className:"font-mono text-[13px] bg-parchment-deep px-1.5 py-0.5 rounded-[3px]",children:"COUNT(*)"}),"，语义清晰且符合 SQL 标准。"]})]}),e.jsxs(t,{type:"danger",title:"误区 3：大事务一定不好",children:[e.jsx("p",{className:"mb-2",children:"大事务确实会占用更多锁资源和 Undo Log，但在某些场景下（如批量导入），大事务比小事务更高效（减少日志刷盘次数）。"}),e.jsxs("p",{children:[e.jsx("strong",{children:"正确做法："}),"根据业务场景权衡。OLTP 场景避免大事务，批量处理场景可以适当增大批次。"]})]}),e.jsxs(t,{type:"danger",title:"误区 4：启用 Query Cache 能提升性能",children:[e.jsx("p",{className:"mb-2",children:"Query Cache 在 MySQL 5.7.20 已废弃，8.0 已移除。原因是高并发下 Query Cache 的互斥锁成为瓶颈，反而降低性能。"}),e.jsxs("p",{children:[e.jsx("strong",{children:"正确做法："}),"使用应用层缓存（Redis/Memcached）替代 Query Cache。"]})]}),e.jsxs(t,{type:"danger",title:"误区 5：ORDER BY 一定会触发 filesort",children:[e.jsx("p",{className:"mb-2",children:"如果 ORDER BY 的列上有合适的索引，MySQL 可以直接利用索引的有序性，避免 filesort。"}),e.jsxs("p",{children:[e.jsx("strong",{children:"正确做法："}),"为经常排序的列创建索引，确保索引顺序与 ORDER BY 一致。"]})]})]})]}),e.jsxs("section",{id:"interview",className:"mb-8",children:[e.jsx("h2",{className:"font-display font-bold text-[20px] sm:text-display-sm mt-10 sm:mt-12 mb-4 sm:mb-5 text-ink",children:"面试真题"}),e.jsx(m,{questions:[{question:"如何定位和优化慢查询？",answer:"① 开启慢查询日志（long_query_time = 1-2秒）；② 使用 pt-query-digest 分析慢查询日志，找出 Top N 慢查询；③ 使用 EXPLAIN 分析执行计划，检查是否使用索引、扫描行数；④ 优化手段包括添加索引、改写 SQL、拆分大查询、使用覆盖索引等；⑤ 验证优化效果，对比优化前后的执行时间和资源消耗。"},{question:"EXPLAIN 结果中 type 字段有哪些值？性能如何排序？",answer:"从最优到最差：system > const > eq_ref > ref > range > index > ALL。system/const 表示唯一索引查找，eq_ref 表示主键/唯一索引关联，ref 表示普通索引查找，range 表示范围扫描，index 表示全索引扫描，ALL 表示全表扫描。目标是至少达到 range 级别。"},{question:"InnoDB 缓冲池的作用是什么？如何设置大小？",answer:"InnoDB 缓冲池缓存数据和索引页，减少磁盘 I/O，是性能调优的核心参数。设置公式：buffer_pool_size = 物理内存 × 0.6 ~ 0.7。例如 16GB 内存的服务器设置为 10-12GB。通过 SHOW ENGINE INNODB STATUS 监控缓冲池命中率，目标 > 99%。"},{question:"什么是覆盖索引？有什么优势？",answer:'覆盖索引是指查询的列都在索引中，无需回表查询数据行。优势：① 减少 I/O（索引通常比数据行小）；② 索引是有序的，适合范围查询和排序；③ Extra 字段显示 "Using index"。例如：SELECT id, name FROM users WHERE age > 18，如果 (age, id, name) 是联合索引，则构成覆盖索引。'},{question:"如何优化深分页查询（LIMIT 1000000, 10）？",answer:"三种方案：① 延迟关联：先通过覆盖索引查出主键，再 JOIN 原表获取完整数据；② 记录上次查询的最大 ID，使用 WHERE id > last_id LIMIT 10；③ 使用 Elasticsearch 等搜索引擎替代 MySQL 分页。推荐方案 2，性能最优。"},{question:"innodb_flush_log_at_trx_commit 的三个值有什么区别？",answer:"0：每秒刷盘一次，性能最好但可能丢失 1 秒数据；1：每次事务提交都刷盘，最安全但性能最差（默认值）；2：每次事务提交写入 OS 缓存，每秒刷盘一次，性能和安全性折中。金融场景用 1，一般场景用 2，测试环境用 0。"},{question:"如何监控 MySQL 性能？有哪些关键指标？",answer:"监控方案：Prometheus + mysqld_exporter + Grafana。关键指标：① QPS/TPS（吞吐量）；② 响应时间（P95/P99）；③ 连接数使用率；④ 缓冲池命中率（> 99%）；⑤ 慢查询数量；⑥ 主从复制延迟；⑦ CPU/内存/磁盘 I/O 使用率。设置告警阈值，及时发现性能问题。"}]})]}),e.jsxs("section",{id:"comparison",className:"mb-8",children:[e.jsx("h2",{className:"font-display font-bold text-[20px] sm:text-display-sm mt-10 sm:mt-12 mb-4 sm:mb-5 text-ink",children:"对比其他数据库调优"}),e.jsx("div",{className:"overflow-x-auto",children:e.jsxs("table",{className:"min-w-full border-collapse border border-border-light text-sm",children:[e.jsx("thead",{children:e.jsxs("tr",{className:"bg-parchment-deep",children:[e.jsx("th",{className:"border border-border-light px-4 py-2 text-left",children:"特性"}),e.jsx("th",{className:"border border-border-light px-4 py-2 text-left",children:"MySQL"}),e.jsx("th",{className:"border border-border-light px-4 py-2 text-left",children:"PostgreSQL"}),e.jsx("th",{className:"border border-border-light px-4 py-2 text-left",children:"ClickHouse"})]})}),e.jsxs("tbody",{children:[e.jsxs("tr",{children:[e.jsx("td",{className:"border border-border-light px-4 py-2 font-medium",children:"核心调优方向"}),e.jsx("td",{className:"border border-border-light px-4 py-2",children:"索引优化、缓冲池"}),e.jsx("td",{className:"border border-border-light px-4 py-2",children:"VACUUM、工作内存"}),e.jsx("td",{className:"border border-border-light px-4 py-2",children:"分区键、压缩算法"})]}),e.jsxs("tr",{children:[e.jsx("td",{className:"border border-border-light px-4 py-2 font-medium",children:"缓存机制"}),e.jsx("td",{className:"border border-border-light px-4 py-2",children:"InnoDB Buffer Pool"}),e.jsx("td",{className:"border border-border-light px-4 py-2",children:"Shared Buffers + OS Cache"}),e.jsx("td",{className:"border border-border-light px-4 py-2",children:"Mark Cache + Page Cache"})]}),e.jsxs("tr",{children:[e.jsx("td",{className:"border border-border-light px-4 py-2 font-medium",children:"并发控制"}),e.jsx("td",{className:"border border-border-light px-4 py-2",children:"MVCC + 行锁"}),e.jsx("td",{className:"border border-border-light px-4 py-2",children:"MVCC + 多版本"}),e.jsx("td",{className:"border border-border-light px-4 py-2",children:"不支持事务，无锁"})]}),e.jsxs("tr",{children:[e.jsx("td",{className:"border border-border-light px-4 py-2 font-medium",children:"适用场景"}),e.jsx("td",{className:"border border-border-light px-4 py-2",children:"OLTP 通用场景"}),e.jsx("td",{className:"border border-border-light px-4 py-2",children:"复杂查询、GIS"}),e.jsx("td",{className:"border border-border-light px-4 py-2",children:"OLAP 实时分析"})]})]})]})}),e.jsx(t,{type:"info",title:"选型建议",children:e.jsxs("ul",{className:"list-disc list-inside space-y-1 mt-2",children:[e.jsxs("li",{children:[e.jsx("strong",{children:"OLTP 场景"}),"：MySQL（成熟稳定，生态完善）或 PostgreSQL（功能丰富，扩展性强）"]}),e.jsxs("li",{children:[e.jsx("strong",{children:"OLAP 场景"}),"：ClickHouse（列式存储，极致查询性能）"]}),e.jsxs("li",{children:[e.jsx("strong",{children:"混合负载"}),"：PostgreSQL（支持 JSONB、全文检索等 NoSQL 能力）"]})]})})]}),e.jsxs("section",{id:"related",className:"mb-8",children:[e.jsx("h2",{className:"font-display font-bold text-[20px] sm:text-display-sm mt-10 sm:mt-12 mb-4 sm:mb-5 text-ink",children:"知识关联"}),e.jsxs("div",{className:"grid grid-cols-1 sm:grid-cols-2 gap-4",children:[e.jsxs("div",{className:"p-4 bg-parchment-deep rounded-paper-md border border-border-light",children:[e.jsx("h4",{className:"font-semibold text-ink mb-2",children:"前置知识"}),e.jsxs("ul",{className:"space-y-1 text-sm text-ink-muted",children:[e.jsxs("li",{children:["• ",e.jsx("a",{href:"/docs/mysql/mysql-architecture",className:"text-accent hover:underline",children:"MySQL 架构与存储引擎"})]}),e.jsxs("li",{children:["• ",e.jsx("a",{href:"/docs/mysql/mysql-index-optimization",className:"text-accent hover:underline",children:"MySQL 索引优化实战"})]})]})]}),e.jsxs("div",{className:"p-4 bg-parchment-deep rounded-paper-md border border-border-light",children:[e.jsx("h4",{className:"font-semibold text-ink mb-2",children:"相关知识点"}),e.jsxs("ul",{className:"space-y-1 text-sm text-ink-muted",children:[e.jsxs("li",{children:["• ",e.jsx("a",{href:"/docs/mysql/mysql-replication-ha",className:"text-accent hover:underline",children:"MySQL 主从复制与高可用"})]}),e.jsxs("li",{children:["• ",e.jsx("a",{href:"/docs/postgresql/postgresql-core",className:"text-accent hover:underline",children:"PostgreSQL 核心原理"})]}),e.jsxs("li",{children:["• ",e.jsx("a",{href:"/docs/clickhouse/clickhouse-performance",className:"text-accent hover:underline",children:"ClickHouse 性能优化"})]})]})]})]})]}),e.jsx(a,{...i(l.category,l.id)})]})}),e.jsx(c,{items:x})]})}export{N as default};
